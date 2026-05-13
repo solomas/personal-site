@@ -1,73 +1,128 @@
 ---
 import Layout from "../components/Layout.astro";
+import StreamTag from "../components/StreamTag.astro";
 ---
 <Layout title="Tomás van Gorp">
-  <section class="home">
-    <h1>Tomás van Gorp</h1>
-    <p class="home__lede">Three streams of work.</p>
-    <ul class="home__streams">
-      <li>
-        <a href="/projects/" class="stream-link">
-          <span class="stream-link__label">Projects</span>
-          <span class="stream-link__desc">Side work and experiments.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/work/" class="stream-link">
-          <span class="stream-link__label">Work</span>
-          <span class="stream-link__desc">Professional projects.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/research/" class="stream-link">
-          <span class="stream-link__label">Research</span>
-          <span class="stream-link__desc">Doctoral work and papers.</span>
-        </a>
-      </li>
-    </ul>
+  <section class="hero">
+    <p class="hero__eyebrow">
+      <span class="meta">est. 2026 / planetary health / open work</span>
+    </p>
+    <h1 class="hero__name">Tomás<br/>van Gorp</h1>
+    <p class="hero__lede">
+      I build, advise and research at the intersection of health, environment and policy.
+    </p>
+  </section>
+
+  <section class="streams">
+    <a href="/projects/" class="stream-card stream-card--projects">
+      <StreamTag stream="projects" />
+      <h2 class="stream-card__title">Projects</h2>
+      <p class="stream-card__desc">Side work and experiments. Things made out of curiosity.</p>
+      <span class="stream-card__cta">See projects &rarr;</span>
+    </a>
+    <a href="/work/" class="stream-card stream-card--work">
+      <StreamTag stream="work" />
+      <h2 class="stream-card__title">Work</h2>
+      <p class="stream-card__desc">Professional projects, consulting and programme design.</p>
+      <span class="stream-card__cta">See work &rarr;</span>
+    </a>
+    <a href="/research/" class="stream-card stream-card--research">
+      <StreamTag stream="research" />
+      <h2 class="stream-card__title">Research</h2>
+      <p class="stream-card__desc">Doctoral work, papers, talks and notes from the field.</p>
+      <span class="stream-card__cta">See research &rarr;</span>
+    </a>
   </section>
 </Layout>
 
 <style>
-  .home h1 {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-4);
+  .hero {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-32);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-16);
   }
-  .home__lede {
+  .hero__eyebrow {
+    margin-bottom: var(--space-8);
+  }
+  .hero__name {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: var(--space-8);
+  }
+  .hero__lede {
     font-size: var(--text-xl);
     color: var(--color-muted);
-    margin-bottom: var(--space-16);
-    max-width: var(--content-width);
+    max-width: 40ch;
+    line-height: var(--leading-snug);
   }
-  .home__streams {
-    list-style: none;
-    padding: 0;
+
+  .streams {
     display: grid;
-    gap: var(--space-4);
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
   }
-  .stream-link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-6);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+  .stream-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: var(--space-8);
+    row-gap: var(--space-2);
+    padding: var(--space-12) 0;
+    border-bottom: 1px solid var(--color-border);
     text-decoration: none;
-    background-color: var(--color-surface);
-    transition: border-color var(--transition), transform var(--transition);
+    transition: padding-left var(--transition);
+    align-items: baseline;
   }
-  .stream-link:hover {
-    border-color: var(--color-accent);
-    transform: translateY(-2px);
+  .stream-card:hover {
+    padding-left: var(--space-6);
   }
-  .stream-link__label {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 600;
+  .stream-card > :global(.stream-tag) {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
   }
-  .stream-link__desc {
+  .stream-card__title {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stream-card__desc {
+    grid-column: 2;
+    grid-row: 2;
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+    max-width: 50ch;
+  }
+  .stream-card__cta {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     color: var(--color-muted);
+    transition: color var(--transition), transform var(--transition);
+  }
+  .stream-card:hover .stream-card__cta {
+    color: var(--color-accent);
+    transform: translateX(4px);
+  }
+  .stream-card:hover .stream-card__title {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .stream-card {
+      grid-template-columns: auto 1fr;
+    }
+    .stream-card__title { font-size: var(--text-4xl); }
+    .stream-card__cta { display: none; }
   }
 </style>

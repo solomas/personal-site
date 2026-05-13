@@ -1,62 +1,95 @@
 ---
 import Layout from "../../components/Layout.astro";
+import StreamTag from "../../components/StreamTag.astro";
 import { getCollection } from "astro:content";
 const entries = await getCollection("research", ({ data }) => data.status !== "archived");
 entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Layout title="Research">
-  <section class="stream-index">
+  <section class="stream-header">
+    <StreamTag stream="research" />
     <h1>Research</h1>
-    <p class="stream-index__lede">Doctoral work, papers, talks and notes from the field.</p>
-    <ul class="entry-list">
-      {entries.map(entry => (
-        <li>
-          <a href={`/research/${entry.id}/`} class="entry-link">
-            <span class="entry-link__title">{entry.data.title}</span>
-            <span class="entry-link__summary">{entry.data.summary}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <p class="stream-header__lede">Doctoral work, papers, talks and notes from the field.</p>
   </section>
+
+  <ul class="entry-list">
+    {entries.map(entry => (
+      <li>
+        <a href={`/research/${entry.id}/`} class="entry-link">
+          <span class="entry-link__date meta">
+            {entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" })}
+          </span>
+          <span class="entry-link__title">{entry.data.title}</span>
+          <span class="entry-link__summary">{entry.data.summary}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
 </Layout>
 
 <style>
-  .stream-index h1 {
-    margin-bottom: var(--space-4);
-  }
-  .stream-index__lede {
-    font-size: var(--text-lg);
-    color: var(--color-muted);
+  .stream-header {
+    padding-bottom: var(--space-16);
     margin-bottom: var(--space-12);
-    max-width: var(--content-width);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .stream-header :global(.stream-tag) {
+    margin-bottom: var(--space-6);
+  }
+  .stream-header h1 {
+    font-size: var(--text-6xl);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin-bottom: var(--space-6);
+  }
+  .stream-header__lede {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+    max-width: 50ch;
   }
   .entry-list {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: var(--space-2);
+    gap: 0;
   }
   .entry-link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-6);
-    border-bottom: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    column-gap: var(--space-8);
+    row-gap: var(--space-2);
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--color-border);
     text-decoration: none;
-    transition: background-color var(--transition);
+    transition: padding-left var(--transition), color var(--transition);
   }
   .entry-link:hover {
-    background-color: var(--color-surface);
+    padding-left: var(--space-4);
+  }
+  .entry-link:hover .entry-link__title {
+    color: var(--color-accent);
+  }
+  .entry-link__date {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    padding-top: 4px;
   }
   .entry-link__title {
+    grid-column: 2;
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
     font-weight: 600;
+    letter-spacing: -0.02em;
   }
   .entry-link__summary {
-    font-size: var(--text-base);
+    grid-column: 2;
     color: var(--color-muted);
-    max-width: var(--content-width);
+    max-width: 60ch;
+  }
+  @media (max-width: 600px) {
+    .entry-link { grid-template-columns: 1fr; }
+    .entry-link__date { grid-row: 1; }
   }
 </style>

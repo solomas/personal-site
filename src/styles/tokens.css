@@ -5,8 +5,8 @@
   --color-text: #e8e6e1;
   --color-muted: #9a978f;
   --color-border: #2e2e32;
-  --color-accent: #d4a02a;
-  --color-accent-hover: #e5b143;
+  --color-accent: #ffd60a;
+  --color-accent-hover: #ffe04d;
 
   /* Type */
   --font-body: "Inter", system-ui, sans-serif;
@@ -22,6 +22,9 @@
   --text-2xl: 2rem;
   --text-3xl: 2.75rem;
   --text-4xl: 3.5rem;
+  --text-5xl: 5rem;
+  --text-6xl: 7rem;
+  --text-display: clamp(4rem, 12vw, 10rem);
 
   /* Line heights */
   --leading-tight: 1.15;
@@ -38,6 +41,8 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
 
   /* Layout */
   --content-width: 68ch;

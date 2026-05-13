@@ -1,0 +1,44 @@
+---
+interface Props {
+  stream: "projects" | "work" | "research";
+  size?: "sm" | "md";
+}
+const { stream, size = "md" } = Astro.props;
+const labels: Record<string, string> = {
+  projects: "projects",
+  work: "work",
+  research: "research",
+};
+---
+<span class:list={["stream-tag", `stream-tag--${stream}`, `stream-tag--${size}`]}>
+  {stream === "research" ? `[${labels[stream]}]` : labels[stream]}
+</span>
+
+<style>
+  .stream-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+  .stream-tag--sm { font-size: var(--text-xs); padding: 2px 8px; }
+  .stream-tag--md { font-size: var(--text-sm); padding: 4px 10px; }
+
+  .stream-tag--projects {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 500;
+  }
+  .stream-tag--work {
+    background-color: transparent;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+  }
+  .stream-tag--research {
+    background-color: transparent;
+    color: var(--color-text);
+    padding-left: 0;
+    padding-right: 0;
+  }
+</style>

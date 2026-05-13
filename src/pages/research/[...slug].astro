@@ -1,5 +1,6 @@
 ---
 import Layout from "../../components/Layout.astro";
+import StreamTag from "../../components/StreamTag.astro";
 import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
   const entries = await getCollection("research");
@@ -12,6 +13,7 @@ const { Content } = await render(entry);
   <article class="entry">
     <p class="entry__back"><a href="/research/">Back to research</a></p>
     <header class="entry__header">
+      <StreamTag stream="research" />
       <h1>{entry.data.title}</h1>
       <p class="entry__summary">{entry.data.summary}</p>
     </header>
@@ -40,7 +42,14 @@ const { Content } = await render(entry);
   .entry__header {
     margin-bottom: var(--space-12);
   }
+  .entry__header :global(.stream-tag) {
+    margin-bottom: var(--space-6);
+  }
   .entry__header h1 {
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
     margin-bottom: var(--space-4);
   }
   .entry__summary {
