@@ -35,11 +35,14 @@ BANNED_PHRASES=(
   "in summary"
 )
 
-# Collect target files.
+# Collect target files. Use while+read instead of mapfile for bash 3 compat.
+files=()
 if [[ $# -gt 0 ]]; then
   files=("$@")
 else
-  mapfile -t files < <(find "$REPO_ROOT/src/content" "$REPO_ROOT/src/pages" \
+  while IFS= read -r f; do
+    files+=("$f")
+  done < <(find "$REPO_ROOT/src/content" "$REPO_ROOT/src/pages" \
     -type f \( -name "*.md" -o -name "*.mdx" -o -name "*.astro" -o -name "*.html" \) \
     2>/dev/null || true)
 fi

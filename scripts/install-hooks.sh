@@ -5,28 +5,16 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 
-install_hook() {
-  local name="$1"
-  local src="$REPO_ROOT/scripts/${name}-hook.sh"
-  local dest="$HOOKS_DIR/$name"
-
-  if [[ ! -f "$src" ]]; then
-    echo "install-hooks: source not found: $src"
-    return 1
-  fi
-
-  cp "$src" "$dest"
-  chmod +x "$dest"
-  echo "install-hooks: installed $name"
-}
-
-# Write the pre-commit hook inline so this script is self-contained.
 cat > "$HOOKS_DIR/pre-commit" << 'HOOK'
 #!/usr/bin/env bash
 # Run prose check on staged content files before each commit.
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
-mapfile -t staged < <(git diff --cached --name-only --diff-filter=ACM | \
+# Bash 3 compat: no mapfile.
+staged=()
+while IFS= read -r f; do
+  staged+=("$f")
+done < <(git diff --cached --name-only --diff-filter=ACM | \
   grep -E '\.(md|mdx|astro|html)$' || true)
 
 if [[ ${#staged[@]} -eq 0 ]]; then
