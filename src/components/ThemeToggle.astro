@@ -1,12 +1,13 @@
 ---
 ---
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false">
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false" data-hint="false">
   <span class="theme-toggle__dot" aria-hidden="true"></span>
   <span class="theme-toggle__label">flip</span>
 </button>
 
 <style>
   .theme-toggle {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
@@ -28,25 +29,55 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: var(--color-accent);
+    background-color: var(--color-text);
     transition: background-color 200ms ease;
   }
-  [data-theme="flip"] .theme-toggle__dot {
-    background-color: var(--color-on-accent);
+
+  /* First-visit hint: gentle pulse ring around the button */
+  .theme-toggle[data-hint="true"]::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--color-text);
+    border-radius: 999px;
+    animation: hintPulse 1.6s ease-out infinite;
+    pointer-events: none;
   }
-  [data-theme="flip"] .theme-toggle {
-    border-color: var(--color-border);
+  @keyframes hintPulse {
+    0%   { transform: scale(1);    opacity: 0.9; }
+    70%  { transform: scale(1.25); opacity: 0;   }
+    100% { transform: scale(1.25); opacity: 0;   }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle[data-hint="true"]::after { animation: none; opacity: 0.6; transform: scale(1.1); }
   }
 </style>
 
 <script>
   const btn = document.getElementById("theme-toggle");
   const root = document.documentElement;
+
   function syncPressed() {
     const flipped = root.getAttribute("data-theme") === "flip";
     btn?.setAttribute("aria-pressed", flipped ? "true" : "false");
   }
+
+  function clearHint() {
+    btn?.setAttribute("data-hint", "false");
+    try { localStorage.setItem("themeHintSeen", "1"); } catch (e) {}
+  }
+
+  // Show the hint on first visit only
+  try {
+    const seen = localStorage.getItem("themeHintSeen");
+    if (!seen) {
+      btn?.setAttribute("data-hint", "true");
+      setTimeout(clearHint, 8000);
+    }
+  } catch (e) {}
+
   syncPressed();
+
   btn?.addEventListener("click", () => {
     const flipped = root.getAttribute("data-theme") === "flip";
     if (flipped) {
@@ -57,5 +88,6 @@
       localStorage.setItem("theme", "flip");
     }
     syncPressed();
+    clearHint();
   });
 </script>

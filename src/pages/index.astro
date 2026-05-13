@@ -3,6 +3,20 @@ import Layout from "../components/Layout.astro";
 import SectionLabel from "../components/SectionLabel.astro";
 import Marquee from "../components/Marquee.astro";
 import StreamTag from "../components/StreamTag.astro";
+import { getCollection } from "astro:content";
+
+async function streamStats(name: "projects" | "work" | "research", singular: string, plural: string) {
+  const entries = await getCollection(name, ({ data }) => data.status !== "archived");
+  const count = entries.length;
+  if (count === 0) return `0 ${plural}, none yet`;
+  const earliest = entries.reduce((min, e) => e.data.date < min ? e.data.date : min, entries[0].data.date);
+  const year = earliest.getFullYear();
+  return `${count} ${count === 1 ? singular : plural}, since ${year}`;
+}
+
+const projectsStat = await streamStats("projects", "project", "projects");
+const workStat = await streamStats("work", "engagement", "engagements");
+const researchStat = await streamStats("research", "item", "items");
 ---
 <Layout title="Tomás van Gorp">
   <section class="hero">
@@ -26,21 +40,30 @@ import StreamTag from "../components/StreamTag.astro";
     <a href="/projects/" class="stream-card">
       <div class="stream-card__tag"><StreamTag stream="projects" /></div>
       <h2 class="stream-card__title">Projects</h2>
-      <p class="stream-card__desc">Side work, experiments, things made out of curiosity rather than obligation.</p>
+      <div class="stream-card__body">
+        <p class="stream-card__desc">Side work, experiments, things made out of curiosity rather than obligation.</p>
+        <p class="stream-card__stat">{projectsStat}</p>
+      </div>
       <span class="stream-card__cta meta">See projects &rarr;</span>
     </a>
 
     <a href="/work/" class="stream-card">
       <div class="stream-card__tag"><StreamTag stream="work" /></div>
       <h2 class="stream-card__title">Work</h2>
-      <p class="stream-card__desc">Professional projects, consulting and programme design under the TOMICA banner.</p>
+      <div class="stream-card__body">
+        <p class="stream-card__desc">Professional projects, consulting and programme design under the TOMICA banner.</p>
+        <p class="stream-card__stat">{workStat}</p>
+      </div>
       <span class="stream-card__cta meta">See work &rarr;</span>
     </a>
 
     <a href="/research/" class="stream-card">
       <div class="stream-card__tag"><StreamTag stream="research" /></div>
       <h2 class="stream-card__title">Research</h2>
-      <p class="stream-card__desc">Doctoral work in planetary health. Papers, talks and notes from the field.</p>
+      <div class="stream-card__body">
+        <p class="stream-card__desc">Doctoral work in planetary health. Papers, talks and notes from the field.</p>
+        <p class="stream-card__stat">{researchStat}</p>
+      </div>
       <span class="stream-card__cta meta">See research &rarr;</span>
     </a>
   </section>
@@ -119,12 +142,35 @@ import StreamTag from "../components/StreamTag.astro";
     line-height: 1;
     transition: color 200ms ease;
   }
-  .stream-card__desc {
+  .stream-card__body {
     grid-column: 2;
     grid-row: 2;
+    position: relative;
+    min-height: 1.6em;
+    max-width: 50ch;
+  }
+  .stream-card__desc,
+  .stream-card__stat {
     color: var(--color-muted);
     font-size: var(--text-lg);
-    max-width: 50ch;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  .stream-card__stat {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(4px);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    letter-spacing: 0.02em;
+  }
+  .stream-card:hover .stream-card__desc {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  .stream-card:hover .stream-card__stat {
+    opacity: 1;
+    transform: translateY(0);
   }
   .stream-card__cta {
     grid-column: 3;
