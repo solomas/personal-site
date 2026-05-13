@@ -23,14 +23,14 @@ utilise, utilize, demonstrate, moreover, furthermore, as such, it is worth notin
 Before any commit that touches `.md`, `.mdx`, `.astro`, `.html` or content files, run `scripts/check-prose.sh` on staged files. A non-zero exit blocks the commit.
 
 ## Content streams
-- personal: side work, experiments.
-- professional: consulting, employment, public deliverables.
-- academic: papers, talks, datasets.
+- projects: side work, experiments, things made out of personal interest.
+- work: professional roles, deliverables, consulting.
+- research: PhD work, papers, talks, datasets.
 
 ## File structure
-- `src/content/personal/` for personal entries.
-- `src/content/professional/` for professional entries.
-- `src/content/academic/` for academic entries.
+- `src/content/projects/` for project entries.
+- `src/content/work/` for work entries.
+- `src/content/research/` for research entries.
 - `src/pages/` for routes.
 - `src/components/` for shared components.
 - `src/styles/` for shared styles.

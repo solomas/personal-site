@@ -65,7 +65,7 @@ for f in "${files[@]}"; do
   done
   [[ $skip -eq 0 ]] && filtered+=("$f")
 done
-files=("${filtered[@]}")
+files=("${filtered[@]+"${filtered[@]}"}")
 
 if [[ ${#files[@]} -eq 0 ]]; then
   echo "check-prose: no files to check after exemptions"
