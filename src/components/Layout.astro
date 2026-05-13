@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Fonts from "./Fonts.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   title: string;
@@ -18,6 +19,16 @@ const pathname = Astro.url.pathname;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
+    <script is:inline>
+      (function () {
+        try {
+          const saved = localStorage.getItem("theme");
+          if (saved === "flip") {
+            document.documentElement.setAttribute("data-theme", "flip");
+          }
+        } catch (e) {}
+      })();
+    </script>
     <Fonts />
   </head>
   <body>
@@ -29,6 +40,7 @@ const pathname = Astro.url.pathname;
           <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
           <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
         </nav>
+        <ThemeToggle />
       </div>
     </header>
 
@@ -52,8 +64,8 @@ const pathname = Astro.url.pathname;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
-        gap: var(--space-8);
+        align-items: center;
+        gap: var(--space-6);
         flex-wrap: wrap;
       }
       .site-header__name {
@@ -69,6 +81,7 @@ const pathname = Astro.url.pathname;
       .site-header__nav {
         display: flex;
         gap: var(--space-6);
+        flex: 1;
       }
       .nav-link {
         font-family: var(--font-mono);
@@ -84,10 +97,8 @@ const pathname = Astro.url.pathname;
         color: var(--color-accent);
       }
       .site-main {
-        max-width: var(--page-width);
-        margin: 0 auto;
-        padding: var(--space-16) var(--space-8);
         min-height: 60vh;
+        width: 100%;
       }
       .site-footer {
         border-top: 1px solid var(--color-border);

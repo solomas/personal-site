@@ -1,12 +1,13 @@
 :root {
-  /* Colour */
-  --color-bg: #1a1a1c;
-  --color-surface: #222225;
-  --color-text: #e8e6e1;
-  --color-muted: #9a978f;
-  --color-border: #2e2e32;
+  /* Colour, default (dark) theme */
+  --color-bg: #000000;
+  --color-surface: #0d0d0d;
+  --color-text: #ffffff;
+  --color-muted: #8a8a8a;
+  --color-border: #222222;
   --color-accent: #ffd60a;
   --color-accent-hover: #ffe04d;
+  --color-on-accent: #000000;
 
   /* Type */
   --font-body: "Inter", system-ui, sans-serif;
@@ -54,4 +55,15 @@
 
   /* Transitions */
   --transition: 150ms ease;
+}
+
+[data-theme="flip"] {
+  --color-bg: #ffd60a;
+  --color-surface: #ffce00;
+  --color-text: #000000;
+  --color-muted: #2a2a2a;
+  --color-border: rgba(0, 0, 0, 0.18);
+  --color-accent: #000000;
+  --color-accent-hover: #1a1a1a;
+  --color-on-accent: #ffd60a;
 }

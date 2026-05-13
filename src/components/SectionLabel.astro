@@ -1,0 +1,30 @@
+---
+interface Props {
+  label: string;
+  number: string;
+  kicker?: string;
+}
+const { label, number, kicker } = Astro.props;
+---
+<aside class="section-label">
+  <span class="section-label__line">© {label}</span>
+  <span class="section-label__line">({number})</span>
+  {kicker && <span class="section-label__line">{kicker}</span>}
+</aside>
+
+<style>
+  .section-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+  .section-label__line {
+    display: block;
+  }
+</style>

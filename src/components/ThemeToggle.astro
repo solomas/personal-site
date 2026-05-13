@@ -1,0 +1,61 @@
+---
+---
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false">
+  <span class="theme-toggle__dot" aria-hidden="true"></span>
+  <span class="theme-toggle__label">flip</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border-radius: 999px;
+  }
+  .theme-toggle:hover {
+    border-color: var(--color-text);
+  }
+  .theme-toggle__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    transition: background-color 200ms ease;
+  }
+  [data-theme="flip"] .theme-toggle__dot {
+    background-color: var(--color-on-accent);
+  }
+  [data-theme="flip"] .theme-toggle {
+    border-color: var(--color-border);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+  function syncPressed() {
+    const flipped = root.getAttribute("data-theme") === "flip";
+    btn?.setAttribute("aria-pressed", flipped ? "true" : "false");
+  }
+  syncPressed();
+  btn?.addEventListener("click", () => {
+    const flipped = root.getAttribute("data-theme") === "flip";
+    if (flipped) {
+      root.removeAttribute("data-theme");
+      localStorage.removeItem("theme");
+    } else {
+      root.setAttribute("data-theme", "flip");
+      localStorage.setItem("theme", "flip");
+    }
+    syncPressed();
+  });
+</script>

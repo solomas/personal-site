@@ -24,6 +24,10 @@ body {
   min-height: 100dvh;
 }
 
+html, body, header, footer, main, a, button, .stream-tag {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 600;
