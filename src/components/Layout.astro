@@ -1,0 +1,103 @@
+---
+import "../styles/global.css";
+import Fonts from "./Fonts.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Tomás van Gorp. Projects, work, research." } = Astro.props;
+const pathname = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <Fonts />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__name">Tomás van Gorp</a>
+        <nav class="site-header__nav" aria-label="Primary">
+          <a href="/projects/" class:list={["nav-link", { active: pathname.startsWith("/projects") }]}>Projects</a>
+          <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
+          <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <span class="meta">Built in the open. Last updated {new Date().getFullYear()}.</span>
+      </div>
+    </footer>
+
+    <style>
+      .site-header {
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-6) var(--space-8);
+      }
+      .site-header__inner {
+        max-width: var(--page-width);
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--space-8);
+        flex-wrap: wrap;
+      }
+      .site-header__name {
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: -0.01em;
+      }
+      .site-header__name:hover {
+        color: var(--color-accent);
+      }
+      .site-header__nav {
+        display: flex;
+        gap: var(--space-6);
+      }
+      .nav-link {
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        text-decoration: none;
+        color: var(--color-muted);
+        letter-spacing: 0.02em;
+      }
+      .nav-link:hover {
+        color: var(--color-text);
+      }
+      .nav-link.active {
+        color: var(--color-accent);
+      }
+      .site-main {
+        max-width: var(--page-width);
+        margin: 0 auto;
+        padding: var(--space-16) var(--space-8);
+        min-height: 60vh;
+      }
+      .site-footer {
+        border-top: 1px solid var(--color-border);
+        padding: var(--space-8);
+        margin-top: var(--space-24);
+      }
+      .site-footer__inner {
+        max-width: var(--page-width);
+        margin: 0 auto;
+      }
+    </style>
+  </body>
+</html>

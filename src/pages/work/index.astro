@@ -1,25 +1,62 @@
 ---
-import { getCollection } from 'astro:content';
-const entries = await getCollection('work', ({ data }) => data.status !== 'archived');
+import Layout from "../../components/Layout.astro";
+import { getCollection } from "astro:content";
+const entries = await getCollection("work", ({ data }) => data.status !== "archived");
 entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Work</title>
-  </head>
-  <body>
-    <main>
-      <h1>Work</h1>
-      <p>Professional projects, consulting and programme design.</p>
-      <ul>
-        {entries.map(entry => (
-          <li>
-            <a href={`/work/${entry.id}/`}>{entry.data.title}</a>
-            <p>{entry.data.summary}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
-  </body>
-</html>
+<Layout title="Work">
+  <section class="stream-index">
+    <h1>Work</h1>
+    <p class="stream-index__lede">Professional projects, consulting and programme design.</p>
+    <ul class="entry-list">
+      {entries.map(entry => (
+        <li>
+          <a href={`/work/${entry.id}/`} class="entry-link">
+            <span class="entry-link__title">{entry.data.title}</span>
+            <span class="entry-link__summary">{entry.data.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .stream-index h1 {
+    margin-bottom: var(--space-4);
+  }
+  .stream-index__lede {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    margin-bottom: var(--space-12);
+    max-width: var(--content-width);
+  }
+  .entry-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .entry-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    transition: background-color var(--transition);
+  }
+  .entry-link:hover {
+    background-color: var(--color-surface);
+  }
+  .entry-link__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 600;
+  }
+  .entry-link__summary {
+    font-size: var(--text-base);
+    color: var(--color-muted);
+    max-width: var(--content-width);
+  }
+</style>

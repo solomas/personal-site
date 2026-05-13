@@ -1,19 +1,73 @@
 ---
+import Layout from "../components/Layout.astro";
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Tomás van Gorp</title>
-  </head>
-  <body>
-    <main>
-      <h1>Tomás van Gorp</h1>
-      <p>Three streams of work.</p>
-      <ul>
-        <li><a href="/projects/">Projects</a>: side work and experiments.</li>
-        <li><a href="/work/">Work</a>: professional projects.</li>
-        <li><a href="/research/">Research</a>: doctoral work and papers.</li>
-      </ul>
-    </main>
-  </body>
-</html>
+<Layout title="Tomás van Gorp">
+  <section class="home">
+    <h1>Tomás van Gorp</h1>
+    <p class="home__lede">Three streams of work.</p>
+    <ul class="home__streams">
+      <li>
+        <a href="/projects/" class="stream-link">
+          <span class="stream-link__label">Projects</span>
+          <span class="stream-link__desc">Side work and experiments.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/work/" class="stream-link">
+          <span class="stream-link__label">Work</span>
+          <span class="stream-link__desc">Professional projects.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/research/" class="stream-link">
+          <span class="stream-link__label">Research</span>
+          <span class="stream-link__desc">Doctoral work and papers.</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .home h1 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+  }
+  .home__lede {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+    margin-bottom: var(--space-16);
+    max-width: var(--content-width);
+  }
+  .home__streams {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .stream-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    background-color: var(--color-surface);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+  .stream-link:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .stream-link__label {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+  }
+  .stream-link__desc {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+</style>

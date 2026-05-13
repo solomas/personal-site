@@ -1,25 +1,57 @@
 ---
-import { getCollection, render } from 'astro:content';
+import Layout from "../../components/Layout.astro";
+import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
-  const entries = await getCollection('work');
+  const entries = await getCollection("work");
   return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{entry.data.title}</title>
-  </head>
-  <body>
-    <main>
-      <p><a href="/work/">Back to work</a></p>
-      <article>
-        <h1>{entry.data.title}</h1>
-        <p><em>{entry.data.summary}</em></p>
-        <Content />
-      </article>
-    </main>
-  </body>
-</html>
+<Layout title={entry.data.title}>
+  <article class="entry">
+    <p class="entry__back"><a href="/work/">Back to work</a></p>
+    <header class="entry__header">
+      <h1>{entry.data.title}</h1>
+      <p class="entry__summary">{entry.data.summary}</p>
+    </header>
+    <div class="entry__body">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .entry {
+    max-width: var(--content-width);
+  }
+  .entry__back {
+    margin-bottom: var(--space-8);
+  }
+  .entry__back a {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .entry__back a:hover {
+    color: var(--color-accent);
+  }
+  .entry__header {
+    margin-bottom: var(--space-12);
+  }
+  .entry__header h1 {
+    margin-bottom: var(--space-4);
+  }
+  .entry__summary {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+  }
+  .entry__body {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+  }
+  .entry__body p {
+    margin-bottom: var(--space-6);
+  }
+</style>
