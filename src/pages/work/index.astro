@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+const entries = await getCollection('work', ({ data }) => data.status !== 'archived');
+entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Work</title>
+  </head>
+  <body>
+    <main>
+      <h1>Work</h1>
+      <p>Professional projects, consulting and programme design.</p>
+      <ul>
+        {entries.map(entry => (
+          <li>
+            <a href={`/work/${entry.id}/`}>{entry.data.title}</a>
+            <p>{entry.data.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>
