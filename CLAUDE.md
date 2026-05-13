@@ -35,6 +35,9 @@ Before any commit that touches `.md`, `.mdx`, `.astro`, `.html` or content files
 - `src/components/` for shared components.
 - `src/styles/` for shared styles.
 
+## Design tokens
+Dark anthracite base, warm mustard accent, Inter body, Geist display, Geist Mono meta. See `src/styles/tokens.css` for values. Do not duplicate values in component styles, reference the custom properties.
+
 ## Build commands
 - Dev: `npm run dev`
 - Build: `npm run build`
