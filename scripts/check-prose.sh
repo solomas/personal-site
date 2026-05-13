@@ -42,7 +42,7 @@ if [[ $# -gt 0 ]]; then
 else
   while IFS= read -r f; do
     files+=("$f")
-  done < <(find "$REPO_ROOT/src/content" "$REPO_ROOT/src/pages" \
+  done < <(find "$REPO_ROOT/src/content" "$REPO_ROOT/src/pages" "$REPO_ROOT/src/components" \
     -type f \( -name "*.md" -o -name "*.mdx" -o -name "*.astro" -o -name "*.html" \) \
     2>/dev/null || true)
 fi
