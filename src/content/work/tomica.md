@@ -1,15 +1,13 @@
 ---
-title: "TOMICA"
-summary: "Professional projects under the TOMICA umbrella: consulting, programme design and applied research for clients."
-date: 2026-01-01
+title: TOMICA
+summary: My practice. Applied research, programme design and strategy for organisations working at the intersection of science, society and environment.
+organisation: TOMICA
+role: Founder
+date: 2019-01-01
+current: true
 status: live
-organisation: "TOMICA"
-role: "Founder"
-tags: ["index", "professional"]
 featured: true
-links: []
+tags: [consulting, planetary-health]
 ---
 
-TOMICA holds my professional work. The remit is applied research, programme design and strategy advice for organisations working at the intersection of health, environment and policy.
-
-Current and recent work sits below. Each entry names the client, the question, the method and what landed.
+TOMICA is the name the work runs under when organisations bring me in from outside. The remit stays narrow on purpose. Assignments tend to ask three things at once. Read a complex evidence base. Design a programme or policy response that real teams can run. Hold the political and ethical stakes along the way. Clients have included cultural institutions, public sector teams and research consortia. The work is usually short, written, and meant to land somewhere specific. A board paper. A funding case. A programme architecture. A decision that was stuck. The practice stays small so the material gets the attention it needs and the claims stay honest.

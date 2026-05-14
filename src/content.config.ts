@@ -24,6 +24,8 @@ const work = defineCollection({
   schema: baseSchema.extend({
     organisation: z.string().optional(),
     role: z.string().optional(),
+    endDate: z.coerce.date().optional(),
+    current: z.boolean().optional().default(false),
   }),
 });
 
