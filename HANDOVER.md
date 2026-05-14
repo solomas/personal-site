@@ -2,6 +2,10 @@
 
 ## What the site is right now
 
+### Session, content and templates (commits 2a01ebc, fafad9a, bd244d1, 205b185)
+
+Replaced both remaining placeholder entries with real content. PhD research entry at `src/content/research/phd-planetary-health.md` rewritten from source documents: full 5-paragraph body, updated title, summary, venue, tags. Projects placeholder `src/content/projects/tomas-person.md` deleted. New projects entry `src/content/projects/amsterdam-property-model.md` created from an existing separate repo. Prose check found a banned phrase in the draft copy, fixed to "flagged explicitly". Both detail page templates (projects and research) updated to match the work template: yellow rule above title, inline link styles in body. Compiled HTML confirmed correct on all three streams after build. Netlify deployment for 205b185 may need cache clear if styles not yet visible on live site.
+
 ### Session, work page from LinkedIn history
 
 Brought the Work section to real content. Nine entries written from LinkedIn data, schema extended with endDate and current, formatDateRange helper added at src/utils/formatDateRange.ts. Index page now renders live entries in a primary section and three archived entries inside a collapsible Other work folder. Hover animation on live cards, scale plus title shift, summary opacity bump. Other work folder reads yellow on hover and expands on click. Detail page gained a yellow rule above the title, a yellow metadata line with date range and organisation, and yellow inline links inside body content. Cursor tightened, lerp from 0.35 to 0.25, native pointer hidden site wide on fine pointer devices, resting opacity 0.6 with hover at 1. Homepage strapline updated to "I work, advise and research at the intersection of science, society and environment." CLAUDE.md gained four permanent rules: session start read first, doc preservation, prose check no bypass, conflict resolution between session prompts and CLAUDE.md.
@@ -34,13 +38,13 @@ Connect and confirm with Netlify once the domain is set. The repo is at `github.
 
 ## Content streams
 
-Each stream has one placeholder entry that should be replaced with real content.
+All placeholder entries have been replaced with real content. Current entries:
 
 | Stream | File | Purpose |
 |---|---|---|
-| projects | `src/content/projects/tomas-person.md` | Side work, experiments |
-| work | `src/content/work/tomica.md` | Consulting, professional work |
-| research | `src/content/research/phd-planetary-health.md` | PhD, papers, talks |
+| projects | `src/content/projects/amsterdam-property-model.md` | Amsterdam housing scenario model |
+| work | `src/content/work/tomica.md` (+ 8 more) | Consulting, professional roles |
+| research | `src/content/research/phd-planetary-health.md` | PhD at Universidade de Lisboa |
 
 ## What is parked, in priority order
 
