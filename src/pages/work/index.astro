@@ -3,8 +3,15 @@ import Layout from "../../components/Layout.astro";
 import StreamTag from "../../components/StreamTag.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
 import { getCollection } from "astro:content";
-const entries = await getCollection("work", ({ data }) => data.status !== "archived");
-entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+import { formatDateRange } from "../../utils/formatDateRange";
+
+const all = await getCollection("work");
+const live = all
+  .filter(e => e.data.status === "live")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const archived = all
+  .filter(e => e.data.status === "archived")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Layout title="Work">
   <section class="stream-header">
@@ -13,22 +20,49 @@ entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
       <StreamTag stream="work" />
     </div>
     <h1>Work</h1>
-    <p class="stream-header__lede">Professional projects, consulting and programme design.</p>
+    <p class="stream-header__lede">A preview of selected projects, consulting and programme design over the years.</p>
   </section>
 
   <ul class="entry-list">
-    {entries.map(entry => (
+    {live.map(entry => (
       <li>
-        <a href={`/work/${entry.id}/`} class="entry-link">
-          <span class="entry-link__date meta">
-            {entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" })}
+        <a href={`/work/${entry.id}/`} class="entry-link work-card">
+          <span class="entry-link__date work-card-date meta">
+            {formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}
           </span>
-          <span class="entry-link__title">{entry.data.title}</span>
-          <span class="entry-link__summary">{entry.data.summary}</span>
+          <span class="entry-link__title work-card-title">{entry.data.title}</span>
+          <span class="entry-link__summary work-card-summary">{entry.data.summary}</span>
         </a>
       </li>
     ))}
   </ul>
+
+  {archived.length > 0 && (
+    <section class="other-work-section">
+      <div class="other-work-folder" data-open="false">
+        <button type="button" class="other-work-header" aria-expanded="false" aria-controls="other-work-expanded">
+          <div class="other-work-meta">
+            <span class="other-work-label">Other work</span>
+            <span class="other-work-caption">Earlier work, kept for record. Click to expand.</span>
+          </div>
+          <ul class="other-work-titles" aria-hidden="true">
+            {archived.map(entry => (
+              <li>{entry.data.title}</li>
+            ))}
+          </ul>
+        </button>
+        <div class="other-work-expanded" id="other-work-expanded" hidden>
+          {archived.map(entry => (
+            <a href={`/work/${entry.id}/`} class="work-card archived-card">
+              <span class="work-card-date">{formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}</span>
+              <span class="work-card-title">{entry.data.title}</span>
+              <span class="work-card-summary">{entry.data.summary}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </Layout>
 
 <style>
@@ -77,9 +111,6 @@ entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     text-decoration: none;
     transition: padding-left var(--transition), color var(--transition);
   }
-  .entry-link:hover {
-    padding-left: var(--space-4);
-  }
   .entry-link:hover .entry-link__title {
     color: var(--color-accent);
   }
@@ -101,8 +132,167 @@ entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     color: var(--color-muted);
     max-width: 60ch;
   }
+
+  /* Live entry hover effects */
+  .work-card {
+    transition: transform 200ms ease;
+    transform-origin: center;
+  }
+  .work-card .work-card-title {
+    transition: transform 200ms ease;
+    display: inline-block;
+  }
+  .work-card .work-card-summary {
+    transition: opacity 200ms ease;
+    opacity: 0.85;
+  }
+  .work-card:hover {
+    transform: scale(1.015);
+  }
+  .work-card:hover .work-card-title {
+    transform: translateX(4px);
+  }
+  .work-card:hover .work-card-summary {
+    opacity: 1;
+  }
+
+  /* Other work folder */
+  .other-work-section {
+    max-width: var(--page-width);
+    margin: 6rem auto 0;
+    padding: 0 var(--space-8);
+  }
+  .other-work-folder {
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 200ms ease;
+  }
+  .other-work-folder:not([data-open="true"]):hover {
+    border-color: var(--color-accent);
+  }
+  .other-work-header {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    padding: 1.5rem 1.75rem;
+    font: inherit;
+    color: inherit;
+    display: block;
+    transition: color 200ms ease;
+  }
+  .other-work-folder:not([data-open="true"]) .other-work-header:hover {
+    color: var(--color-accent);
+  }
+  .other-work-meta {
+    display: block;
+  }
+  .other-work-label {
+    display: block;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: color 200ms ease;
+  }
+  .other-work-caption {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-top: 0.35rem;
+    transition: color 200ms ease;
+  }
+  .other-work-titles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 250ms ease, opacity 250ms ease, margin-top 250ms ease;
+  }
+  .other-work-titles li {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin-top: 0.25rem;
+    transition: color 200ms ease;
+  }
+  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-label,
+  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-caption,
+  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-titles li {
+    color: var(--color-accent);
+  }
+  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-titles {
+    max-height: 250px;
+    opacity: 1;
+    margin-top: 1rem;
+  }
+  .other-work-folder[data-open="true"] .other-work-titles {
+    display: none;
+  }
+  .other-work-expanded {
+    padding: 0 1.75rem 1.5rem;
+  }
+  .other-work-folder[data-open="true"] .other-work-expanded[hidden] {
+    display: block;
+  }
+
+  /* Archived cards inside the expanded folder */
+  .archived-card {
+    display: grid;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.9rem;
+  }
+  .archived-card .work-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    opacity: 0.55;
+    margin-bottom: 0.25rem;
+  }
+  .archived-card .work-card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: inline-block;
+  }
+  .archived-card .work-card-summary {
+    opacity: 0.65;
+    margin-top: 0.25rem;
+  }
+  .archived-card:hover {
+    transform: none;
+  }
+  .archived-card:hover .work-card-title {
+    transform: translateX(2px);
+    color: var(--color-accent);
+  }
+
   @media (max-width: 600px) {
     .entry-link { grid-template-columns: 1fr; }
     .entry-link__date { grid-row: 1; }
   }
 </style>
+
+<script>
+  var folders = document.querySelectorAll('.other-work-folder');
+  folders.forEach(function(folder) {
+    var header = folder.querySelector('.other-work-header');
+    var expanded = folder.querySelector('.other-work-expanded');
+    if (!header || !expanded) return;
+    header.addEventListener('click', function() {
+      var isOpen = folder.getAttribute('data-open') === 'true';
+      var next = !isOpen;
+      folder.setAttribute('data-open', next ? 'true' : 'false');
+      header.setAttribute('aria-expanded', next ? 'true' : 'false');
+      if (next) {
+        expanded.removeAttribute('hidden');
+      } else {
+        expanded.setAttribute('hidden', '');
+      }
+    });
+  });
+</script>
