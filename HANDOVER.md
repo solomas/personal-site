@@ -2,6 +2,10 @@
 
 ## What the site is right now
 
+### Session: Cloudflare Pages migration (commits a753e98, f95716f)
+
+Site migrated from Netlify to Cloudflare Pages. Netlify free tier build minutes (300 per month) were exhausted mid-session, causing deploys to stop. Cloudflare Pages configured via dashboard: GitHub repo connected, Astro framework preset, build command "bash scripts/check-prose.sh && npm run build", output directory dist, Node 22 via .nvmrc. Security headers ported from netlify.toml to public/_headers in Cloudflare Pages format, commit a753e98. netlify.toml removed from repo, commit f95716f. New live URL: https://tomasvangorp.pages.dev. Old URL https://tomasvangorp.netlify.app retired.
+
 ### Session close: content, templates, paragraph spacing and marquee (commits 2a01ebc to b58de58)
 
 Full arc of the session. PhD research entry "After the commitment..." replaced the placeholder at `src/content/research/phd-planetary-health.md`, commit 2a01ebc. Amsterdam property model entry added at `src/content/projects/amsterdam-property-model.md`, commit fafad9a. Projects placeholder `tomas-person.md` removed, commit bd244d1. Yellow rule and inline link styles added to projects and research detail templates, commit 205b185. Paragraph spacing on those templates pushed to 2.5em then dialled back to 1.5em, commits 00b4f80 and 1885c16. The earlier `.entry__body p` selector was failing due to Astro cid scoping: markdown-rendered elements do not carry the cid attribute so the rule never matched. Fixed to `.entry__body :global(p)`. Home marquee expanded from 6 to 9 items, commit b58de58. New items: Scenario modelling, Governance, Cultural institutions, Cross-cultural, Open data, Science and society. Removed: Field notes, Open work, Lisbon. Prose check caught a banned phrase in the Amsterdam entry draft and fixed it before commit. Detail templates for projects and research still lack the metadata line (date range and organisation) that the work template has. Deliberately deferred.
@@ -22,12 +26,14 @@ A personal site for Tomás van Gorp. It has a homepage, three stream index pages
 
 ## Live URL
 
-Connect and confirm with Netlify once the domain is set. The repo is at `github.com/solomas/personal-site`.
+https://tomasvangorp.pages.dev (Cloudflare Pages, live since commit a753e98).
+
+The repo is at `github.com/solomas/personal-site`. The original Netlify placeholder below is retained for history: "Connect and confirm with Netlify once the domain is set."
 
 ## Stack
 
 - **Astro 6.3.1** with TypeScript strict mode, content collections, glob loader.
-- **Netlify** for build and deploy. Config in `netlify.toml`. Node 22. Build command runs prose check before `npm run build`.
+- **Cloudflare Pages** for build and deploy. Security headers in `public/_headers`. Node 22 via `.nvmrc`. Build command: `bash scripts/check-prose.sh && npm run build`. Migrated from Netlify at commit f95716f.
 - **GitHub** at `git@github.com:solomas/personal-site.git`. Branch: `main`.
 - **Content** as Markdown in `src/content/`. Schema in `src/content.config.ts`. Three collections: projects, work, research.
 
