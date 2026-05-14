@@ -77,3 +77,9 @@ button, input, textarea, select {
   background-color: var(--color-accent);
   color: var(--color-bg);
 }
+
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
