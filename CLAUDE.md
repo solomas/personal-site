@@ -2,39 +2,21 @@
 
 ## Session start, read before any edit
 
-At the start of every session, before producing any output, edits or commits, read the full contents of CLAUDE.md and HANDOVER.md. This rule is absolute. No exceptions. If either file is missing, stop and report rather than proceeding without context.
+At the start of every session, before producing any output, edits or commits, read the full contents of CLAUDE.md and STATE.md. This rule is absolute. No exceptions. If either file is missing, stop and report rather than proceeding without context.
 
-This rule exists because writing rules, banned words, parked items and current state all live in these two files. Editing without reading them first risks breaking conventions or overwriting context that earlier sessions established.
+This rule exists because writing rules and banned words live in CLAUDE.md, and current workstream state lives in STATE.md and `docs/state/`. Editing without reading them first risks breaking conventions or acting on stale context.
 
 Apply this pattern:
 
-- The first action of any session is to print or summarise the relevant sections of CLAUDE.md and HANDOVER.md.
-- If the session prompt names a specific area of work, confirm there are no conflicting parked items, banned words or open decisions in either file before drafting any code or copy.
-- If a conflict appears between the session prompt and CLAUDE.md or HANDOVER.md, stop and report. Do not silently choose one over the other.
+- The first action of any session is to read CLAUDE.md in full and read STATE.md plus the relevant bucket file(s) in `docs/state/`.
+- If the session prompt names a specific area of work, confirm there are no conflicting open items or banned words in those files before drafting any code or copy.
+- If a conflict appears between the session prompt and CLAUDE.md, stop and report. Do not silently choose one over the other.
 
-## Updating HANDOVER.md, preservation rule
-
-When updating HANDOVER.md at any point in any session, including session close, this rule is absolute and overrides any contradictory instruction in a session prompt.
-
-Do not overwrite or delete anything that is already in HANDOVER.md unless the session prompt explicitly says to remove a specific named item. Every existing entry, section, line and parked item must remain after any edit.
-
-Apply these patterns:
-
-- Default action when updating HANDOVER.md is ADD, not REPLACE.
-- "Update the current state section" means add lines to it, not rewrite it.
-- "Rotate the recent sessions list" means push a new entry to the top and let older entries drop off naturally if a cap exists. Tell the user explicitly which entry, if any, was dropped.
-- "Reorder by priority" means move existing items up or down within the file. Items not named in the priority list must remain in the file in their current relative order, below the named items. Never delete items because they were not in the priority list.
-- If about to replace a section wholesale, stop. Edit only the specific lines named in the prompt.
-
-Verification protocol when updating HANDOVER.md:
-
-1. Print the current full contents of the doc before making any change.
-2. Make the edits.
-3. Print the full contents again after edits, plus a diff summary listing exactly which sections and lines were added.
-4. Confirm no existing content was deleted.
-5. Only commit after verification confirms nothing was lost. If anything was accidentally deleted, stop and report instead of committing.
-
-This rule exists because parked items represent backlog gathered over many sessions, and silent loss of a parked item means losing a decision or a known issue that no one will remember to recreate.
+## Updating state docs
+- State docs in `docs/state/` record current truth. Update them at the start of any session that opens or closes work in that workstream, and again at session close.
+- Preservation rule: when editing a state doc, add or update; do not silently delete open items unless they are genuinely closed. If closing an item, record what closed it (commit hash, session date) in the session doc.
+- STATE.md changes only when the workstream structure itself changes (new bucket, renamed bucket, deleted bucket).
+- Session docs in `docs/sessions/` are append-only history. Do not edit prior session docs.
 
 ## Prose check, no bypass
 
@@ -54,6 +36,18 @@ This rule exists because the writing rules and banned words list are the spine o
 If a session prompt contradicts a rule in CLAUDE.md, the CLAUDE.md rule wins by default. Stop, report the conflict, and ask the user to confirm before proceeding.
 
 The user may override a CLAUDE.md rule for a single session, but the override must be explicit and the report must record it. Implicit override by quiet compliance is not allowed.
+
+## Session close protocol
+Run in order at the end of any session that did substantive work:
+1. Write a session doc at `docs/sessions/YYYY-MM-DD<letter>-<slug>.md` covering what changed, what's open, what's parked.
+2. Update the relevant bucket file(s) in `docs/state/`: move new open items in, mark closed items as done, update Status if reality changed.
+3. Update STATE.md only if the workstream structure itself changed (new bucket, renamed bucket).
+4. Commit and push as a distinct step: `git add`, `git commit`, `git push`.
+5. Verify the push reached origin: `git log --oneline origin/main | head -5`.
+
+Rules from past mistakes:
+- Never create a second STATE.md or duplicate bucket files in other paths.
+- HANDOVER.md and PARKED.md no longer exist in this repo. Do not recreate them. Open items go into bucket files; history goes into session docs.
 
 ## Writing rules, binding for all output
 - British English. No Oxford comma. No en dashes, em dashes or hyphens except in correct spelling.

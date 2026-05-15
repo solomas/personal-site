@@ -1,0 +1,3 @@
+# 2026-05-14d: Cloudflare Pages migration
+
+Site migrated from Netlify to Cloudflare Pages. Netlify free tier build minutes (300 per month) were exhausted mid-session, causing deploys to stop. Cloudflare Pages configured via dashboard: GitHub repo connected, Astro framework preset, build command "bash scripts/check-prose.sh && npm run build", output directory dist, Node 22 via .nvmrc. Security headers ported from netlify.toml to public/_headers in Cloudflare Pages format, commit a753e98. netlify.toml removed from repo, commit f95716f. New live URL: https://tomasvangorp.pages.dev. Old URL https://tomasvangorp.netlify.app retired.
