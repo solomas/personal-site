@@ -1,0 +1,66 @@
+---
+import Layout from "../components/Layout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+---
+<Layout title="Contact">
+  <section class="stream-header">
+    <div class="stream-header__top">
+      <SectionLabel label="Contact" number="01" kicker="Get in touch" />
+    </div>
+    <h1>Contact</h1>
+    <p class="stream-header__lede">Get in touch via <a href="mailto:hello@tomasvangorp.com">hello@tomasvangorp.com</a>.</p>
+    <ul class="contact-list">
+      <li><a href="mailto:hello@tomasvangorp.com" class="contact-link">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/tomasvangorp" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="https://orcid.org/0009-0007-1067-039X" class="contact-link" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .stream-header {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-8) var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-12);
+  }
+  .stream-header__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+  .stream-header h1 {
+    font-size: var(--text-6xl);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin-bottom: var(--space-6);
+  }
+  .stream-header__lede {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+    max-width: 50ch;
+  }
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .contact-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .contact-link:hover {
+    color: var(--color-accent);
+  }
+</style>

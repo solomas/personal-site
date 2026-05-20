@@ -1,10 +1,10 @@
 # Optional features state
 
-Last updated: 2026-05-15
+Last updated: 2026-05-20
 
 ## Status
 
-No optional features have been built. The three content streams (projects, work, research) are live with real entries. Navigation beyond the three stream index pages, filtering, search and identity pages are all absent. Each item below needs a scoping decision before any build work starts.
+The three content streams (projects, work, research) are live. A standalone `/contact` page is now live with email, LinkedIn and ORCID links. About page (bio, identity) remains undecided. Each remaining item below needs a scoping decision before any build work starts.
 
 ## Scope
 
@@ -13,7 +13,7 @@ Features that require a product decision before build: pages and interactions th
 ## Open items
 
 **About page**
-No about page or bio exists. The site has no page that introduces Tomás directly. Decision needed: standalone `/about` route, or fold contact and bio into the homepage?
+No about page or bio exists. The site has no page that introduces Tomás directly. Contact details are now covered by `/contact` (shipped 2026-05-20). The remaining decision is whether to create a standalone `/about` route for bio and identity copy, or fold it into the homepage hero.
 Next action: decide on scope and route, then draft copy.
 
 **Tag filtering on stream index pages**
