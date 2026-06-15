@@ -92,7 +92,7 @@ const { Content } = await render(entry);
     font-size: var(--text-lg);
     line-height: var(--leading-normal);
   }
-  .entry__body p {
+  .entry__body :global(p) {
     margin-bottom: var(--space-6);
   }
   .entry__body :global(a) {
