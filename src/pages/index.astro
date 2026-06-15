@@ -1,22 +1,7 @@
 ---
 import Layout from "../components/Layout.astro";
 import SectionLabel from "../components/SectionLabel.astro";
-import Marquee from "../components/Marquee.astro";
-import StreamTag from "../components/StreamTag.astro";
-import { getCollection } from "astro:content";
-
-async function streamStats(name: "projects" | "work" | "research", singular: string, plural: string) {
-  const entries = await getCollection(name, ({ data }) => data.status !== "archived");
-  const count = entries.length;
-  if (count === 0) return `0 ${plural}, none yet`;
-  const earliest = entries.reduce((min, e) => e.data.date < min ? e.data.date : min, entries[0].data.date);
-  const year = earliest.getFullYear();
-  return `${count} ${count === 1 ? singular : plural}, since ${year}`;
-}
-
-const projectsStat = await streamStats("projects", "project", "projects");
-const workStat = await streamStats("work", "engagement", "engagements");
-const researchStat = await streamStats("research", "item", "items");
+import Triptych from "../components/Triptych.astro";
 ---
 <Layout title="Tomás van Gorp">
   <section class="hero">
@@ -30,43 +15,7 @@ const researchStat = await streamStats("research", "item", "items");
     </p>
   </section>
 
-  <Marquee items={["Planetary health", "Independent practice", "Policy to implementation", "Scenario modelling", "Governance", "Cultural institutions", "Cross-cultural", "Open data", "Science and society"]} />
-
-  <section class="streams">
-    <div class="streams__header">
-      <SectionLabel label="Three streams" number="02" kicker="Where the work lives" />
-    </div>
-
-    <a href="/projects/" class="stream-card">
-      <div class="stream-card__tag"><StreamTag stream="projects" /></div>
-      <h2 class="stream-card__title">Projects</h2>
-      <div class="stream-card__body">
-        <p class="stream-card__desc">Side work, experiments, things made out of curiosity rather than obligation.</p>
-        <p class="stream-card__stat">{projectsStat}</p>
-      </div>
-      <span class="stream-card__cta meta">See projects &rarr;</span>
-    </a>
-
-    <a href="/work/" class="stream-card">
-      <div class="stream-card__tag"><StreamTag stream="work" /></div>
-      <h2 class="stream-card__title">Work</h2>
-      <div class="stream-card__body">
-        <p class="stream-card__desc">Professional projects, consulting and programme design under the TOMICA banner.</p>
-        <p class="stream-card__stat">{workStat}</p>
-      </div>
-      <span class="stream-card__cta meta">See work &rarr;</span>
-    </a>
-
-    <a href="/research/" class="stream-card">
-      <div class="stream-card__tag"><StreamTag stream="research" /></div>
-      <h2 class="stream-card__title">Research</h2>
-      <div class="stream-card__body">
-        <p class="stream-card__desc">Doctoral work in planetary health. Papers, talks and notes from the field.</p>
-        <p class="stream-card__stat">{researchStat}</p>
-      </div>
-      <span class="stream-card__cta meta">See research &rarr;</span>
-    </a>
-  </section>
+  <Triptych />
 </Layout>
 
 <style>
@@ -101,89 +50,7 @@ const researchStat = await streamStats("research", "item", "items");
     line-height: 1.3;
   }
 
-  .streams {
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-24) var(--space-8) var(--space-16);
-  }
-  .streams__header {
-    margin-bottom: var(--space-12);
-  }
-
-  .stream-card {
-    display: grid;
-    grid-template-columns: 120px 1fr auto;
-    grid-template-rows: auto auto;
-    column-gap: var(--space-8);
-    row-gap: var(--space-3);
-    padding: var(--space-12) 0;
-    border-top: 1px solid var(--color-border);
-    text-decoration: none;
-    align-items: baseline;
-    transition: padding-left 200ms ease;
-  }
-  .stream-card:last-of-type {
-    border-bottom: 1px solid var(--color-border);
-  }
-  .stream-card:hover {
-    padding-left: var(--space-4);
-  }
-  .stream-card__tag {
-    grid-column: 1;
-    grid-row: 1;
-    align-self: center;
-  }
-  .stream-card__title {
-    grid-column: 2;
-    grid-row: 1;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    transition: color 200ms ease;
-  }
-  .stream-card__body {
-    grid-column: 2;
-    grid-row: 2;
-    position: relative;
-    min-height: 1.6em;
-    max-width: 50ch;
-  }
-  .stream-card__desc,
-  .stream-card__stat {
-    color: var(--color-muted);
-    font-size: var(--text-lg);
-    transition: opacity 220ms ease, transform 220ms ease;
-  }
-  .stream-card__stat {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transform: translateY(4px);
-    font-family: var(--font-mono);
-    font-size: var(--text-base);
-    letter-spacing: 0.02em;
-  }
-  .stream-card:hover .stream-card__desc {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  .stream-card:hover .stream-card__stat {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .stream-card__cta {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    align-self: center;
-    transition: color 200ms ease, transform 200ms ease;
-  }
-  .stream-card:hover .stream-card__title { color: var(--color-accent); }
-  .stream-card:hover .stream-card__cta { color: var(--color-accent); transform: translateX(4px); }
-
   @media (max-width: 720px) {
-    .stream-card { grid-template-columns: auto 1fr; }
-    .stream-card__cta { display: none; }
     .hero__location { text-align: left; }
   }
 </style>
