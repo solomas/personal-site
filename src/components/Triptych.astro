@@ -436,8 +436,13 @@
   /* Flip (black) theme, the primary look: bright yellow and warm white forms
      and warm glows on pure black, with a fine gold gild edge. */
   :global([data-theme="flip"]) .triptych {
-    --tri-ground-hi: #000000;
-    --tri-ground-mid: #000000;
+    /* Subtle warm-charcoal lift at the centre fading to pure black at the arch
+       edge, so the panel field reads as a distinct surface against the black
+       page while the gild line still meets page-black at the silhouette. This
+       mirrors how the yellow theme sets a deeper-amber ground against its
+       bright page. */
+    --tri-ground-hi: #2a2620;
+    --tri-ground-mid: #1a1712;
     --tri-ground-lo: #000000;
     --tri-glow: #FFD60A;
     --tri-atmos: #241A10;
