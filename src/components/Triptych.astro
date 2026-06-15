@@ -22,7 +22,7 @@
 // Structure, open-on-load grisaille, hover and tap expand, carousel and
 // reduced-motion handling are unchanged.
 ---
-<section class="triptych" data-state="open" aria-label="Three streams of work">
+<section class="triptych" aria-label="Three streams of work">
   <div class="triptych__frame">
 
     <a href="/research/" class="panel panel--wing">
@@ -82,7 +82,7 @@
         <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-r)" />
         <g class="panel__scene">
           <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-r)" />
-          <g clip-path="url(#clip-r)">
+          <g class="panel__forms" clip-path="url(#clip-r)">
             <g filter="url(#soft-r)" opacity="0.6">
               <path d="M54 132 C34 102 52 64 92 74 C132 84 146 126 112 150 C82 170 74 162 54 132 Z" fill="var(--tri-atmos)" opacity="0.5" />
               <circle cx="128" cy="92" r="30" fill="var(--tri-glow)" opacity="0.35" />
@@ -220,7 +220,7 @@
         <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-w)" />
         <g class="panel__scene">
           <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-w)" />
-          <g clip-path="url(#clip-w)">
+          <g class="panel__forms" clip-path="url(#clip-w)">
             <g filter="url(#soft-w)" opacity="0.6">
               <circle cx="100" cy="128" r="60" fill="var(--tri-glow)" opacity="0.4" />
               <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.3" />
@@ -343,7 +343,7 @@
         <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-p)" />
         <g class="panel__scene">
           <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-p)" />
-          <g clip-path="url(#clip-p)">
+          <g class="panel__forms" clip-path="url(#clip-p)">
             <g filter="url(#soft-p)" opacity="0.6">
               <circle cx="52" cy="98" r="30" fill="var(--tri-glow)" opacity="0.3" />
               <path d="M96 222 C70 216 58 196 70 176 C84 152 120 156 128 188 C134 210 120 228 96 222 Z" fill="var(--tri-atmos)" opacity="0.3" />
@@ -404,7 +404,6 @@
     </a>
 
   </div>
-  <p class="triptych__hint" aria-hidden="true">Click to enter</p>
 </section>
 
 <style>
@@ -426,6 +425,7 @@
     --tri-frame-lo: #2A2218;
     --tri-gold: #5A4416;
     --tri-label: #1A140A;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
     position: relative;
     max-width: var(--page-width);
@@ -467,15 +467,15 @@
     flex: 1 1 0;
     min-width: 0;
     text-decoration: none;
-    transform-origin: center center;
-    /* Expand is a flex-grow change, the open swing is a transform. Every panel
-       shares this timing, so the growing panel and its shrinking neighbours ease
-       as one cinematic motion and crossing between panels glides, not snaps. */
-    transition:
-      flex-grow 720ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 1000ms ease;
+    /* Per-panel offset for the first-visit paint-in, a left-to-right sweep. */
+    --p-delay: 0ms;
+    /* Expand is a flex-grow change. Every panel shares this timing, so the
+       growing panel and its shrinking neighbours ease as one cinematic motion
+       and crossing between panels glides, not snaps. */
+    transition: flex-grow 720ms var(--ease);
   }
+  .panel:nth-child(2) { --p-delay: 110ms; }
+  .panel:nth-child(3) { --p-delay: 220ms; }
   .panel--centre { flex-grow: 1.3; }
 
   /* Expand on pointer hover, neighbours shrink naturally. */
@@ -497,35 +497,41 @@
     height: auto;
     display: block;
     overflow: visible;
+    transform-origin: center;
+    transition: transform 700ms var(--ease) var(--p-delay);
   }
 
   .panel__framepath {
     stroke: var(--tri-frame-lo);
     stroke-width: 1.5;
+    transition: opacity 650ms var(--ease) var(--p-delay);
   }
 
-  .panel__scene {
-    /* Colour tints in just after the swing begins, a deliberate reveal. */
-    transition: filter 1200ms ease 180ms;
+  /* First-visit paint-into-being. Markup ships finished. The script sets
+     data-intro before paint to hide the layers, then releases it so each layer
+     eases to the finished state on a staggered delay: the panel settles and the
+     gilded frame arrives, then the ground washes in, then the painted forms and
+     grain resolve, then the caption arrives last. Per-panel --p-delay sweeps the
+     three panels left to right. */
+  .panel__ground {
+    transition: opacity 650ms var(--ease) calc(180ms + var(--p-delay));
+  }
+  .panel__forms {
+    transition: opacity 750ms var(--ease) calc(360ms + var(--p-delay));
+  }
+  .panel__caption {
+    transition:
+      opacity 600ms var(--ease) calc(640ms + var(--p-delay)),
+      transform 600ms var(--ease) calc(640ms + var(--p-delay));
   }
 
-  /* Closed grisaille state: desaturate the painted scene, frame stays gold,
-     wings swing shut. The script removes data-state="closed" to open. */
-  .triptych[data-state="closed"] .panel__scene {
-    filter: grayscale(1) contrast(0.92) brightness(1.04);
-  }
-  .triptych[data-state="closed"] .panel--centre {
-    opacity: 0.55;
-  }
-  .triptych[data-state="closed"] .panel--wing:first-child {
-    transform-origin: right center;
-    transform: rotateY(-46deg);
-    opacity: 0.7;
-  }
-  .triptych[data-state="closed"] .panel--wing:last-child {
-    transform-origin: left center;
-    transform: rotateY(46deg);
-    opacity: 0.7;
+  .triptych[data-intro] .panel__art { transform: scale(0.965); }
+  .triptych[data-intro] .panel__framepath,
+  .triptych[data-intro] .panel__ground,
+  .triptych[data-intro] .panel__forms { opacity: 0; }
+  .triptych[data-intro] .panel__caption {
+    opacity: 0;
+    transform: translateY(8px);
   }
 
   /* Captions sit in a band the art is kept clear of (every stroke stops above
@@ -560,37 +566,6 @@
     opacity: 0.78;
   }
 
-  /* Closed-state affordance: the shut altarpiece is clickable, with a quiet
-     pulsing hint below it. Shown only while closed, so return visits and
-     reduced-motion (which never hold closed) never see it. */
-  .triptych[data-state="closed"] .triptych__frame {
-    cursor: pointer;
-  }
-  .triptych__hint {
-    position: absolute;
-    top: calc(100% + var(--space-3));
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--tri-gold);
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 500ms ease;
-  }
-  .triptych[data-state="closed"] .triptych__hint {
-    opacity: 0.8;
-    animation: triptych-hint 2.8s ease-in-out infinite;
-  }
-  @keyframes triptych-hint {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.9; }
-  }
-
   /* Narrow screens: horizontal swipeable carousel, one panel mostly in view.
      No swing, no expand, links navigate on a single tap. */
   @media (max-width: 720px) {
@@ -610,29 +585,29 @@
     .panel--centre { flex-grow: 0; }
     .panel.is-active,
     .panel:focus-visible { flex-grow: 0; }
-    .triptych[data-state="closed"] .panel--wing:first-child,
-    .triptych[data-state="closed"] .panel--wing:last-child {
-      transform: none;
-      opacity: 1;
-    }
     .panel__name,
     .panel--centre .panel__name { font-size: 1.6rem; }
     .panel__desc { font-size: 0.95rem; }
   }
 
-  /* Reduced motion: render straight to open, no swing, no transitions.
-     Expand still functions, just instantly. Full function, no motion. */
+  /* Reduced motion: render the finished painted state instantly, no paint-in,
+     no transitions, regardless of the flag. Expand still functions, just
+     instantly. Full function, no motion. */
   @media (prefers-reduced-motion: reduce) {
     .panel,
-    .panel__scene { transition: none !important; }
-    .triptych[data-state="closed"] .panel--wing:first-child,
-    .triptych[data-state="closed"] .panel--wing:last-child {
-      transform: none !important;
+    .panel__art,
+    .panel__framepath,
+    .panel__ground,
+    .panel__forms,
+    .panel__caption { transition: none !important; }
+    .triptych[data-intro] .panel__art { transform: none !important; }
+    .triptych[data-intro] .panel__framepath,
+    .triptych[data-intro] .panel__ground,
+    .triptych[data-intro] .panel__forms,
+    .triptych[data-intro] .panel__caption {
       opacity: 1 !important;
+      transform: none !important;
     }
-    .triptych[data-state="closed"] .panel__scene { filter: none !important; }
-    .triptych[data-state="closed"] .panel--centre { opacity: 1 !important; }
-    .triptych__hint { animation: none !important; }
   }
 </style>
 
@@ -648,29 +623,22 @@
     let opened = false;
     try { opened = localStorage.getItem("triptych-opened") === "1"; } catch (e) {}
 
-    // Markup ships open, so reduced-motion users and return visits (flag set)
-    // render open immediately with no interaction. A first-ever visit drops to
-    // the closed grisaille state before paint and waits for a click, which plays
-    // the existing swing-and-tint open and remembers the choice.
+    // Markup ships finished, so reduced-motion users and return visits (flag
+    // set) render the painted state immediately with no motion. A first-ever
+    // visit paints into being: set the intro start-state before paint, release
+    // it on the next frame so the layers ease in on staggered delays, then set
+    // the flag when the motion finishes.
     if (!reduceMotion && !opened) {
-      root.dataset.state = "closed";
-
-      const open = function () {
-        root.dataset.state = "open";
+      root.dataset.intro = "paint";
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          root.removeAttribute("data-intro");
+        });
+      });
+      // Total run is the last layer's delay plus its duration, about 1.5s.
+      window.setTimeout(function () {
         try { localStorage.setItem("triptych-opened", "1"); } catch (e) {}
-      };
-
-      // Capture-phase so the opening click is caught before a panel link
-      // navigates. preventDefault stops navigation, stopPropagation stops the
-      // touch-expand handler firing. Once open, normal link and expand resume.
-      root.addEventListener("click", function onClosedClick(e) {
-        if (root.dataset.state === "closed") {
-          e.preventDefault();
-          e.stopPropagation();
-          open();
-        }
-        root.removeEventListener("click", onClosedClick, true);
-      }, true);
+      }, 1700);
     }
 
     // Touch expand on wide layouts: first tap expands, second tap follows the
