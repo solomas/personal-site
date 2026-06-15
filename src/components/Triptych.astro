@@ -20,8 +20,10 @@
 //
 // Hover/focus/tap emphasis is in place (the fixed frame cannot flex): the
 // focused painting (.panel__lift) lifts and brightens while the others dim, all
-// on one shared ease. First-visit paint-into-being and the localStorage flag
-// are kept; the carved frame is the first paint-in layer.
+// on one shared ease. On a first visit each panel turns open like a door: a
+// plain carved-wood back face (.panel__door) shows shut, then the panel rotates
+// on its hinge to reveal the painting, staggered left to right. The localStorage
+// flag is kept; return visits and reduced motion render open with no turn.
 //
 // Palette is keyed to the two site themes via the data-theme mechanism Layout
 // uses. The flip (black) theme is the primary look. Wood stays dark in both;
@@ -182,6 +184,7 @@
         <h2 class="panel__name">Research</h2>
         <p class="panel__desc">Doctoral work in planetary health.</p>
       </div>
+      <div class="panel__door" aria-hidden="true"></div>
     </a>
 
     <a href="/work/" class="panel panel--centre">
@@ -323,6 +326,7 @@
         <h2 class="panel__name">Work</h2>
         <p class="panel__desc">Consulting and programme design.</p>
       </div>
+      <div class="panel__door" aria-hidden="true"></div>
     </a>
 
     <a href="/projects/" class="panel panel--wing">
@@ -443,6 +447,7 @@
         <h2 class="panel__name">Projects</h2>
         <p class="panel__desc">Side work and experiments.</p>
       </div>
+      <div class="panel__door" aria-hidden="true"></div>
     </a>
 
   </div>
@@ -506,6 +511,8 @@
     display: flex;
     align-items: flex-end;
     gap: 0;
+    perspective: 2000px;
+    perspective-origin: center 42%;
   }
 
   .panel {
@@ -514,11 +521,17 @@
     flex: 1 1 0;
     min-width: 0;
     text-decoration: none;
-    /* Per-panel offset for the first-visit paint-in, a left-to-right sweep. */
+    transform-style: preserve-3d;
+    /* Per-panel stagger for the first-visit door turn, a left-to-right sequence. */
     --p-delay: 0ms;
+    transition: transform 780ms var(--ease) var(--p-delay);
   }
-  .panel:nth-child(2) { --p-delay: 110ms; }
-  .panel:nth-child(3) { --p-delay: 220ms; }
+  .panel:nth-child(2) { --p-delay: 280ms; }
+  .panel:nth-child(3) { --p-delay: 560ms; }
+  /* Hinge: wings from their outer edges, centre from its centre line. */
+  .panel--wing:first-child { transform-origin: left center; }
+  .panel--centre { transform-origin: center center; }
+  .panel--wing:last-child { transform-origin: right center; }
 
   .panel:focus-visible {
     outline: 3px solid var(--tri-gold);
@@ -560,47 +573,37 @@
     height: auto;
     display: block;
     overflow: visible;
-    transform-origin: center;
-    transition: transform 700ms var(--ease) var(--p-delay);
+    backface-visibility: hidden;
   }
 
-  .panel__woodframe,
-  .panel__gild {
-    transition: opacity 650ms var(--ease) var(--p-delay);
-  }
-
-  /* First-visit paint-into-being. Markup ships finished. The script sets
-     data-intro before paint to hide the layers, then releases it so each layer
-     eases to the finished state on a staggered delay: the panel settles and the
-     gilded frame arrives, then the ground washes in, then the painted forms and
-     grain resolve, then the caption arrives last. Per-panel --p-delay sweeps the
-     three panels left to right. */
-  .panel__ground {
-    transition: opacity 650ms var(--ease) calc(180ms + var(--p-delay));
-  }
-  /* Scale the art in slightly so the whole scene sits inside the enlarged
-     opening with a margin, never touching the wood edge. */
+  /* Scale the art in slightly so the whole scene sits inside the opening with a
+     margin, never touching the wood edge. */
   .panel__forms {
     transform-box: fill-box;
     transform-origin: center;
     transform: scale(0.95);
-    transition: opacity 750ms var(--ease) calc(360ms + var(--p-delay));
-  }
-  .panel__caption {
-    transition:
-      opacity 600ms var(--ease) calc(640ms + var(--p-delay)),
-      transform 600ms var(--ease) calc(640ms + var(--p-delay));
   }
 
-  .triptych[data-intro] .panel__art { transform: scale(0.97); }
-  .triptych[data-intro] .panel__woodframe,
-  .triptych[data-intro] .panel__gild,
-  .triptych[data-intro] .panel__ground,
-  .triptych[data-intro] .panel__forms { opacity: 0; }
-  .triptych[data-intro] .panel__caption {
-    opacity: 0;
-    transform: translateY(8px);
+  /* First-visit turn-to-open. The carved frame plus painting is the front face;
+     a plain carved-wood back face (.panel__door) is the shut door, only shown
+     while the panel is turned away (backface-visibility). The script adds
+     data-turn before paint to rotate each panel closed, then releases it so they
+     turn open on their hinge one after another, left to right. */
+  .panel__door {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(118deg, var(--wood-hi), var(--wood-mid) 55%, var(--wood-lo));
+    border: 1px solid var(--wood-edge-dark);
+    box-shadow:
+      inset 0 0 0 5px rgba(0, 0, 0, 0.16),
+      inset 0 0 26px rgba(0, 0, 0, 0.34);
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
   }
+
+  .triptych[data-turn] .panel--wing:first-child { transform: rotateY(-100deg); }
+  .triptych[data-turn] .panel--centre { transform: rotateY(90deg); }
+  .triptych[data-turn] .panel--wing:last-child { transform: rotateY(100deg); }
 
   /* Captions sit in the lower part of each opening, above the carved base band,
      over clear painting, so no backing is needed. */
@@ -610,6 +613,8 @@
     right: 13%;
     bottom: 13%;
     text-align: center;
+    backface-visibility: hidden;
+    transform: translateZ(1px);
   }
 
   .panel__name {
@@ -642,39 +647,34 @@
       align-items: center;
       gap: var(--space-4);
       scroll-padding: var(--space-4);
+      perspective: none;
     }
     .panel {
       flex: 0 0 86%;
       scroll-snap-align: center;
     }
+    /* The carousel cannot hold a 3D turn, so it renders open with no door. */
+    .triptych[data-turn] .panel--wing:first-child,
+    .triptych[data-turn] .panel--centre,
+    .triptych[data-turn] .panel--wing:last-child { transform: none; }
+    .panel__door { display: none; }
     .panel__name { font-size: 1.5rem; }
     .panel__desc { font-size: 0.95rem; }
   }
 
-  /* Reduced motion: render the finished painted state instantly, no paint-in.
-     Emphasis still functions (the veils apply instantly), but with no lift
-     motion and no transitions. Full function, no motion. */
+  /* Reduced motion: render fully open instantly, no turn. Emphasis still
+     functions (the veils apply instantly), but with no lift motion and no
+     transitions. Full function, no motion. */
   @media (prefers-reduced-motion: reduce) {
-    .panel__art,
+    .panel,
     .panel__lift,
-    .panel__veil,
-    .panel__woodframe,
-    .panel__gild,
-    .panel__ground,
-    .panel__forms,
-    .panel__caption { transition: none !important; }
+    .panel__veil { transition: none !important; }
     .panel:hover .panel__lift,
     .panel:focus-visible .panel__lift,
     .panel.is-active .panel__lift { transform: none !important; }
-    .triptych[data-intro] .panel__art { transform: none !important; }
-    .triptych[data-intro] .panel__woodframe,
-    .triptych[data-intro] .panel__gild,
-    .triptych[data-intro] .panel__ground,
-    .triptych[data-intro] .panel__forms,
-    .triptych[data-intro] .panel__caption {
-      opacity: 1 !important;
-      transform: none !important;
-    }
+    .triptych[data-turn] .panel--wing:first-child,
+    .triptych[data-turn] .panel--centre,
+    .triptych[data-turn] .panel--wing:last-child { transform: none !important; }
   }
 </style>
 
@@ -690,22 +690,22 @@
     let opened = false;
     try { opened = localStorage.getItem("triptych-opened") === "1"; } catch (e) {}
 
-    // Markup ships finished, so reduced-motion users and return visits (flag
-    // set) render the painted state immediately with no motion. A first-ever
-    // visit paints into being: set the intro start-state before paint, release
-    // it on the next frame so the layers ease in on staggered delays, then set
-    // the flag when the motion finishes.
+    // Markup ships open, so reduced-motion users and return visits (flag set)
+    // render fully open immediately with no turn. A first-ever visit turns open:
+    // set the shut state before paint to rotate each panel closed (the wood door
+    // facing out), release it on the next frame so they turn open on their hinge
+    // one after another left to right, then set the flag when the last lands.
     if (!reduceMotion && !opened) {
-      root.dataset.intro = "paint";
+      root.dataset.turn = "shut";
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
-          root.removeAttribute("data-intro");
+          root.removeAttribute("data-turn");
         });
       });
-      // Total run is the last layer's delay plus its duration, about 1.5s.
+      // Last panel: 560ms stagger + 780ms turn, set the flag once it lands.
       window.setTimeout(function () {
         try { localStorage.setItem("triptych-opened", "1"); } catch (e) {}
-      }, 1700);
+      }, 1500);
     }
 
     // Touch emphasis on wide layouts: first tap selects and emphasises a panel
