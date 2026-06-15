@@ -404,6 +404,7 @@
     </a>
 
   </div>
+  <p class="triptych__hint" aria-hidden="true">Click to enter</p>
 </section>
 
 <style>
@@ -426,6 +427,7 @@
     --tri-gold: #5A4416;
     --tri-label: #1A140A;
 
+    position: relative;
     max-width: var(--page-width);
     margin: 0 auto;
     padding: var(--space-12) var(--space-8) var(--space-24);
@@ -558,6 +560,37 @@
     opacity: 0.78;
   }
 
+  /* Closed-state affordance: the shut altarpiece is clickable, with a quiet
+     pulsing hint below it. Shown only while closed, so return visits and
+     reduced-motion (which never hold closed) never see it. */
+  .triptych[data-state="closed"] .triptych__frame {
+    cursor: pointer;
+  }
+  .triptych__hint {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tri-gold);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+  }
+  .triptych[data-state="closed"] .triptych__hint {
+    opacity: 0.8;
+    animation: triptych-hint 2.8s ease-in-out infinite;
+  }
+  @keyframes triptych-hint {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+  }
+
   /* Narrow screens: horizontal swipeable carousel, one panel mostly in view.
      No swing, no expand, links navigate on a single tap. */
   @media (max-width: 720px) {
@@ -599,6 +632,7 @@
     }
     .triptych[data-state="closed"] .panel__scene { filter: none !important; }
     .triptych[data-state="closed"] .panel--centre { opacity: 1 !important; }
+    .triptych__hint { animation: none !important; }
   }
 </style>
 
@@ -611,15 +645,32 @@
     const isTouch = window.matchMedia("(hover: none)").matches;
     const isNarrow = () => window.matchMedia("(max-width: 720px)").matches;
 
-    // Open once per load. Markup ships open, so drop to closed before paint
-    // then flip back on the next frames to animate. Skipped if reduced motion.
-    if (!reduceMotion) {
+    let opened = false;
+    try { opened = localStorage.getItem("triptych-opened") === "1"; } catch (e) {}
+
+    // Markup ships open, so reduced-motion users and return visits (flag set)
+    // render open immediately with no interaction. A first-ever visit drops to
+    // the closed grisaille state before paint and waits for a click, which plays
+    // the existing swing-and-tint open and remembers the choice.
+    if (!reduceMotion && !opened) {
       root.dataset.state = "closed";
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          root.dataset.state = "open";
-        });
-      });
+
+      const open = function () {
+        root.dataset.state = "open";
+        try { localStorage.setItem("triptych-opened", "1"); } catch (e) {}
+      };
+
+      // Capture-phase so the opening click is caught before a panel link
+      // navigates. preventDefault stops navigation, stopPropagation stops the
+      // touch-expand handler firing. Once open, normal link and expand resume.
+      root.addEventListener("click", function onClosedClick(e) {
+        if (root.dataset.state === "closed") {
+          e.preventDefault();
+          e.stopPropagation();
+          open();
+        }
+        root.removeEventListener("click", onClosedClick, true);
+      }, true);
     }
 
     // Touch expand on wide layouts: first tap expands, second tap follows the
