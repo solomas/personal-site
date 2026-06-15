@@ -5,7 +5,7 @@ import Triptych from "../components/Triptych.astro";
 <Layout title="Tomás van Gorp" hideNav={true}>
   <section class="home">
     <div class="home__intro">
-      <h1 class="home__name">Tomás van Gorp</h1>
+      <h1 class="home__name">Three ways in</h1>
       <p class="home__lede">I work, advise and research at the intersection of science, society and environment.</p>
     </div>
     <Triptych />
@@ -35,6 +35,8 @@ import Triptych from "../components/Triptych.astro";
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1;
+    /* Site accent: warm yellow on the black theme, the gold of the palette. */
+    color: var(--color-accent);
   }
   /* The lede holds one line on desktop. nowrap plus a font-size that shrinks
      with viewport width keeps it from overflowing on smaller laptops. */
