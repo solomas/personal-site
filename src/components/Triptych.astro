@@ -9,25 +9,20 @@
 // light-to-shadow modelling. Only two filters per panel (soft blur, grain), the
 // rest is cheap gradient fills, so the page stays light. No animation.
 //
-// The frame is one connected carved dark-wood altarpiece: equal-width panels
-// butt together (gap 0) so half-posts merge into shared posts, base bands form
-// one continuous base and the shaped tops flow into one cresting silhouette.
-// Each panel's painted scene is clipped to its organic ogee/foliate opening
-// (open-r/w/p), and that same path cuts the wood and carries the gild edge, so
-// frame and art never mismatch. Sparing gilding: a fine gold inner edge, a base
-// line and a crown fleuron; wood dominates. Below 720px the one-piece frame
-// resolves into the swipeable carousel where each panel shows its own crown.
+// No frame: three painted arches float on pure black. Each painted scene is
+// clipped to its organic ogee/foliate opening (open-r/w/p), so the arch
+// silhouette is the edge of the painting against black, traced by a fine gold
+// gild line. Below 720px the panels become the swipeable carousel.
 //
-// Hover/focus/tap emphasis is in place (the fixed frame cannot flex): the
-// focused painting (.panel__lift) lifts and brightens while the others dim, all
-// on one shared ease. On a first visit each panel turns open like a door: a
-// plain carved-wood back face (.panel__door) shows shut, then the panel rotates
-// on its hinge to reveal the painting, staggered left to right. The localStorage
-// flag is kept; return visits and reduced motion render open with no turn.
+// Hover/focus/tap emphasis: the focused painting (.panel__lift) lifts and
+// brightens while the others dim, on one shared ease. On a first visit each
+// panel turns open like a door from a plain black back face (.panel__door),
+// rotating on its hinge to reveal the painting, staggered left to right. The
+// localStorage flag is kept; return visits and reduced motion render open with
+// no turn.
 //
 // Palette is keyed to the two site themes via the data-theme mechanism Layout
-// uses. The flip (black) theme is the primary look. Wood stays dark in both;
-// the gild and relief lines shift so they read against each base.
+// uses. The flip (black) theme is the primary look.
 ---
 <section class="triptych" aria-label="Three streams of work">
   <div class="triptych__frame">
@@ -35,11 +30,6 @@
     <a href="/research/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Research panel" focusable="false">
         <defs>
-          <linearGradient id="wood-r" x1="0" y1="0" x2="0.35" y2="1">
-            <stop offset="0" stop-color="var(--wood-hi)" />
-            <stop offset="0.5" stop-color="var(--wood-mid)" />
-            <stop offset="1" stop-color="var(--wood-lo)" />
-          </linearGradient>
           <radialGradient id="ground-r" cx="0.5" cy="0.42" r="0.78">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
             <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
@@ -85,10 +75,6 @@
           <path id="open-r" d="M12 312 L12 164 C12 108 60 56 103 34 C146 56 194 108 194 164 L194 312 Z" />
           <clipPath id="clip-r"><use href="#open-r" /></clipPath>
         </defs>
-        <g class="panel__woodframe">
-          <path class="panel__framepath" d="M0 26 C50 20 130 16 200 18 L200 340 L0 340 Z" fill="url(#wood-r)" stroke="var(--wood-edge-dark)" stroke-width="1" />
-          <use href="#open-r" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
-        </g>
         <g class="panel__opening" clip-path="url(#clip-r)">
           <g class="panel__lift">
             <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-r)" />
@@ -175,9 +161,6 @@
         </g>
         <g class="panel__gild">
           <use href="#open-r" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
-          <path d="M12 312 L194 312" stroke="var(--tri-gold)" stroke-width="0.8" opacity="0.6" fill="none" />
-          <path d="M103 27 l4 7 -4 6 -4 -6 Z" fill="var(--tri-gold)" opacity="0.85" />
-          <path d="M82 48 C90 40 96 38 103 38 C110 38 116 40 124 48" fill="none" stroke="var(--wood-edge-light)" stroke-width="0.9" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -190,11 +173,6 @@
     <a href="/work/" class="panel panel--centre">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Work panel" focusable="false">
         <defs>
-          <linearGradient id="wood-w" x1="0" y1="0" x2="0.35" y2="1">
-            <stop offset="0" stop-color="var(--wood-hi)" />
-            <stop offset="0.5" stop-color="var(--wood-mid)" />
-            <stop offset="1" stop-color="var(--wood-lo)" />
-          </linearGradient>
           <radialGradient id="ground-w" cx="0.5" cy="0.36" r="0.8">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
             <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
@@ -236,10 +214,6 @@
           <path id="open-w" d="M6 312 L6 164 C6 100 54 46 100 14 C146 46 194 100 194 164 L194 312 Z" />
           <clipPath id="clip-w"><use href="#open-w" /></clipPath>
         </defs>
-        <g class="panel__woodframe">
-          <path class="panel__framepath" d="M0 18 C36 6 70 2 100 2 C130 2 164 6 200 18 L200 340 L0 340 Z" fill="url(#wood-w)" stroke="var(--wood-edge-dark)" stroke-width="1" />
-          <use href="#open-w" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
-        </g>
         <g class="panel__opening" clip-path="url(#clip-w)">
           <g class="panel__lift">
             <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-w)" />
@@ -278,8 +252,6 @@
             <circle cx="100" cy="128" r="30" fill="url(#shade-w)" />
             <path d="M78 112 A30 30 0 0 1 122 110" fill="none" stroke="var(--tri-light)" stroke-width="2" opacity="0.7" stroke-linecap="round" />
             <path d="M82 138 A30 30 0 0 0 118 140" fill="none" stroke="var(--tri-light)" stroke-width="0.8" opacity="0.3" stroke-linecap="round" />
-            <path d="M150 96 q4 -3 8 0" stroke="var(--tri-form)" stroke-width="0.8" fill="none" opacity="0.4" />
-            <path d="M158 96 q4 -3 8 0" stroke="var(--tri-form)" stroke-width="0.8" fill="none" opacity="0.4" />
             <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
             <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-light)" stroke-width="0.6" opacity="0.3" />
             <g>
@@ -316,10 +288,6 @@
         </g>
         <g class="panel__gild">
           <use href="#open-w" fill="none" stroke="var(--tri-gold)" stroke-width="1.1" opacity="0.9" />
-          <path d="M6 312 L194 312" stroke="var(--tri-gold)" stroke-width="0.9" opacity="0.6" fill="none" />
-          <path d="M100 3 l5 9 -5 8 -5 -8 Z" fill="var(--tri-gold)" opacity="0.9" />
-          <path d="M70 30 C82 18 90 16 100 16 C110 16 118 18 130 30" fill="none" stroke="var(--wood-edge-light)" stroke-width="1" opacity="0.55" />
-          <path d="M82 24 C88 20 94 20 100 22" fill="none" stroke="var(--tri-gold)" stroke-width="0.7" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -332,11 +300,6 @@
     <a href="/projects/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Projects panel" focusable="false">
         <defs>
-          <linearGradient id="wood-p" x1="0" y1="0" x2="0.35" y2="1">
-            <stop offset="0" stop-color="var(--wood-hi)" />
-            <stop offset="0.5" stop-color="var(--wood-mid)" />
-            <stop offset="1" stop-color="var(--wood-lo)" />
-          </linearGradient>
           <radialGradient id="ground-p" cx="0.5" cy="0.46" r="0.78">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
             <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
@@ -373,10 +336,6 @@
           <path id="open-p" d="M6 312 L6 164 C6 108 54 56 97 34 C140 56 188 108 188 164 L188 312 Z" />
           <clipPath id="clip-p"><use href="#open-p" /></clipPath>
         </defs>
-        <g class="panel__woodframe">
-          <path class="panel__framepath" d="M0 18 C70 16 150 20 200 26 L200 340 L0 340 Z" fill="url(#wood-p)" stroke="var(--wood-edge-dark)" stroke-width="1" />
-          <use href="#open-p" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
-        </g>
         <g class="panel__opening" clip-path="url(#clip-p)">
           <g class="panel__lift">
             <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-p)" />
@@ -438,9 +397,6 @@
         </g>
         <g class="panel__gild">
           <use href="#open-p" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
-          <path d="M6 312 L188 312" stroke="var(--tri-gold)" stroke-width="0.8" opacity="0.6" fill="none" />
-          <path d="M97 27 l4 7 -4 6 -4 -6 Z" fill="var(--tri-gold)" opacity="0.85" />
-          <path d="M76 48 C84 40 90 38 97 38 C104 38 110 40 118 48" fill="none" stroke="var(--wood-edge-light)" stroke-width="0.9" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -469,12 +425,6 @@
     --tri-deep: #0B0905;
     --tri-gold: #8A6A24;
     --tri-label: #1A140A;
-    /* Carved dark-wood frame, dark in both themes; gild and relief shift below. */
-    --wood-hi: #5A4632;
-    --wood-mid: #382A1B;
-    --wood-lo: #241A10;
-    --wood-edge-light: #6E563A;
-    --wood-edge-dark: #140E08;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
     position: relative;
@@ -483,8 +433,8 @@
     padding: var(--space-12) var(--space-8) var(--space-24);
   }
 
-  /* Flip (black) theme, the primary look: bright yellow and warm white forms,
-     gilded gold frame and warm glows on a near-black field. */
+  /* Flip (black) theme, the primary look: bright yellow and warm white forms
+     and warm glows on pure black, with a fine gold gild edge. */
   :global([data-theme="flip"]) .triptych {
     --tri-ground-hi: #000000;
     --tri-ground-mid: #000000;
@@ -497,11 +447,6 @@
     --tri-deep: #2A2218;
     --tri-gold: #C9A24E;
     --tri-label: #F6ECC8;
-    --wood-hi: #4A3A28;
-    --wood-mid: #2E2318;
-    --wood-lo: #18120B;
-    --wood-edge-light: #6B5436;
-    --wood-edge-dark: #0E0A05;
   }
 
   /* One connected carved frame: equal-width panels butt together with no gap so
@@ -577,26 +522,22 @@
   }
 
   /* Scale the art in slightly so the whole scene sits inside the opening with a
-     margin, never touching the wood edge. */
+     margin, never touching the arch edge. */
   .panel__forms {
     transform-box: fill-box;
     transform-origin: center;
     transform: scale(0.95);
   }
 
-  /* First-visit turn-to-open. The carved frame plus painting is the front face;
-     a plain carved-wood back face (.panel__door) is the shut door, only shown
-     while the panel is turned away (backface-visibility). The script adds
-     data-turn before paint to rotate each panel closed, then releases it so they
-     turn open on their hinge one after another, left to right. */
+  /* First-visit turn-to-open. The painting is the front face; a plain black back
+     face (.panel__door) is the shut state, only shown while the panel is turned
+     away (backface-visibility). The script adds data-turn before paint to rotate
+     each panel closed, then releases it so they turn open on their hinge one
+     after another, left to right, each arch turning from black to its painting. */
   .panel__door {
     position: absolute;
     inset: 0;
-    background: linear-gradient(118deg, var(--wood-hi), var(--wood-mid) 55%, var(--wood-lo));
-    border: 1px solid var(--wood-edge-dark);
-    box-shadow:
-      inset 0 0 0 5px rgba(0, 0, 0, 0.16),
-      inset 0 0 26px rgba(0, 0, 0, 0.34);
+    background: #000000;
     backface-visibility: hidden;
     transform: rotateY(180deg);
   }
@@ -635,10 +576,8 @@
     opacity: 0.78;
   }
 
-  /* Narrow screens: the one-piece frame cannot carousel, so it resolves into a
-     swipeable carousel where each panel carries its own organic wood crown.
-     Restoring the gap separates the butt-joined posts back into per-panel
-     framed crowns, one panel mostly in view, swipe to move. */
+  /* Narrow screens: the panels become a swipeable carousel of painted arches,
+     one mostly in view, swipe to move. */
   @media (max-width: 720px) {
     .triptych__frame {
       overflow-x: auto;
@@ -692,8 +631,8 @@
 
     // Markup ships open, so reduced-motion users and return visits (flag set)
     // render fully open immediately with no turn. A first-ever visit turns open:
-    // set the shut state before paint to rotate each panel closed (the wood door
-    // facing out), release it on the next frame so they turn open on their hinge
+    // set the shut state before paint to rotate each panel closed (the plain
+    // black face out), release it on the next frame so they turn open on their hinge
     // one after another left to right, then set the flag when the last lands.
     if (!reduceMotion && !opened) {
       root.dataset.turn = "shut";
