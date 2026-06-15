@@ -425,7 +425,6 @@
     --tri-frame-lo: #2A2218;
     --tri-gold: #5A4416;
     --tri-label: #1A140A;
-    --tri-cap: rgba(214, 160, 4, 0.86);
 
     max-width: var(--page-width);
     margin: 0 auto;
@@ -449,7 +448,6 @@
     --tri-frame-lo: #7C5E22;
     --tri-gold: #C9A24E;
     --tri-label: #F6ECC8;
-    --tri-cap: rgba(13, 11, 7, 0.82);
   }
 
   .triptych__frame {
@@ -528,18 +526,15 @@
     opacity: 0.7;
   }
 
-  /* Captions sit in a protected band, clear of the art, with a soft radial
-     backing in the ground colour so no stroke crosses the glyphs. Outside
-     .panel__scene, so they stay full colour and legible in grisaille. */
+  /* Captions sit in a band the art is kept clear of (every stroke stops above
+     y250), so no backing is needed. Outside .panel__scene, so they stay full
+     colour and legible in grisaille. */
   .panel__caption {
     position: absolute;
     left: 12%;
     right: 12%;
     bottom: 8%;
     text-align: center;
-    padding: var(--space-3) var(--space-3) var(--space-2);
-    border-radius: 8px;
-    background: radial-gradient(115% 130% at 50% 48%, var(--tri-cap) 52%, transparent 100%);
   }
 
   .panel__name {

@@ -27,7 +27,7 @@ import Triptych from "../components/Triptych.astro";
   }
 
   .home__intro {
-    max-width: 52ch;
+    max-width: 100%;
   }
   .home__name {
     font-family: var(--font-display);
@@ -36,13 +36,15 @@ import Triptych from "../components/Triptych.astro";
     letter-spacing: -0.02em;
     line-height: 1;
   }
+  /* The lede holds one line on desktop. nowrap plus a font-size that shrinks
+     with viewport width keeps it from overflowing on smaller laptops. */
   .home__lede {
     margin-top: var(--space-2);
     margin-inline: auto;
-    max-width: 44ch;
     color: var(--color-muted);
-    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    font-size: clamp(0.72rem, 1.6vw, 1.05rem);
     line-height: 1.35;
+    white-space: nowrap;
   }
 
   /* The art dominates: cap its width by viewport height so the tall arches fill
@@ -62,6 +64,12 @@ import Triptych from "../components/Triptych.astro";
       min-height: calc(100svh - 5rem);
       justify-content: flex-start;
       padding-top: var(--space-8);
+    }
+    /* Below the carousel breakpoint let the lede wrap so it never overflows. */
+    .home__lede {
+      white-space: normal;
+      max-width: 44ch;
+      font-size: 0.95rem;
     }
   }
 </style>
