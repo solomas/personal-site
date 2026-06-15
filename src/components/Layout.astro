@@ -7,9 +7,10 @@ import Cursor from "./Cursor.astro";
 interface Props {
   title: string;
   description?: string;
+  hideNav?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research." } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research.", hideNav = false } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 <!doctype html>
@@ -37,12 +38,14 @@ const pathname = Astro.url.pathname;
     <header class="site-header">
       <div class="site-header__inner">
         <a href="/" class="site-header__name">Tomás van Gorp</a>
-        <nav class="site-header__nav" aria-label="Primary">
-          <a href="/projects/" class:list={["nav-link", { active: pathname.startsWith("/projects") }]}>Projects</a>
-          <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
-          <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
-          <a href="/contact/" class:list={["nav-link", { active: pathname.startsWith("/contact") }]}>Contact</a>
-        </nav>
+        {!hideNav && (
+          <nav class="site-header__nav" aria-label="Primary">
+            <a href="/projects/" class:list={["nav-link", { active: pathname.startsWith("/projects") }]}>Projects</a>
+            <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
+            <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
+            <a href="/contact/" class:list={["nav-link", { active: pathname.startsWith("/contact") }]}>Contact</a>
+          </nav>
+        )}
         <ThemeToggle />
       </div>
     </header>
@@ -54,6 +57,7 @@ const pathname = Astro.url.pathname;
     <footer class="site-footer">
       <div class="site-footer__inner">
         <span class="meta">Built in the open. Last updated {new Date().getFullYear()}.</span>
+        <a href="/contact/" class="site-footer__contact meta">Contact</a>
       </div>
     </footer>
 
@@ -133,6 +137,17 @@ const pathname = Astro.url.pathname;
       .site-footer__inner {
         max-width: var(--page-width);
         margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+      }
+      .site-footer__contact {
+        text-decoration: none;
+      }
+      .site-footer__contact:hover {
+        color: var(--color-accent);
       }
     </style>
   </body>
