@@ -1,19 +1,26 @@
 ---
-// Triptych altarpiece, painterly repaint.
+// Triptych altarpiece, painterly repaint with enriched detail.
 // Each panel is an abstract, surreal SVG painting, a loose three-part homage to
 // Bosch, not a copy. Painting techniques: radial gradients with off-centre light,
-// blurred atmosphere haze (feGaussianBlur), radial glow fields, a feTurbulence
+// blurred atmosphere haze (feGaussianBlur), radial glow fields, an feTurbulence
 // grain overlay for canvas tooth, organic hand-drawn paths and layered
-// translucent shapes.
+// translucent shapes. Forms are built from several overlapping passes (base fill,
+// shade gradient for volume, spark gradient for the light catch) so there is
+// light-to-shadow modelling. Only two filters per panel (soft blur, grain), the
+// rest is cheap gradient fills, so the page stays light. No animation.
+//
+// Captions sit in a protected band: the art stops above y 250 and each caption
+// has padding and a soft radial backing in the ground colour so no stroke
+// crosses the glyphs. The caption is outside .panel__scene, so it stays full
+// colour and legible in the grisaille closed state.
 //
 // Palette is keyed to the two site themes via the same data-theme mechanism
 // Layout uses. The flip (black) theme is the primary look: bright forms on a
 // near-black field, gilded gold frame, warm glows. The default (yellow) theme
-// inverts to dark forms and deep gold on a warm amber field, dark gilded frame.
+// inverts to dark forms and deep gold on a warm amber field.
 //
 // Structure, open-on-load grisaille, hover and tap expand, carousel and
-// reduced-motion handling are unchanged. Grisaille = desaturate .panel__scene,
-// the frame sits outside that group so it stays gold.
+// reduced-motion handling are unchanged.
 ---
 <section class="triptych" data-state="open" aria-label="Three streams of work">
   <div class="triptych__frame">
@@ -50,6 +57,16 @@
             <stop offset="0.5" stop-color="var(--tri-form)" />
             <stop offset="1" stop-color="var(--tri-deep)" />
           </radialGradient>
+          <radialGradient id="shade-r" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
+            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
+            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
+          </radialGradient>
+          <radialGradient id="spark-r" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.9" />
+            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
+            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
+          </radialGradient>
           <filter id="soft-r" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="9" />
           </filter>
@@ -70,8 +87,15 @@
               <path d="M54 132 C34 102 52 64 92 74 C132 84 146 126 112 150 C82 170 74 162 54 132 Z" fill="var(--tri-atmos)" opacity="0.5" />
               <circle cx="128" cy="92" r="30" fill="var(--tri-glow)" opacity="0.35" />
               <circle cx="78" cy="206" r="26" fill="var(--tri-atmos)" opacity="0.3" />
+              <ellipse cx="100" cy="150" rx="58" ry="40" fill="var(--tri-glow)" opacity="0.12" />
+            </g>
+            <g fill="var(--tri-form)" opacity="0.16">
+              <circle cx="40" cy="92" r="1.4" /><circle cx="160" cy="112" r="1.1" />
+              <circle cx="150" cy="172" r="1.3" /><circle cx="48" cy="180" r="1" />
+              <circle cx="120" cy="60" r="0.9" /><circle cx="80" cy="48" r="1.1" />
             </g>
             <ellipse cx="100" cy="156" rx="80" ry="66" fill="url(#glow-r)" />
+            <circle cx="100" cy="156" r="40" fill="none" stroke="var(--tri-form)" stroke-width="0.8" opacity="0.18" />
             <g stroke="var(--tri-form)" stroke-linecap="round" fill="none" opacity="0.8">
               <path d="M100 120 C99 104 101 92 100 78" stroke-width="2.4" />
               <path d="M74 126 C66 110 60 100 52 88" stroke-width="2" />
@@ -83,25 +107,56 @@
               <path d="M66 132 C56 120 50 114 42 104" stroke-width="1.5" />
               <path d="M134 132 C144 120 150 114 158 104" stroke-width="1.5" />
             </g>
+            <g fill="url(#orb-r)">
+              <circle cx="100" cy="76" r="2" /><circle cx="52" cy="86" r="1.6" /><circle cx="150" cy="86" r="1.6" />
+            </g>
             <circle cx="62" cy="74" r="7" fill="url(#orb-r)" />
             <circle cx="100" cy="56" r="9" fill="url(#orb-r)" />
             <circle cx="140" cy="76" r="6" fill="url(#orb-r)" />
+            <circle cx="62" cy="74" r="7" fill="url(#shade-r)" />
+            <circle cx="100" cy="56" r="9" fill="url(#shade-r)" />
+            <circle cx="140" cy="76" r="6" fill="url(#shade-r)" />
+            <circle cx="59" cy="71" r="1.6" fill="url(#spark-r)" />
+            <circle cx="96.5" cy="52.5" r="2" fill="url(#spark-r)" />
+            <circle cx="137" cy="73" r="1.4" fill="url(#spark-r)" />
+            <circle cx="120" cy="84" r="3" fill="url(#orb-r)" />
+            <circle cx="82" cy="86" r="2.4" fill="url(#orb-r)" />
             <path d="M50 156 C74 128 126 128 150 156 C126 184 74 184 50 156 Z" fill="url(#sclera-r)" stroke="var(--tri-form)" stroke-width="1.6" stroke-opacity="0.5" />
+            <path d="M50 156 C74 130 126 130 150 156 C126 150 74 150 50 156 Z" fill="var(--tri-deep)" opacity="0.18" />
             <circle cx="100" cy="156" r="20" fill="url(#iris-r)" />
+            <g stroke="var(--tri-deep)" stroke-width="0.6" opacity="0.3" stroke-linecap="round">
+              <path d="M100 156 L100 138" /><path d="M100 156 L116 148" /><path d="M100 156 L118 160" />
+              <path d="M100 156 L110 172" /><path d="M100 156 L90 172" /><path d="M100 156 L82 160" /><path d="M100 156 L84 148" />
+            </g>
+            <circle cx="100" cy="156" r="20" fill="url(#shade-r)" />
+            <circle cx="100" cy="156" r="20" fill="none" stroke="var(--tri-deep)" stroke-width="1.4" opacity="0.45" />
             <circle cx="100" cy="156" r="8.5" fill="var(--tri-deep)" />
+            <circle cx="100" cy="156" r="8.5" fill="none" stroke="var(--tri-form)" stroke-width="0.5" opacity="0.3" />
+            <circle cx="95.5" cy="151.5" r="4.5" fill="url(#spark-r)" opacity="0.7" />
             <circle cx="93" cy="149" r="3" fill="var(--tri-light)" />
+            <circle cx="106" cy="162" r="1.1" fill="var(--tri-light)" opacity="0.7" />
             <circle cx="108" cy="162" r="1.3" fill="var(--tri-form-soft)" />
             <circle cx="104" cy="150" r="1" fill="var(--tri-form-soft)" />
+            <circle cx="92" cy="162" r="0.9" fill="var(--tri-form-soft)" />
             <g stroke="var(--tri-form)" fill="none" stroke-linecap="round" opacity="0.85">
-              <path d="M100 182 C100 202 98 214 100 232" stroke-width="2.4" />
-              <path d="M100 200 C88 208 80 216 72 230" stroke-width="1.8" />
-              <path d="M100 200 C112 208 120 216 128 230" stroke-width="1.8" />
-              <path d="M100 216 C94 224 90 230 86 240" stroke-width="1.4" />
-              <path d="M100 216 C106 224 110 230 114 240" stroke-width="1.4" />
-              <path d="M72 230 C68 236 66 240 62 246" stroke-width="1.1" />
-              <path d="M128 230 C132 236 134 240 138 246" stroke-width="1.1" />
+              <path d="M100 182 C100 200 98 212 100 230" stroke-width="2.4" />
+              <path d="M100 200 C88 207 80 214 73 226" stroke-width="1.8" />
+              <path d="M100 200 C112 207 120 214 127 226" stroke-width="1.8" />
+              <path d="M100 214 C94 221 90 226 87 234" stroke-width="1.4" />
+              <path d="M100 214 C106 221 110 226 113 234" stroke-width="1.4" />
+              <path d="M73 226 C70 231 68 234 65 240" stroke-width="1" />
+              <path d="M127 226 C130 231 132 234 135 240" stroke-width="1" />
             </g>
-            <circle cx="100" cy="232" r="3.4" fill="url(#orb-r)" />
+            <g stroke="var(--tri-form)" fill="none" stroke-linecap="round" opacity="0.5">
+              <path d="M100 222 C96 226 94 230 93 236" stroke-width="0.7" />
+              <path d="M100 222 C104 226 106 230 107 236" stroke-width="0.7" />
+              <path d="M87 234 C85 237 84 240 83 243" stroke-width="0.6" />
+              <path d="M113 234 C115 237 116 240 117 243" stroke-width="0.6" />
+            </g>
+            <circle cx="100" cy="230" r="3.4" fill="url(#orb-r)" />
+            <circle cx="100" cy="230" r="3.4" fill="url(#shade-r)" />
+            <circle cx="85" cy="218" r="1.6" fill="url(#orb-r)" />
+            <circle cx="115" cy="218" r="1.6" fill="url(#orb-r)" />
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-r)" opacity="0.13" style="mix-blend-mode: overlay" />
           </g>
         </g>
@@ -140,6 +195,16 @@
             <stop offset="0.5" stop-color="var(--tri-form)" />
             <stop offset="1" stop-color="var(--tri-deep)" />
           </radialGradient>
+          <radialGradient id="shade-w" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
+            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
+            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
+          </radialGradient>
+          <radialGradient id="spark-w" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.95" />
+            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
+            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
+          </radialGradient>
           <filter id="soft-w" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="10" />
           </filter>
@@ -158,32 +223,67 @@
           <g clip-path="url(#clip-w)">
             <g filter="url(#soft-w)" opacity="0.6">
               <circle cx="100" cy="128" r="60" fill="var(--tri-glow)" opacity="0.4" />
-              <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.32" />
+              <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.3" />
+              <circle cx="150" cy="92" r="20" fill="var(--tri-glow)" opacity="0.18" />
+              <circle cx="50" cy="186" r="22" fill="var(--tri-atmos)" opacity="0.2" />
+            </g>
+            <g fill="var(--tri-form)" opacity="0.15">
+              <circle cx="36" cy="78" r="1.3" /><circle cx="166" cy="150" r="1.2" />
+              <circle cx="44" cy="150" r="1" /><circle cx="158" cy="74" r="1.1" /><circle cx="100" cy="40" r="1" />
             </g>
             <ellipse cx="100" cy="130" rx="92" ry="88" fill="url(#glow-w)" />
+            <g stroke="var(--tri-form)" stroke-linecap="round" opacity="0.16">
+              <path d="M134 128 L154 128" /><path d="M128 148 L144 160" /><path d="M110 160 L117 179" />
+              <path d="M90 160 L83 179" /><path d="M72 148 L56 160" /><path d="M66 128 L46 128" />
+              <path d="M72 108 L56 96" /><path d="M90 96 L83 77" /><path d="M110 96 L117 77" /><path d="M128 108 L144 96" />
+            </g>
             <g fill="none" stroke="var(--tri-form)">
-              <ellipse cx="100" cy="128" rx="44" ry="42" stroke-width="1.4" opacity="0.55" />
-              <ellipse cx="100" cy="128" rx="58" ry="55" stroke-width="1.1" opacity="0.38" />
-              <ellipse cx="100" cy="128" rx="72" ry="68" stroke-width="0.9" opacity="0.26" />
+              <ellipse cx="100" cy="128" rx="44" ry="42" stroke-width="1.4" opacity="0.5" />
+              <ellipse cx="100" cy="128" rx="58" ry="55" stroke-width="1.1" opacity="0.35" />
+              <ellipse cx="100" cy="128" rx="72" ry="68" stroke-width="0.9" opacity="0.24" />
             </g>
-            <circle cx="144" cy="120" r="5" fill="url(#orb-w)" />
-            <circle cx="58" cy="150" r="4" fill="url(#orb-w)" />
-            <circle cx="120" cy="68" r="3.6" fill="url(#orb-w)" />
-            <circle cx="92" cy="196" r="3" fill="url(#orb-w)" />
+            <g fill="url(#orb-w)">
+              <circle cx="144" cy="120" r="5" /><circle cx="58" cy="150" r="4" />
+              <circle cx="120" cy="68" r="3.6" /><circle cx="92" cy="196" r="3" />
+              <circle cx="156" cy="150" r="2.2" /><circle cx="46" cy="112" r="2" /><circle cx="128" cy="190" r="2" />
+            </g>
             <circle cx="100" cy="128" r="30" fill="url(#sun-w)" />
+            <g fill="var(--tri-deep)" opacity="0.12">
+              <circle cx="108" cy="136" r="5" /><circle cx="93" cy="132" r="3.5" /><circle cx="103" cy="120" r="3" />
+            </g>
+            <circle cx="94" cy="120" r="14" fill="url(#spark-w)" opacity="0.8" />
+            <circle cx="100" cy="128" r="30" fill="url(#shade-w)" />
             <path d="M78 112 A30 30 0 0 1 122 110" fill="none" stroke="var(--tri-light)" stroke-width="2" opacity="0.7" stroke-linecap="round" />
-            <path d="M36 268 Q100 238 164 268" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
+            <path d="M82 138 A30 30 0 0 0 118 140" fill="none" stroke="var(--tri-light)" stroke-width="0.8" opacity="0.3" stroke-linecap="round" />
+            <path d="M150 96 q4 -3 8 0" stroke="var(--tri-form)" stroke-width="0.8" fill="none" opacity="0.4" />
+            <path d="M158 96 q4 -3 8 0" stroke="var(--tri-form)" stroke-width="0.8" fill="none" opacity="0.4" />
+            <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
+            <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-light)" stroke-width="0.6" opacity="0.3" />
             <g>
-              <path d="M70 252 L72.5 238 L77.5 238 L80 252 Z" fill="var(--tri-form)" />
-              <circle cx="75" cy="234" r="4" fill="url(#orb-w)" />
+              <ellipse cx="75" cy="243" rx="7" ry="2" fill="var(--tri-deep)" opacity="0.3" />
+              <path d="M70.5 242 L73 228 L77 228 L79.5 242 Z" fill="var(--tri-form)" />
+              <path d="M70.5 242 L73 228 L75 228 L74 242 Z" fill="var(--tri-deep)" opacity="0.25" />
+              <circle cx="75" cy="224" r="4" fill="url(#orb-w)" />
+              <circle cx="75" cy="224" r="4" fill="url(#shade-w)" />
+              <circle cx="73.5" cy="222.5" r="1.4" fill="url(#spark-w)" />
             </g>
             <g>
-              <path d="M95 250 L97.5 234 L102.5 234 L105 250 Z" fill="var(--tri-form)" />
-              <circle cx="100" cy="230" r="4.4" fill="url(#orb-w)" />
+              <ellipse cx="100" cy="240" rx="8" ry="2.2" fill="var(--tri-deep)" opacity="0.3" />
+              <path d="M95 238 L97.5 222 L102.5 222 L105 238 Z" fill="var(--tri-form)" />
+              <path d="M95 238 L97.5 222 L100 222 L99 238 Z" fill="var(--tri-deep)" opacity="0.25" />
+              <circle cx="100" cy="218" r="4.4" fill="url(#orb-w)" />
+              <circle cx="100" cy="218" r="4.4" fill="url(#shade-w)" />
+              <circle cx="98.2" cy="216.2" r="1.5" fill="url(#spark-w)" />
+              <circle cx="100" cy="204" r="2.2" fill="url(#orb-w)" />
+              <circle cx="100" cy="204" r="3.6" fill="url(#spark-w)" opacity="0.6" />
             </g>
             <g>
-              <path d="M120 252 L122.5 238 L127.5 238 L130 252 Z" fill="var(--tri-form)" />
-              <circle cx="125" cy="234" r="4" fill="url(#orb-w)" />
+              <ellipse cx="125" cy="243" rx="7" ry="2" fill="var(--tri-deep)" opacity="0.3" />
+              <path d="M120.5 242 L123 228 L127 228 L129.5 242 Z" fill="var(--tri-form)" />
+              <path d="M120.5 242 L123 228 L125 228 L124 242 Z" fill="var(--tri-deep)" opacity="0.25" />
+              <circle cx="125" cy="224" r="4" fill="url(#orb-w)" />
+              <circle cx="125" cy="224" r="4" fill="url(#shade-w)" />
+              <circle cx="123.5" cy="222.5" r="1.4" fill="url(#spark-w)" />
             </g>
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-w)" opacity="0.13" style="mix-blend-mode: overlay" />
           </g>
@@ -218,6 +318,16 @@
             <stop offset="0.5" stop-color="var(--tri-form)" />
             <stop offset="1" stop-color="var(--tri-deep)" />
           </radialGradient>
+          <radialGradient id="shade-p" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
+            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
+            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
+          </radialGradient>
+          <radialGradient id="spark-p" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.9" />
+            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
+            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
+          </radialGradient>
           <filter id="soft-p" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="9" />
           </filter>
@@ -236,23 +346,53 @@
           <g clip-path="url(#clip-p)">
             <g filter="url(#soft-p)" opacity="0.6">
               <circle cx="52" cy="98" r="30" fill="var(--tri-glow)" opacity="0.3" />
-              <path d="M96 250 C70 244 58 214 70 188 C84 158 120 162 128 196 C135 226 122 256 96 250 Z" fill="var(--tri-atmos)" opacity="0.32" />
+              <path d="M96 250 C70 244 58 214 70 188 C84 158 120 162 128 196 C135 226 122 256 96 250 Z" fill="var(--tri-atmos)" opacity="0.3" />
+              <path d="M150 250 L150 190 L156 250 Z" fill="var(--tri-atmos)" opacity="0.25" />
+              <path d="M44 250 L44 200 L50 250 Z" fill="var(--tri-atmos)" opacity="0.22" />
             </g>
-            <ellipse cx="100" cy="206" rx="74" ry="84" fill="url(#glow-p)" />
+            <g fill="var(--tri-form)" opacity="0.15">
+              <circle cx="36" cy="120" r="1.2" /><circle cx="168" cy="150" r="1.1" />
+              <circle cx="150" cy="96" r="1" /><circle cx="60" cy="200" r="1" /><circle cx="116" cy="70" r="0.9" />
+            </g>
+            <ellipse cx="100" cy="200" rx="74" ry="84" fill="url(#glow-p)" />
+            <ellipse cx="46" cy="100" rx="34" ry="36" fill="url(#glow-p)" opacity="0.7" />
             <path d="M50 70 A30 30 0 1 0 50 130 A26 26 0 1 1 50 70 Z" fill="url(#orb-p)" opacity="0.9" />
+            <path d="M50 70 A30 30 0 1 0 50 130 A26 26 0 1 1 50 70 Z" fill="url(#shade-p)" opacity="0.6" />
+            <circle cx="40" cy="74" r="1.4" fill="url(#spark-p)" />
+            <g fill="var(--tri-form-soft)" opacity="0.7">
+              <circle cx="74" cy="86" r="1" /><circle cx="66" cy="120" r="0.9" /><circle cx="84" cy="104" r="0.8" />
+            </g>
             <circle cx="146" cy="120" r="6" fill="url(#orb-p)" />
             <circle cx="120" cy="92" r="4" fill="url(#orb-p)" />
             <circle cx="64" cy="158" r="3.6" fill="url(#orb-p)" />
-            <path d="M34 272 Q100 248 166 272" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
-            <path d="M94 256 L100 150 L106 256 Z" fill="var(--tri-form)" opacity="0.92" />
-            <path d="M100 150 L105 252" stroke="var(--tri-light)" stroke-width="1.2" opacity="0.6" fill="none" />
-            <path d="M72 258 C70 226 74 208 72 186" stroke="var(--tri-form)" stroke-width="3" fill="none" stroke-linecap="round" />
-            <path d="M128 258 C130 226 126 212 128 192" stroke="var(--tri-form)" stroke-width="3" fill="none" stroke-linecap="round" />
+            <circle cx="146" cy="120" r="6" fill="url(#shade-p)" />
+            <circle cx="120" cy="92" r="4" fill="url(#shade-p)" />
+            <circle cx="143" cy="117" r="1.6" fill="url(#spark-p)" />
+            <circle cx="155" cy="146" r="2" fill="url(#orb-p)" />
+            <circle cx="108" cy="110" r="1.8" fill="url(#orb-p)" />
+            <path d="M40 250 Q100 230 160 250" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
+            <path d="M40 250 Q100 230 160 250" fill="none" stroke="var(--tri-light)" stroke-width="0.6" opacity="0.3" />
+            <path d="M94 248 L100 150 L106 248 Z" fill="var(--tri-form)" opacity="0.92" />
+            <path d="M100 150 L106 248 L100 248 Z" fill="var(--tri-deep)" opacity="0.25" />
+            <path d="M100 150 L94 248" stroke="var(--tri-light)" stroke-width="1.2" opacity="0.6" fill="none" />
+            <circle cx="100" cy="150" r="3.4" fill="url(#orb-p)" />
+            <circle cx="100" cy="148" r="5" fill="url(#spark-p)" opacity="0.8" />
+            <path d="M72 248 C70 226 74 208 72 186" stroke="var(--tri-form)" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.3" />
+            <path d="M72 248 C70 226 74 208 72 186" stroke="var(--tri-form)" stroke-width="2.4" fill="none" stroke-linecap="round" />
+            <path d="M128 248 C130 226 126 212 128 192" stroke="var(--tri-form)" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.3" />
+            <path d="M128 248 C130 226 126 212 128 192" stroke="var(--tri-form)" stroke-width="2.4" fill="none" stroke-linecap="round" />
+            <path d="M72 190 C66 184 64 180 68 176 C71 173 74 175 73 178" stroke="var(--tri-form)" stroke-width="1.2" fill="none" opacity="0.7" stroke-linecap="round" />
+            <path d="M128 196 C134 190 136 186 132 182 C129 179 126 181 127 184" stroke="var(--tri-form)" stroke-width="1.2" fill="none" opacity="0.7" stroke-linecap="round" />
             <path d="M72 216 C60 212 54 202 56 194 C66 198 74 206 72 216 Z" fill="url(#orb-p)" opacity="0.85" />
+            <path d="M64 204 L70 212" stroke="var(--tri-deep)" stroke-width="0.5" opacity="0.4" />
             <path d="M128 222 C140 218 146 208 144 200 C134 204 126 212 128 222 Z" fill="url(#orb-p)" opacity="0.85" />
+            <path d="M136 210 L130 218" stroke="var(--tri-deep)" stroke-width="0.5" opacity="0.4" />
+            <path d="M100 226 C92 222 88 214 90 208 C97 211 102 218 100 226 Z" fill="url(#orb-p)" opacity="0.7" />
             <path d="M65 186 L65 174 L68 174 L68 170 L71 170 L71 174 L73 174 L73 170 L76 170 L76 174 L79 174 L79 186 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
+            <rect x="69" y="178" width="2" height="5" fill="var(--tri-deep)" opacity="0.5" />
             <path d="M121 192 L121 180 L124 180 L124 176 L127 176 L127 180 L129 180 L129 176 L132 176 L132 180 L135 180 L135 192 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
-            <circle cx="100" cy="146" r="4" fill="url(#orb-p)" />
+            <rect x="126" y="184" width="2" height="5" fill="var(--tri-deep)" opacity="0.5" />
+            <path d="M73 170 L73 164 L78 167 Z" fill="url(#orb-p)" opacity="0.8" />
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-p)" opacity="0.13" style="mix-blend-mode: overlay" />
           </g>
         </g>
@@ -285,6 +425,7 @@
     --tri-frame-lo: #2A2218;
     --tri-gold: #5A4416;
     --tri-label: #1A140A;
+    --tri-cap: rgba(214, 160, 4, 0.86);
 
     max-width: var(--page-width);
     margin: 0 auto;
@@ -308,6 +449,7 @@
     --tri-frame-lo: #7C5E22;
     --tri-gold: #C9A24E;
     --tri-label: #F6ECC8;
+    --tri-cap: rgba(13, 11, 7, 0.82);
   }
 
   .triptych__frame {
@@ -385,12 +527,18 @@
     opacity: 0.7;
   }
 
+  /* Captions sit in a protected band, clear of the art, with a soft radial
+     backing in the ground colour so no stroke crosses the glyphs. Outside
+     .panel__scene, so they stay full colour and legible in grisaille. */
   .panel__caption {
     position: absolute;
-    left: 9%;
-    right: 9%;
-    bottom: 7%;
+    left: 12%;
+    right: 12%;
+    bottom: 8%;
     text-align: center;
+    padding: var(--space-3) var(--space-3) var(--space-2);
+    border-radius: 8px;
+    background: radial-gradient(115% 130% at 50% 48%, var(--tri-cap) 52%, transparent 100%);
   }
 
   .panel__name {
