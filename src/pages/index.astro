@@ -35,8 +35,12 @@ import Triptych from "../components/Triptych.astro";
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1;
-    /* Site accent: warm yellow on the black theme, the gold of the palette. */
+    /* Yellow theme: black via the accent token, readable on the amber page. */
     color: var(--color-accent);
+  }
+  /* Flip (black) theme: white reads cleaner on pure black than the gold accent. */
+  :global([data-theme="flip"]) .home__name {
+    color: #ffffff;
   }
   /* The lede holds one line on desktop. nowrap plus a font-size that shrinks
      with viewport width keeps it from overflowing on smaller laptops. */
