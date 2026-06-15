@@ -1,6 +1,6 @@
 # State index
 
-Last updated: 2026-05-15
+Last updated: 2026-06-15
 
 Session conventions and the close-out protocol live in `./CLAUDE.md`.
 
@@ -10,7 +10,7 @@ Workstream state docs live in `docs/state/`. Each covers one workstream and reco
 |---|---|---|
 | [content.md](docs/state/content.md) | Content entries and field rendering | metadata line on research/projects details, unrendered schema fields, PhD diagram embed |
 | [polish.md](docs/state/polish.md) | Launch-readiness polish | 404 page, OG image, mobile responsive check, paragraph spacing confirm |
-| [css.md](docs/state/css.md) | Templates and CSS | Astro scoped CSS cid-attribute audit |
+| [css.md](docs/state/css.md) | Templates and CSS | triptych intro built (fixed-palette exception, do not retheme), Astro scoped CSS cid-attribute audit |
 | [optional-features.md](docs/state/optional-features.md) | Speculative features pending decision | about page, tag filtering, site search, education/publications placement |
 
 ## How to maintain
