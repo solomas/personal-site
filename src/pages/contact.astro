@@ -59,8 +59,29 @@ import SectionLabel from "../components/SectionLabel.astro";
     letter-spacing: 0.02em;
     color: var(--color-muted);
     text-decoration: none;
+    display: inline-block;
+    /* Load reveal with a light per-item stagger, backwards fill so the hover
+       transform is never blocked by a finished animation. */
+    animation: riseIn 340ms var(--ease-out) backwards;
+    transition: transform 180ms var(--ease-out), color var(--transition);
   }
+  /* Restrained arch echo: a small lift and a gilt underline. */
   .contact-link:hover {
     color: var(--color-accent);
+    transform: translateY(-2px);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+  .contact-list li:nth-child(1) .contact-link { animation-delay: 60ms; }
+  .contact-list li:nth-child(2) .contact-link { animation-delay: 120ms; }
+  .contact-list li:nth-child(3) .contact-link { animation-delay: 180ms; }
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact-link { animation: none; }
+    .contact-link:hover { transform: none; }
   }
 </style>

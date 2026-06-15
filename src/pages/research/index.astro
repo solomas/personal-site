@@ -72,16 +72,39 @@ entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     grid-template-columns: 140px 1fr;
     column-gap: var(--space-8);
     row-gap: var(--space-2);
-    padding: var(--space-8) 0;
+    /* Reserve left padding (bar width plus a gap) so the gilt hover bar sits
+       clear of the text and toggling it causes no layout shift. */
+    padding: var(--space-8) 0 var(--space-8) var(--space-4);
     border-top: 1px solid var(--color-border);
     text-decoration: none;
-    transition: padding-left var(--transition), color var(--transition);
+    /* Load reveal: rise and fade in with a light per-item stagger. backwards
+       fill hides the row during its delay then hands back to the base styles,
+       so the hover transform below is never blocked by a finished animation. */
+    animation: riseIn 340ms var(--ease-out) backwards;
+    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out), color var(--transition);
   }
+  /* Restrained echo of the arch hover: a lift and a gilt left edge drawn in the
+     reserved left padding, so it never overlaps the text. */
   .entry-link:hover {
-    padding-left: var(--space-4);
+    transform: translateY(-4px);
+    box-shadow: inset 3px 0 0 var(--color-accent);
   }
   .entry-link:hover .entry-link__title {
     color: var(--color-accent);
+  }
+  .entry-list li:nth-child(1) .entry-link { animation-delay: 40ms; }
+  .entry-list li:nth-child(2) .entry-link { animation-delay: 80ms; }
+  .entry-list li:nth-child(3) .entry-link { animation-delay: 120ms; }
+  .entry-list li:nth-child(4) .entry-link { animation-delay: 160ms; }
+  .entry-list li:nth-child(5) .entry-link { animation-delay: 200ms; }
+  .entry-list li:nth-child(n+6) .entry-link { animation-delay: 240ms; }
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .entry-link { animation: none; }
+    .entry-link:hover { transform: none; }
   }
   .entry-link__date {
     grid-column: 1;

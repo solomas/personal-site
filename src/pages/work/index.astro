@@ -106,13 +106,28 @@ const archived = all
     grid-template-columns: 140px 1fr;
     column-gap: var(--space-8);
     row-gap: var(--space-2);
-    padding: var(--space-8) 0;
+    /* Reserve left padding (bar width plus a gap) so the gilt hover bar sits
+       clear of the text and toggling it causes no layout shift. */
+    padding: var(--space-8) 0 var(--space-8) var(--space-4);
     border-top: 1px solid var(--color-border);
     text-decoration: none;
-    transition: padding-left var(--transition), color var(--transition);
+    /* Load reveal with a light per-item stagger, backwards fill so the hover
+       transform is never blocked by a finished animation. */
+    animation: riseIn 340ms var(--ease-out) backwards;
+    transition: color var(--transition);
   }
   .entry-link:hover .entry-link__title {
     color: var(--color-accent);
+  }
+  .entry-list li:nth-child(1) .entry-link { animation-delay: 40ms; }
+  .entry-list li:nth-child(2) .entry-link { animation-delay: 80ms; }
+  .entry-list li:nth-child(3) .entry-link { animation-delay: 120ms; }
+  .entry-list li:nth-child(4) .entry-link { animation-delay: 160ms; }
+  .entry-list li:nth-child(5) .entry-link { animation-delay: 200ms; }
+  .entry-list li:nth-child(n+6) .entry-link { animation-delay: 240ms; }
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   .entry-link__date {
     grid-column: 1;
@@ -135,7 +150,7 @@ const archived = all
 
   /* Live entry hover effects */
   .work-card {
-    transition: transform 200ms ease;
+    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
     transform-origin: center;
   }
   .work-card .work-card-title {
@@ -146,8 +161,11 @@ const archived = all
     transition: opacity 200ms ease;
     opacity: 0.85;
   }
+  /* Restrained arch echo: a lift and a gilt left edge drawn in the reserved
+     left padding, so it never overlaps the text. */
   .work-card:hover {
-    transform: scale(1.015);
+    transform: translateY(-4px);
+    box-shadow: inset 3px 0 0 var(--color-accent);
   }
   .work-card:hover .work-card-title {
     transform: translateX(4px);
@@ -244,6 +262,9 @@ const archived = all
     text-decoration: none;
     color: inherit;
     font-size: 0.9rem;
+    /* Reserve left padding so the gilt hover bar clears the text, no shift. */
+    padding-left: var(--space-4);
+    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
   }
   .archived-card .work-card-date {
     font-family: var(--font-mono);
@@ -264,7 +285,8 @@ const archived = all
     margin-top: 0.25rem;
   }
   .archived-card:hover {
-    transform: none;
+    transform: translateY(-2px);
+    box-shadow: inset 3px 0 0 var(--color-accent);
   }
   .archived-card:hover .work-card-title {
     transform: translateX(2px);
@@ -274,6 +296,12 @@ const archived = all
   @media (max-width: 600px) {
     .entry-link { grid-template-columns: 1fr; }
     .entry-link__date { grid-row: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry-link { animation: none; }
+    .work-card:hover,
+    .archived-card:hover { transform: none; }
   }
 </style>
 
