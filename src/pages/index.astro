@@ -21,8 +21,8 @@ import Triptych from "../components/Triptych.astro";
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-6);
-    padding: var(--space-6) var(--space-6) var(--space-12);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4) var(--space-4);
     text-align: center;
   }
 
@@ -31,7 +31,7 @@ import Triptych from "../components/Triptych.astro";
   }
   .home__name {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1;
@@ -39,18 +39,20 @@ import Triptych from "../components/Triptych.astro";
   .home__lede {
     margin-top: var(--space-2);
     margin-inline: auto;
-    max-width: 46ch;
+    max-width: 44ch;
     color: var(--color-muted);
-    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-    line-height: 1.4;
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    line-height: 1.35;
   }
 
-  /* Cap the art by viewport height so the tall arches never overflow on short
-     laptop screens. Width still wins on narrow screens, where the panels are
-     the carousel. Drop the component's own vertical padding here so the height
-     budget is spent on the art. */
+  /* The art dominates: cap its width by viewport height so the tall arches fill
+     close to the full screen yet never clip or force scroll. Frame height is
+     roughly 0.67x its width, so this budget keeps the whole frame (gilded edge
+     included) on screen. Width still wins on narrow screens, where the panels
+     are the carousel. Drop the component's own vertical padding here so the
+     height budget is spent on the art. */
   .home :global(.triptych) {
-    width: min(100%, var(--page-width), 92vh);
+    width: min(100%, var(--page-width), calc(149svh - 380px));
     padding-top: 0;
     padding-bottom: 0;
   }

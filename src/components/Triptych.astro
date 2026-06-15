@@ -468,10 +468,11 @@
     min-width: 0;
     text-decoration: none;
     transform-origin: center center;
-    /* Expand is a flex-grow change, the open swing is a transform.
-       The swing is slow and weighty so the open reads as deliberate. */
+    /* Expand is a flex-grow change, the open swing is a transform. Every panel
+       shares this timing, so the growing panel and its shrinking neighbours ease
+       as one cinematic motion and crossing between panels glides, not snaps. */
     transition:
-      flex-grow 460ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      flex-grow 720ms cubic-bezier(0.22, 1, 0.36, 1),
       transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
       opacity 1000ms ease;
   }
@@ -575,7 +576,7 @@
       scroll-padding: var(--space-4);
     }
     .panel {
-      flex: 0 0 80%;
+      flex: 0 0 86%;
       scroll-snap-align: center;
     }
     .panel--centre { flex-grow: 0; }
