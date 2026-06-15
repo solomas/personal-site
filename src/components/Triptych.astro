@@ -9,18 +9,23 @@
 // light-to-shadow modelling. Only two filters per panel (soft blur, grain), the
 // rest is cheap gradient fills, so the page stays light. No animation.
 //
-// Captions sit in a protected band: the art stops above y 250 and each caption
-// has padding and a soft radial backing in the ground colour so no stroke
-// crosses the glyphs. The caption is outside .panel__scene, so it stays full
-// colour and legible in the grisaille closed state.
+// The frame is one connected carved dark-wood altarpiece: equal-width panels
+// butt together (gap 0) so half-posts merge into shared posts, base bands form
+// one continuous base and the shaped tops flow into one cresting silhouette.
+// Each panel's painted scene is clipped to its organic ogee/foliate opening
+// (open-r/w/p), and that same path cuts the wood and carries the gild edge, so
+// frame and art never mismatch. Sparing gilding: a fine gold inner edge, a base
+// line and a crown fleuron; wood dominates. Below 720px the one-piece frame
+// resolves into the swipeable carousel where each panel shows its own crown.
 //
-// Palette is keyed to the two site themes via the same data-theme mechanism
-// Layout uses. The flip (black) theme is the primary look: bright forms on a
-// near-black field, gilded gold frame, warm glows. The default (yellow) theme
-// inverts to dark forms and deep gold on a warm amber field.
+// Hover/focus/tap emphasis is in place (the fixed frame cannot flex): the
+// focused painting (.panel__lift) lifts and brightens while the others dim, all
+// on one shared ease. First-visit paint-into-being and the localStorage flag
+// are kept; the carved frame is the first paint-in layer.
 //
-// Structure, open-on-load grisaille, hover and tap expand, carousel and
-// reduced-motion handling are unchanged.
+// Palette is keyed to the two site themes via the data-theme mechanism Layout
+// uses. The flip (black) theme is the primary look. Wood stays dark in both;
+// the gild and relief lines shift so they read against each base.
 ---
 <section class="triptych" aria-label="Three streams of work">
   <div class="triptych__frame">
@@ -28,10 +33,10 @@
     <a href="/research/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Research panel" focusable="false">
         <defs>
-          <linearGradient id="frame-r" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="var(--tri-frame-hi)" />
-            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
-            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          <linearGradient id="wood-r" x1="0" y1="0" x2="0.35" y2="1">
+            <stop offset="0" stop-color="var(--wood-hi)" />
+            <stop offset="0.5" stop-color="var(--wood-mid)" />
+            <stop offset="1" stop-color="var(--wood-lo)" />
           </linearGradient>
           <radialGradient id="ground-r" cx="0.5" cy="0.42" r="0.78">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
@@ -75,14 +80,17 @@
             <feColorMatrix in="n" type="saturate" values="0" result="g" />
             <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
           </filter>
-          <clipPath id="clip-r">
-            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          </clipPath>
+          <path id="open-r" d="M18 312 L18 158 C18 110 64 70 104 46 C144 70 190 110 190 158 L190 312 Z" />
+          <clipPath id="clip-r"><use href="#open-r" /></clipPath>
         </defs>
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-r)" />
-        <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-r)" />
-          <g class="panel__forms" clip-path="url(#clip-r)">
+        <g class="panel__woodframe">
+          <path class="panel__framepath" d="M0 26 C50 20 130 16 200 18 L200 340 L0 340 Z" fill="url(#wood-r)" stroke="var(--wood-edge-dark)" stroke-width="1" />
+          <use href="#open-r" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
+        </g>
+        <g class="panel__opening" clip-path="url(#clip-r)">
+          <g class="panel__lift">
+            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-r)" />
+            <g class="panel__forms">
             <g filter="url(#soft-r)" opacity="0.6">
               <path d="M54 132 C34 102 52 64 92 74 C132 84 146 126 112 150 C82 170 74 162 54 132 Z" fill="var(--tri-atmos)" opacity="0.5" />
               <circle cx="128" cy="92" r="30" fill="var(--tri-glow)" opacity="0.35" />
@@ -158,7 +166,16 @@
             <circle cx="85" cy="218" r="1.6" fill="url(#orb-r)" />
             <circle cx="115" cy="218" r="1.6" fill="url(#orb-r)" />
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-r)" opacity="0.13" style="mix-blend-mode: overlay" />
+            </g>
           </g>
+          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
+          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
+        </g>
+        <g class="panel__gild">
+          <use href="#open-r" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
+          <path d="M18 312 L190 312" stroke="var(--tri-gold)" stroke-width="0.8" opacity="0.6" fill="none" />
+          <path d="M104 39 l4 7 -4 6 -4 -6 Z" fill="var(--tri-gold)" opacity="0.85" />
+          <path d="M86 60 C92 52 98 50 104 50 C110 50 116 52 122 60" fill="none" stroke="var(--wood-edge-light)" stroke-width="0.9" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -170,10 +187,10 @@
     <a href="/work/" class="panel panel--centre">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Work panel" focusable="false">
         <defs>
-          <linearGradient id="frame-w" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="var(--tri-frame-hi)" />
-            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
-            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          <linearGradient id="wood-w" x1="0" y1="0" x2="0.35" y2="1">
+            <stop offset="0" stop-color="var(--wood-hi)" />
+            <stop offset="0.5" stop-color="var(--wood-mid)" />
+            <stop offset="1" stop-color="var(--wood-lo)" />
           </linearGradient>
           <radialGradient id="ground-w" cx="0.5" cy="0.36" r="0.8">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
@@ -213,14 +230,17 @@
             <feColorMatrix in="n" type="saturate" values="0" result="g" />
             <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
           </filter>
-          <clipPath id="clip-w">
-            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          </clipPath>
+          <path id="open-w" d="M10 312 L10 156 C10 100 56 56 100 22 C144 56 190 100 190 156 L190 312 Z" />
+          <clipPath id="clip-w"><use href="#open-w" /></clipPath>
         </defs>
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-w)" />
-        <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-w)" />
-          <g class="panel__forms" clip-path="url(#clip-w)">
+        <g class="panel__woodframe">
+          <path class="panel__framepath" d="M0 18 C36 6 70 2 100 2 C130 2 164 6 200 18 L200 340 L0 340 Z" fill="url(#wood-w)" stroke="var(--wood-edge-dark)" stroke-width="1" />
+          <use href="#open-w" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
+        </g>
+        <g class="panel__opening" clip-path="url(#clip-w)">
+          <g class="panel__lift">
+            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-w)" />
+            <g class="panel__forms">
             <g filter="url(#soft-w)" opacity="0.6">
               <circle cx="100" cy="128" r="60" fill="var(--tri-glow)" opacity="0.4" />
               <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.3" />
@@ -286,7 +306,17 @@
               <circle cx="123.5" cy="222.5" r="1.4" fill="url(#spark-w)" />
             </g>
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-w)" opacity="0.13" style="mix-blend-mode: overlay" />
+            </g>
           </g>
+          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
+          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
+        </g>
+        <g class="panel__gild">
+          <use href="#open-w" fill="none" stroke="var(--tri-gold)" stroke-width="1.1" opacity="0.9" />
+          <path d="M10 312 L190 312" stroke="var(--tri-gold)" stroke-width="0.9" opacity="0.6" fill="none" />
+          <path d="M100 11 l5 9 -5 8 -5 -8 Z" fill="var(--tri-gold)" opacity="0.9" />
+          <path d="M74 40 C84 28 92 26 100 26 C108 26 116 28 126 40" fill="none" stroke="var(--wood-edge-light)" stroke-width="1" opacity="0.55" />
+          <path d="M82 34 C88 30 94 30 100 32" fill="none" stroke="var(--tri-gold)" stroke-width="0.7" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -298,10 +328,10 @@
     <a href="/projects/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Projects panel" focusable="false">
         <defs>
-          <linearGradient id="frame-p" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="var(--tri-frame-hi)" />
-            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
-            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          <linearGradient id="wood-p" x1="0" y1="0" x2="0.35" y2="1">
+            <stop offset="0" stop-color="var(--wood-hi)" />
+            <stop offset="0.5" stop-color="var(--wood-mid)" />
+            <stop offset="1" stop-color="var(--wood-lo)" />
           </linearGradient>
           <radialGradient id="ground-p" cx="0.5" cy="0.46" r="0.78">
             <stop offset="0" stop-color="var(--tri-ground-hi)" />
@@ -336,14 +366,17 @@
             <feColorMatrix in="n" type="saturate" values="0" result="g" />
             <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
           </filter>
-          <clipPath id="clip-p">
-            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          </clipPath>
+          <path id="open-p" d="M10 312 L10 158 C10 110 56 70 96 46 C136 70 182 110 182 158 L182 312 Z" />
+          <clipPath id="clip-p"><use href="#open-p" /></clipPath>
         </defs>
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-p)" />
-        <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-p)" />
-          <g class="panel__forms" clip-path="url(#clip-p)">
+        <g class="panel__woodframe">
+          <path class="panel__framepath" d="M0 18 C70 16 150 20 200 26 L200 340 L0 340 Z" fill="url(#wood-p)" stroke="var(--wood-edge-dark)" stroke-width="1" />
+          <use href="#open-p" fill="none" stroke="var(--wood-edge-light)" stroke-width="2.6" opacity="0.6" />
+        </g>
+        <g class="panel__opening" clip-path="url(#clip-p)">
+          <g class="panel__lift">
+            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-p)" />
+            <g class="panel__forms">
             <g filter="url(#soft-p)" opacity="0.6">
               <circle cx="52" cy="98" r="30" fill="var(--tri-glow)" opacity="0.3" />
               <path d="M96 222 C70 216 58 196 70 176 C84 152 120 156 128 188 C134 210 120 228 96 222 Z" fill="var(--tri-atmos)" opacity="0.3" />
@@ -394,7 +427,16 @@
             <rect x="126" y="184" width="2" height="5" fill="var(--tri-deep)" opacity="0.5" />
             <path d="M73 170 L73 164 L78 167 Z" fill="url(#orb-p)" opacity="0.8" />
             <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-p)" opacity="0.13" style="mix-blend-mode: overlay" />
+            </g>
           </g>
+          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
+          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
+        </g>
+        <g class="panel__gild">
+          <use href="#open-p" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
+          <path d="M10 312 L182 312" stroke="var(--tri-gold)" stroke-width="0.8" opacity="0.6" fill="none" />
+          <path d="M96 39 l4 7 -4 6 -4 -6 Z" fill="var(--tri-gold)" opacity="0.85" />
+          <path d="M78 60 C84 52 90 50 96 50 C102 50 108 52 114 60" fill="none" stroke="var(--wood-edge-light)" stroke-width="0.9" opacity="0.5" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -420,11 +462,14 @@
     --tri-form-soft: #3A2C12;
     --tri-light: #B8862E;
     --tri-deep: #0B0905;
-    --tri-frame-hi: #8A6A24;
-    --tri-frame-mid: #5A4416;
-    --tri-frame-lo: #2A2218;
-    --tri-gold: #5A4416;
+    --tri-gold: #8A6A24;
     --tri-label: #1A140A;
+    /* Carved dark-wood frame, dark in both themes; gild and relief shift below. */
+    --wood-hi: #5A4632;
+    --wood-mid: #382A1B;
+    --wood-lo: #241A10;
+    --wood-edge-light: #6E563A;
+    --wood-edge-dark: #140E08;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
     position: relative;
@@ -445,20 +490,22 @@
     --tri-form-soft: #F6ECC8;
     --tri-light: #FFF7DC;
     --tri-deep: #2A2218;
-    --tri-frame-hi: #F2D98A;
-    --tri-frame-mid: #C9A24E;
-    --tri-frame-lo: #7C5E22;
     --tri-gold: #C9A24E;
     --tri-label: #F6ECC8;
+    --wood-hi: #4A3A28;
+    --wood-mid: #2E2318;
+    --wood-lo: #18120B;
+    --wood-edge-light: #6B5436;
+    --wood-edge-dark: #0E0A05;
   }
 
+  /* One connected carved frame: equal-width panels butt together with no gap so
+     the half-posts on shared edges merge into shared posts, the base bands form
+     one continuous base and the shaped tops flow into one cresting silhouette. */
   .triptych__frame {
-    border: 2px solid var(--tri-gold);
-    padding: clamp(var(--space-4), 3vw, var(--space-12));
     display: flex;
     align-items: flex-end;
-    gap: clamp(var(--space-2), 1.5vw, var(--space-6));
-    perspective: 1800px;
+    gap: 0;
   }
 
   .panel {
@@ -469,28 +516,44 @@
     text-decoration: none;
     /* Per-panel offset for the first-visit paint-in, a left-to-right sweep. */
     --p-delay: 0ms;
-    /* Expand is a flex-grow change. Every panel shares this timing, so the
-       growing panel and its shrinking neighbours ease as one cinematic motion
-       and crossing between panels glides, not snaps. */
-    transition: flex-grow 720ms var(--ease);
   }
   .panel:nth-child(2) { --p-delay: 110ms; }
   .panel:nth-child(3) { --p-delay: 220ms; }
-  .panel--centre { flex-grow: 1.3; }
 
-  /* Expand on pointer hover, neighbours shrink naturally. */
-  @media (hover: hover) {
-    .panel:hover { flex-grow: 2.4; }
-  }
-  /* Keyboard focus expands too, regardless of pointer type, and shows a clear
-     ring. Expand is purely visual, so focus is never trapped. */
   .panel:focus-visible {
-    flex-grow: 2.4;
     outline: 3px solid var(--tri-gold);
-    outline-offset: 5px;
+    outline-offset: 4px;
+    border-radius: 2px;
   }
-  /* Touch expand, driven by the script toggling .is-active. */
-  .panel.is-active { flex-grow: 2.4; }
+
+  /* In-place hover emphasis. The one-piece frame is fixed, so panels never
+     resize. The focused painting (.panel__lift) lifts and a soft-light veil
+     brightens it, while the other two take a dark veil. All share one 720ms
+     ease so the whole piece settles as one motion with no jitter between panels. */
+  .panel__lift {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 720ms var(--ease);
+  }
+  .panel__veil {
+    transition: opacity 720ms var(--ease);
+    pointer-events: none;
+  }
+  .panel:hover .panel__lift,
+  .panel:focus-visible .panel__lift,
+  .panel.is-active .panel__lift {
+    transform: translateY(-9px) scale(1.025);
+  }
+  .panel:hover .panel__veil--lift,
+  .panel:focus-visible .panel__veil--lift,
+  .panel.is-active .panel__veil--lift {
+    opacity: 0.5;
+  }
+  .triptych__frame:has(.panel:hover) .panel:not(:hover) .panel__veil--dim,
+  .triptych__frame:has(.panel:focus-visible) .panel:not(:focus-visible) .panel__veil--dim,
+  .triptych__frame.has-active .panel:not(.is-active) .panel__veil--dim {
+    opacity: 0.45;
+  }
 
   .panel__art {
     width: 100%;
@@ -501,9 +564,8 @@
     transition: transform 700ms var(--ease) var(--p-delay);
   }
 
-  .panel__framepath {
-    stroke: var(--tri-frame-lo);
-    stroke-width: 1.5;
+  .panel__woodframe,
+  .panel__gild {
     transition: opacity 650ms var(--ease) var(--p-delay);
   }
 
@@ -525,8 +587,9 @@
       transform 600ms var(--ease) calc(640ms + var(--p-delay));
   }
 
-  .triptych[data-intro] .panel__art { transform: scale(0.965); }
-  .triptych[data-intro] .panel__framepath,
+  .triptych[data-intro] .panel__art { transform: scale(0.97); }
+  .triptych[data-intro] .panel__woodframe,
+  .triptych[data-intro] .panel__gild,
   .triptych[data-intro] .panel__ground,
   .triptych[data-intro] .panel__forms { opacity: 0; }
   .triptych[data-intro] .panel__caption {
@@ -534,14 +597,13 @@
     transform: translateY(8px);
   }
 
-  /* Captions sit in a band the art is kept clear of (every stroke stops above
-     y250), so no backing is needed. Outside .panel__scene, so they stay full
-     colour and legible in grisaille. */
+  /* Captions sit in the lower part of each opening, above the carved base band,
+     over clear painting, so no backing is needed. */
   .panel__caption {
     position: absolute;
-    left: 12%;
-    right: 12%;
-    bottom: 8%;
+    left: 13%;
+    right: 13%;
+    bottom: 13%;
     text-align: center;
   }
 
@@ -551,23 +613,22 @@
     letter-spacing: -0.01em;
     line-height: 1;
     color: var(--tri-label);
-    font-size: clamp(1.15rem, 2.4vw, 1.9rem);
-  }
-  .panel--centre .panel__name {
-    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    font-size: clamp(1.05rem, 2.1vw, 1.7rem);
   }
 
   .panel__desc {
     margin-top: var(--space-2);
     font-family: var(--font-body);
-    font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+    font-size: clamp(0.68rem, 1vw, 0.92rem);
     line-height: 1.3;
     color: var(--tri-label);
     opacity: 0.78;
   }
 
-  /* Narrow screens: horizontal swipeable carousel, one panel mostly in view.
-     No swing, no expand, links navigate on a single tap. */
+  /* Narrow screens: the one-piece frame cannot carousel, so it resolves into a
+     swipeable carousel where each panel carries its own organic wood crown.
+     Restoring the gap separates the butt-joined posts back into per-panel
+     framed crowns, one panel mostly in view, swipe to move. */
   @media (max-width: 720px) {
     .triptych__frame {
       overflow-x: auto;
@@ -575,33 +636,34 @@
       -webkit-overflow-scrolling: touch;
       align-items: center;
       gap: var(--space-4);
-      perspective: none;
       scroll-padding: var(--space-4);
     }
     .panel {
       flex: 0 0 86%;
       scroll-snap-align: center;
     }
-    .panel--centre { flex-grow: 0; }
-    .panel.is-active,
-    .panel:focus-visible { flex-grow: 0; }
-    .panel__name,
-    .panel--centre .panel__name { font-size: 1.6rem; }
+    .panel__name { font-size: 1.5rem; }
     .panel__desc { font-size: 0.95rem; }
   }
 
-  /* Reduced motion: render the finished painted state instantly, no paint-in,
-     no transitions, regardless of the flag. Expand still functions, just
-     instantly. Full function, no motion. */
+  /* Reduced motion: render the finished painted state instantly, no paint-in.
+     Emphasis still functions (the veils apply instantly), but with no lift
+     motion and no transitions. Full function, no motion. */
   @media (prefers-reduced-motion: reduce) {
-    .panel,
     .panel__art,
-    .panel__framepath,
+    .panel__lift,
+    .panel__veil,
+    .panel__woodframe,
+    .panel__gild,
     .panel__ground,
     .panel__forms,
     .panel__caption { transition: none !important; }
+    .panel:hover .panel__lift,
+    .panel:focus-visible .panel__lift,
+    .panel.is-active .panel__lift { transform: none !important; }
     .triptych[data-intro] .panel__art { transform: none !important; }
-    .triptych[data-intro] .panel__framepath,
+    .triptych[data-intro] .panel__woodframe,
+    .triptych[data-intro] .panel__gild,
     .triptych[data-intro] .panel__ground,
     .triptych[data-intro] .panel__forms,
     .triptych[data-intro] .panel__caption {
@@ -641,9 +703,11 @@
       }, 1700);
     }
 
-    // Touch expand on wide layouts: first tap expands, second tap follows the
-    // link. In the narrow carousel taps navigate straight away.
+    // Touch emphasis on wide layouts: first tap selects and emphasises a panel
+    // (lift plus brighten, the others dim), a second tap on it follows the link.
+    // In the narrow carousel taps navigate straight away.
     if (isTouch) {
+      const frame = root.querySelector(".triptych__frame");
       const panels = Array.prototype.slice.call(root.querySelectorAll(".panel"));
       panels.forEach(function (panel) {
         panel.addEventListener("click", function (e) {
@@ -652,6 +716,7 @@
             e.preventDefault();
             panels.forEach(function (p) { p.classList.remove("is-active"); });
             panel.classList.add("is-active");
+            if (frame) frame.classList.add("has-active");
           }
         });
       });
