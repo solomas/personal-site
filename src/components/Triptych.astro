@@ -1,33 +1,109 @@
 ---
-// Triptych altarpiece with interaction.
-// Markup renders in the open state so no-JS and reduced-motion users see full
-// content. A vanilla is:inline script (ThemeToggle convention) drops it to the
-// closed grisaille state before paint, then opens it once per load.
-// Frame stays gold in grisaille: only .panel__scene (ground + emblem) is tinted.
-// Palette is fixed and internal to this component. It does not pull --color-bg.
+// Triptych altarpiece, painterly repaint.
+// Each panel is an abstract, surreal SVG painting, a loose three-part homage to
+// Bosch, not a copy. Painting techniques: radial gradients with off-centre light,
+// blurred atmosphere haze (feGaussianBlur), radial glow fields, a feTurbulence
+// grain overlay for canvas tooth, organic hand-drawn paths and layered
+// translucent shapes.
+//
+// Palette is keyed to the two site themes via the same data-theme mechanism
+// Layout uses. The flip (black) theme is the primary look: bright forms on a
+// near-black field, gilded gold frame, warm glows. The default (yellow) theme
+// inverts to dark forms and deep gold on a warm amber field, dark gilded frame.
+//
+// Structure, open-on-load grisaille, hover and tap expand, carousel and
+// reduced-motion handling are unchanged. Grisaille = desaturate .panel__scene,
+// the frame sits outside that group so it stays gold.
 ---
 <section class="triptych" data-state="open" aria-label="Three streams of work">
   <div class="triptych__frame">
 
     <a href="/research/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Research panel" focusable="false">
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" />
+        <defs>
+          <linearGradient id="frame-r" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--tri-frame-hi)" />
+            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
+            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          </linearGradient>
+          <radialGradient id="ground-r" cx="0.5" cy="0.42" r="0.78">
+            <stop offset="0" stop-color="var(--tri-ground-hi)" />
+            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
+            <stop offset="1" stop-color="var(--tri-ground-lo)" />
+          </radialGradient>
+          <radialGradient id="glow-r" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.5" />
+            <stop offset="0.6" stop-color="var(--tri-glow)" stop-opacity="0.16" />
+            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="iris-r" cx="0.4" cy="0.36" r="0.72">
+            <stop offset="0" stop-color="var(--tri-light)" />
+            <stop offset="0.45" stop-color="var(--tri-form)" />
+            <stop offset="1" stop-color="var(--tri-deep)" />
+          </radialGradient>
+          <radialGradient id="sclera-r" cx="0.5" cy="0.4" r="0.85">
+            <stop offset="0" stop-color="var(--tri-form-soft)" stop-opacity="0.92" />
+            <stop offset="1" stop-color="var(--tri-form-soft)" stop-opacity="0.3" />
+          </radialGradient>
+          <radialGradient id="orb-r" cx="0.38" cy="0.34" r="0.75">
+            <stop offset="0" stop-color="var(--tri-light)" />
+            <stop offset="0.5" stop-color="var(--tri-form)" />
+            <stop offset="1" stop-color="var(--tri-deep)" />
+          </radialGradient>
+          <filter id="soft-r" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="9" />
+          </filter>
+          <filter id="grain-r" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n" />
+            <feColorMatrix in="n" type="saturate" values="0" result="g" />
+            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
+          </filter>
+          <clipPath id="clip-r">
+            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
+          </clipPath>
+        </defs>
+        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-r)" />
         <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          <!-- Research emblem: open eye, three observation rays, root sprout -->
-          <g stroke="var(--tri-gold)" stroke-width="3" stroke-linecap="round">
-            <line x1="100" y1="86" x2="100" y2="60" />
-            <line x1="78" y1="90" x2="68" y2="66" />
-            <line x1="122" y1="90" x2="132" y2="66" />
+          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-r)" />
+          <g clip-path="url(#clip-r)">
+            <g filter="url(#soft-r)" opacity="0.6">
+              <path d="M54 132 C34 102 52 64 92 74 C132 84 146 126 112 150 C82 170 74 162 54 132 Z" fill="var(--tri-atmos)" opacity="0.5" />
+              <circle cx="128" cy="92" r="30" fill="var(--tri-glow)" opacity="0.35" />
+              <circle cx="78" cy="206" r="26" fill="var(--tri-atmos)" opacity="0.3" />
+            </g>
+            <ellipse cx="100" cy="156" rx="80" ry="66" fill="url(#glow-r)" />
+            <g stroke="var(--tri-form)" stroke-linecap="round" fill="none" opacity="0.8">
+              <path d="M100 120 C99 104 101 92 100 78" stroke-width="2.4" />
+              <path d="M74 126 C66 110 60 100 52 88" stroke-width="2" />
+              <path d="M126 126 C134 110 140 100 150 88" stroke-width="2" />
+              <path d="M58 140 C44 132 36 128 26 122" stroke-width="1.8" />
+              <path d="M142 140 C156 132 164 128 174 122" stroke-width="1.8" />
+              <path d="M88 118 C84 104 82 96 78 84" stroke-width="1.6" />
+              <path d="M112 118 C116 104 118 96 122 84" stroke-width="1.6" />
+              <path d="M66 132 C56 120 50 114 42 104" stroke-width="1.5" />
+              <path d="M134 132 C144 120 150 114 158 104" stroke-width="1.5" />
+            </g>
+            <circle cx="62" cy="74" r="7" fill="url(#orb-r)" />
+            <circle cx="100" cy="56" r="9" fill="url(#orb-r)" />
+            <circle cx="140" cy="76" r="6" fill="url(#orb-r)" />
+            <path d="M50 156 C74 128 126 128 150 156 C126 184 74 184 50 156 Z" fill="url(#sclera-r)" stroke="var(--tri-form)" stroke-width="1.6" stroke-opacity="0.5" />
+            <circle cx="100" cy="156" r="20" fill="url(#iris-r)" />
+            <circle cx="100" cy="156" r="8.5" fill="var(--tri-deep)" />
+            <circle cx="93" cy="149" r="3" fill="var(--tri-light)" />
+            <circle cx="108" cy="162" r="1.3" fill="var(--tri-form-soft)" />
+            <circle cx="104" cy="150" r="1" fill="var(--tri-form-soft)" />
+            <g stroke="var(--tri-form)" fill="none" stroke-linecap="round" opacity="0.85">
+              <path d="M100 182 C100 202 98 214 100 232" stroke-width="2.4" />
+              <path d="M100 200 C88 208 80 216 72 230" stroke-width="1.8" />
+              <path d="M100 200 C112 208 120 216 128 230" stroke-width="1.8" />
+              <path d="M100 216 C94 224 90 230 86 240" stroke-width="1.4" />
+              <path d="M100 216 C106 224 110 230 114 240" stroke-width="1.4" />
+              <path d="M72 230 C68 236 66 240 62 246" stroke-width="1.1" />
+              <path d="M128 230 C132 236 134 240 138 246" stroke-width="1.1" />
+            </g>
+            <circle cx="100" cy="232" r="3.4" fill="url(#orb-r)" />
+            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-r)" opacity="0.13" style="mix-blend-mode: overlay" />
           </g>
-          <path d="M64 118 Q100 96 136 118 Q100 140 64 118 Z" fill="var(--tri-parchment)" stroke="var(--tri-deep)" stroke-width="3" />
-          <circle cx="100" cy="118" r="14" fill="var(--tri-teal)" />
-          <circle cx="100" cy="118" r="6" fill="var(--tri-dark)" />
-          <circle cx="95" cy="113" r="2.5" fill="var(--tri-parchment)" />
-          <path d="M100 146 V176" stroke="var(--tri-leaf)" stroke-width="3" fill="none" stroke-linecap="round" />
-          <path d="M100 160 C86 156 80 148 82 140 C92 144 100 150 100 160 Z" fill="var(--tri-sage)" stroke="var(--tri-leaf)" stroke-width="1.5" />
-          <path d="M100 160 C114 156 120 148 118 140 C108 144 100 150 100 160 Z" fill="var(--tri-sage)" stroke="var(--tri-leaf)" stroke-width="1.5" />
-          <path d="M100 176 q-8 6 -14 8 M100 176 q8 6 14 8" stroke="var(--tri-leaf)" stroke-width="2.5" fill="none" stroke-linecap="round" />
         </g>
       </svg>
       <div class="panel__caption">
@@ -38,21 +114,78 @@
 
     <a href="/work/" class="panel panel--centre">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Work panel" focusable="false">
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" />
+        <defs>
+          <linearGradient id="frame-w" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--tri-frame-hi)" />
+            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
+            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          </linearGradient>
+          <radialGradient id="ground-w" cx="0.5" cy="0.36" r="0.8">
+            <stop offset="0" stop-color="var(--tri-ground-hi)" />
+            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
+            <stop offset="1" stop-color="var(--tri-ground-lo)" />
+          </radialGradient>
+          <radialGradient id="glow-w" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.6" />
+            <stop offset="0.55" stop-color="var(--tri-glow)" stop-opacity="0.2" />
+            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="sun-w" cx="0.4" cy="0.34" r="0.75">
+            <stop offset="0" stop-color="var(--tri-light)" />
+            <stop offset="0.4" stop-color="var(--tri-form)" />
+            <stop offset="1" stop-color="var(--tri-deep)" />
+          </radialGradient>
+          <radialGradient id="orb-w" cx="0.38" cy="0.34" r="0.75">
+            <stop offset="0" stop-color="var(--tri-light)" />
+            <stop offset="0.5" stop-color="var(--tri-form)" />
+            <stop offset="1" stop-color="var(--tri-deep)" />
+          </radialGradient>
+          <filter id="soft-w" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="10" />
+          </filter>
+          <filter id="grain-w" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch" result="n" />
+            <feColorMatrix in="n" type="saturate" values="0" result="g" />
+            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
+          </filter>
+          <clipPath id="clip-w">
+            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
+          </clipPath>
+        </defs>
+        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-w)" />
         <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          <!-- Work emblem: sage sphere with meridians, three figures on top -->
-          <circle cx="100" cy="138" r="34" fill="var(--tri-sage)" stroke="var(--tri-leaf)" stroke-width="2.5" />
-          <ellipse cx="100" cy="138" rx="34" ry="11" fill="none" stroke="var(--tri-leaf)" stroke-width="1.8" />
-          <ellipse cx="100" cy="138" rx="13" ry="34" fill="none" stroke="var(--tri-leaf)" stroke-width="1.8" />
-          <line x1="100" y1="104" x2="100" y2="172" stroke="var(--tri-leaf)" stroke-width="1.8" />
-          <g>
-            <circle cx="84" cy="92" r="4.5" fill="var(--tri-flesh)" />
-            <path d="M79 105 L81 96 L87 96 L89 105 Z" fill="var(--tri-oxblood)" />
-            <circle cx="100" cy="89" r="4.5" fill="var(--tri-flesh)" />
-            <path d="M95 102 L97 93 L103 93 L105 102 Z" fill="var(--tri-oxblood)" />
-            <circle cx="116" cy="92" r="4.5" fill="var(--tri-flesh)" />
-            <path d="M111 105 L113 96 L119 96 L121 105 Z" fill="var(--tri-oxblood)" />
+          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-w)" />
+          <g clip-path="url(#clip-w)">
+            <g filter="url(#soft-w)" opacity="0.6">
+              <circle cx="100" cy="128" r="60" fill="var(--tri-glow)" opacity="0.4" />
+              <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.32" />
+            </g>
+            <ellipse cx="100" cy="130" rx="92" ry="88" fill="url(#glow-w)" />
+            <g fill="none" stroke="var(--tri-form)">
+              <ellipse cx="100" cy="128" rx="44" ry="42" stroke-width="1.4" opacity="0.55" />
+              <ellipse cx="100" cy="128" rx="58" ry="55" stroke-width="1.1" opacity="0.38" />
+              <ellipse cx="100" cy="128" rx="72" ry="68" stroke-width="0.9" opacity="0.26" />
+            </g>
+            <circle cx="144" cy="120" r="5" fill="url(#orb-w)" />
+            <circle cx="58" cy="150" r="4" fill="url(#orb-w)" />
+            <circle cx="120" cy="68" r="3.6" fill="url(#orb-w)" />
+            <circle cx="92" cy="196" r="3" fill="url(#orb-w)" />
+            <circle cx="100" cy="128" r="30" fill="url(#sun-w)" />
+            <path d="M78 112 A30 30 0 0 1 122 110" fill="none" stroke="var(--tri-light)" stroke-width="2" opacity="0.7" stroke-linecap="round" />
+            <path d="M36 268 Q100 238 164 268" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
+            <g>
+              <path d="M70 252 L72.5 238 L77.5 238 L80 252 Z" fill="var(--tri-form)" />
+              <circle cx="75" cy="234" r="4" fill="url(#orb-w)" />
+            </g>
+            <g>
+              <path d="M95 250 L97.5 234 L102.5 234 L105 250 Z" fill="var(--tri-form)" />
+              <circle cx="100" cy="230" r="4.4" fill="url(#orb-w)" />
+            </g>
+            <g>
+              <path d="M120 252 L122.5 238 L127.5 238 L130 252 Z" fill="var(--tri-form)" />
+              <circle cx="125" cy="234" r="4" fill="url(#orb-w)" />
+            </g>
+            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-w)" opacity="0.13" style="mix-blend-mode: overlay" />
           </g>
         </g>
       </svg>
@@ -64,16 +197,64 @@
 
     <a href="/projects/" class="panel panel--wing">
       <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Projects panel" focusable="false">
-        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" />
+        <defs>
+          <linearGradient id="frame-p" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--tri-frame-hi)" />
+            <stop offset="0.5" stop-color="var(--tri-frame-mid)" />
+            <stop offset="1" stop-color="var(--tri-frame-lo)" />
+          </linearGradient>
+          <radialGradient id="ground-p" cx="0.5" cy="0.46" r="0.78">
+            <stop offset="0" stop-color="var(--tri-ground-hi)" />
+            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
+            <stop offset="1" stop-color="var(--tri-ground-lo)" />
+          </radialGradient>
+          <radialGradient id="glow-p" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.5" />
+            <stop offset="0.6" stop-color="var(--tri-glow)" stop-opacity="0.16" />
+            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="orb-p" cx="0.38" cy="0.34" r="0.75">
+            <stop offset="0" stop-color="var(--tri-light)" />
+            <stop offset="0.5" stop-color="var(--tri-form)" />
+            <stop offset="1" stop-color="var(--tri-deep)" />
+          </radialGradient>
+          <filter id="soft-p" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="9" />
+          </filter>
+          <filter id="grain-p" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n" />
+            <feColorMatrix in="n" type="saturate" values="0" result="g" />
+            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
+          </filter>
+          <clipPath id="clip-p">
+            <path d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
+          </clipPath>
+        </defs>
+        <path class="panel__framepath" d="M8 332 L8 132 Q8 44 100 12 Q192 44 192 132 L192 332 Z" fill="url(#frame-p)" />
         <g class="panel__scene">
-          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" />
-          <!-- Projects emblem: green stalk with leaves, two gilded towers on top -->
-          <line x1="56" y1="176" x2="144" y2="176" stroke="var(--tri-dark)" stroke-width="3" stroke-linecap="round" />
-          <path d="M100 176 C98 150 102 130 100 104" stroke="var(--tri-leaf)" stroke-width="3.5" fill="none" stroke-linecap="round" />
-          <path d="M100 150 C84 148 76 138 78 128 C90 132 100 140 100 150 Z" fill="var(--tri-sage)" stroke="var(--tri-leaf)" stroke-width="1.5" />
-          <path d="M100 134 C116 132 124 122 122 112 C110 116 100 124 100 134 Z" fill="var(--tri-sage)" stroke="var(--tri-leaf)" stroke-width="1.5" />
-          <path d="M82 104 L82 88 L85 88 L85 84 L88 84 L88 88 L90 88 L90 84 L93 84 L93 88 L96 88 L96 104 Z" fill="var(--tri-ochre)" stroke="var(--tri-deep)" stroke-width="1.5" />
-          <path d="M104 104 L104 88 L107 88 L107 84 L110 84 L110 88 L112 88 L112 84 L115 84 L115 88 L118 88 L118 104 Z" fill="var(--tri-ochre-2)" stroke="var(--tri-deep)" stroke-width="1.5" />
+          <path class="panel__ground" d="M18 322 L18 134 Q18 56 100 26 Q182 56 182 134 L182 322 Z" fill="url(#ground-p)" />
+          <g clip-path="url(#clip-p)">
+            <g filter="url(#soft-p)" opacity="0.6">
+              <circle cx="52" cy="98" r="30" fill="var(--tri-glow)" opacity="0.3" />
+              <path d="M96 250 C70 244 58 214 70 188 C84 158 120 162 128 196 C135 226 122 256 96 250 Z" fill="var(--tri-atmos)" opacity="0.32" />
+            </g>
+            <ellipse cx="100" cy="206" rx="74" ry="84" fill="url(#glow-p)" />
+            <path d="M50 70 A30 30 0 1 0 50 130 A26 26 0 1 1 50 70 Z" fill="url(#orb-p)" opacity="0.9" />
+            <circle cx="146" cy="120" r="6" fill="url(#orb-p)" />
+            <circle cx="120" cy="92" r="4" fill="url(#orb-p)" />
+            <circle cx="64" cy="158" r="3.6" fill="url(#orb-p)" />
+            <path d="M34 272 Q100 248 166 272" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
+            <path d="M94 256 L100 150 L106 256 Z" fill="var(--tri-form)" opacity="0.92" />
+            <path d="M100 150 L105 252" stroke="var(--tri-light)" stroke-width="1.2" opacity="0.6" fill="none" />
+            <path d="M72 258 C70 226 74 208 72 186" stroke="var(--tri-form)" stroke-width="3" fill="none" stroke-linecap="round" />
+            <path d="M128 258 C130 226 126 212 128 192" stroke="var(--tri-form)" stroke-width="3" fill="none" stroke-linecap="round" />
+            <path d="M72 216 C60 212 54 202 56 194 C66 198 74 206 72 216 Z" fill="url(#orb-p)" opacity="0.85" />
+            <path d="M128 222 C140 218 146 208 144 200 C134 204 126 212 128 222 Z" fill="url(#orb-p)" opacity="0.85" />
+            <path d="M65 186 L65 174 L68 174 L68 170 L71 170 L71 174 L73 174 L73 170 L76 170 L76 174 L79 174 L79 186 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
+            <path d="M121 192 L121 180 L124 180 L124 176 L127 176 L127 180 L129 180 L129 176 L132 176 L132 180 L135 180 L135 192 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
+            <circle cx="100" cy="146" r="4" fill="url(#orb-p)" />
+            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-p)" opacity="0.13" style="mix-blend-mode: overlay" />
+          </g>
         </g>
       </svg>
       <div class="panel__caption">
@@ -87,25 +268,46 @@
 
 <style>
   .triptych {
-    /* Fixed altarpiece palette, internal to this component */
-    --tri-gold: #A6822E;
-    --tri-deep: #7C5E22;
-    --tri-label: #6B4F1A;
-    --tri-ground-wing: #E7DBBE;
-    --tri-ground-centre: #DFD3B4;
-    --tri-teal: #3A6B63;
-    --tri-sage: #B4BE96;
-    --tri-leaf: #6E7B4E;
-    --tri-ochre: #D8B978;
-    --tri-ochre-2: #C9A65E;
-    --tri-oxblood: #8A4A36;
-    --tri-flesh: #E4C9A8;
-    --tri-parchment: #F2EAD3;
-    --tri-dark: #2A2218;
+    /* Default (yellow) theme: dark forms and deep gold on a warm amber field.
+       Inverted from the dark theme so it still reads as a painting, not a
+       washed-out copy. */
+    --tri-ground-hi: #F2BE12;
+    --tri-ground-mid: #D9A200;
+    --tri-ground-lo: #9A6E00;
+    --tri-glow: #F4D27A;
+    --tri-atmos: #9A6E00;
+    --tri-form: #14110A;
+    --tri-form-soft: #3A2C12;
+    --tri-light: #B8862E;
+    --tri-deep: #0B0905;
+    --tri-frame-hi: #8A6A24;
+    --tri-frame-mid: #5A4416;
+    --tri-frame-lo: #2A2218;
+    --tri-gold: #5A4416;
+    --tri-label: #1A140A;
 
     max-width: var(--page-width);
     margin: 0 auto;
     padding: var(--space-12) var(--space-8) var(--space-24);
+  }
+
+  /* Flip (black) theme, the primary look: bright yellow and warm white forms,
+     gilded gold frame and warm glows on a near-black field. */
+  :global([data-theme="flip"]) .triptych {
+    --tri-ground-hi: #1A160C;
+    --tri-ground-mid: #100D08;
+    --tri-ground-lo: #060503;
+    --tri-glow: #FFD60A;
+    --tri-atmos: #C9882E;
+    --tri-form: #FFD60A;
+    --tri-form-soft: #F6ECC8;
+    --tri-light: #FFF7DC;
+    --tri-deep: #2A2218;
+    --tri-frame-hi: #F2D98A;
+    --tri-frame-mid: #C9A24E;
+    --tri-frame-lo: #7C5E22;
+    --tri-gold: #C9A24E;
+    --tri-label: #F6ECC8;
   }
 
   .triptych__frame {
@@ -155,22 +357,19 @@
   }
 
   .panel__framepath {
-    fill: var(--tri-gold);
-    stroke: var(--tri-deep);
-    stroke-width: 2;
+    stroke: var(--tri-frame-lo);
+    stroke-width: 1.5;
   }
 
   .panel__scene {
     /* Colour tints in just after the swing begins, a deliberate reveal. */
     transition: filter 1200ms ease 180ms;
   }
-  .panel--wing .panel__ground { fill: var(--tri-ground-wing); }
-  .panel--centre .panel__ground { fill: var(--tri-ground-centre); }
 
-  /* Closed grisaille state: tint the scene to grey, frame stays gold, wings
-     swing shut. The script removes data-state="closed" to open. */
+  /* Closed grisaille state: desaturate the painted scene, frame stays gold,
+     wings swing shut. The script removes data-state="closed" to open. */
   .triptych[data-state="closed"] .panel__scene {
-    filter: grayscale(1) contrast(0.92) brightness(1.06);
+    filter: grayscale(1) contrast(0.92) brightness(1.04);
   }
   .triptych[data-state="closed"] .panel--centre {
     opacity: 0.55;
@@ -211,7 +410,8 @@
     font-family: var(--font-body);
     font-size: clamp(0.7rem, 1.1vw, 0.95rem);
     line-height: 1.3;
-    color: var(--tri-dark);
+    color: var(--tri-label);
+    opacity: 0.78;
   }
 
   /* Narrow screens: horizontal swipeable carousel, one panel mostly in view.
