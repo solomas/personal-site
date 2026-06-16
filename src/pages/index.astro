@@ -5,8 +5,7 @@ import Triptych from "../components/Triptych.astro";
 <Layout title="Tomás van Gorp" hideNav={true}>
   <section class="home">
     <div class="home__intro">
-      <h1 class="home__name">Three ways in</h1>
-      <p class="home__lede">I work, advise and research at the intersection of science, society and environment.</p>
+      <h1 class="home__name">I work, advise and research where <span class="accent">science</span>, <span class="accent">society</span> and <span class="accent">environment</span> meet.</h1>
     </div>
     <Triptych />
   </section>
@@ -21,7 +20,9 @@ import Triptych from "../components/Triptych.astro";
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-3);
+    /* Generous, viewport-scaled breathing room between the hero line and the
+       first row so the sentence is not crowded by the big type below. */
+    gap: clamp(var(--space-6), 5vh, var(--space-16));
     padding: var(--space-3) var(--space-4) var(--space-4);
     text-align: center;
   }
@@ -29,12 +30,17 @@ import Triptych from "../components/Triptych.astro";
   .home__intro {
     max-width: 100%;
   }
+  /* The hero is a single sentence, sized large but a touch under a two-word
+     headline since it wraps to a few lines. Centred, tight tracking. */
+  /* Lighter base weight so the three accent words carry the line. */
   .home__name {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
-    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 500;
     letter-spacing: -0.02em;
-    line-height: 1;
+    line-height: 1.12;
+    margin-inline: auto;
+    max-width: 24ch;
     /* Yellow theme: black via the accent token, readable on the amber page. */
     color: var(--color-accent);
   }
@@ -42,25 +48,21 @@ import Triptych from "../components/Triptych.astro";
   :global([data-theme="flip"]) .home__name {
     color: #ffffff;
   }
-  /* The lede holds one line on desktop. nowrap plus a font-size that shrinks
-     with viewport width keeps it from overflowing on smaller laptops. */
-  .home__lede {
-    margin-top: var(--space-2);
-    margin-inline: auto;
-    color: var(--color-muted);
-    font-size: clamp(0.72rem, 1.6vw, 1.05rem);
-    line-height: 1.35;
-    white-space: nowrap;
+  /* science / society / environment light up: yellow accent in the flip theme,
+     and in the yellow theme (where the accent token is black, same as the text)
+     the bold weight against the lighter rest carries the emphasis. */
+  .home__name .accent {
+    color: var(--color-accent);
+    font-weight: 700;
   }
 
-  /* The art dominates: cap its width by viewport height so the tall arches fill
-     close to the full screen yet never clip or force scroll. Frame height is
-     roughly 0.67x its width, so this budget keeps the whole frame (gilded edge
-     included) on screen. Width still wins on narrow screens, where the panels
-     are the carousel. Drop the component's own vertical padding here so the
-     height budget is spent on the art. */
+  /* The triptych is a left-flush cut-off composition that bleeds off the right
+     edge, so it stretches to the full hero width instead of being centred and
+     width-capped. It owns its own height budget internally (see Triptych.astro).
+     The intro above stays centred, a deliberate contrast against the left-flush
+     art. */
   .home :global(.triptych) {
-    width: min(100%, var(--page-width), calc(170svh - 420px));
+    align-self: stretch;
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -71,11 +73,8 @@ import Triptych from "../components/Triptych.astro";
       justify-content: flex-start;
       padding-top: var(--space-8);
     }
-    /* Below the carousel breakpoint let the lede wrap so it never overflows. */
-    .home__lede {
-      white-space: normal;
-      max-width: 44ch;
-      font-size: 0.95rem;
+    .home__name {
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
     }
   }
 </style>

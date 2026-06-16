@@ -40,13 +40,25 @@
   .cursor-ring.is-active.is-hover {
     opacity: 1;
   }
-  /* On interactive hover: dot turns text colour, ring grows to 1.6x and turns text colour */
+  /* On interactive hover the ring grows to 1.6x. Colour stays --color-accent in
+     every state, so the cursor is always the page-background contrast colour
+     (black on the yellow theme, yellow on the flip theme). */
   .cursor-ring.is-hover {
     transform: translate(-50%, -50%) scale(1.6);
-    border-color: var(--color-text);
+    border-color: var(--color-accent);
   }
   .cursor-dot.is-hover {
-    background-color: var(--color-text);
+    background-color: var(--color-accent);
+  }
+  /* Over a hovered triptych row the banner fills with --color-accent, so the
+     cursor would be accent-on-accent and vanish. Flip it to --color-bg there to
+     keep contrast (black on the yellow banner in flip, yellow on the black
+     banner in default). Wins over the .is-hover colour by source order. */
+  .cursor-dot.is-on-row {
+    background-color: var(--color-bg);
+  }
+  .cursor-ring.is-on-row {
+    border-color: var(--color-bg);
   }
 
   /* Hide on touch devices and reduced motion */
@@ -107,6 +119,21 @@
         dot.classList.remove("is-hover");
         ring.classList.remove("is-hover");
       }
+    });
+
+    // Flip the cursor colour while inside a triptych row, which fills with
+    // --color-accent on hover. mouseenter/leave fire on the row boundary only,
+    // not on inner children, so there is no flicker as the pointer crosses the
+    // title or foot.
+    document.querySelectorAll(".row").forEach((row) => {
+      row.addEventListener("mouseenter", () => {
+        dot.classList.add("is-on-row");
+        ring.classList.add("is-on-row");
+      });
+      row.addEventListener("mouseleave", () => {
+        dot.classList.remove("is-on-row");
+        ring.classList.remove("is-on-row");
+      });
     });
   }
 </script>

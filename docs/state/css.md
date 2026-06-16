@@ -1,6 +1,6 @@
 # CSS state
 
-Last updated: 2026-06-15
+Last updated: 2026-06-16
 
 ## Status
 
@@ -10,13 +10,11 @@ The work detail template still carried the unfixed form of this bug. Its `.entry
 
 Restrained inner-page motion landed across the stream index pages, contact and the three detail templates (569e43f). A shared `--ease-out` token in `tokens.css` holds the homepage arch hover curve. Entry rows and cards lift a few pixels on hover with a gilt left edge drawn in reserved left padding, no layout shift. Entry lists and detail articles fade up on load with a light per-item stagger. Each touched page carries its own `prefers-reduced-motion` guard. `global.css` still has no global reduced-motion handling, so any future motion must add its own guard until that gap is closed.
 
-The triptych flip-theme panel ground was lifted off pure black (df94f10). `--tri-ground-hi` and `--tri-ground-mid` now sit at warm charcoal, `--tri-ground-lo` stays pure black so the arch edge meets page-black at the gild line. This stayed inside the fixed-palette exception below.
+The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/components/Triptych.astro`). It replaced the earlier gothic altarpiece, which was inline SVG arches painted with a fixed `--tri-*` palette. The new piece is three stacked full-width rows, order Research, Work, Projects, with Work the dominant row by size alone (tallest band, largest title). Titles are hard-left, lowercase and oversized, cut off by the frame on both sides. Each row carries a large yellow-transparent background numeral that runs off the right edge. Hover fills the row with a left-to-right accent sweep while the inactive rows step back. The reveal slides each row in from the left, staggered top to bottom, once per visit, gated by the `triptych-revealed` localStorage flag and a reduced-motion guard. All behaviour is a self-contained vanilla `is:inline` script, no hook in `index.astro`.
 
-The homepage intro is now a triptych altarpiece, built 2026-06-15 (`src/components/Triptych.astro`). It replaced the marquee and the stream-card list. Three pointed gothic arches drawn as inline SVG: Research, Work (dominant), Projects, each linking to its section. It opens once per load from a closed grisaille state, expands a panel on pointer hover or keyboard focus, and becomes a swipeable carousel below 720px. All behaviour is a self-contained vanilla `is:inline` script, no hook in `index.astro`. `prefers-reduced-motion` renders straight to the open state with no transitions. The orphaned `Marquee.astro` component was removed as dead code.
+## Triptych palette, now on theme tokens
 
-## Fixed palette exception, do not retheme
-
-`Triptych.astro` defines its own internal palette as `--tri-*` custom properties and does not reference the global theme tokens or `--color-bg`. This is deliberate. The altarpiece reads identically in both the yellow and flip themes. Do not migrate these values into `tokens.css` or wire them to the theme toggle. The exception is scoped to this one component. The component's focus ring uses `--tri-gold` so it stays visible against both site backgrounds.
+`Triptych.astro` runs entirely on the live theme tokens (`--color-bg`, `--color-text`, `--color-accent`) and flips with the theme toggle. It no longer defines its own `--tri-*` palette. This retires the earlier "do not retheme" exception, which existed only because the gothic painting had to read identically in both themes. The redesign dropped the painting, so the reason is gone. There is now no component-scoped palette to protect, and the design-token rule (reference the custom properties, never duplicate values) applies to the triptych like every other component. The focus ring uses `--color-accent`.
 
 ## Scope
 

@@ -1,624 +1,386 @@
 ---
-// Triptych altarpiece, painterly repaint with enriched detail.
-// Each panel is an abstract, surreal SVG painting, a loose three-part homage to
-// Bosch, not a copy. Painting techniques: radial gradients with off-centre light,
-// blurred atmosphere haze (feGaussianBlur), radial glow fields, an feTurbulence
-// grain overlay for canvas tooth, organic hand-drawn paths and layered
-// translucent shapes. Forms are built from several overlapping passes (base fill,
-// shade gradient for volume, spark gradient for the light catch) so there is
-// light-to-shadow modelling. Only two filters per panel (soft blur, grain), the
-// rest is cheap gradient fills, so the page stays light. No animation.
+// Typographic triptych, the landing hero, as three stacked editorial rows
+// (Paradiso style). Each row is a full-width open band linking to a stream:
+// Research, Work, Projects. All three rows are identical open bands on
+// --color-bg; the Work band keeps the centre dominance by size alone (tallest
+// row, largest title). Thick --color-text rules divide the bands.
 //
-// No frame: three painted arches float on pure black. Each painted scene is
-// clipped to its organic ogee/foliate opening (open-r/w/p), so the arch
-// silhouette is the edge of the painting against black, traced by a fine gold
-// gild line. Below 720px the panels become the swipeable carousel.
+// Each row is a 3-row grid: kicker (top), an oversized title that is cut off by
+// the frame on both sides (a fixed negative left offset forces the cut-off even
+// for short words; long titles also run off the right), and a foot holding the
+// caption and the "View" affordance. The title lives in its own clipped middle
+// region, so it can be huge without ever touching the kicker or the foot. A
+// large faint accent numeral runs off the right as a second cut-off.
 //
-// Hover/focus/tap emphasis: the focused painting (.panel__lift) lifts and
-// brightens while the others dim, on one shared ease. On a first visit each
-// panel turns open like a door from a plain black back face (.panel__door),
-// rotating on its hinge to reveal the painting, staggered left to right. The
-// localStorage flag is kept; return visits and reduced motion render open with
-// no turn.
+// Reveal: each row slides in from the left and fades, staggered top to bottom;
+// numerals and titles then rise with a clip-up mask just after their row.
 //
-// Palette is keyed to the two site themes via the data-theme mechanism Layout
-// uses. The flip (black) theme is the primary look.
+// Palette is the real theme tokens, so the whole piece flips with the toggle.
+// No internal palette, no SVG illustration. The component owns its height
+// budget; index.astro stretches it to the full hero width.
 ---
 <section class="triptych" aria-label="Three streams of work">
-  <div class="triptych__frame">
 
-    <a href="/research/" class="panel panel--wing">
-      <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Research panel" focusable="false">
-        <defs>
-          <radialGradient id="ground-r" cx="0.5" cy="0.42" r="0.78">
-            <stop offset="0" stop-color="var(--tri-ground-hi)" />
-            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
-            <stop offset="1" stop-color="var(--tri-ground-lo)" />
-          </radialGradient>
-          <radialGradient id="glow-r" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.5" />
-            <stop offset="0.6" stop-color="var(--tri-glow)" stop-opacity="0.16" />
-            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
-          </radialGradient>
-          <radialGradient id="iris-r" cx="0.4" cy="0.36" r="0.72">
-            <stop offset="0" stop-color="var(--tri-light)" />
-            <stop offset="0.45" stop-color="var(--tri-form)" />
-            <stop offset="1" stop-color="var(--tri-deep)" />
-          </radialGradient>
-          <radialGradient id="sclera-r" cx="0.5" cy="0.4" r="0.85">
-            <stop offset="0" stop-color="var(--tri-form-soft)" stop-opacity="0.92" />
-            <stop offset="1" stop-color="var(--tri-form-soft)" stop-opacity="0.3" />
-          </radialGradient>
-          <radialGradient id="orb-r" cx="0.38" cy="0.34" r="0.75">
-            <stop offset="0" stop-color="var(--tri-light)" />
-            <stop offset="0.5" stop-color="var(--tri-form)" />
-            <stop offset="1" stop-color="var(--tri-deep)" />
-          </radialGradient>
-          <radialGradient id="shade-r" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
-            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
-            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
-          </radialGradient>
-          <radialGradient id="spark-r" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.9" />
-            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
-            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
-          </radialGradient>
-          <filter id="soft-r" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="9" />
-          </filter>
-          <filter id="grain-r" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n" />
-            <feColorMatrix in="n" type="saturate" values="0" result="g" />
-            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
-          </filter>
-          <path id="open-r" d="M12 312 L12 164 C12 108 60 56 103 34 C146 56 194 108 194 164 L194 312 Z" />
-          <clipPath id="clip-r"><use href="#open-r" /></clipPath>
-        </defs>
-        <g class="panel__opening" clip-path="url(#clip-r)">
-          <g class="panel__lift">
-            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-r)" />
-            <g class="panel__forms">
-            <g filter="url(#soft-r)" opacity="0.6">
-              <path d="M54 132 C34 102 52 64 92 74 C132 84 146 126 112 150 C82 170 74 162 54 132 Z" fill="var(--tri-atmos)" opacity="0.5" />
-              <circle cx="128" cy="92" r="30" fill="var(--tri-glow)" opacity="0.35" />
-              <circle cx="78" cy="206" r="26" fill="var(--tri-atmos)" opacity="0.3" />
-              <ellipse cx="100" cy="150" rx="58" ry="40" fill="var(--tri-glow)" opacity="0.12" />
-            </g>
-            <g fill="var(--tri-form)" opacity="0.16">
-              <circle cx="40" cy="92" r="1.4" /><circle cx="160" cy="112" r="1.1" />
-              <circle cx="150" cy="172" r="1.3" /><circle cx="48" cy="180" r="1" />
-              <circle cx="120" cy="60" r="0.9" /><circle cx="80" cy="48" r="1.1" />
-            </g>
-            <ellipse cx="100" cy="156" rx="80" ry="66" fill="url(#glow-r)" />
-            <circle cx="100" cy="156" r="40" fill="none" stroke="var(--tri-form)" stroke-width="0.8" opacity="0.18" />
-            <g stroke="var(--tri-form)" stroke-linecap="round" fill="none" opacity="0.8">
-              <path d="M100 120 C99 104 101 92 100 78" stroke-width="2.4" />
-              <path d="M74 126 C66 110 60 100 52 88" stroke-width="2" />
-              <path d="M126 126 C134 110 140 100 150 88" stroke-width="2" />
-              <path d="M58 140 C44 132 36 128 26 122" stroke-width="1.8" />
-              <path d="M142 140 C156 132 164 128 174 122" stroke-width="1.8" />
-              <path d="M88 118 C84 104 82 96 78 84" stroke-width="1.6" />
-              <path d="M112 118 C116 104 118 96 122 84" stroke-width="1.6" />
-              <path d="M66 132 C56 120 50 114 42 104" stroke-width="1.5" />
-              <path d="M134 132 C144 120 150 114 158 104" stroke-width="1.5" />
-            </g>
-            <g fill="url(#orb-r)">
-              <circle cx="100" cy="76" r="2" /><circle cx="52" cy="86" r="1.6" /><circle cx="150" cy="86" r="1.6" />
-            </g>
-            <circle cx="62" cy="74" r="7" fill="url(#orb-r)" />
-            <circle cx="100" cy="56" r="9" fill="url(#orb-r)" />
-            <circle cx="140" cy="76" r="6" fill="url(#orb-r)" />
-            <circle cx="62" cy="74" r="7" fill="url(#shade-r)" />
-            <circle cx="100" cy="56" r="9" fill="url(#shade-r)" />
-            <circle cx="140" cy="76" r="6" fill="url(#shade-r)" />
-            <circle cx="59" cy="71" r="1.6" fill="url(#spark-r)" />
-            <circle cx="96.5" cy="52.5" r="2" fill="url(#spark-r)" />
-            <circle cx="137" cy="73" r="1.4" fill="url(#spark-r)" />
-            <circle cx="120" cy="84" r="3" fill="url(#orb-r)" />
-            <circle cx="82" cy="86" r="2.4" fill="url(#orb-r)" />
-            <path d="M50 156 C74 128 126 128 150 156 C126 184 74 184 50 156 Z" fill="url(#sclera-r)" stroke="var(--tri-form)" stroke-width="1.6" stroke-opacity="0.5" />
-            <path d="M50 156 C74 130 126 130 150 156 C126 150 74 150 50 156 Z" fill="var(--tri-deep)" opacity="0.18" />
-            <circle cx="100" cy="156" r="20" fill="url(#iris-r)" />
-            <g stroke="var(--tri-deep)" stroke-width="0.6" opacity="0.3" stroke-linecap="round">
-              <path d="M100 156 L100 138" /><path d="M100 156 L116 148" /><path d="M100 156 L118 160" />
-              <path d="M100 156 L110 172" /><path d="M100 156 L90 172" /><path d="M100 156 L82 160" /><path d="M100 156 L84 148" />
-            </g>
-            <circle cx="100" cy="156" r="20" fill="url(#shade-r)" />
-            <circle cx="100" cy="156" r="20" fill="none" stroke="var(--tri-deep)" stroke-width="1.4" opacity="0.45" />
-            <circle cx="100" cy="156" r="8.5" fill="var(--tri-deep)" />
-            <circle cx="100" cy="156" r="8.5" fill="none" stroke="var(--tri-form)" stroke-width="0.5" opacity="0.3" />
-            <circle cx="95.5" cy="151.5" r="4.5" fill="url(#spark-r)" opacity="0.7" />
-            <circle cx="93" cy="149" r="3" fill="var(--tri-light)" />
-            <circle cx="106" cy="162" r="1.1" fill="var(--tri-light)" opacity="0.7" />
-            <circle cx="108" cy="162" r="1.3" fill="var(--tri-form-soft)" />
-            <circle cx="104" cy="150" r="1" fill="var(--tri-form-soft)" />
-            <circle cx="92" cy="162" r="0.9" fill="var(--tri-form-soft)" />
-            <g stroke="var(--tri-form)" fill="none" stroke-linecap="round" opacity="0.85">
-              <path d="M100 182 C100 200 98 212 100 230" stroke-width="2.4" />
-              <path d="M100 200 C88 207 80 214 73 226" stroke-width="1.8" />
-              <path d="M100 200 C112 207 120 214 127 226" stroke-width="1.8" />
-              <path d="M100 214 C94 221 90 226 87 234" stroke-width="1.4" />
-              <path d="M100 214 C106 221 110 226 113 234" stroke-width="1.4" />
-              <path d="M73 226 C70 231 68 234 65 240" stroke-width="1" />
-              <path d="M127 226 C130 231 132 234 135 240" stroke-width="1" />
-            </g>
-            <g stroke="var(--tri-form)" fill="none" stroke-linecap="round" opacity="0.5">
-              <path d="M100 222 C96 226 94 230 93 236" stroke-width="0.7" />
-              <path d="M100 222 C104 226 106 230 107 236" stroke-width="0.7" />
-              <path d="M87 234 C85 237 84 240 83 243" stroke-width="0.6" />
-              <path d="M113 234 C115 237 116 240 117 243" stroke-width="0.6" />
-            </g>
-            <circle cx="100" cy="230" r="3.4" fill="url(#orb-r)" />
-            <circle cx="100" cy="230" r="3.4" fill="url(#shade-r)" />
-            <circle cx="85" cy="218" r="1.6" fill="url(#orb-r)" />
-            <circle cx="115" cy="218" r="1.6" fill="url(#orb-r)" />
-            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-r)" opacity="0.13" style="mix-blend-mode: overlay" />
-            </g>
-          </g>
-          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
-          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
-        </g>
-        <g class="panel__gild">
-          <use href="#open-r" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
-        </g>
-      </svg>
-      <div class="panel__caption">
-        <h2 class="panel__name">Research</h2>
-        <p class="panel__desc">Doctoral work in planetary health.</p>
-      </div>
-      <div class="panel__door" aria-hidden="true"></div>
-    </a>
+  <a href="/research/" class="row">
+    <span class="row__num" aria-hidden="true">01</span>
+    <div class="row__titlewrap">
+      <h2 class="row__title">Research</h2>
+    </div>
+    <div class="row__foot">
+      <p class="row__caption">Doctoral work in planetary health.</p>
+      <span class="row__go">
+        <span>View</span>
+        <span class="row__arrow" aria-hidden="true">&#8594;</span>
+      </span>
+    </div>
+  </a>
 
-    <a href="/work/" class="panel panel--centre">
-      <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Work panel" focusable="false">
-        <defs>
-          <radialGradient id="ground-w" cx="0.5" cy="0.36" r="0.8">
-            <stop offset="0" stop-color="var(--tri-ground-hi)" />
-            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
-            <stop offset="1" stop-color="var(--tri-ground-lo)" />
-          </radialGradient>
-          <radialGradient id="glow-w" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.6" />
-            <stop offset="0.55" stop-color="var(--tri-glow)" stop-opacity="0.2" />
-            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
-          </radialGradient>
-          <radialGradient id="sun-w" cx="0.4" cy="0.34" r="0.75">
-            <stop offset="0" stop-color="var(--tri-light)" />
-            <stop offset="0.4" stop-color="var(--tri-form)" />
-            <stop offset="1" stop-color="var(--tri-deep)" />
-          </radialGradient>
-          <radialGradient id="orb-w" cx="0.38" cy="0.34" r="0.75">
-            <stop offset="0" stop-color="var(--tri-light)" />
-            <stop offset="0.5" stop-color="var(--tri-form)" />
-            <stop offset="1" stop-color="var(--tri-deep)" />
-          </radialGradient>
-          <radialGradient id="shade-w" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
-            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
-            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
-          </radialGradient>
-          <radialGradient id="spark-w" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.95" />
-            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
-            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
-          </radialGradient>
-          <filter id="soft-w" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="10" />
-          </filter>
-          <filter id="grain-w" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch" result="n" />
-            <feColorMatrix in="n" type="saturate" values="0" result="g" />
-            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
-          </filter>
-          <path id="open-w" d="M6 312 L6 164 C6 100 54 46 100 14 C146 46 194 100 194 164 L194 312 Z" />
-          <clipPath id="clip-w"><use href="#open-w" /></clipPath>
-        </defs>
-        <g class="panel__opening" clip-path="url(#clip-w)">
-          <g class="panel__lift">
-            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-w)" />
-            <g class="panel__forms">
-            <g filter="url(#soft-w)" opacity="0.6">
-              <circle cx="100" cy="128" r="60" fill="var(--tri-glow)" opacity="0.4" />
-              <path d="M40 120 C30 80 70 60 110 78 C150 96 160 140 120 156 C80 172 50 160 40 120 Z" fill="var(--tri-atmos)" opacity="0.3" />
-              <circle cx="150" cy="92" r="20" fill="var(--tri-glow)" opacity="0.18" />
-              <circle cx="50" cy="186" r="22" fill="var(--tri-atmos)" opacity="0.2" />
-            </g>
-            <g fill="var(--tri-form)" opacity="0.15">
-              <circle cx="36" cy="78" r="1.3" /><circle cx="166" cy="150" r="1.2" />
-              <circle cx="44" cy="150" r="1" /><circle cx="158" cy="74" r="1.1" /><circle cx="100" cy="40" r="1" />
-            </g>
-            <ellipse cx="100" cy="130" rx="92" ry="88" fill="url(#glow-w)" />
-            <g stroke="var(--tri-form)" stroke-linecap="round" opacity="0.16">
-              <path d="M134 128 L154 128" /><path d="M128 148 L144 160" /><path d="M110 160 L117 179" />
-              <path d="M90 160 L83 179" /><path d="M72 148 L56 160" /><path d="M66 128 L46 128" />
-              <path d="M72 108 L56 96" /><path d="M90 96 L83 77" /><path d="M110 96 L117 77" /><path d="M128 108 L144 96" />
-            </g>
-            <g fill="none" stroke="var(--tri-form)">
-              <ellipse cx="100" cy="128" rx="44" ry="42" stroke-width="1.4" opacity="0.5" />
-              <ellipse cx="100" cy="128" rx="58" ry="55" stroke-width="1.1" opacity="0.35" />
-              <ellipse cx="100" cy="128" rx="72" ry="68" stroke-width="0.9" opacity="0.24" />
-            </g>
-            <g fill="url(#orb-w)">
-              <circle cx="144" cy="120" r="5" /><circle cx="58" cy="150" r="4" />
-              <circle cx="120" cy="68" r="3.6" /><circle cx="92" cy="196" r="3" />
-              <circle cx="156" cy="150" r="2.2" /><circle cx="46" cy="112" r="2" /><circle cx="128" cy="190" r="2" />
-            </g>
-            <circle cx="100" cy="128" r="30" fill="url(#sun-w)" />
-            <g fill="var(--tri-deep)" opacity="0.12">
-              <circle cx="108" cy="136" r="5" /><circle cx="93" cy="132" r="3.5" /><circle cx="103" cy="120" r="3" />
-            </g>
-            <circle cx="94" cy="120" r="14" fill="url(#spark-w)" opacity="0.8" />
-            <circle cx="100" cy="128" r="30" fill="url(#shade-w)" />
-            <path d="M78 112 A30 30 0 0 1 122 110" fill="none" stroke="var(--tri-light)" stroke-width="2" opacity="0.7" stroke-linecap="round" />
-            <path d="M82 138 A30 30 0 0 0 118 140" fill="none" stroke="var(--tri-light)" stroke-width="0.8" opacity="0.3" stroke-linecap="round" />
-            <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
-            <path d="M48 250 Q100 226 152 250" fill="none" stroke="var(--tri-light)" stroke-width="0.6" opacity="0.3" />
-            <g>
-              <ellipse cx="75" cy="243" rx="7" ry="2" fill="var(--tri-deep)" opacity="0.3" />
-              <path d="M70.5 242 L73 228 L77 228 L79.5 242 Z" fill="var(--tri-form)" />
-              <path d="M70.5 242 L73 228 L75 228 L74 242 Z" fill="var(--tri-deep)" opacity="0.25" />
-              <circle cx="75" cy="224" r="4" fill="url(#orb-w)" />
-              <circle cx="75" cy="224" r="4" fill="url(#shade-w)" />
-              <circle cx="73.5" cy="222.5" r="1.4" fill="url(#spark-w)" />
-            </g>
-            <g>
-              <ellipse cx="100" cy="240" rx="8" ry="2.2" fill="var(--tri-deep)" opacity="0.3" />
-              <path d="M95 238 L97.5 222 L102.5 222 L105 238 Z" fill="var(--tri-form)" />
-              <path d="M95 238 L97.5 222 L100 222 L99 238 Z" fill="var(--tri-deep)" opacity="0.25" />
-              <circle cx="100" cy="218" r="4.4" fill="url(#orb-w)" />
-              <circle cx="100" cy="218" r="4.4" fill="url(#shade-w)" />
-              <circle cx="98.2" cy="216.2" r="1.5" fill="url(#spark-w)" />
-              <circle cx="100" cy="204" r="2.2" fill="url(#orb-w)" />
-              <circle cx="100" cy="204" r="3.6" fill="url(#spark-w)" opacity="0.6" />
-            </g>
-            <g>
-              <ellipse cx="125" cy="243" rx="7" ry="2" fill="var(--tri-deep)" opacity="0.3" />
-              <path d="M120.5 242 L123 228 L127 228 L129.5 242 Z" fill="var(--tri-form)" />
-              <path d="M120.5 242 L123 228 L125 228 L124 242 Z" fill="var(--tri-deep)" opacity="0.25" />
-              <circle cx="125" cy="224" r="4" fill="url(#orb-w)" />
-              <circle cx="125" cy="224" r="4" fill="url(#shade-w)" />
-              <circle cx="123.5" cy="222.5" r="1.4" fill="url(#spark-w)" />
-            </g>
-            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-w)" opacity="0.13" style="mix-blend-mode: overlay" />
-            </g>
-          </g>
-          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
-          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
-        </g>
-        <g class="panel__gild">
-          <use href="#open-w" fill="none" stroke="var(--tri-gold)" stroke-width="1.1" opacity="0.9" />
-        </g>
-      </svg>
-      <div class="panel__caption">
-        <h2 class="panel__name">Work</h2>
-        <p class="panel__desc">Consulting and programme design.</p>
-      </div>
-      <div class="panel__door" aria-hidden="true"></div>
-    </a>
+  <a href="/work/" class="row row--work">
+    <span class="row__num" aria-hidden="true">02</span>
+    <div class="row__titlewrap">
+      <h2 class="row__title">Work</h2>
+    </div>
+    <div class="row__foot">
+      <p class="row__caption">Consulting and programme design.</p>
+      <span class="row__go">
+        <span>View</span>
+        <span class="row__arrow" aria-hidden="true">&#8594;</span>
+      </span>
+    </div>
+  </a>
 
-    <a href="/projects/" class="panel panel--wing">
-      <svg class="panel__art" viewBox="0 0 200 340" role="img" aria-label="Projects panel" focusable="false">
-        <defs>
-          <radialGradient id="ground-p" cx="0.5" cy="0.46" r="0.78">
-            <stop offset="0" stop-color="var(--tri-ground-hi)" />
-            <stop offset="0.55" stop-color="var(--tri-ground-mid)" />
-            <stop offset="1" stop-color="var(--tri-ground-lo)" />
-          </radialGradient>
-          <radialGradient id="glow-p" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-glow)" stop-opacity="0.5" />
-            <stop offset="0.6" stop-color="var(--tri-glow)" stop-opacity="0.16" />
-            <stop offset="1" stop-color="var(--tri-glow)" stop-opacity="0" />
-          </radialGradient>
-          <radialGradient id="orb-p" cx="0.38" cy="0.34" r="0.75">
-            <stop offset="0" stop-color="var(--tri-light)" />
-            <stop offset="0.5" stop-color="var(--tri-form)" />
-            <stop offset="1" stop-color="var(--tri-deep)" />
-          </radialGradient>
-          <radialGradient id="shade-p" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-deep)" stop-opacity="0" />
-            <stop offset="0.7" stop-color="var(--tri-deep)" stop-opacity="0.18" />
-            <stop offset="1" stop-color="var(--tri-deep)" stop-opacity="0.55" />
-          </radialGradient>
-          <radialGradient id="spark-p" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="var(--tri-light)" stop-opacity="0.9" />
-            <stop offset="0.5" stop-color="var(--tri-light)" stop-opacity="0.3" />
-            <stop offset="1" stop-color="var(--tri-light)" stop-opacity="0" />
-          </radialGradient>
-          <filter id="soft-p" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="9" />
-          </filter>
-          <filter id="grain-p" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n" />
-            <feColorMatrix in="n" type="saturate" values="0" result="g" />
-            <feComponentTransfer in="g"><feFuncA type="table" tableValues="1 1" /></feComponentTransfer>
-          </filter>
-          <path id="open-p" d="M6 312 L6 164 C6 108 54 56 97 34 C140 56 188 108 188 164 L188 312 Z" />
-          <clipPath id="clip-p"><use href="#open-p" /></clipPath>
-        </defs>
-        <g class="panel__opening" clip-path="url(#clip-p)">
-          <g class="panel__lift">
-            <rect class="panel__ground" x="0" y="0" width="200" height="340" fill="url(#ground-p)" />
-            <g class="panel__forms">
-            <g filter="url(#soft-p)" opacity="0.6">
-              <circle cx="52" cy="98" r="30" fill="var(--tri-glow)" opacity="0.3" />
-              <path d="M96 222 C70 216 58 196 70 176 C84 152 120 156 128 188 C134 210 120 228 96 222 Z" fill="var(--tri-atmos)" opacity="0.3" />
-              <path d="M150 226 L150 186 L156 226 Z" fill="var(--tri-atmos)" opacity="0.25" />
-              <path d="M44 226 L44 196 L50 226 Z" fill="var(--tri-atmos)" opacity="0.22" />
-            </g>
-            <g fill="var(--tri-form)" opacity="0.15">
-              <circle cx="36" cy="120" r="1.2" /><circle cx="168" cy="150" r="1.1" />
-              <circle cx="150" cy="96" r="1" /><circle cx="60" cy="200" r="1" /><circle cx="116" cy="70" r="0.9" />
-            </g>
-            <ellipse cx="100" cy="200" rx="74" ry="84" fill="url(#glow-p)" />
-            <ellipse cx="46" cy="100" rx="34" ry="36" fill="url(#glow-p)" opacity="0.7" />
-            <path d="M50 70 A30 30 0 1 0 50 130 A26 26 0 1 1 50 70 Z" fill="url(#orb-p)" opacity="0.9" />
-            <path d="M50 70 A30 30 0 1 0 50 130 A26 26 0 1 1 50 70 Z" fill="url(#shade-p)" opacity="0.6" />
-            <circle cx="40" cy="74" r="1.4" fill="url(#spark-p)" />
-            <g fill="var(--tri-form-soft)" opacity="0.7">
-              <circle cx="74" cy="86" r="1" /><circle cx="66" cy="120" r="0.9" /><circle cx="84" cy="104" r="0.8" />
-            </g>
-            <circle cx="146" cy="120" r="6" fill="url(#orb-p)" />
-            <circle cx="120" cy="92" r="4" fill="url(#orb-p)" />
-            <circle cx="64" cy="158" r="3.6" fill="url(#orb-p)" />
-            <circle cx="146" cy="120" r="6" fill="url(#shade-p)" />
-            <circle cx="120" cy="92" r="4" fill="url(#shade-p)" />
-            <circle cx="143" cy="117" r="1.6" fill="url(#spark-p)" />
-            <circle cx="155" cy="146" r="2" fill="url(#orb-p)" />
-            <circle cx="108" cy="110" r="1.8" fill="url(#orb-p)" />
-            <path d="M46 226 Q100 212 154 226" fill="none" stroke="var(--tri-form)" stroke-width="2.2" opacity="0.8" />
-            <path d="M46 226 Q100 212 154 226" fill="none" stroke="var(--tri-light)" stroke-width="0.6" opacity="0.3" />
-            <path d="M95 216 L100 150 L105 216 Z" fill="var(--tri-form)" opacity="0.92" />
-            <path d="M100 150 L105 216 L100 216 Z" fill="var(--tri-deep)" opacity="0.25" />
-            <path d="M100 150 L95 216" stroke="var(--tri-light)" stroke-width="1.2" opacity="0.6" fill="none" />
-            <circle cx="100" cy="150" r="3.4" fill="url(#orb-p)" />
-            <circle cx="100" cy="148" r="5" fill="url(#spark-p)" opacity="0.8" />
-            <path d="M72 224 C70 210 74 198 72 186" stroke="var(--tri-form)" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.3" />
-            <path d="M72 224 C70 210 74 198 72 186" stroke="var(--tri-form)" stroke-width="2.4" fill="none" stroke-linecap="round" />
-            <path d="M128 224 C130 210 126 202 128 192" stroke="var(--tri-form)" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.3" />
-            <path d="M128 224 C130 210 126 202 128 192" stroke="var(--tri-form)" stroke-width="2.4" fill="none" stroke-linecap="round" />
-            <path d="M72 190 C66 184 64 180 68 176 C71 173 74 175 73 178" stroke="var(--tri-form)" stroke-width="1.2" fill="none" opacity="0.7" stroke-linecap="round" />
-            <path d="M128 196 C134 190 136 186 132 182 C129 179 126 181 127 184" stroke="var(--tri-form)" stroke-width="1.2" fill="none" opacity="0.7" stroke-linecap="round" />
-            <path d="M72 204 C60 200 54 190 56 182 C66 186 74 194 72 204 Z" fill="url(#orb-p)" opacity="0.85" />
-            <path d="M64 192 L70 200" stroke="var(--tri-deep)" stroke-width="0.5" opacity="0.4" />
-            <path d="M128 210 C140 206 146 196 144 188 C134 192 126 200 128 210 Z" fill="url(#orb-p)" opacity="0.85" />
-            <path d="M136 198 L130 206" stroke="var(--tri-deep)" stroke-width="0.5" opacity="0.4" />
-            <path d="M100 210 C92 206 88 198 90 192 C97 195 102 202 100 210 Z" fill="url(#orb-p)" opacity="0.7" />
-            <path d="M65 186 L65 174 L68 174 L68 170 L71 170 L71 174 L73 174 L73 170 L76 170 L76 174 L79 174 L79 186 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
-            <rect x="69" y="178" width="2" height="5" fill="var(--tri-deep)" opacity="0.5" />
-            <path d="M121 192 L121 180 L124 180 L124 176 L127 176 L127 180 L129 180 L129 176 L132 176 L132 180 L135 180 L135 192 Z" fill="var(--tri-form)" stroke="var(--tri-light)" stroke-width="0.6" />
-            <rect x="126" y="184" width="2" height="5" fill="var(--tri-deep)" opacity="0.5" />
-            <path d="M73 170 L73 164 L78 167 Z" fill="url(#orb-p)" opacity="0.8" />
-            <rect x="18" y="26" width="164" height="296" fill="#808080" filter="url(#grain-p)" opacity="0.13" style="mix-blend-mode: overlay" />
-            </g>
-          </g>
-          <rect class="panel__veil panel__veil--dim" x="0" y="0" width="200" height="340" fill="#000000" opacity="0" />
-          <rect class="panel__veil panel__veil--lift" x="0" y="0" width="200" height="340" fill="#FFFFFF" opacity="0" style="mix-blend-mode: soft-light" />
-        </g>
-        <g class="panel__gild">
-          <use href="#open-p" fill="none" stroke="var(--tri-gold)" stroke-width="1" opacity="0.9" />
-        </g>
-      </svg>
-      <div class="panel__caption">
-        <h2 class="panel__name">Projects</h2>
-        <p class="panel__desc">Side work and experiments.</p>
-      </div>
-      <div class="panel__door" aria-hidden="true"></div>
-    </a>
+  <a href="/projects/" class="row">
+    <span class="row__num" aria-hidden="true">03</span>
+    <div class="row__titlewrap">
+      <h2 class="row__title">Projects</h2>
+    </div>
+    <div class="row__foot">
+      <p class="row__caption">Side work and experiments.</p>
+      <span class="row__go">
+        <span>View</span>
+        <span class="row__arrow" aria-hidden="true">&#8594;</span>
+      </span>
+    </div>
+  </a>
 
-  </div>
 </section>
 
 <style>
+  /* Stacked column of rows. Owns the height budget so the three bands fill the
+     hero under the intro. overflow-x: clip removes any right cut-off with no
+     scrollbar; overflow-y stays visible so row focus rings are never cut top or
+     bottom. overflow-clip-margin leaves a few px at the container edges. */
   .triptych {
-    /* Default (yellow) theme: dark forms and deep gold on a warm amber field.
-       Inverted from the dark theme so it still reads as a painting, not a
-       washed-out copy. */
-    --tri-ground-hi: #F2BE12;
-    --tri-ground-mid: #D9A200;
-    --tri-ground-lo: #9A6E00;
-    --tri-glow: #F4D27A;
-    --tri-atmos: #9A6E00;
-    --tri-form: #14110A;
-    --tri-form-soft: #3A2C12;
-    --tri-light: #B8862E;
-    --tri-deep: #0B0905;
-    --tri-gold: #8A6A24;
-    --tri-label: #1A140A;
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-
     position: relative;
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-12) var(--space-8) var(--space-24);
-  }
-
-  /* Flip (black) theme, the primary look: bright yellow and warm white forms
-     and warm glows on pure black, with a fine gold gild edge. */
-  :global([data-theme="flip"]) .triptych {
-    /* Subtle warm-charcoal lift at the centre fading to pure black at the arch
-       edge, so the panel field reads as a distinct surface against the black
-       page while the gild line still meets page-black at the silhouette. This
-       mirrors how the yellow theme sets a deeper-amber ground against its
-       bright page. */
-    --tri-ground-hi: #2a2620;
-    --tri-ground-mid: #1a1712;
-    --tri-ground-lo: #000000;
-    --tri-glow: #FFD60A;
-    --tri-atmos: #241A10;
-    --tri-form: #FFD60A;
-    --tri-form-soft: #F6ECC8;
-    --tri-light: #FFF7DC;
-    --tri-deep: #2A2218;
-    --tri-gold: #C9A24E;
-    --tri-label: #F6ECC8;
-  }
-
-  /* One connected carved frame: equal-width panels butt together with no gap so
-     the half-posts on shared edges merge into shared posts, the base bands form
-     one continuous base and the shaped tops flow into one cresting silhouette. */
-  .triptych__frame {
     display: flex;
-    align-items: flex-end;
-    gap: 0;
-    perspective: 2000px;
-    perspective-origin: center 42%;
+    flex-direction: column;
+    height: clamp(19rem, calc(100svh - 17rem), 44rem);
+    overflow-x: clip;
+    overflow-y: visible;
+    overflow-clip-margin: 8px;
   }
 
-  .panel {
+  /* Each band is a 2-row grid: title region (takes the slack and clips) and
+     foot. overflow: hidden clips the title's left and right cut-off and any
+     vertical spill, while the focus ring uses an inset offset so it is never
+     clipped. */
+  .row {
     position: relative;
-    display: block;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--space-2);
     flex: 1 1 0;
     min-width: 0;
+    padding: clamp(var(--space-3), 2.2vw, var(--space-6)) clamp(var(--space-4), 2.4vw, var(--space-8));
+    background: var(--color-bg);
+    /* Thick Paradiso divider between the bands. */
+    border-top: 3px solid var(--color-text);
     text-decoration: none;
-    transform-style: preserve-3d;
-    /* Per-panel stagger for the first-visit door turn, a left-to-right sequence. */
-    --p-delay: 0ms;
-    transition: transform 780ms var(--ease) var(--p-delay);
+    transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
-  .panel:nth-child(2) { --p-delay: 280ms; }
-  .panel:nth-child(3) { --p-delay: 560ms; }
-  /* Hinge: wings from their outer edges, centre from its centre line. */
-  .panel--wing:first-child { transform-origin: left center; }
-  .panel--centre { transform-origin: center center; }
-  .panel--wing:last-child { transform-origin: right center; }
-
-  .panel:focus-visible {
-    outline: 3px solid var(--tri-gold);
-    outline-offset: 4px;
-    border-radius: 2px;
+  .row:last-child {
+    border-bottom: 3px solid var(--color-text);
   }
 
-  /* In-place hover emphasis. The one-piece frame is fixed, so panels never
-     resize. The focused painting (.panel__lift) lifts and a soft-light veil
-     brightens it, while the other two take a dark veil. All share one 720ms
-     ease so the whole piece settles as one motion with no jitter between panels. */
-  .panel__lift {
-    transform-box: fill-box;
-    transform-origin: center;
-    transition: transform 720ms var(--ease);
-  }
-  .panel__veil {
-    transition: opacity 720ms var(--ease);
-    pointer-events: none;
-  }
-  .panel:hover .panel__lift,
-  .panel:focus-visible .panel__lift,
-  .panel.is-active .panel__lift {
-    transform: translateY(-9px) scale(1.025);
-  }
-  .panel:hover .panel__veil--lift,
-  .panel:focus-visible .panel__veil--lift,
-  .panel.is-active .panel__veil--lift {
-    opacity: 0.5;
-  }
-  .triptych__frame:has(.panel:hover) .panel:not(:hover) .panel__veil--dim,
-  .triptych__frame:has(.panel:focus-visible) .panel:not(:focus-visible) .panel__veil--dim,
-  .triptych__frame.has-active .panel:not(.is-active) .panel__veil--dim {
-    opacity: 0.45;
-  }
-
-  .panel__art {
-    width: 100%;
-    height: auto;
-    display: block;
-    overflow: visible;
-    backface-visibility: hidden;
-  }
-
-  /* Scale the art in slightly so the whole scene sits inside the opening with a
-     margin, never touching the arch edge. */
-  .panel__forms {
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: scale(0.95);
-  }
-
-  /* First-visit turn-to-open. The painting is the front face; a plain black back
-     face (.panel__door) is the shut state, only shown while the panel is turned
-     away (backface-visibility). The script adds data-turn before paint to rotate
-     each panel closed, then releases it so they turn open on their hinge one
-     after another, left to right, each arch turning from black to its painting. */
-  .panel__door {
+  /* Hover fill as a left-to-right sweep rather than a flat colour change. The
+     accent layer sits behind the numeral and text and scales in from the left
+     edge on hover. Clipped by the row's overflow: hidden. */
+  .row::before {
+    content: "";
     position: absolute;
     inset: 0;
-    background: #000000;
-    backface-visibility: hidden;
-    transform: rotateY(180deg);
+    z-index: 0;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 300ms var(--ease-out);
+    pointer-events: none;
   }
 
-  .triptych[data-turn] .panel--wing:first-child { transform: rotateY(-100deg); }
-  .triptych[data-turn] .panel--centre { transform: rotateY(90deg); }
-  .triptych[data-turn] .panel--wing:last-child { transform: rotateY(100deg); }
+  /* The Work band keeps the dominance by size only: tallest row, largest title.
+     No fill, no inversion, same open treatment as the others. */
+  .row--work {
+    flex: 1.4 1 0;
+  }
 
-  /* Captions sit in the lower part of each opening, above the carved base band,
-     over clear painting, so no backing is needed. */
-  .panel__caption {
+  /* Large faint accent numeral, vertically centred, running off the right edge
+     as a cut-off. translateX(13%) leaves roughly three quarters on screen with a
+     quarter past the edge; the row clips it. Low alpha keeps it behind the type. */
+  .row__num {
     position: absolute;
-    left: 13%;
-    right: 13%;
-    bottom: 13%;
-    text-align: center;
-    backface-visibility: hidden;
-    transform: translateZ(1px);
-  }
-
-  .panel__name {
+    right: 0;
+    top: 50%;
+    transform: translate(13%, -50%);
+    z-index: 1;
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.01em;
+    font-size: clamp(6rem, 13vh, 11rem);
     line-height: 1;
-    color: var(--tri-label);
-    font-size: clamp(1.05rem, 2.1vw, 1.7rem);
+    letter-spacing: -0.04em;
+    color: var(--color-accent);
+    opacity: 0.14;
+    pointer-events: none;
+    user-select: none;
+    transition: color 260ms var(--ease-out), opacity 260ms var(--ease-out), transform 300ms var(--ease-out);
   }
 
-  .panel__desc {
-    margin-top: var(--space-2);
+  /* Title region: takes the slack above the foot, clips its huge title
+     vertically so it never crosses into them. */
+  /* Title region clips vertically (overflow-y: clip) so the huge title never
+     crosses into the kicker or foot, but stays open horizontally so the title
+     can bleed to the hard left edge and off the right; the row's own
+     overflow: hidden does the horizontal cut-off at the frame edges. */
+  .row__titlewrap {
+    position: relative;
+    z-index: 2;
+    overflow-x: visible;
+    overflow-y: clip;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Oversized wordmark: huge, bold, tight tracking, nowrap, lowercase. The
+     negative left margin cancels the row's left padding and adds a touch more,
+     so the title sits hard against the left frame edge with the first letters
+     just cut off, on every row regardless of word length. Long titles also run
+     off the right. Tune the extra cut via the trailing 2vw. */
+  .row__title {
+    margin-left: calc(-1 * clamp(var(--space-4), 2.4vw, var(--space-8)) - 2vw);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    white-space: nowrap;
+    text-transform: lowercase;
+    font-size: clamp(4rem, 16vw, 13rem);
+    color: var(--color-text);
+    transform-origin: left center;
+    transition: color 260ms var(--ease-out), transform 280ms var(--ease-out);
+  }
+  .row--work .row__title {
+    font-size: clamp(5rem, 20vw, 17rem);
+  }
+
+  /* Foot: caption left, View right. Always its own grid row, so the title can
+     never land on it. */
+  .row__foot {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+  .row__caption {
+    min-width: 0;
     font-family: var(--font-body);
-    font-size: clamp(0.68rem, 1vw, 0.92rem);
-    line-height: 1.3;
-    color: var(--tri-label);
-    opacity: 0.78;
+    font-size: clamp(0.82rem, 1.3vw, 0.98rem);
+    line-height: 1.4;
+    color: var(--color-muted);
+    transition: color 260ms var(--ease-out);
+  }
+  .row__go {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-text);
+    transition: color 260ms var(--ease-out), transform 280ms var(--ease-out);
+  }
+  .row__arrow {
+    transition: transform 280ms var(--ease-out);
   }
 
-  /* Narrow screens: the panels become a swipeable carousel of painted arches,
-     one mostly in view, swipe to move. */
+  .row:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: -3px;
+  }
+
+  /* Hover, bold. Gated to pointer devices, so it never fires on touch. The row
+     fills to --color-text and inverts all its text; the numeral flips to
+     --color-bg so it stays readable. Arrow slides. */
+  @media (hover: hover) and (pointer: fine) {
+    /* Accent sweeps in from the left. */
+    .row:hover::before {
+      transform: scaleX(1);
+    }
+    .row:hover .row__title,
+    .row:hover .row__caption,
+    .row:hover .row__go {
+      color: var(--color-bg);
+    }
+    /* Title grows from its left edge. */
+    .row:hover .row__title {
+      transform: scale(1.04);
+    }
+    /* Numeral brightens and drifts a touch left with the sweep. */
+    .row:hover .row__num {
+      color: var(--color-bg);
+      opacity: 0.2;
+      transform: translate(calc(13% - 6px), -50%);
+    }
+    /* Affordance: the label nudges, the arrow travels further. */
+    .row:hover .row__go {
+      transform: translateX(3px);
+    }
+    .row:hover .row__arrow {
+      transform: translateX(12px);
+    }
+    /* The other two rows step back so the focus falls on the active one. */
+    .triptych:has(.row:hover) .row:not(:hover) {
+      opacity: 0.6;
+      transform: scale(0.99);
+    }
+  }
+
+  /* Once-per-visit reveal. Markup ships in the rest position, so reduced motion,
+     return visits and no-JS all render fully open and static. On a first visit
+     the script sets data-reveal before first paint; fill-mode backwards holds
+     each element in its hidden start state until its turn, then it plays once
+     and settles into the rest position with nothing lingering.
+
+     Each row slides in from the left and fades, staggered top to bottom
+     (Research, then Work, then Projects). Each numeral and title then rises with
+     a clip-up mask just after its row lands. One settled ease, no overshoot. */
+  .triptych[data-reveal] .row {
+    animation: tri-row 560ms var(--ease-out) backwards;
+  }
+  .triptych[data-reveal] .row:nth-child(1) { animation-delay: 0ms; }
+  .triptych[data-reveal] .row:nth-child(2) { animation-delay: 160ms; }
+  .triptych[data-reveal] .row:nth-child(3) { animation-delay: 320ms; }
+
+  /* The title rises with a clip-up mask. The numeral uses its own keyframe so
+     it keeps its translate(13%, -50%) placement (the shared mask would drop it),
+     and it drifts the last few percent into its cut-off rest so the end of the
+     reveal settles rather than snapping. Both run a touch longer for a gentler
+     tail. No overshoot. */
+  .triptych[data-reveal] .row__title {
+    animation: tri-rise 460ms var(--ease-out) backwards;
+  }
+  .triptych[data-reveal] .row__num {
+    animation: tri-rise-num 460ms var(--ease-out) backwards;
+  }
+  .triptych[data-reveal] .row:nth-child(1) .row__num { animation-delay: 320ms; }
+  .triptych[data-reveal] .row:nth-child(1) .row__title { animation-delay: 360ms; }
+  .triptych[data-reveal] .row:nth-child(2) .row__num { animation-delay: 480ms; }
+  .triptych[data-reveal] .row:nth-child(2) .row__title { animation-delay: 520ms; }
+  .triptych[data-reveal] .row:nth-child(3) .row__num { animation-delay: 640ms; }
+  .triptych[data-reveal] .row:nth-child(3) .row__title { animation-delay: 680ms; }
+
+  @keyframes tri-row {
+    from { opacity: 0; transform: translateX(-12%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes tri-rise {
+    from { clip-path: inset(100% 0 -15% 0); transform: translateY(0.35em); }
+    to   { clip-path: inset(-15% 0 -15% 0); transform: translateY(0); }
+  }
+  @keyframes tri-rise-num {
+    from { clip-path: inset(100% 0 -15% 0); transform: translate(9%, calc(-50% + 0.35em)); }
+    to   { clip-path: inset(-15% 0 -15% 0); transform: translate(13%, -50%); }
+  }
+  @keyframes tri-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Narrow screens: rows are already stacked, the natural shape. Drop the
+     height budget, hide the cut-off numeral, wrap titles smaller with no left
+     offset, and replace the slide with a calm staggered fade. Hover falls away
+     through the pointer media gate above. */
   @media (max-width: 720px) {
-    .triptych__frame {
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      align-items: center;
-      gap: var(--space-4);
-      scroll-padding: var(--space-4);
-      perspective: none;
+    .triptych {
+      height: auto;
     }
-    .panel {
-      flex: 0 0 86%;
-      scroll-snap-align: center;
+    .row,
+    .row--work {
+      flex: 1 1 auto;
+      min-height: 8.5rem;
+      grid-template-rows: auto auto;
     }
-    /* The carousel cannot hold a 3D turn, so it renders open with no door. */
-    .triptych[data-turn] .panel--wing:first-child,
-    .triptych[data-turn] .panel--centre,
-    .triptych[data-turn] .panel--wing:last-child { transform: none; }
-    .panel__door { display: none; }
-    .panel__name { font-size: 1.5rem; }
-    .panel__desc { font-size: 0.95rem; }
+    .row__num {
+      display: none;
+    }
+    .row__titlewrap {
+      overflow: visible;
+    }
+    .row__title,
+    .row--work .row__title {
+      margin-left: 0;
+      white-space: normal;
+      font-size: 2.2rem;
+    }
+    .triptych[data-reveal] .row {
+      animation: tri-fade 420ms var(--ease-out) backwards;
+    }
+    .triptych[data-reveal] .row:nth-child(1) { animation-delay: 0ms; }
+    .triptych[data-reveal] .row:nth-child(2) { animation-delay: 120ms; }
+    .triptych[data-reveal] .row:nth-child(3) { animation-delay: 240ms; }
+    .triptych[data-reveal] .row__num,
+    .triptych[data-reveal] .row__title {
+      animation: none;
+    }
   }
 
-  /* Reduced motion: render fully open instantly, no turn. Emphasis still
-     functions (the veils apply instantly), but with no lift motion and no
-     transitions. Full function, no motion. */
+  /* Reduced motion: no reveal animation and no hover transitions, render and
+     respond instantly in the rest position. The script also skips setting
+     data-reveal, so the reveal half is belt-and-braces. */
   @media (prefers-reduced-motion: reduce) {
-    .panel,
-    .panel__lift,
-    .panel__veil { transition: none !important; }
-    .panel:hover .panel__lift,
-    .panel:focus-visible .panel__lift,
-    .panel.is-active .panel__lift { transform: none !important; }
-    .triptych[data-turn] .panel--wing:first-child,
-    .triptych[data-turn] .panel--centre,
-    .triptych[data-turn] .panel--wing:last-child { transform: none !important; }
+    .triptych[data-reveal] .row,
+    .triptych[data-reveal] .row__num,
+    .triptych[data-reveal] .row__title {
+      animation: none !important;
+    }
+    .row,
+    .row::before,
+    .row__num,
+    .row__title,
+    .row__caption,
+    .row__go,
+    .row__arrow {
+      transition: none !important;
+    }
+    /* No hover movement: neutralise every transform and the dim. The accent
+       fill still appears on hover, but instantly (no sweep) so the hover
+       affordance survives without motion. */
+    .row:hover .row__title,
+    .row:hover .row__go,
+    .row:hover .row__arrow {
+      transform: none !important;
+    }
+    .row:hover .row__num {
+      transform: translate(13%, -50%) !important;
+    }
+    .triptych:has(.row:hover) .row:not(:hover) {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 </style>
 
@@ -628,47 +390,20 @@
     if (!root) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isTouch = window.matchMedia("(hover: none)").matches;
-    const isNarrow = () => window.matchMedia("(max-width: 720px)").matches;
+    let revealed = false;
+    try { revealed = localStorage.getItem("triptych-revealed") === "1"; } catch (e) {}
 
-    let opened = false;
-    try { opened = localStorage.getItem("triptych-opened") === "1"; } catch (e) {}
+    // Reduced motion and return visits stay in the rest position with no motion.
+    // A first visit sets data-reveal before first paint, so the animations'
+    // backwards fill shows each element's hidden start state, then they play
+    // once. The attribute stays put; the flag makes the next visit skip straight
+    // to the rest position.
+    if (reduceMotion || revealed) return;
 
-    // Markup ships open, so reduced-motion users and return visits (flag set)
-    // render fully open immediately with no turn. A first-ever visit turns open:
-    // set the shut state before paint to rotate each panel closed (the plain
-    // black face out), release it on the next frame so they turn open on their hinge
-    // one after another left to right, then set the flag when the last lands.
-    if (!reduceMotion && !opened) {
-      root.dataset.turn = "shut";
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          root.removeAttribute("data-turn");
-        });
-      });
-      // Last panel: 560ms stagger + 780ms turn, set the flag once it lands.
-      window.setTimeout(function () {
-        try { localStorage.setItem("triptych-opened", "1"); } catch (e) {}
-      }, 1500);
-    }
-
-    // Touch emphasis on wide layouts: first tap selects and emphasises a panel
-    // (lift plus brighten, the others dim), a second tap on it follows the link.
-    // In the narrow carousel taps navigate straight away.
-    if (isTouch) {
-      const frame = root.querySelector(".triptych__frame");
-      const panels = Array.prototype.slice.call(root.querySelectorAll(".panel"));
-      panels.forEach(function (panel) {
-        panel.addEventListener("click", function (e) {
-          if (isNarrow()) return;
-          if (!panel.classList.contains("is-active")) {
-            e.preventDefault();
-            panels.forEach(function (p) { p.classList.remove("is-active"); });
-            panel.classList.add("is-active");
-            if (frame) frame.classList.add("has-active");
-          }
-        });
-      });
-    }
+    root.dataset.reveal = "";
+    // The sequence ends near the last title at ~1100ms; set the flag after.
+    window.setTimeout(function () {
+      try { localStorage.setItem("triptych-revealed", "1"); } catch (e) {}
+    }, 1600);
   })();
 </script>
