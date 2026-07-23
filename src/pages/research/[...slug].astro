@@ -8,6 +8,8 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const dateLabel = entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" });
+const metaParts = [dateLabel, entry.data.venue].filter(Boolean);
 ---
 <Layout title={entry.data.title}>
   <article class="entry">
@@ -16,6 +18,7 @@ const { Content } = await render(entry);
       <StreamTag stream="research" />
       <div class="entry-rule" aria-hidden="true"></div>
       <h1>{entry.data.title}</h1>
+      {metaParts.length > 0 && <p class="entry__meta meta">{metaParts.join(" · ")}</p>}
       <p class="entry__summary">{entry.data.summary}</p>
     </header>
     <div class="entry__body">
@@ -72,6 +75,9 @@ const { Content } = await render(entry);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1;
+    margin-bottom: var(--space-4);
+  }
+  .entry__meta {
     margin-bottom: var(--space-4);
   }
   .entry__summary {
