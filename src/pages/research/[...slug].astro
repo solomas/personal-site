@@ -24,6 +24,38 @@ const metaParts = [dateLabel, entry.data.venue].filter(Boolean);
     <div class="entry__body">
       <Content />
     </div>
+    {(entry.data.tags.length > 0 || entry.data.coauthors.length > 0 || entry.data.citation || entry.data.links.length > 0) && (
+      <footer class="entry__fields">
+        {entry.data.tags.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Tags</p>
+            <p class="entry__field-value">{entry.data.tags.join(", ")}</p>
+          </div>
+        )}
+        {entry.data.coauthors.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Co-authors</p>
+            <p class="entry__field-value">{entry.data.coauthors.join(", ")}</p>
+          </div>
+        )}
+        {entry.data.citation && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Citation</p>
+            <p class="entry__field-value">{entry.data.citation}</p>
+          </div>
+        )}
+        {entry.data.links.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Links</p>
+            <ul class="entry__field-links">
+              {entry.data.links.map(link => (
+                <li><a href={link.url}>{link.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </footer>
+    )}
   </article>
 </Layout>
 
@@ -99,6 +131,35 @@ const metaParts = [dateLabel, entry.data.venue].filter(Boolean);
     transition: opacity 150ms ease;
   }
   .entry__body :global(a:hover) {
+    opacity: 0.75;
+  }
+  .entry__fields {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    gap: var(--space-6);
+  }
+  .entry__field-label {
+    margin-bottom: var(--space-2);
+  }
+  .entry__field-value {
+    color: var(--color-muted);
+  }
+  .entry__field-links {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .entry__field-links a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: opacity 150ms ease;
+  }
+  .entry__field-links a:hover {
     opacity: 0.75;
   }
 </style>
