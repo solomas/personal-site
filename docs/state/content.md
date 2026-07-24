@@ -4,7 +4,7 @@ Last updated: 2026-07-24
 
 ## Status
 
-Three content streams are live with real entries. Work has nine entries rendered on the index and detail pages with full schema support including date ranges and organisation. Projects has one entry (loelens, slug still `amsterdam-property-model`, copy refreshed 2026-07-24 with `links` populated to loelens.com). Research has one entry (PhD at Universidade de Lisboa). The work detail page renders all schema fields. Research and projects detail pages now carry a metadata line between the title and summary (research: date and venue, projects: status), plus a fields footer below the body. Research renders tags, coauthors, citation and links. Projects renders tags and links. Every field block renders only when the field is non-empty, so all schema fields on both pages are now surfaced when populated.
+Three content streams are live with real entries. Work has nine entries rendered on the index and detail pages with full schema support including date ranges and organisation. Projects has one entry (loelens, slug still `amsterdam-property-model`, copy refreshed 2026-07-24 with `links` populated to loelens.com). Research has one entry (PhD at Universidade de Lisboa, copy refreshed 2026-07-24 with the title corrected from governance to frameworks). The work detail page renders all schema fields. Research and projects detail pages now carry a metadata line between the title and summary (research: date and venue, projects: status), plus a fields footer below the body. Research renders tags, coauthors, citation and links. Projects renders tags and links. Every field block renders only when the field is non-empty, so all schema fields on both pages are now surfaced when populated.
 
 ## Scope
 
