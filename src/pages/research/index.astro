@@ -4,7 +4,11 @@ import StreamTag from "../../components/StreamTag.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
 import { getCollection } from "astro:content";
 const entries = await getCollection("research", ({ data }) => data.status !== "archived");
-entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// Featured first (the project overview sits above its own parts), then date descending.
+entries.sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return b.data.date.valueOf() - a.data.date.valueOf();
+});
 ---
 <Layout title="Research">
   <section class="stream-header">
