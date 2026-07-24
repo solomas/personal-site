@@ -10,8 +10,11 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Files that are exempt from prose checking (they define the rules).
-SKIP_FILES=("CLAUDE.md")
+# Files that are exempt from prose checking.
+# CLAUDE.md defines the rules. The proposal defence deck is a generated
+# artefact, published as-is: its only prose-check flags are em dashes in
+# machine-written code and CSS comments, never in the slide prose.
+SKIP_FILES=("CLAUDE.md" "after-the-commitment-proposal-defence.html")
 
 BANNED_WORDS=(
   "utilise"
