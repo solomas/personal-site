@@ -1,19 +1,19 @@
 ---
-title: "loelens: scenario modelling for cities, starting with Amsterdam"
-summary: "A scenario model for property values across Dutch cities. The first city is Amsterdam, covering 71 PC4 postcode zones, built on open public data. Scenarios, not forecasts. More cities to follow."
+title: "loelens: scenario modelling for city property markets"
+summary: "A scenario tool for residential property values, live for five Dutch cities. Built on public data, honest about what it borrows."
 date: 2026-04-01
 status: live
-tags: ["housing", "modelling", "amsterdam", "open-data", "loelens", "cities"]
+tags: ["housing", "modelling", "cities", "public-data", "loelens", "netherlands", "scenario-modelling"]
 featured: true
-links: []
+links:
+  - label: "loelens.com"
+    url: "https://www.loelens.com"
 ---
 
-loelens is a scenario modelling tool for city property markets. The first city is Amsterdam, covering 71 PC4 postcode zones. The model takes structural neighbourhood data, current macro conditions, and a set of feedback mechanisms, and produces a ten-year range of plausible property value trajectories under four scenarios: baseline, boom, stress and policy. More Dutch cities will follow.
+Property market debate runs on assertion. Rates will rise, supply will fail, this neighbourhood will hold. Almost none of it is stated in a form anyone can check later.
 
-The build sits on open public data only. ECB rates, CBS structural fields per neighbourhood, DNB mortgage production, NVM market indicators, Amsterdam municipal data on rents, building permits and new housing plans, Inside Airbnb listings. No proprietary feeds, no scraped commercial sources. The constraint is deliberate. It keeps the methodology reproducible and the sourcing auditable, and it sets the template for adding the next city without changing the data contract.
+loelens projects residential property values at postcode level under four scenarios, for five Dutch cities. Amsterdam is calibrated against its own data. Rotterdam, Utrecht, The Hague and Eindhoven read their own neighbourhood figures, but the rules that turn those figures into a price path still come from Amsterdam. The tool says so on screen rather than hiding it behind a smooth number.
 
-The interesting part is what the model is honest about. The neighbourhood comparison is a structural ranking, not a live market scan. Live transaction prices and rents sit at city level, not per zone, because that data is not available openly. The model produces scenario ranges, not point forecasts. Each neighbourhood card surfaces these limitations rather than hiding them. The feedback loops the model uses, credit amplification, rental buffer collapse, construction freeze, landlord exit through uitponden, are named mechanisms with documented data anchors, separated from calibration choices that are flagged explicitly.
+The projections run on public data: national statistics on housing stock, valuations and transactions, plus central bank rates. A few commercial and industry figures sit alongside as on screen context and never enter the maths. A separate pipeline refreshes the sources on a fixed schedule.
 
-The work runs across two repos. A Python data pipeline that fetches and merges sources on weekly, monthly, quarterly and annual cadences. A React front end with Supabase as the database and auth layer, deployed on Vercel. Map view, scenario controls, PDF export, English and Dutch.
-
-This is the project that mixes most of what I like working on in one place. Housing as a system. Honest scenario modelling. Open data as a constraint and a feature. Building something that could plausibly become useful to others rather than only to me. The Amsterdam model is live and usable at [loelens.com](https://loelens.com). A paid tier is in preparation.
+Scenario modelling is free to use. Reports and a professional tier are built and open once payment is in place. Amsterdam came first because the data is best there, and the method is meant to travel.
