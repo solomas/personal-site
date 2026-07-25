@@ -10,7 +10,10 @@ const baseSchema = z.object({
   featured: z.boolean().default(false),
   links: z.array(z.object({
     label: z.string(),
-    url: z.string().url(),
+    url: z.string().refine(
+      (v) => v.startsWith("/") || /^https?:\/\//.test(v),
+      "must be an absolute URL or a root-relative path"
+    ),
   })).default([]),
 });
 
