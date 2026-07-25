@@ -1,6 +1,6 @@
 # Polish state
 
-Last updated: 2026-06-15
+Last updated: 2026-07-25 (added the Content-Security-Policy backlog note)
 
 ## Status
 
@@ -36,3 +36,7 @@ Next action: open the homepage in both themes on desktop and a phone, confirm th
 **Paragraph spacing confirmation**
 1.5em paragraph spacing is set on projects and research detail pages via `.entry__body :global(p)`. During the content session it was pushed to 2.5em then dialled back to 1.5em. The user noted it still felt close to default. Not yet verified on the live site. Separately, the work detail template had no paragraph gap because its `p` selector was not globalised, fixed this session (6d31d4a). Work now uses `var(--space-6)` while projects and research use 1.5em, so the two values could be unified when confirming.
 Next action: open a detail page on the live site, confirm 1.5em reads well, adjust if needed, and decide whether to unify the work value with it.
+
+**Content-Security-Policy absent, and the deck depends on that**
+`public/_headers` sets `X-Frame-Options`, `X-Content-Type-Options` and `Referrer-Policy`, but no Content-Security-Policy. With no CSP there is no `script-src` restriction, which is why the proposal defence deck runs: it uses Babel Standalone, which needs `eval` (`unsafe-eval`), and inline JSX (`unsafe-inline`), and it loads Three.js, React and fonts from `blob:` URLs. A future site-wide CSP would block the deck unless the deck is path-exempted. Cloudflare Pages `_headers` supports path-scoped rules, so any CSP added later must carve out both `/after-the-commitment-proposal-defence.html` and its clean URL `/after-the-commitment-proposal-defence` with a per-path policy allowing `unsafe-eval`, `unsafe-inline` and `blob:` scripts. No change to `_headers` now, this is a backlog note so the dependency is not lost.
+Next action: if a site-wide CSP is introduced, path-exempt the deck as above, then re-test the deck live (console clean, WebGL renders, no CSP violations).
