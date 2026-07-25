@@ -8,7 +8,7 @@ tags: ["planetary-health", "governance", "process-tracing", "research-design"]
 featured: false
 links:
   - label: "Proposal defence slides"
-    url: "/after-the-commitment-proposal-defence.html"
+    url: "/after-the-commitment-proposal-defence"
 ---
 
 A proposal is where a thesis commits itself. It fixes the question, picks the cases and says in advance what would count as an answer and what would count as being wrong.
