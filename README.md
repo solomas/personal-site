@@ -2,11 +2,11 @@
 
 A personal website built with Astro. Content is organised into three streams.
 
-**Personal** covers side projects, experiments, and anything that does not fit a professional or academic context.
+**Projects** covers side projects, experiments, and anything that does not fit a professional or academic context.
 
-**Professional** covers consulting work, employment, and public deliverables.
+**Work** covers consulting work, employment, and public deliverables.
 
-**Academic** covers papers, talks, and datasets.
+**Research** covers papers, talks, and datasets.
 
 ## Running locally
 
