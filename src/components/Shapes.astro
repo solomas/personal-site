@@ -1,19 +1,25 @@
 ---
-// The background: five large, soft, rounded shapes in the theme greys that
-// drift slowly behind all content, with a fine static grain on top.
+// The background: two large, soft, round shapes in the theme's shape colour
+// (yellow in day, blue in night) that drift slowly behind all content, with a
+// fine static grain on top.
 //
-// Each shape is two overlapping radial gradients in one grey, so its outline
-// is a rounded blob with a soft edge. No blur filter. Only transform animates
-// (position, a little scale, a little rotation), each shape on its own cycle
-// between 60 and 120 seconds, so the pattern never visibly repeats. With
-// slow, as on the detail pages, every cycle runs three times longer.
+// Each shape is one radial gradient, solid in its core and fading to
+// transparent at the rim. No blur filter. Only transform animates (position,
+// a little scale, a little rotation), each shape on its own cycle, so the
+// pattern never visibly repeats. With slow, as on the detail pages, every
+// cycle runs three times longer.
+//
+// The two shapes never overlap. Shape A sits top left, shape B bottom centre,
+// and their sizes and drift ranges keep the gap open at every viewport shape
+// from 390 by 844 to 3840 by 2160 (worked through in the 2026-09-25d session
+// doc). Both also stay clear of the right gutter, where the stripe lives.
 //
 // The animation pauses while the tab is hidden. The global reduced motion
 // rule removes it, so the shapes stand still.
 //
 // The grain is an SVG noise tile rendered once as a background image, not an
 // animated filter. It sits over the shapes and under the glass, and breaks up
-// banding in the dark greys. Sizes, positions and paths are chosen by eye.
+// banding. Sizes, positions and paths are chosen by eye within those limits.
 interface Props {
   slow?: boolean;
 }
@@ -26,11 +32,8 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
 )}")`;
 ---
 <div class:list={["shapes", { "shapes--slow": slow }]} aria-hidden="true">
-  <div class="shape shape--1"></div>
-  <div class="shape shape--2"></div>
-  <div class="shape shape--3"></div>
-  <div class="shape shape--4"></div>
-  <div class="shape shape--5"></div>
+  <div class="shape shape--a"></div>
+  <div class="shape shape--b"></div>
   <div class="shapes__grain" style={`background-image: ${grain}`}></div>
 </div>
 
@@ -60,67 +63,27 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     animation-play-state: paused;
   }
 
-  /* Two radial gradients per shape: a main body and an offset lobe. Each is
-     solid in its core and fades to transparent at the rim. */
-  .shape--1 {
-    --c: var(--color-shape);
-    width: 78vmax;
-    height: 62vmax;
-    left: -24vmax;
-    top: -22vmax;
-    background:
-      radial-gradient(closest-side at 44% 46%, var(--c) 45%, transparent 100%),
-      radial-gradient(closest-side at 66% 64%, var(--c) 30%, transparent 95%);
-    animation-name: drift-1;
-    animation-duration: calc(67s * var(--pace));
+  /* Each shape is an ellipse up to 52 by 44 vmin, capped at 560px wide on
+     very large screens. The gradient is solid to 45 percent of the radius and
+     fades out at the rim. */
+  .shape {
+    --w: min(52vmin, 560px);
+    --h: calc(var(--w) * 44 / 52);
+    width: var(--w);
+    height: var(--h);
+    background: radial-gradient(closest-side, var(--color-shape) 45%, transparent 100%);
   }
-  .shape--2 {
-    --c: var(--color-shape);
-    width: 58vmax;
-    height: 66vmax;
-    right: -20vmax;
-    top: -10vmax;
-    background:
-      radial-gradient(closest-side at 50% 42%, var(--c) 40%, transparent 100%),
-      radial-gradient(closest-side at 36% 68%, var(--c) 28%, transparent 92%);
-    animation-name: drift-2;
+  .shape--a {
+    left: calc(18vw - var(--w) / 2);
+    top: calc(20vh - var(--h) / 2);
+    animation-name: drift-a;
     animation-duration: calc(83s * var(--pace));
   }
-  .shape--3 {
-    --c: var(--color-shape);
-    width: 52vmax;
-    height: 44vmax;
-    left: -12vmax;
-    bottom: -18vmax;
-    background:
-      radial-gradient(closest-side at 48% 50%, var(--c) 38%, transparent 100%),
-      radial-gradient(closest-side at 70% 36%, var(--c) 22%, transparent 90%);
-    animation-name: drift-3;
-    animation-duration: calc(97s * var(--pace));
-  }
-  .shape--4 {
-    --c: var(--color-shape);
-    width: 70vmax;
-    height: 56vmax;
-    right: -26vmax;
-    bottom: -24vmax;
-    background:
-      radial-gradient(closest-side at 46% 52%, var(--c) 44%, transparent 100%),
-      radial-gradient(closest-side at 28% 34%, var(--c) 26%, transparent 94%);
-    animation-name: drift-4;
+  .shape--b {
+    left: calc(50vw - var(--w) / 2);
+    top: calc(78vh - var(--h) / 2);
+    animation-name: drift-b;
     animation-duration: calc(109s * var(--pace));
-  }
-  .shape--5 {
-    --c: var(--color-shape);
-    width: 38vmax;
-    height: 34vmax;
-    left: 34%;
-    top: 30%;
-    background:
-      radial-gradient(closest-side at 50% 50%, var(--c) 36%, transparent 100%),
-      radial-gradient(closest-side at 64% 30%, var(--c) 24%, transparent 90%);
-    animation-name: drift-5;
-    animation-duration: calc(118s * var(--pace));
   }
 
   .shapes__grain {
@@ -130,35 +93,19 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     opacity: var(--grain-opacity);
   }
 
-  @keyframes drift-1 {
+  /* Drift stays within 3vw sideways, 4vh up or down, 4 percent of scale and
+     a few degrees of rotation. The non overlap check depends on these limits. */
+  @keyframes drift-a {
     0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-    35%  { transform: translate(9vw, 7vh) rotate(9deg) scale(1.06); }
-    70%  { transform: translate(3vw, 15vh) rotate(-5deg) scale(0.97); }
-    100% { transform: translate(12vw, 4vh) rotate(4deg) scale(1.03); }
+    35%  { transform: translate(3vw, 3vh) rotate(8deg) scale(1.03); }
+    70%  { transform: translate(-2vw, 4vh) rotate(-6deg) scale(0.97); }
+    100% { transform: translate(2vw, -3vh) rotate(4deg) scale(1.04); }
   }
-  @keyframes drift-2 {
+  @keyframes drift-b {
     0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-    40%  { transform: translate(-10vw, 12vh) rotate(-8deg) scale(1.05); }
-    75%  { transform: translate(-4vw, 22vh) rotate(6deg) scale(0.96); }
-    100% { transform: translate(-13vw, 8vh) rotate(-3deg) scale(1.02); }
-  }
-  @keyframes drift-3 {
-    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30%  { transform: translate(12vw, -8vh) rotate(7deg) scale(1.04); }
-    65%  { transform: translate(20vw, -3vh) rotate(-6deg) scale(0.95); }
-    100% { transform: translate(8vw, -14vh) rotate(3deg) scale(1.05); }
-  }
-  @keyframes drift-4 {
-    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-    45%  { transform: translate(-14vw, -9vh) rotate(-7deg) scale(1.05); }
-    80%  { transform: translate(-6vw, -18vh) rotate(5deg) scale(0.97); }
-    100% { transform: translate(-10vw, -5vh) rotate(-2deg) scale(1); }
-  }
-  @keyframes drift-5 {
-    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30%  { transform: translate(-12vw, 10vh) rotate(10deg) scale(1.08); }
-    60%  { transform: translate(8vw, 16vh) rotate(-8deg) scale(0.94); }
-    100% { transform: translate(14vw, -6vh) rotate(5deg) scale(1.04); }
+    40%  { transform: translate(-3vw, -4vh) rotate(-7deg) scale(1.04); }
+    75%  { transform: translate(2vw, -2vh) rotate(6deg) scale(0.96); }
+    100% { transform: translate(-1vw, 3vh) rotate(-3deg) scale(1.02); }
   }
 </style>
 
