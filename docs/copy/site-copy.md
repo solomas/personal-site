@@ -26,7 +26,7 @@ Text built from data rather than written as copy, such as dates, date ranges and
 - [general] "Contact" (footer link). Source: `src/components/Layout.astro`
 
 ### Meta description and social preview
-- [general] "Tomás van Gorp. Projects, work, research." (default meta and social description, used on the home, about, contact and 404 pages). Source: `src/components/Layout.astro`
+- [general] "Tomás van Gorp. Projects, work, research." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (og:site_name). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp. I work, advise and research where science, society and environment meet." (og:image:alt). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (text in the social preview image public/og.png). Source: `scripts/og-image/og.html`
@@ -83,10 +83,12 @@ The page title is the entry title and the meta and social description is the ent
 ## About, /about/
 
 - [general] "About" (page title and heading). Source: `src/pages/about.astro`
-- [general] "I am a researcher and consultant working where science, society and environment meet.". Source: `src/pages/about.astro`
-- [phd] "My doctoral research in planetary health looks at what happens after a governance framework is adopted, and why implementation so often falls short of the commitment on paper.". Source: `src/pages/about.astro`
-- [general] "Alongside the PhD I advise organisations on governance, reporting and programme design.". Source: `src/pages/about.astro`
-- [general] "I trained in anthropology and in arts, culture and society in the Netherlands. That background shapes how I work: I look at institutions, incentives and the people who have to make a plan run.". Source: `src/pages/about.astro`
+- [general] "Tomás van Gorp on his research, his work with organisations and what he is open to." (meta and social description). Source: `src/pages/about.astro`
+- [general] "I'm Tomás van Gorp. I'm interested in the months after a plan is signed, when someone has to make it work.". Source: `src/pages/about.astro`
+- [general] "Behind that is a curiosity about how systems behave: how rules, money, people and places interact, and why a good plan so often changes shape on its way into practice. I have followed that question through Amsterdam's zoo, a science film festival, an embassy in Tokyo, a consulate in Istanbul, a concert hall and a mental health centre that works across cultures. Now I follow it through a PhD.". Source: `src/pages/about.astro`
+- [general] "My doctoral research at the University of Lisbon looks at planetary health frameworks after governments adopt them, and at why so many stall before they change how anything works. I compare Wales, Brazil and Zhejiang Province in China. I'm also part of a European COST Action on nature-based solutions and health, and of Open Research Amsterdam's urban ecology workspace.". Source: `src/pages/about.astro`
+- [general] "Alongside the research I work with organisations as an independent consultant. I support boards with governance, planning and reporting. I design and run programmes, from the First European Planetary Health Congress to a nine-day festival for over 30,000 visitors. And I do applied research and evaluation, often by bringing together people who rarely sit at the same table: scientists, policymakers, artists and the public. Right now I'm open to both consulting projects and research collaborations.". Source: `src/pages/about.astro`
+- [general] "I studied arts and economics at HKU University of the Arts Utrecht, and later arts, culture and society at Erasmus University Rotterdam. I live in Portugal and work in Dutch and English, and my Portuguese is getting better.". Source: `src/pages/about.astro`
 - [general] "Contact" (closing link). Source: `src/pages/about.astro`
 
 ## Contact, /contact/
