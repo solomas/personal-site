@@ -4,8 +4,9 @@
 // with a fine static grain on top.
 //
 // Each shape is two or three radial gradients in one colour, solid through
-// most of their radius and fading only at the rim, so the colour reads
-// clearly with a soft edge. No blur filter. The shapes share one colour, so
+// most of their radius and fading only at the rim, shown at about a third of
+// full strength (--shape-strength), so they read as a pale wash in day and a
+// dim deep blue in night. No blur filter. The shapes share one colour, so
 // they may overlap. Only transform animates (position, a little scale, a
 // little rotation), each shape on its own cycle between 60 and 120 seconds.
 // With slow, as on the detail pages, every cycle runs three times longer.
@@ -119,6 +120,7 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
 
   .shape {
     position: absolute;
+    opacity: var(--shape-strength);
     will-change: transform;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;

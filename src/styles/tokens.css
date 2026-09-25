@@ -23,6 +23,10 @@
   --color-on-highlight: #ffffff;
   /* Large shapes only. Yellow in day, never for text or small elements. */
   --color-shape: var(--yellow);
+  /* How strongly the shapes show: about a third of the full colour, a pale
+     yellow wash in day (#fff0ab on white) and a dim deep blue in night
+     (#001135 on black). Chosen from the brief. */
+  --shape-strength: 0.33;
   /* Grain strength over the shapes. Chosen by eye, low enough to leave the
      contrast figures unchanged. */
   --grain-opacity: 0.05;

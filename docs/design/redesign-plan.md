@@ -1,6 +1,6 @@
 # Redesign plan: two colour layers
 
-Approved by Tomás on 25 September 2026. Phase 1 cleaned up the code and kept the old look. Phase 2 built the folded layers version. Phase 3 turned it monochrome with round drifting shapes and focus on hover. Phase 4 brought in the primaries, a red mark and a 70s stripe. Phase 5 narrows each theme to two surface colours, drops red and the stripe, makes the shapes larger and bolder, collapses the navigation and adds an about page. This file describes the phase 5 target.
+Approved by Tomás on 25 September 2026. Phase 1 cleaned up the code and kept the old look. Phase 2 built the folded layers version. Phase 3 turned it monochrome with round drifting shapes and focus on hover. Phase 4 brought in the primaries, a red mark and a 70s stripe. Phase 5 narrows each theme to two surface colours, drops red and the stripe, makes the shapes larger and bolder, collapses the navigation and adds an about page. Phase 6 added page transitions, a 404 page and launch metadata. Phase 7 fades the shapes to about a third of their strength and puts the menu in the bar on every page. This file describes the phase 7 target.
 
 ## Concept
 The site is a stack of translucent sheets above a slow field of large, soft, organic shapes. Depth comes from layers, a light top edge and a darker bottom edge. No colour gradients as decoration. Glass is for navigation, panels and buttons only. Long text sits on a solid reading sheet.
@@ -33,7 +33,7 @@ Muted text only sits on glass or sheets, never directly on the background.
 Every text and background pair must pass WCAG AA contrast, including highlight and muted text on glass over the shapes.
 
 ## Background
-Three or four large, stretched, organic shapes in the theme's shape colour. Their colour is clearly visible, with soft edges from radial gradients rather than a blur filter. They may overlap, since they share one colour. A fine static grain lies over the shapes and under the glass at very low opacity in both themes.
+Three or four large, stretched, organic shapes in the theme's shape colour, shown at about a third of full strength: a pale yellow wash in day and a dim, deep blue in night. Soft edges come from radial gradients rather than a blur filter. They may overlap, since they share one colour. A fine static grain lies over the shapes and under the glass at very low opacity in both themes.
 
 Sheets, panels and the nav have large rounded corners. No glow, no neon, no gradient text, no shiny or 3D effects.
 
