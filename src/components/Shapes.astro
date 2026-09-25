@@ -1,0 +1,171 @@
+---
+// The background: five large, soft, rounded shapes in the theme greys that
+// drift slowly behind all content, with a fine static grain on top.
+//
+// Each shape is two overlapping radial gradients in one grey, so its outline
+// is a rounded blob with a soft edge. No blur filter. Only transform animates
+// (position, a little scale, a little rotation), each shape on its own cycle
+// between 60 and 120 seconds, so the pattern never visibly repeats. With
+// slow, as on the detail pages, every cycle runs three times longer.
+//
+// The animation pauses while the tab is hidden. The global reduced motion
+// rule removes it, so the shapes stand still.
+//
+// The grain is an SVG noise tile rendered once as a background image, not an
+// animated filter. It sits over the shapes and under the glass, and breaks up
+// banding in the dark greys. Sizes, positions and paths are chosen by eye.
+interface Props {
+  slow?: boolean;
+}
+
+const { slow = false } = Astro.props;
+
+// Grain tile: fractal noise, desaturated, as a data URI.
+const grain = `url("data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>'
+)}")`;
+---
+<div class:list={["shapes", { "shapes--slow": slow }]} aria-hidden="true">
+  <div class="shape shape--1"></div>
+  <div class="shape shape--2"></div>
+  <div class="shape shape--3"></div>
+  <div class="shape shape--4"></div>
+  <div class="shape shape--5"></div>
+  <div class="shapes__grain" style={`background-image: ${grain}`}></div>
+</div>
+
+<style>
+  .shapes {
+    /* 1 on most pages, 3 on the detail pages. */
+    --pace: 1;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--color-ground);
+    pointer-events: none;
+  }
+  .shapes--slow {
+    --pace: 3;
+  }
+
+  .shape {
+    position: absolute;
+    will-change: transform;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  .shapes.is-paused .shape {
+    animation-play-state: paused;
+  }
+
+  /* Two radial gradients per shape: a main body and an offset lobe. Each is
+     solid in its core and fades to transparent at the rim. */
+  .shape--1 {
+    --c: var(--shape-1);
+    width: 78vmax;
+    height: 62vmax;
+    left: -24vmax;
+    top: -22vmax;
+    background:
+      radial-gradient(closest-side at 44% 46%, var(--c) 45%, transparent 100%),
+      radial-gradient(closest-side at 66% 64%, var(--c) 30%, transparent 95%);
+    animation-name: drift-1;
+    animation-duration: calc(67s * var(--pace));
+  }
+  .shape--2 {
+    --c: var(--shape-3);
+    width: 58vmax;
+    height: 66vmax;
+    right: -20vmax;
+    top: -10vmax;
+    background:
+      radial-gradient(closest-side at 50% 42%, var(--c) 40%, transparent 100%),
+      radial-gradient(closest-side at 36% 68%, var(--c) 28%, transparent 92%);
+    animation-name: drift-2;
+    animation-duration: calc(83s * var(--pace));
+  }
+  .shape--3 {
+    --c: var(--shape-5);
+    width: 52vmax;
+    height: 44vmax;
+    left: -12vmax;
+    bottom: -18vmax;
+    background:
+      radial-gradient(closest-side at 48% 50%, var(--c) 38%, transparent 100%),
+      radial-gradient(closest-side at 70% 36%, var(--c) 22%, transparent 90%);
+    animation-name: drift-3;
+    animation-duration: calc(97s * var(--pace));
+  }
+  .shape--4 {
+    --c: var(--shape-2);
+    width: 70vmax;
+    height: 56vmax;
+    right: -26vmax;
+    bottom: -24vmax;
+    background:
+      radial-gradient(closest-side at 46% 52%, var(--c) 44%, transparent 100%),
+      radial-gradient(closest-side at 28% 34%, var(--c) 26%, transparent 94%);
+    animation-name: drift-4;
+    animation-duration: calc(109s * var(--pace));
+  }
+  .shape--5 {
+    --c: var(--shape-4);
+    width: 38vmax;
+    height: 34vmax;
+    left: 34%;
+    top: 30%;
+    background:
+      radial-gradient(closest-side at 50% 50%, var(--c) 36%, transparent 100%),
+      radial-gradient(closest-side at 64% 30%, var(--c) 24%, transparent 90%);
+    animation-name: drift-5;
+    animation-duration: calc(118s * var(--pace));
+  }
+
+  .shapes__grain {
+    position: absolute;
+    inset: 0;
+    background-size: 180px 180px;
+    opacity: var(--grain-opacity);
+  }
+
+  @keyframes drift-1 {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    35%  { transform: translate(9vw, 7vh) rotate(9deg) scale(1.06); }
+    70%  { transform: translate(3vw, 15vh) rotate(-5deg) scale(0.97); }
+    100% { transform: translate(12vw, 4vh) rotate(4deg) scale(1.03); }
+  }
+  @keyframes drift-2 {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    40%  { transform: translate(-10vw, 12vh) rotate(-8deg) scale(1.05); }
+    75%  { transform: translate(-4vw, 22vh) rotate(6deg) scale(0.96); }
+    100% { transform: translate(-13vw, 8vh) rotate(-3deg) scale(1.02); }
+  }
+  @keyframes drift-3 {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    30%  { transform: translate(12vw, -8vh) rotate(7deg) scale(1.04); }
+    65%  { transform: translate(20vw, -3vh) rotate(-6deg) scale(0.95); }
+    100% { transform: translate(8vw, -14vh) rotate(3deg) scale(1.05); }
+  }
+  @keyframes drift-4 {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    45%  { transform: translate(-14vw, -9vh) rotate(-7deg) scale(1.05); }
+    80%  { transform: translate(-6vw, -18vh) rotate(5deg) scale(0.97); }
+    100% { transform: translate(-10vw, -5vh) rotate(-2deg) scale(1); }
+  }
+  @keyframes drift-5 {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    30%  { transform: translate(-12vw, 10vh) rotate(10deg) scale(1.08); }
+    60%  { transform: translate(8vw, 16vh) rotate(-8deg) scale(0.94); }
+    100% { transform: translate(14vw, -6vh) rotate(5deg) scale(1.04); }
+  }
+</style>
+
+<script>
+  // Pause the drift while the tab is hidden.
+  const shapes = document.querySelector(".shapes");
+  const sync = () => shapes?.classList.toggle("is-paused", document.hidden);
+  document.addEventListener("visibilitychange", sync);
+  sync();
+</script>

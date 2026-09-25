@@ -70,7 +70,7 @@ a:hover {
 }
 
 /* Small secondary text. Muted only passes AA on glass and sheets, so use it
-   there and not bare on the folded background. */
+   there and not bare on the background. */
 .meta {
   font-size: var(--text-sm);
   color: var(--color-muted);

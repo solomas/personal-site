@@ -1,14 +1,16 @@
 ---
 import "../styles/global.css";
-import Folds from "./Folds.astro";
+import Shapes from "./Shapes.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   title: string;
   description?: string;
+  /* Slower background drift, used on the detail pages. */
+  slowShapes?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research." } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false } = Astro.props;
 const pathname = Astro.url.pathname;
 const navItems = [
   { href: "/projects/", label: "Projects" },
@@ -49,7 +51,7 @@ const navItems = [
     <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <Folds />
+    <Shapes slow={slowShapes} />
     <header class="site-header">
       <div class="site-nav glass">
         <a href="/" class="site-nav__name">Tomás van Gorp</a>
@@ -80,8 +82,8 @@ const navItems = [
 
     <style>
       /* Floating glass navigation. It sits in the page flow at the top, not
-         fixed, so it only ever lies over the folded background and never
-         over text. */
+         fixed, so it only ever lies over the background and never over
+         text. */
       .site-header {
         padding: var(--space-4) var(--page-gutter) 0;
       }
