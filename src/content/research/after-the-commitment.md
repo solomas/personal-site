@@ -26,4 +26,4 @@ The first four dimensions are scored as substantive change, procedural adoption 
 
 This is the only research project I run. The other entries on this page are its parts: the proposal, the literature review, a conceptual paper and the tracker I code the cases in. More will follow as I write them.
 
-Work on Wales and Brazil is under way, and China comes next. São Tomé and Príncipe is held in reserve as a fourth case.
+Work on Wales and Brazil is under way, and China comes next.
