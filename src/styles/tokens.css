@@ -17,6 +17,9 @@
   --color-on-accent: #16211c;
   /* In mist the accent is never a text colour, so links stay ink. */
   --color-link: var(--color-ink);
+  /* Emphasised words in running text, such as the home hero. Ink in mist,
+     where the accent may not carry text. */
+  --color-emphasis: var(--color-ink);
   --color-hairline: rgba(22, 33, 28, 0.12);
   /* Inner focus ring. The yellow ring alone reaches only about 1.2:1 on mist,
      so an ink ring sits inside it to give the focus state its contrast. */
@@ -48,7 +51,6 @@
   --font-size-root: 17px;
 
   /* Type scale */
-  --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
@@ -57,6 +59,10 @@
   --text-3xl: 2.75rem;
   --text-4xl: 3.5rem;
   --text-5xl: 5rem;
+  /* Fluid sizes for the home hero and the page titles. Chosen by eye. */
+  --text-hero: clamp(var(--text-2xl), 4.4vw, var(--text-4xl));
+  --text-title: clamp(var(--text-3xl), 7vw, var(--text-5xl));
+  --text-entry-title: clamp(var(--text-2xl), 4.5vw, var(--text-4xl));
 
   /* Line heights */
   --leading-tight: 1.15;
@@ -84,9 +90,7 @@
   --content-width: 68ch;
   --page-width: 1100px;
   --page-gutter: clamp(var(--space-4), 4vw, var(--space-8));
-  --entry-date-width: 140px;
-  /* Old Other work folder, removed with the phase 2 layout */
-  --folder-peek-height: 250px;
+  --entry-date-width: 10rem;
 
   /* Radius and borders */
   --radius-md: 8px;
@@ -117,6 +121,7 @@
   --color-on-accent: #0f1614;
   /* In night the accent may carry text and links. */
   --color-link: var(--color-accent);
+  --color-emphasis: var(--color-accent);
   --color-hairline: rgba(238, 241, 236, 0.12);
   --color-focus-inner: var(--color-ground);
 

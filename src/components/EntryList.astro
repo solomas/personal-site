@@ -1,7 +1,7 @@
 ---
-// Entry list for the stream index pages: one row per entry with date, title
-// and summary. The "work" variant adds the title nudge and summary fade the
-// work index had on hover.
+// One glass panel holding the entries of a stream index page, as rows split
+// by hairlines. An optional "more" group folds open inside the same panel,
+// used for Other work on the work page.
 interface Item {
   href: string;
   date: string;
@@ -9,106 +9,178 @@ interface Item {
   summary: string;
 }
 
-interface Props {
+interface More {
+  label: string;
+  caption: string;
   items: Item[];
-  variant?: "default" | "work";
 }
 
-const { items, variant = "default" } = Astro.props;
+interface Props {
+  items: Item[];
+  more?: More;
+}
+
+const { items, more } = Astro.props;
 ---
-<ul class="entry-list">
-  {items.map(item => (
-    <li>
-      <a href={item.href} class:list={["entry-link", { "entry-link--work": variant === "work" }]}>
-        <span class="entry-link__date meta">{item.date}</span>
-        <span class="entry-link__title">{item.title}</span>
-        <span class="entry-link__summary">{item.summary}</span>
-      </a>
-    </li>
-  ))}
-</ul>
+<div class="entry-panel-wrap">
+  <div class="entry-panel glass-panel">
+    <ul class="entry-list">
+      {items.map(item => (
+        <li>
+          <a href={item.href} class="entry-row">
+            <span class="entry-row__date meta">{item.date}</span>
+            <span class="entry-row__title">{item.title}</span>
+            <span class="entry-row__summary meta">{item.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {more && more.items.length > 0 && (
+      <details class="entry-more">
+        <summary class="entry-more__summary">
+          <span class="entry-more__text">
+            <span class="entry-more__label">{more.label}</span>
+            <span class="entry-more__caption meta">{more.caption}</span>
+          </span>
+          <span class="entry-more__marker" aria-hidden="true"></span>
+        </summary>
+        <ul class="entry-list">
+          {more.items.map(item => (
+            <li>
+              <a href={item.href} class="entry-row">
+                <span class="entry-row__date meta">{item.date}</span>
+                <span class="entry-row__title">{item.title}</span>
+                <span class="entry-row__summary meta">{item.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </div>
+</div>
 
 <style>
-  .entry-list {
-    list-style: none;
-    padding: 0 var(--space-8);
+  .entry-panel-wrap {
     max-width: var(--page-width);
     margin: 0 auto;
-    display: grid;
-    gap: 0;
+    padding: 0 var(--page-gutter);
   }
-  .entry-link {
+  .entry-panel {
+    padding: var(--space-2);
+  }
+
+  .entry-list {
+    list-style: none;
+    padding: 0;
+  }
+  .entry-list > li + li {
+    border-top: var(--border-hairline) solid var(--color-hairline);
+  }
+
+  .entry-row {
     display: grid;
     grid-template-columns: var(--entry-date-width) 1fr;
     column-gap: var(--space-8);
-    row-gap: var(--space-2);
-    /* Reserve left padding (bar width plus a gap) so the gilt hover bar sits
-       clear of the text and toggling it causes no layout shift. */
-    padding: var(--space-8) 0 var(--space-8) var(--space-4);
-    border-top: var(--border-hairline) solid var(--color-hairline);
+    row-gap: var(--space-1);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    color: var(--color-ink);
     text-decoration: none;
-    /* Load reveal with a light per-item stagger. riseIn lives in global.css. */
-    animation: riseIn 340ms var(--ease-out) backwards;
-    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out), color var(--transition);
+    transition: background-color var(--transition), box-shadow var(--transition);
   }
-  /* A lift and a gilt left edge drawn in the reserved left padding, so it
-     never overlaps the text. */
-  .entry-link:hover {
-    transform: translateY(-4px);
+  /* Hover answers with a lighter row and a yellow edge on the left. */
+  .entry-row:hover {
+    background: var(--glass-hover);
     box-shadow: inset var(--border-thick) 0 0 var(--color-accent);
   }
-  .entry-link:hover .entry-link__title {
-    color: var(--color-accent);
-  }
-  .entry-list li:nth-child(1) .entry-link { animation-delay: 40ms; }
-  .entry-list li:nth-child(2) .entry-link { animation-delay: 80ms; }
-  .entry-list li:nth-child(3) .entry-link { animation-delay: 120ms; }
-  .entry-list li:nth-child(4) .entry-link { animation-delay: 160ms; }
-  .entry-list li:nth-child(5) .entry-link { animation-delay: 200ms; }
-  .entry-list li:nth-child(n+6) .entry-link { animation-delay: 240ms; }
-  .entry-link__date {
+  .entry-row__date {
     grid-column: 1;
     grid-row: 1 / span 2;
-    align-self: start;
-    padding-top: 4px;
+    padding-top: var(--space-1);
   }
-  .entry-link__title {
+  .entry-row__title {
     grid-column: 2;
-    font-family: var(--font-sans);
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: 600;
     letter-spacing: var(--tracking-title);
+    line-height: var(--leading-snug);
   }
-  .entry-link__summary {
+  .entry-row:hover .entry-row__title {
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-medium);
+    text-underline-offset: var(--underline-offset);
+  }
+  .entry-row__summary {
     grid-column: 2;
-    color: var(--color-muted);
     max-width: 60ch;
+    font-size: var(--text-base);
   }
 
-  /* Work variant: the title nudges right and the summary comes to full
-     strength on hover. */
-  .entry-link--work .entry-link__title {
-    display: inline-block;
-    transition: transform 200ms ease;
+  /* Other work: a disclosure row inside the same panel. */
+  .entry-more {
+    border-top: var(--border-hairline) solid var(--color-hairline);
   }
-  .entry-link--work .entry-link__summary {
-    opacity: 0.85;
-    transition: opacity 200ms ease;
+  .entry-more__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    list-style: none;
+    cursor: pointer;
+    transition: background-color var(--transition), box-shadow var(--transition);
   }
-  .entry-link--work:hover .entry-link__title {
-    transform: translateX(4px);
+  .entry-more__summary::-webkit-details-marker {
+    display: none;
   }
-  .entry-link--work:hover .entry-link__summary {
-    opacity: 1;
+  .entry-more__summary:hover {
+    background: var(--glass-hover);
+    box-shadow: inset var(--border-thick) 0 0 var(--color-accent);
+  }
+  .entry-more__text {
+    display: grid;
+    gap: var(--space-1);
+  }
+  .entry-more__label {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+  /* A chevron drawn with two borders, turning when the group opens. */
+  .entry-more__marker {
+    flex-shrink: 0;
+    width: 0.6em;
+    height: 0.6em;
+    border-right: var(--border-medium) solid var(--color-ink);
+    border-bottom: var(--border-medium) solid var(--color-ink);
+    transform: rotate(45deg);
+    transition: transform 220ms var(--ease-out);
+  }
+  .entry-more[open] .entry-more__marker {
+    transform: rotate(-135deg);
+  }
+  .entry-more[open] > .entry-list {
+    border-top: var(--border-hairline) solid var(--color-hairline);
   }
 
   @media (max-width: 600px) {
-    .entry-link { grid-template-columns: 1fr; }
-    .entry-link__date { grid-row: 1; }
-  }
-
-  /* The global rule stops the motion, this stops the hover lift. */
-  @media (prefers-reduced-motion: reduce) {
-    .entry-link:hover { transform: none; }
+    .entry-row {
+      grid-template-columns: 1fr;
+      padding: var(--space-4);
+    }
+    .entry-row__date {
+      grid-row: auto;
+      grid-column: 1;
+      padding-top: 0;
+    }
+    .entry-row__title,
+    .entry-row__summary {
+      grid-column: 1;
+    }
+    .entry-more__summary {
+      padding: var(--space-4);
+    }
   }
 </style>

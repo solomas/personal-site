@@ -14,8 +14,8 @@ const { Content } = await render(entry);
   title={entry.data.title}
   summary={entry.data.summary}
   meta={[formatDateRange(entry.data.date, entry.data.endDate, entry.data.current), entry.data.organisation]}
-  metaVariant="accent"
-  paragraphGap="var(--space-6)"
+  tags={entry.data.tags}
+  links={entry.data.links}
 >
   <Content />
 </EntryLayout>

@@ -3,35 +3,16 @@
 // "flip", mist as "mist". With nothing stored the page follows the system
 // setting, also when it changes while the page is open.
 ---
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch between light and dark theme" aria-pressed="false">
+<button id="theme-toggle" class="theme-toggle glass-button" type="button" aria-label="Switch between light and dark theme" aria-pressed="false">
   <span class="theme-toggle__dot" aria-hidden="true"></span>
   <span class="theme-toggle__label">flip</span>
 </button>
 
 <style>
   .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
     flex-shrink: 0;
-    background: var(--glass-fill);
-    border: 0;
-    border-radius: var(--radius-pill);
-    box-shadow:
-      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-      0 0 0 var(--border-hairline) var(--color-hairline);
-    color: var(--color-ink);
     padding: var(--space-2) var(--space-4);
     font-size: var(--text-sm);
-    cursor: pointer;
-    transition: box-shadow var(--transition);
-  }
-  .theme-toggle:hover {
-    box-shadow:
-      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-      0 0 0 var(--border-medium) var(--color-accent);
   }
   /* Half filled dot: the filled half shows the current theme's ink. */
   .theme-toggle__dot {
@@ -40,9 +21,6 @@
     border-radius: 50%;
     border: var(--border-hairline) solid var(--color-ink);
     box-shadow: inset 0.375em 0 0 var(--color-ink);
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    .theme-toggle { background: var(--glass-solid); }
   }
 </style>
 

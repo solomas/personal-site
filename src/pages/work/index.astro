@@ -6,205 +6,23 @@ import { getCollection } from "astro:content";
 import { formatDateRange } from "../../utils/formatDateRange";
 
 const all = await getCollection("work");
-const live = all
-  .filter(e => e.data.status === "live")
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const archived = all
-  .filter(e => e.data.status === "archived")
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const items = live.map(entry => ({
+const byDateDesc = (a: (typeof all)[number], b: (typeof all)[number]) => b.data.date.valueOf() - a.data.date.valueOf();
+const toItem = (entry: (typeof all)[number]) => ({
   href: `/work/${entry.id}/`,
   date: formatDateRange(entry.data.date, entry.data.endDate, entry.data.current),
   title: entry.data.title,
   summary: entry.data.summary,
-}));
+});
+const live = all.filter(e => e.data.status === "live").sort(byDateDesc).map(toItem);
+const archived = all.filter(e => e.data.status === "archived").sort(byDateDesc).map(toItem);
 ---
 <Layout title="Work">
   <StreamHeader
     title="Work"
-    label="Work index"
-    number="01"
-    kicker="Professional practice"
-    stream="work"
     lede="A preview of selected projects, consulting and programme design over the years."
   />
-  <EntryList items={items} variant="work" />
-
-  {archived.length > 0 && (
-    <section class="other-work-section">
-      <div class="other-work-folder" data-open="false">
-        <button type="button" class="other-work-header" aria-expanded="false" aria-controls="other-work-expanded">
-          <div class="other-work-meta">
-            <span class="other-work-label">Other work</span>
-            <span class="other-work-caption">Earlier work, kept for record. Click to expand.</span>
-          </div>
-          <ul class="other-work-titles" aria-hidden="true">
-            {archived.map(entry => (
-              <li>{entry.data.title}</li>
-            ))}
-          </ul>
-        </button>
-        <div class="other-work-expanded" id="other-work-expanded" hidden>
-          {archived.map(entry => (
-            <a href={`/work/${entry.id}/`} class="archived-card">
-              <span class="work-card-date">{formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}</span>
-              <span class="work-card-title">{entry.data.title}</span>
-              <span class="work-card-summary">{entry.data.summary}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+  <EntryList
+    items={live}
+    more={{ label: "Other work", caption: "Earlier work, kept for record. Click to expand.", items: archived }}
+  />
 </Layout>
-
-<style>
-  /* Other work folder */
-  .other-work-section {
-    max-width: var(--page-width);
-    margin: var(--space-24) auto 0;
-    padding: 0 var(--space-8);
-  }
-  .other-work-folder {
-    border: var(--border-hairline) solid currentColor;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: border-color 200ms ease;
-  }
-  .other-work-folder:not([data-open="true"]):hover {
-    border-color: var(--color-accent);
-  }
-  .other-work-header {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: 0;
-    padding: var(--space-6) var(--space-8);
-    font: inherit;
-    color: inherit;
-    display: block;
-    transition: color 200ms ease;
-  }
-  .other-work-folder:not([data-open="true"]) .other-work-header:hover {
-    color: var(--color-accent);
-  }
-  .other-work-meta {
-    display: block;
-  }
-  .other-work-label {
-    display: block;
-    font-weight: 600;
-    font-size: var(--text-base);
-    transition: color 200ms ease;
-  }
-  .other-work-caption {
-    display: block;
-    font-size: var(--text-sm);
-    opacity: 0.6;
-    margin-top: var(--space-1);
-    transition: color 200ms ease;
-  }
-  .other-work-titles {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 250ms ease, opacity 250ms ease, margin-top 250ms ease;
-  }
-  .other-work-titles li {
-    font-size: var(--text-sm);
-    opacity: 0.75;
-    margin-top: var(--space-1);
-    transition: color 200ms ease;
-  }
-  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-label,
-  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-caption,
-  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-titles li {
-    color: var(--color-accent);
-  }
-  .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-titles {
-    max-height: var(--folder-peek-height);
-    opacity: 1;
-    margin-top: var(--space-4);
-  }
-  .other-work-folder[data-open="true"] .other-work-titles {
-    display: none;
-  }
-  .other-work-expanded {
-    padding: 0 var(--space-8) var(--space-6);
-  }
-  .other-work-folder[data-open="true"] .other-work-expanded[hidden] {
-    display: block;
-  }
-
-  /* Archived cards inside the expanded folder */
-  .archived-card {
-    display: grid;
-    padding: var(--space-4) 0;
-    border-top: var(--border-hairline) solid var(--color-hairline);
-    text-decoration: none;
-    color: inherit;
-    font-size: var(--text-sm);
-    /* Reserve left padding so the gilt hover bar clears the text, no shift. */
-    padding-left: var(--space-4);
-    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
-  }
-  .archived-card .work-card-date {
-    font-family: var(--font-sans);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-snug);
-    opacity: 0.55;
-    margin-bottom: var(--space-1);
-  }
-  .archived-card .work-card-title {
-    font-family: var(--font-sans);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    letter-spacing: var(--tracking-title);
-    display: inline-block;
-    transition: transform 200ms ease;
-  }
-  .archived-card .work-card-summary {
-    opacity: 0.65;
-    margin-top: var(--space-1);
-    transition: opacity 200ms ease;
-  }
-  .archived-card:hover {
-    transform: translateY(-2px);
-    box-shadow: inset var(--border-thick) 0 0 var(--color-accent);
-  }
-  .archived-card:hover .work-card-title {
-    transform: translateX(2px);
-    color: var(--color-accent);
-  }
-  .archived-card:hover .work-card-summary {
-    opacity: 1;
-  }
-
-  /* The global rule stops the motion, this stops the hover lift. */
-  @media (prefers-reduced-motion: reduce) {
-    .archived-card:hover { transform: none; }
-  }
-</style>
-
-<script>
-  var folders = document.querySelectorAll('.other-work-folder');
-  folders.forEach(function(folder) {
-    var header = folder.querySelector('.other-work-header');
-    var expanded = folder.querySelector('.other-work-expanded');
-    if (!header || !expanded) return;
-    header.addEventListener('click', function() {
-      var isOpen = folder.getAttribute('data-open') === 'true';
-      var next = !isOpen;
-      folder.setAttribute('data-open', next ? 'true' : 'false');
-      header.setAttribute('aria-expanded', next ? 'true' : 'false');
-      if (next) {
-        expanded.removeAttribute('hidden');
-      } else {
-        expanded.setAttribute('hidden', '');
-      }
-    });
-  });
-</script>

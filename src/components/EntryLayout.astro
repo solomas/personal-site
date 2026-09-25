@@ -1,9 +1,10 @@
 ---
-// Shared detail page for projects, research and work entries. The pages still
-// differ in their meta line and paragraph gap, kept here through props until
-// phase 2 brings them in line.
+// One detail page for projects, research and work entries: a glass header
+// strip with the stream and the meta line, then a near solid reading sheet,
+// 68 characters wide and left aligned, with the title, summary, body and a
+// footer of tags, co-authors, citation and links. Each footer block renders
+// only when its field has content.
 import Layout from "./Layout.astro";
-import StreamTag from "./StreamTag.astro";
 
 interface Link {
   label: string;
@@ -14,12 +15,8 @@ interface Props {
   stream: "projects" | "work" | "research";
   title: string;
   summary: string;
-  /* Parts of the meta line under the title. Empty parts are dropped. */
+  /* Parts of the meta line in the strip. Empty parts are dropped. */
   meta?: (string | undefined)[];
-  /* "muted" is the plain mono meta line, "accent" the work page's accent line. */
-  metaVariant?: "muted" | "accent";
-  /* Paragraph gap in the body, a CSS length. */
-  paragraphGap?: string;
   tags?: string[];
   coauthors?: string[];
   citation?: string;
@@ -31,8 +28,6 @@ const {
   title,
   summary,
   meta = [],
-  metaVariant = "muted",
-  paragraphGap,
   tags = [],
   coauthors = [],
   citation,
@@ -43,135 +38,133 @@ const metaParts = meta.filter((part): part is string => Boolean(part));
 const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) || links.length > 0;
 ---
 <Layout title={title}>
-  <article class="entry">
+  <div class="entry">
     <p class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
-    <header class="entry__header">
-      <StreamTag stream={stream} />
-      <div class="entry-rule" aria-hidden="true"></div>
-      <h1>{title}</h1>
-      {metaVariant === "accent" ? (
-        <div class="entry-meta">
-          {metaParts.map((part, i) => (
-            <>
-              {i > 0 && <span class="entry-meta-sep" aria-hidden="true">·</span>}
-              <span>{part}</span>
-            </>
-          ))}
-        </div>
-      ) : (
-        metaParts.length > 0 && <p class="entry__meta meta">{metaParts.join(" · ")}</p>
-      )}
-      <p class="entry__summary">{summary}</p>
-    </header>
-    <div class="entry__body prose" style={paragraphGap ? `--prose-gap: ${paragraphGap}` : undefined}>
-      <slot />
+
+    <div class="entry__column">
+    <div class="entry__strip glass">
+      <p>
+        <span class="entry__stream">{stream}</span>
+        {metaParts.map(part => <>{"\u00a0· "}<span>{part}</span></>)}
+      </p>
     </div>
-    {hasFields && (
-      <footer class="entry__fields">
-        {tags.length > 0 && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Tags</p>
-            <p class="entry__field-value">{tags.join(", ")}</p>
-          </div>
-        )}
-        {coauthors.length > 0 && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Co-authors</p>
-            <p class="entry__field-value">{coauthors.join(", ")}</p>
-          </div>
-        )}
-        {citation && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Citation</p>
-            <p class="entry__field-value">{citation}</p>
-          </div>
-        )}
-        {links.length > 0 && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Links</p>
-            <ul class="entry__field-links">
-              {links.map(link => (
-                <li><a href={link.url}>{link.label}</a></li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </footer>
-    )}
-  </article>
+
+    <article class="entry__sheet sheet">
+      <header class="entry__header">
+        <h1>{title}</h1>
+        <p class="entry__summary">{summary}</p>
+      </header>
+
+      <div class="entry__body prose">
+        <slot />
+      </div>
+
+      {hasFields && (
+        <footer class="entry__fields">
+          {tags.length > 0 && (
+            <div class="entry__field">
+              <p class="entry__field-label">Tags</p>
+              <p class="entry__field-value">{tags.join(", ")}</p>
+            </div>
+          )}
+          {coauthors.length > 0 && (
+            <div class="entry__field">
+              <p class="entry__field-label">Co-authors</p>
+              <p class="entry__field-value">{coauthors.join(", ")}</p>
+            </div>
+          )}
+          {citation && (
+            <div class="entry__field">
+              <p class="entry__field-label">Citation</p>
+              <p class="entry__field-value">{citation}</p>
+            </div>
+          )}
+          {links.length > 0 && (
+            <div class="entry__field">
+              <p class="entry__field-label">Links</p>
+              <ul class="entry__field-links">
+                {links.map(link => (
+                  <li><a href={link.url}>{link.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </footer>
+      )}
+    </article>
+    </div>
+  </div>
 </Layout>
 
 <style>
+  /* The page column is centred, the strip and sheet sit left aligned in it. */
   .entry {
-    max-width: var(--content-width);
-    margin: var(--space-16) auto;
-    padding: 0 var(--space-8);
-    /* The article rises and fades in as one. riseIn lives in global.css. */
-    animation: riseIn 360ms var(--ease-out) backwards;
+    --entry-pad: var(--space-12);
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-12) var(--page-gutter) 0;
   }
+  /* The column sets the width in characters of the base size, so the strip's
+     smaller type does not shrink it. */
+  .entry__column {
+    max-width: calc(var(--content-width) + 2 * var(--entry-pad));
+  }
+
+  /* Bare on the background, so ink. */
   .entry__back {
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
   }
   .entry__back a {
-    font-family: var(--font-sans);
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 180ms var(--ease-out), color var(--transition);
+    color: var(--color-ink);
   }
-  .entry__back a:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
+
+  .entry__strip {
+    padding: var(--space-3) var(--entry-pad);
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg);
+    color: var(--color-muted);
+  }
+  .entry__strip p {
+    font-size: var(--text-sm);
+  }
+  .entry__stream {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .entry__sheet {
+    padding: var(--entry-pad);
   }
   .entry__header {
-    margin-bottom: var(--space-12);
-  }
-  .entry__header :global(.stream-tag) {
-    margin-bottom: var(--space-6);
-  }
-  .entry-rule {
-    width: var(--space-16);
-    height: var(--border-thick);
-    background: var(--color-accent);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
   }
   .entry__header h1 {
-    font-size: var(--text-5xl);
+    font-size: var(--text-entry-title);
     font-weight: 700;
     letter-spacing: var(--tracking-heading);
-    line-height: 1;
+    line-height: 1.05;
+    overflow-wrap: break-word;
     margin-bottom: var(--space-4);
-  }
-  .entry__meta {
-    margin-bottom: var(--space-4);
-  }
-  .entry-meta {
-    margin-bottom: var(--space-8);
-    font-size: var(--text-base);
-    font-family: var(--font-sans);
-    color: var(--color-accent);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-  }
-  .entry-meta-sep {
-    opacity: 0.6;
   }
   .entry__summary {
     font-size: var(--text-xl);
+    line-height: var(--leading-snug);
     color: var(--color-muted);
   }
+
   .entry__fields {
     margin-top: var(--space-12);
-    padding-top: var(--space-8);
+    padding-top: var(--space-6);
     border-top: var(--border-hairline) solid var(--color-hairline);
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
     gap: var(--space-6);
   }
   .entry__field-label {
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 600;
   }
   .entry__field-value {
     color: var(--color-muted);
@@ -180,21 +173,16 @@ const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) |
     list-style: none;
     padding: 0;
     display: grid;
-    gap: var(--space-2);
-  }
-  .entry__field-links a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-thickness: var(--border-hairline);
-    text-underline-offset: var(--underline-offset);
-    transition: opacity 150ms ease;
-  }
-  .entry__field-links a:hover {
-    opacity: 0.75;
+    gap: var(--space-1);
   }
 
-  /* The global rule stops the motion, this stops the back link lift. */
-  @media (prefers-reduced-motion: reduce) {
-    .entry__back a:hover { transform: none; }
+  @media (max-width: 720px) {
+    .entry {
+      --entry-pad: var(--space-6);
+      padding-top: var(--space-8);
+    }
+    .entry__summary {
+      font-size: var(--text-lg);
+    }
   }
 </style>
