@@ -1,13 +1,13 @@
-/* Primary layers design tokens. Palette values come from
+/* Two colour layers design tokens. Palette values come from
    docs/design/redesign-plan.md. Contrast is checked against WCAG AA in the
-   2026-09-25d session doc. */
+   2026-09-25e session doc. */
 
 :root {
   color-scheme: light;
 
-  /* The three primaries. Each theme gives them a role below. */
+  /* The two colours. Each theme uses one for its shapes and the other as
+     its highlight. */
   --blue: #0033a0;
-  --red: #e30613;
   --yellow: #ffd100;
 
   /* Colour, day theme (default, stored as "mist") */
@@ -17,12 +17,10 @@
      background. */
   --color-muted: #595959;
   --color-hairline: rgba(0, 0, 0, 0.12);
-  /* The lead colour carries links, the active nav link, the focus ring and
+  /* The highlight carries links, the active nav link, the focus ring and
      the selection. Blue in day. */
-  --color-lead: var(--blue);
-  --color-on-lead: #ffffff;
-  /* The one red mark per page: the dot next to the name in the nav. */
-  --color-mark: var(--red);
+  --color-highlight: var(--blue);
+  --color-on-highlight: #ffffff;
   /* Large shapes only. Yellow in day, never for text or small elements. */
   --color-shape: var(--yellow);
   /* Grain strength over the shapes. Chosen by eye, low enough to leave the
@@ -127,9 +125,9 @@
   --color-ink: #ffffff;
   --color-muted: #a6a6a6;
   --color-hairline: rgba(255, 255, 255, 0.14);
-  /* Yellow leads in night. */
-  --color-lead: var(--yellow);
-  --color-on-lead: #000000;
+  /* Yellow is the highlight in night. */
+  --color-highlight: var(--yellow);
+  --color-on-highlight: #000000;
   /* Blue only for large shapes. */
   --color-shape: var(--blue);
   --grain-opacity: 0.06;

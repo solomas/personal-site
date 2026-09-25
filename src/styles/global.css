@@ -58,7 +58,7 @@ p, ul, ol {
 }
 
 a {
-  color: var(--color-lead);
+  color: var(--color-highlight);
   text-decoration: underline;
   text-decoration-thickness: var(--border-hairline);
   text-underline-offset: var(--underline-offset);
@@ -85,11 +85,11 @@ button, input, textarea, select {
   font: inherit;
 }
 
-/* Selection in the lead colour: white on blue in day, black on yellow in
+/* Selection in the highlight colour: white on blue in day, black on yellow in
    night. */
 ::selection {
-  background-color: var(--color-lead);
-  color: var(--color-on-lead);
+  background-color: var(--color-highlight);
+  color: var(--color-on-highlight);
 }
 
 .visually-hidden {
@@ -214,9 +214,8 @@ button, input, textarea, select {
    While one .focus-item is hovered or has keyboard focus, everything else
    fades and blurs: the footer, the context, the other items in the same
    panel, other panels and items outside any panel. The nav takes part
-   through its contents (name, links and flip button marked .focus-context),
-   not as a whole, so the red dot stays solid: a faded red dot over the
-   yellow shape would read as orange. The active item stays sharp. Hover only counts on devices that can hover, keyboard focus
+   through its contents (name, links and buttons marked .focus-context).
+   The active item stays sharp. Hover only counts on devices that can hover, keyboard focus
    counts everywhere. Browsers without :has() do not get the effect. */
 :root:has([data-focus="strong"]) {
   --focus-dim-opacity: 0.4;
@@ -253,12 +252,12 @@ button, input, textarea, select {
   }
 }
 
-/* Focus: a 2px ring in the lead colour with a 2px ring in the ground colour
+/* Focus: a 2px ring in the highlight colour with a 2px ring in the ground colour
    around it, so it reads on light and dark surfaces alike. The outline stays for forced
    colours modes. This rule sits after the glass classes so their
    box-shadow does not replace the ring. */
 :focus-visible {
-  outline: var(--border-medium) solid var(--color-lead);
+  outline: var(--border-medium) solid var(--color-highlight);
   outline-offset: 0;
   box-shadow: 0 0 0 calc(2 * var(--border-medium)) var(--color-ground);
 }
