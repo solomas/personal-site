@@ -25,8 +25,6 @@ Next action: open the live site on a phone or use browser devtools at 375px and 
 
 **404 page** (built on branch `redesign`, 2026-09-25f)
 Done. `src/pages/404.astro` builds `dist/404.html`, which Cloudflare Pages serves for unknown paths. Live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: an unknown address returns 404 with "Page not found".
-No custom 404 page exists. The Cloudflare Pages default shows instead. (Migrated from Netlify to Cloudflare Pages at commit a753e98.)
-Next action: create `src/pages/404.astro` using the existing Layout component, matching the site's design language.
 
 **Favicon and Open Graph image** (built on branch `redesign`, 2026-09-25e and 2026-09-25f)
 The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Done, live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: og.png and sitemap.xml return 200. 
