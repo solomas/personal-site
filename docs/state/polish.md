@@ -4,7 +4,7 @@ Last updated: 2026-09-25 (redesign branch note, reduced motion)
 
 ## Status
 
-The redesign runs on branch `redesign` following `docs/design/redesign-plan.md`. On that branch `global.css` now has one global reduced motion rule and the custom cursor is gone. `main` is unchanged.
+The redesign runs on branch `redesign` following `docs/design/redesign-plan.md`. On that branch `global.css` now has one global reduced motion rule and the custom cursor is gone. Phase 2 replaced the triptych, so the triptych smoketest below applies to `main` only. The branch needs its own browser check (see css.md). `main` is unchanged.
 
 The site is live at https://tomasvangorp.pages.dev on Cloudflare Pages. Visual design is complete at desktop scale. Several launch-readiness items remain open: no custom 404 page, no Open Graph image, paragraph spacing not confirmed on the live site, and no mobile testing done.
 
