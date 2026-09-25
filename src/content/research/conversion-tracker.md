@@ -13,4 +13,4 @@ Comparative work goes wrong quietly. Cases get assessed at different moments aga
 
 The tracker holds one record per case: the five dimensions, the evidence behind each with a pointer to where it was found, an outcome category and a confidence rating that stays visible. There is no overall score anywhere, on purpose. A single number would hide exactly the variation the comparison exists to find.
 
-Wales is coded and Brazil is scoped. The tracker is not public yet. I will open it once there are enough cases in it to be worth reading.
+Records for Wales and Brazil are under way. The tracker stays private until the cases can be checked against each other.

@@ -1,6 +1,6 @@
 ---
 title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
-summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. A comparison of Wales, Brazil and China, traced step by step."
+summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. Built on cases in Wales, Brazil and China."
 date: 2025-10-01
 status: live
 venue: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
@@ -12,14 +12,18 @@ links: []
 
 Signing is the easy part. A government adopts a framework that asks its departments to work together on health and the environment, and then the real work begins: turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
 
-The thesis asks under what conditions a signed framework produces substantive institutional change, meaning change in how government actually works, rather than fragmented adoption or stalled implementation. Fragmented adoption is the pattern where each sector does its own part and the links between sectors never change.
+The research question reads: "under what conditions does strategic brokerage produce substantive institutional conversion of integrative planetary health frameworks, rather than implementation stalling or fragmented adoption?"
 
-I test brokerage as the mechanism. Brokers are the people who carry a framework across the boundaries between sectors once the political moment has passed. The thesis asks what they can and cannot move.
+In plain words, the question is when the people who connect different parts of government manage to turn a framework into lasting change. An integrative framework asks several sectors, such as health and environment, to act together. Substantive institutional conversion means the framework changes how government actually works, not only what it says. Fragmented adoption is the pattern where each sector does its own part and the links between sectors never change.
 
-Three cases carry the comparison. In Wales, the Well-being of Future Generations Act 2015 puts the commitment into law, and a decade of implementation now gives something to read. In Brazil, the federal government has pursued joined-up climate and health policy since 2016 and again since 2024, resting on international agreements and domestic scientific authority rather than on a law. In China, ecological civilisation, the national policy agenda for the environment, has been translated into local accounting practice in Lishui, in Zhejiang Province.
+The mechanism I study is second-stage brokerage: what an identifiable person or organisation does to link sectors after a framework has been adopted, once the political moment has passed.
 
-Each case is traced as a sequence of brokerage episodes and coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration. Each dimension comes out as substantive conversion, fragmented adoption or stalled implementation. The five exist to separate a framework that changed how a state works from one that changed how a state talks.
+Three cases will carry the comparison. In Wales, the Well-being of Future Generations Act 2015 put the commitment into law, and a decade of implementation now gives something to trace. In Brazil, the 2016 national adaptation plan and the AdaptaSUS plan for the health system, which runs from 2024 to 2035, bring climate and health together. Both were set by ministerial order under the national climate law of 2009. The third case is in China, and the choice of case is still open.
+
+Each case will be traced as a sequence of brokerage episodes, moments where an identifiable broker tries to move a framework into an institution with the authority to act on it. Each episode is coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration.
+
+The first four dimensions are scored as substantive change, procedural adoption or symbolic adoption. Roughly, that means real change, a change in procedure only or a change on paper only. The fifth, cross-sectoral integration, shows whether the sectors actually work together, and it is the one that tells fragmented adoption apart from real conversion. Fragmented adoption is a finding about a whole case, never a score on one dimension.
 
 This is the only research project I run. The other entries on this page are its parts: the proposal, the literature review, a conceptual paper and the tracker I code the cases in. More will follow as I write them.
 
-Wales is coded. Brazil is scoped and in progress. China comes next. São Tomé and Príncipe is held in reserve as a fourth case.
+Work on Wales and Brazil is under way. The case in China depends on a decision in July 2027, and São Tomé and Príncipe is held in reserve as an alternative.

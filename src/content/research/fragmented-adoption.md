@@ -15,4 +15,4 @@ Integrative frameworks do not belong to one sector. They ask sectors to change h
 
 A system in that state passes every test applied within a single sector. The paper works the pattern through the case of Wales and its Act of 2015.
 
-I wrote it for an elective on urban and regional systems and sustainability. It is drafted, with an eye on submission, and I will link it here if it is published.
+I first wrote it as coursework in August 2026. A journal version is planned, and I will link it here once it is published.
