@@ -23,11 +23,11 @@ interface Props {
 const { items, more } = Astro.props;
 ---
 <div class="entry-panel-wrap">
-  <div class="entry-panel glass-panel">
+  <div class="entry-panel glass-panel focus-panel">
     <ul class="entry-list">
       {items.map(item => (
         <li>
-          <a href={item.href} class="entry-row">
+          <a href={item.href} class="entry-row focus-item">
             <span class="entry-row__date meta">{item.date}</span>
             <span class="entry-row__title">{item.title}</span>
             <span class="entry-row__summary meta">{item.summary}</span>
@@ -38,7 +38,7 @@ const { items, more } = Astro.props;
 
     {more && more.items.length > 0 && (
       <details class="entry-more">
-        <summary class="entry-more__summary">
+        <summary class="entry-more__summary focus-item">
           <span class="entry-more__text">
             <span class="entry-more__label">{more.label}</span>
             <span class="entry-more__caption meta">{more.caption}</span>
@@ -48,7 +48,7 @@ const { items, more } = Astro.props;
         <ul class="entry-list">
           {more.items.map(item => (
             <li>
-              <a href={item.href} class="entry-row">
+              <a href={item.href} class="entry-row focus-item">
                 <span class="entry-row__date meta">{item.date}</span>
                 <span class="entry-row__title">{item.title}</span>
                 <span class="entry-row__summary meta">{item.summary}</span>
@@ -88,7 +88,7 @@ const { items, more } = Astro.props;
     border-radius: var(--radius-md);
     color: var(--color-ink);
     text-decoration: none;
-    transition: background-color var(--transition);
+    transition: var(--focus-transition), background-color var(--transition);
   }
   /* Hover answers with a lighter row and an underlined title. */
   .entry-row:hover {
@@ -130,7 +130,7 @@ const { items, more } = Astro.props;
     border-radius: var(--radius-md);
     list-style: none;
     cursor: pointer;
-    transition: background-color var(--transition);
+    transition: var(--focus-transition), background-color var(--transition);
   }
   .entry-more__summary::-webkit-details-marker {
     display: none;

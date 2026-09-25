@@ -206,6 +206,52 @@ button, input, textarea, select {
   border-left: var(--border-thick) solid var(--color-ink);
 }
 
+/* Focus on hover, shared by the home page and the index pages.
+   Mark up a page with:
+     .focus-item     a highlight (a home sheet, a row, the deck panel)
+     .focus-panel    a container of highlights (the home stack, a glass panel)
+     .focus-context  page text that should step back (the hero, a page title)
+   While one .focus-item is hovered or has keyboard focus, everything else
+   fades and blurs: the nav, the footer, the context, the other items in the
+   same panel, other panels and items outside any panel. The active item
+   stays sharp. Hover only counts on devices that can hover, keyboard focus
+   counts everywhere. Browsers without :has() do not get the effect. */
+:root:has([data-focus="strong"]) {
+  --focus-dim-opacity: 0.4;
+  --focus-dim-blur: 2px;
+}
+.site-header,
+.site-footer,
+.focus-context,
+.focus-panel,
+.focus-item {
+  transition: var(--focus-transition);
+}
+:root:has(.focus-item:focus-visible) :is(.site-header, .site-footer, .focus-context),
+:root:has(.focus-item:focus-visible) .focus-panel:not(:has(.focus-item:focus-visible)),
+:root:has(.focus-item:focus-visible) .focus-item:not(.focus-panel .focus-item):not(:focus-visible),
+.focus-panel:has(.focus-item:focus-visible) .focus-item:not(:focus-visible) {
+  opacity: var(--focus-dim-opacity);
+  filter: blur(var(--focus-dim-blur));
+}
+@media (hover: hover) {
+  :root:has(.focus-item:hover) :is(.site-header, .site-footer, .focus-context),
+  :root:has(.focus-item:hover) .focus-panel:not(:has(.focus-item:hover)),
+  :root:has(.focus-item:hover) .focus-item:not(.focus-panel .focus-item):not(:hover),
+  .focus-panel:has(.focus-item:hover) .focus-item:not(:hover) {
+    opacity: var(--focus-dim-opacity);
+    filter: blur(var(--focus-dim-blur));
+  }
+}
+/* Reduced motion: fade only, no blur. The global rule below removes the
+   transition. */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root:has([data-focus="strong"]) {
+    --focus-dim-blur: 0px;
+  }
+}
+
 /* Focus: a 2px ring in the lead colour with a 2px ring in the ground colour
    around it, so it reads on light and dark surfaces alike. The outline stays for forced
    colours modes. This rule sits after the glass classes so their

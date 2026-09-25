@@ -6,16 +6,17 @@
 //
 // Motion: on the first visit the sheets settle into their stack, once, gated
 // by the "triptych-revealed" localStorage key. Otherwise a sheet only lifts a
-// little on hover.
+// little on hover. The focus on hover effect comes from global.css, in its
+// strong version (data-focus="strong").
 const sheets = [
   { href: "/research/", title: "Research", line: "Doctoral work in planetary health." },
   { href: "/work/", title: "Work", line: "Consulting and programme design." },
   { href: "/projects/", title: "Projects", line: "Side work and experiments." },
 ];
 ---
-<nav class="stack" aria-label="Three streams of work">
+<nav class="stack focus-panel" data-focus="strong" aria-label="Three streams of work">
   {sheets.map((sheet, i) => (
-    <a href={sheet.href} class="stack__sheet glass-panel" style={`--i: ${i}`}>
+    <a href={sheet.href} class="stack__sheet glass-panel focus-item" style={`--i: ${i}`}>
       <span class="stack__title">{sheet.title}</span>
       <span class="stack__line">{sheet.line}</span>
       <span class="stack__arrow" aria-hidden="true">&#8594;</span>
@@ -47,6 +48,10 @@ const sheets = [
     padding: var(--space-6) var(--space-8) calc(var(--space-6) + var(--stack-overlap));
     color: var(--color-ink);
     text-decoration: none;
+    transition:
+      var(--focus-transition),
+      transform 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out);
   }
   .stack__sheet + .stack__sheet {
     margin-top: calc(-1 * var(--stack-overlap));
@@ -92,33 +97,6 @@ const sheets = [
     }
   }
 
-  /* Focus on hover. While one sheet is hovered or has keyboard focus,
-     everything else on the page (the other two sheets, the hero sentence,
-     the nav and the footer) fades to 40 percent and blurs 2px. The active
-     sheet stays sharp and lifts. Hover only counts on devices that can
-     hover, keyboard focus counts everywhere. Browsers without :has() do not
-     get the effect. Opacity and blur values chosen from the prompt. */
-  :global(body:has(.stack) :is(.site-header, .site-footer, .home__hero)),
-  .stack__sheet {
-    transition:
-      opacity 250ms var(--ease-out),
-      filter 250ms var(--ease-out),
-      transform 220ms var(--ease-out),
-      box-shadow 220ms var(--ease-out);
-  }
-  :global(body:has(.stack__sheet:focus-visible) :is(.site-header, .site-footer, .home__hero)),
-  .stack:has(.stack__sheet:focus-visible) .stack__sheet:not(:focus-visible) {
-    opacity: 0.4;
-    filter: blur(2px);
-  }
-  @media (hover: hover) {
-    :global(body:has(.stack__sheet:hover) :is(.site-header, .site-footer, .home__hero)),
-    .stack:has(.stack__sheet:hover) .stack__sheet:not(:hover) {
-      opacity: 0.4;
-      filter: blur(2px);
-    }
-  }
-
   /* First visit only: the sheets settle into the stack from a looser spread.
      The markup ships in the rest position, so no JS, return visits and
      reduced motion all show the stack at rest. */
@@ -152,19 +130,12 @@ const sheets = [
     }
   }
 
-  /* The global rule stops the motion, this stops the hover movement and
-     keeps the focus effect to a fade without blur. */
+  /* The global rule stops the motion, this stops the hover movement. */
   @media (prefers-reduced-motion: reduce) {
     .stack__sheet:hover,
     .stack__sheet:focus-visible,
     .stack__sheet:hover .stack__arrow {
       transform: none;
-    }
-    :global(body:has(.stack__sheet:focus-visible) :is(.site-header, .site-footer, .home__hero)),
-    :global(body:has(.stack__sheet:hover) :is(.site-header, .site-footer, .home__hero)),
-    .stack:has(.stack__sheet:focus-visible) .stack__sheet:not(:focus-visible),
-    .stack:has(.stack__sheet:hover) .stack__sheet:not(:hover) {
-      filter: none;
     }
   }
 </style>

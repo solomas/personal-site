@@ -9,7 +9,7 @@ const deck = entry?.data.links.find(link => link.url.includes("proposal-defence"
 ---
 {entry && deck && (
   <div class="deck-wrap">
-    <a href={deck.url} class="deck glass-panel">
+    <a href={deck.url} class="deck glass-panel focus-item">
       <span class="deck__title">{entry.data.title}</span>
       <span class="deck__label glass-button">{deck.label} <span aria-hidden="true">&#8594;</span></span>
     </a>
@@ -31,7 +31,7 @@ const deck = entry?.data.links.find(link => link.url.includes("proposal-defence"
     padding: var(--space-12);
     color: var(--color-ink);
     text-decoration: none;
-    transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+    transition: var(--focus-transition), transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
   }
   .deck__title {
     font-size: var(--text-3xl);

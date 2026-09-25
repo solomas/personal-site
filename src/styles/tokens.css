@@ -104,6 +104,13 @@
   --border-thick: 3px;
   --underline-offset: 3px;
 
+  /* Focus on hover: how far everything else fades and blurs while one
+     highlight is active. The light version is the default, pages with a
+     [data-focus="strong"] group use the strong one. Values from the brief. */
+  --focus-dim-opacity: 0.6;
+  --focus-dim-blur: 1px;
+  --focus-transition: opacity 250ms var(--ease-out), filter 250ms var(--ease-out);
+
   /* Motion */
   --transition: 150ms ease;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
