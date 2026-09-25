@@ -212,22 +212,23 @@ button, input, textarea, select {
      .focus-panel    a container of highlights (the home stack, a glass panel)
      .focus-context  page text that should step back (the hero, a page title)
    While one .focus-item is hovered or has keyboard focus, everything else
-   fades and blurs: the nav, the footer, the context, the other items in the
-   same panel, other panels and items outside any panel. The active item
-   stays sharp. Hover only counts on devices that can hover, keyboard focus
+   fades and blurs: the footer, the context, the other items in the same
+   panel, other panels and items outside any panel. The nav takes part
+   through its contents (name, links and flip button marked .focus-context),
+   not as a whole, so the red dot stays solid: a faded red dot over the
+   yellow shape would read as orange. The active item stays sharp. Hover only counts on devices that can hover, keyboard focus
    counts everywhere. Browsers without :has() do not get the effect. */
 :root:has([data-focus="strong"]) {
   --focus-dim-opacity: 0.4;
   --focus-dim-blur: 2px;
 }
-.site-header,
 .site-footer,
 .focus-context,
 .focus-panel,
 .focus-item {
   transition: var(--focus-transition);
 }
-:root:has(.focus-item:focus-visible) :is(.site-header, .site-footer, .focus-context),
+:root:has(.focus-item:focus-visible) :is(.site-footer, .focus-context),
 :root:has(.focus-item:focus-visible) .focus-panel:not(:has(.focus-item:focus-visible)),
 :root:has(.focus-item:focus-visible) .focus-item:not(.focus-panel .focus-item):not(:focus-visible),
 .focus-panel:has(.focus-item:focus-visible) .focus-item:not(:focus-visible) {
@@ -235,7 +236,7 @@ button, input, textarea, select {
   filter: blur(var(--focus-dim-blur));
 }
 @media (hover: hover) {
-  :root:has(.focus-item:hover) :is(.site-header, .site-footer, .focus-context),
+  :root:has(.focus-item:hover) :is(.site-footer, .focus-context),
   :root:has(.focus-item:hover) .focus-panel:not(:has(.focus-item:hover)),
   :root:has(.focus-item:hover) .focus-item:not(.focus-panel .focus-item):not(:hover),
   .focus-panel:has(.focus-item:hover) .focus-item:not(:hover) {
