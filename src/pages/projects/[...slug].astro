@@ -1,6 +1,5 @@
 ---
-import Layout from "../../components/Layout.astro";
-import StreamTag from "../../components/StreamTag.astro";
+import EntryLayout from "../../components/EntryLayout.astro";
 import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -8,145 +7,14 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const metaParts = [entry.data.status].filter(Boolean);
 ---
-<Layout title={entry.data.title}>
-  <article class="entry">
-    <p class="entry__back"><a href="/projects/">Back to projects</a></p>
-    <header class="entry__header">
-      <StreamTag stream="projects" />
-      <div class="entry-rule" aria-hidden="true"></div>
-      <h1>{entry.data.title}</h1>
-      {metaParts.length > 0 && <p class="entry__meta meta">{metaParts.join(" · ")}</p>}
-      <p class="entry__summary">{entry.data.summary}</p>
-    </header>
-    <div class="entry__body">
-      <Content />
-    </div>
-    {(entry.data.tags.length > 0 || entry.data.links.length > 0) && (
-      <footer class="entry__fields">
-        {entry.data.tags.length > 0 && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Tags</p>
-            <p class="entry__field-value">{entry.data.tags.join(", ")}</p>
-          </div>
-        )}
-        {entry.data.links.length > 0 && (
-          <div class="entry__field">
-            <p class="entry__field-label meta">Links</p>
-            <ul class="entry__field-links">
-              {entry.data.links.map(link => (
-                <li><a href={link.url}>{link.label}</a></li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </footer>
-    )}
-  </article>
-</Layout>
-
-<style>
-  .entry {
-    max-width: var(--content-width);
-    margin: var(--space-16) auto;
-    padding: 0 var(--space-8);
-    /* Restrained load reveal: the article rises and fades in as one. */
-    animation: riseIn 360ms var(--ease-out) backwards;
-  }
-  .entry__back {
-    margin-bottom: var(--space-8);
-  }
-  .entry__back a {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 180ms var(--ease-out), color var(--transition);
-  }
-  .entry__back a:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
-  }
-  @keyframes riseIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .entry { animation: none; }
-    .entry__back a:hover { transform: none; }
-  }
-  .entry__header {
-    margin-bottom: var(--space-12);
-  }
-  .entry__header :global(.stream-tag) {
-    margin-bottom: var(--space-6);
-  }
-  .entry-rule {
-    width: 4rem;
-    height: 3px;
-    background: var(--color-accent);
-    margin-bottom: 1.5rem;
-  }
-  .entry__header h1 {
-    font-size: var(--text-5xl);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: var(--space-4);
-  }
-  .entry__meta {
-    margin-bottom: var(--space-4);
-  }
-  .entry__summary {
-    font-size: var(--text-xl);
-    color: var(--color-muted);
-  }
-  .entry__body {
-    font-size: var(--text-lg);
-    line-height: var(--leading-normal);
-  }
-  .entry__body :global(p) {
-    margin-bottom: 1.5em;
-  }
-  .entry__body :global(a) {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: opacity 150ms ease;
-  }
-  .entry__body :global(a:hover) {
-    opacity: 0.75;
-  }
-  .entry__fields {
-    margin-top: var(--space-12);
-    padding-top: var(--space-8);
-    border-top: 1px solid var(--color-border);
-    display: grid;
-    gap: var(--space-6);
-  }
-  .entry__field-label {
-    margin-bottom: var(--space-2);
-  }
-  .entry__field-value {
-    color: var(--color-muted);
-  }
-  .entry__field-links {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: var(--space-2);
-  }
-  .entry__field-links a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: opacity 150ms ease;
-  }
-  .entry__field-links a:hover {
-    opacity: 0.75;
-  }
-</style>
+<EntryLayout
+  stream="projects"
+  title={entry.data.title}
+  summary={entry.data.summary}
+  meta={[entry.data.status]}
+  tags={entry.data.tags}
+  links={entry.data.links}
+>
+  <Content />
+</EntryLayout>

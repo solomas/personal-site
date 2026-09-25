@@ -95,12 +95,12 @@
     padding: clamp(var(--space-3), 2.2vw, var(--space-6)) clamp(var(--space-4), 2.4vw, var(--space-8));
     background: var(--color-bg);
     /* Thick Paradiso divider between the bands. */
-    border-top: 3px solid var(--color-text);
+    border-top: var(--border-thick) solid var(--color-text);
     text-decoration: none;
     transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
   .row:last-child {
-    border-bottom: 3px solid var(--color-text);
+    border-bottom: var(--border-thick) solid var(--color-text);
   }
 
   /* Hover fill as a left-to-right sweep rather than a flat colour change. The
@@ -137,7 +137,7 @@
     font-weight: 700;
     font-size: clamp(6rem, 13vh, 11rem);
     line-height: 1;
-    letter-spacing: -0.04em;
+    letter-spacing: var(--tracking-display);
     color: var(--color-accent);
     opacity: 0.14;
     pointer-events: none;
@@ -170,7 +170,7 @@
     margin-left: calc(-1 * clamp(var(--space-4), 2.4vw, var(--space-8)) - 2vw);
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.04em;
+    letter-spacing: var(--tracking-display);
     line-height: 0.9;
     white-space: nowrap;
     text-transform: lowercase;
@@ -209,7 +209,7 @@
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--tracking-wide);
     color: var(--color-text);
     transition: color 260ms var(--ease-out), transform 280ms var(--ease-out);
   }
@@ -218,8 +218,8 @@
   }
 
   .row:focus-visible {
-    outline: 3px solid var(--color-accent);
-    outline-offset: -3px;
+    outline: var(--border-thick) solid var(--color-accent);
+    outline-offset: calc(-1 * var(--border-thick));
   }
 
   /* Hover, bold. Gated to pointer devices, so it never fires on touch. The row
@@ -348,24 +348,10 @@
     }
   }
 
-  /* Reduced motion: no reveal animation and no hover transitions, render and
-     respond instantly in the rest position. The script also skips setting
-     data-reveal, so the reveal half is belt-and-braces. */
+  /* Reduced motion: the global rule in global.css removes the reveal animation
+     and the hover transitions, and the script skips setting data-reveal. This
+     block only neutralises the hover transforms. */
   @media (prefers-reduced-motion: reduce) {
-    .triptych[data-reveal] .row,
-    .triptych[data-reveal] .row__num,
-    .triptych[data-reveal] .row__title {
-      animation: none !important;
-    }
-    .row,
-    .row::before,
-    .row__num,
-    .row__title,
-    .row__caption,
-    .row__go,
-    .row__arrow {
-      transition: none !important;
-    }
     /* No hover movement: neutralise every transform and the dim. The accent
        fill still appears on hover, but instantly (no sweep) so the hover
        affordance survives without motion. */

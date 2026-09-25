@@ -1,0 +1,200 @@
+---
+// Shared detail page for projects, research and work entries. The pages still
+// differ in their meta line and paragraph gap, kept here through props until
+// phase 2 brings them in line.
+import Layout from "./Layout.astro";
+import StreamTag from "./StreamTag.astro";
+
+interface Link {
+  label: string;
+  url: string;
+}
+
+interface Props {
+  stream: "projects" | "work" | "research";
+  title: string;
+  summary: string;
+  /* Parts of the meta line under the title. Empty parts are dropped. */
+  meta?: (string | undefined)[];
+  /* "muted" is the plain mono meta line, "accent" the work page's accent line. */
+  metaVariant?: "muted" | "accent";
+  /* Paragraph gap in the body, a CSS length. */
+  paragraphGap?: string;
+  tags?: string[];
+  coauthors?: string[];
+  citation?: string;
+  links?: Link[];
+}
+
+const {
+  stream,
+  title,
+  summary,
+  meta = [],
+  metaVariant = "muted",
+  paragraphGap,
+  tags = [],
+  coauthors = [],
+  citation,
+  links = [],
+} = Astro.props;
+
+const metaParts = meta.filter((part): part is string => Boolean(part));
+const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) || links.length > 0;
+---
+<Layout title={title}>
+  <article class="entry">
+    <p class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
+    <header class="entry__header">
+      <StreamTag stream={stream} />
+      <div class="entry-rule" aria-hidden="true"></div>
+      <h1>{title}</h1>
+      {metaVariant === "accent" ? (
+        <div class="entry-meta">
+          {metaParts.map((part, i) => (
+            <>
+              {i > 0 && <span class="entry-meta-sep" aria-hidden="true">·</span>}
+              <span>{part}</span>
+            </>
+          ))}
+        </div>
+      ) : (
+        metaParts.length > 0 && <p class="entry__meta meta">{metaParts.join(" · ")}</p>
+      )}
+      <p class="entry__summary">{summary}</p>
+    </header>
+    <div class="entry__body prose" style={paragraphGap ? `--prose-gap: ${paragraphGap}` : undefined}>
+      <slot />
+    </div>
+    {hasFields && (
+      <footer class="entry__fields">
+        {tags.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Tags</p>
+            <p class="entry__field-value">{tags.join(", ")}</p>
+          </div>
+        )}
+        {coauthors.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Co-authors</p>
+            <p class="entry__field-value">{coauthors.join(", ")}</p>
+          </div>
+        )}
+        {citation && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Citation</p>
+            <p class="entry__field-value">{citation}</p>
+          </div>
+        )}
+        {links.length > 0 && (
+          <div class="entry__field">
+            <p class="entry__field-label meta">Links</p>
+            <ul class="entry__field-links">
+              {links.map(link => (
+                <li><a href={link.url}>{link.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </footer>
+    )}
+  </article>
+</Layout>
+
+<style>
+  .entry {
+    max-width: var(--content-width);
+    margin: var(--space-16) auto;
+    padding: 0 var(--space-8);
+    /* The article rises and fades in as one. riseIn lives in global.css. */
+    animation: riseIn 360ms var(--ease-out) backwards;
+  }
+  .entry__back {
+    margin-bottom: var(--space-8);
+  }
+  .entry__back a {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 180ms var(--ease-out), color var(--transition);
+  }
+  .entry__back a:hover {
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .entry__header {
+    margin-bottom: var(--space-12);
+  }
+  .entry__header :global(.stream-tag) {
+    margin-bottom: var(--space-6);
+  }
+  .entry-rule {
+    width: var(--space-16);
+    height: var(--border-thick);
+    background: var(--color-accent);
+    margin-bottom: var(--space-6);
+  }
+  .entry__header h1 {
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1;
+    margin-bottom: var(--space-4);
+  }
+  .entry__meta {
+    margin-bottom: var(--space-4);
+  }
+  .entry-meta {
+    margin-bottom: var(--space-8);
+    font-size: var(--text-legacy-095);
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .entry-meta-sep {
+    opacity: 0.6;
+  }
+  .entry__summary {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+  }
+  .entry__fields {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: var(--border-hairline) solid var(--color-border);
+    display: grid;
+    gap: var(--space-6);
+  }
+  .entry__field-label {
+    margin-bottom: var(--space-2);
+  }
+  .entry__field-value {
+    color: var(--color-muted);
+  }
+  .entry__field-links {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .entry__field-links a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-hairline);
+    text-underline-offset: var(--underline-offset);
+    transition: opacity 150ms ease;
+  }
+  .entry__field-links a:hover {
+    opacity: 0.75;
+  }
+
+  /* The global rule stops the motion, this stops the back link lift. */
+  @media (prefers-reduced-motion: reduce) {
+    .entry__back a:hover { transform: none; }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+// Page header for the stream index pages and contact: section label, optional
+// stream tag, title and lede. The lede can be plain text via the prop or
+// markup via the "lede" slot. The default slot renders after the lede.
+import SectionLabel from "./SectionLabel.astro";
+import StreamTag from "./StreamTag.astro";
+
+interface Props {
+  title: string;
+  label: string;
+  number: string;
+  kicker?: string;
+  stream?: "projects" | "work" | "research";
+  lede?: string;
+}
+
+const { title, label, number, kicker, stream, lede } = Astro.props;
+---
+<section class="stream-header">
+  <div class="stream-header__top">
+    <SectionLabel label={label} number={number} kicker={kicker} />
+    {stream && <StreamTag stream={stream} />}
+  </div>
+  <h1>{title}</h1>
+  <p class="stream-header__lede"><slot name="lede">{lede}</slot></p>
+  <slot />
+</section>
+
+<style>
+  .stream-header {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-8) var(--space-12);
+    border-bottom: var(--border-hairline) solid var(--color-border);
+    margin-bottom: var(--space-12);
+  }
+  .stream-header__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+  .stream-header h1 {
+    font-size: var(--text-6xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-display);
+    line-height: 0.95;
+    margin-bottom: var(--space-6);
+  }
+  .stream-header__lede {
+    font-size: var(--text-xl);
+    color: var(--color-muted);
+    max-width: 50ch;
+  }
+</style>

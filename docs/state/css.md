@@ -1,8 +1,10 @@
 # CSS state
 
-Last updated: 2026-06-16
+Last updated: 2026-09-25
 
 ## Status
+
+The redesign runs on branch `redesign` following `docs/design/redesign-plan.md`. Phase 1 (2026-09-25a) cleaned up the code with no visible change beyond removing the custom cursor. The index header, entry list and detail layout are now shared components (`StreamHeader`, `EntryList`, `EntryLayout`). `@keyframes riseIn`, the markdown body styles (`.prose`) and one global reduced motion rule live in `global.css`. Hardcoded values now read tokens. Everything below describes `main` unless it says otherwise.
 
 A known Astro scoping issue was found and fixed during the content session: `.entry__body p` was failing because Astro appends its cid attribute to both sides of descendant selectors, but markdown-rendered elements do not carry that attribute. The fix was `.entry__body :global(p)`. The same class of bug may exist in other template rules that target markdown-rendered content.
 
@@ -24,6 +26,11 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
+**Redesign phase 2** (open, branch `redesign`)
+Build the plan in `docs/design/redesign-plan.md`. Differences kept through props in `EntryLayout` (meta line style, paragraph gap, field footer) get brought in line here.
+Next action: start phase 2 on branch `redesign`.
+
 **Audit Astro scoped CSS for cid-attribute targeting issues (narrowed)**
+On branch `redesign` this is resolved: markdown body styles moved to the global `.prose` class in `global.css`, so no scoped selector targets markdown output any more. Still open on `main` until the branch merges.
 The `p` instances are now resolved. Projects and research already used `:global(p)`, and the work detail template was fixed to match (6d31d4a). The broader sweep is still open. Any other descendant selector whose right-hand side targets a markdown-rendered element (h2, h3, ul, li, a, blockquote, code) without `:global()` will still fail silently. The three detail templates and any shared layout components that style markdown content have not been swept for those other tag elements.
 Next action: grep for selectors inside `<style>` blocks that target tag elements other than `p` without `:global()` inside entry body containers.

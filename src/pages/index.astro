@@ -15,7 +15,7 @@ import Triptych from "../components/Triptych.astro";
   /* The triptych is the landing hero. The section fills the viewport under the
      header and centres the art, with a slim intro above so the art leads. */
   .home {
-    min-height: calc(100svh - 5rem);
+    min-height: calc(100svh - var(--header-height));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,16 +37,17 @@ import Triptych from "../components/Triptych.astro";
     font-family: var(--font-display);
     font-size: clamp(2rem, 4vw, 3.2rem);
     font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--tracking-title);
     line-height: 1.12;
     margin-inline: auto;
     max-width: 24ch;
     /* Yellow theme: black via the accent token, readable on the amber page. */
     color: var(--color-accent);
   }
-  /* Flip (black) theme: white reads cleaner on pure black than the gold accent. */
+  /* Flip (black) theme: the text colour (white) reads cleaner on pure black
+     than the gold accent. */
   :global([data-theme="flip"]) .home__name {
-    color: #ffffff;
+    color: var(--color-text);
   }
   /* science / society / environment light up: yellow accent in the flip theme,
      and in the yellow theme (where the accent token is black, same as the text)
@@ -69,7 +70,7 @@ import Triptych from "../components/Triptych.astro";
 
   @media (max-width: 720px) {
     .home {
-      min-height: calc(100svh - 5rem);
+      min-height: calc(100svh - var(--header-height));
       justify-content: flex-start;
       padding-top: var(--space-8);
     }

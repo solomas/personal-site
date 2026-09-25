@@ -1,50 +1,19 @@
 ---
 import Layout from "../components/Layout.astro";
-import SectionLabel from "../components/SectionLabel.astro";
+import StreamHeader from "../components/StreamHeader.astro";
 ---
 <Layout title="Contact">
-  <section class="stream-header">
-    <div class="stream-header__top">
-      <SectionLabel label="Contact" number="01" kicker="Get in touch" />
-    </div>
-    <h1>Contact</h1>
-    <p class="stream-header__lede">Get in touch via <a href="mailto:hello@tomasvangorp.com">hello@tomasvangorp.com</a>.</p>
+  <StreamHeader title="Contact" label="Contact" number="01" kicker="Get in touch">
+    <Fragment slot="lede">Get in touch via <a href="mailto:hello@tomasvangorp.com">hello@tomasvangorp.com</a>.</Fragment>
     <ul class="contact-list">
       <li><a href="mailto:hello@tomasvangorp.com" class="contact-link">Email</a></li>
       <li><a href="https://www.linkedin.com/in/tomasvangorp" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="https://orcid.org/0009-0007-1067-039X" class="contact-link" target="_blank" rel="noopener noreferrer">ORCID</a></li>
     </ul>
-  </section>
+  </StreamHeader>
 </Layout>
 
 <style>
-  .stream-header {
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8) var(--space-12);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-12);
-  }
-  .stream-header__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-8);
-    margin-bottom: var(--space-8);
-    flex-wrap: wrap;
-  }
-  .stream-header h1 {
-    font-size: var(--text-6xl);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-    margin-bottom: var(--space-6);
-  }
-  .stream-header__lede {
-    font-size: var(--text-xl);
-    color: var(--color-muted);
-    max-width: 50ch;
-  }
   .contact-list {
     list-style: none;
     padding: 0;
@@ -56,32 +25,29 @@ import SectionLabel from "../components/SectionLabel.astro";
   .contact-link {
     font-family: var(--font-mono);
     font-size: var(--text-sm);
-    letter-spacing: 0.02em;
+    letter-spacing: var(--tracking-meta);
     color: var(--color-muted);
     text-decoration: none;
     display: inline-block;
     /* Load reveal with a light per-item stagger, backwards fill so the hover
-       transform is never blocked by a finished animation. */
+       transform is never blocked by a finished animation. riseIn lives in
+       global.css. */
     animation: riseIn 340ms var(--ease-out) backwards;
     transition: transform 180ms var(--ease-out), color var(--transition);
   }
-  /* Restrained arch echo: a small lift and a gilt underline. */
+  /* A small lift and an underline. */
   .contact-link:hover {
     color: var(--color-accent);
     transform: translateY(-2px);
     text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
+    text-underline-offset: var(--underline-offset-lg);
+    text-decoration-thickness: var(--border-hairline);
   }
   .contact-list li:nth-child(1) .contact-link { animation-delay: 60ms; }
   .contact-list li:nth-child(2) .contact-link { animation-delay: 120ms; }
   .contact-list li:nth-child(3) .contact-link { animation-delay: 180ms; }
-  @keyframes riseIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  /* The global rule stops the motion, this stops the hover lift. */
   @media (prefers-reduced-motion: reduce) {
-    .contact-link { animation: none; }
     .contact-link:hover { transform: none; }
   }
 </style>

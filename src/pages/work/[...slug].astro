@@ -1,6 +1,5 @@
 ---
-import Layout from "../../components/Layout.astro";
-import StreamTag from "../../components/StreamTag.astro";
+import EntryLayout from "../../components/EntryLayout.astro";
 import { getCollection, render } from "astro:content";
 import { formatDateRange } from "../../utils/formatDateRange";
 export async function getStaticPaths() {
@@ -10,112 +9,13 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
-<Layout title={entry.data.title}>
-  <article class="entry">
-    <p class="entry__back"><a href="/work/">Back to work</a></p>
-    <header class="entry__header">
-      <StreamTag stream="work" />
-      <div class="entry-rule" aria-hidden="true"></div>
-      <h1>{entry.data.title}</h1>
-      <div class="entry-meta">
-        <span class="entry-meta-date">{formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}</span>
-        {entry.data.organisation && (
-          <>
-            <span class="entry-meta-sep" aria-hidden="true">·</span>
-            <span class="entry-meta-org">{entry.data.organisation}</span>
-          </>
-        )}
-      </div>
-      <p class="entry__summary">{entry.data.summary}</p>
-    </header>
-    <div class="entry__body">
-      <Content />
-    </div>
-  </article>
-</Layout>
-
-<style>
-  .entry {
-    max-width: var(--content-width);
-    margin: var(--space-16) auto;
-    padding: 0 var(--space-8);
-    /* Restrained load reveal: the article rises and fades in as one. */
-    animation: riseIn 360ms var(--ease-out) backwards;
-  }
-  .entry__back {
-    margin-bottom: var(--space-8);
-  }
-  .entry__back a {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 180ms var(--ease-out), color var(--transition);
-  }
-  .entry__back a:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
-  }
-  @keyframes riseIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .entry { animation: none; }
-    .entry__back a:hover { transform: none; }
-  }
-  .entry__header {
-    margin-bottom: var(--space-12);
-  }
-  .entry__header :global(.stream-tag) {
-    margin-bottom: var(--space-6);
-  }
-  .entry-rule {
-    width: 4rem;
-    height: 3px;
-    background: var(--color-accent);
-    margin-bottom: 1.5rem;
-  }
-  .entry__header h1 {
-    font-size: var(--text-5xl);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: var(--space-4);
-  }
-  .entry-meta {
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
-    font-family: var(--font-mono);
-    color: var(--color-accent);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .entry-meta-sep {
-    opacity: 0.6;
-  }
-  .entry__summary {
-    font-size: var(--text-xl);
-    color: var(--color-muted);
-  }
-  .entry__body {
-    font-size: var(--text-lg);
-    line-height: var(--leading-normal);
-  }
-  .entry__body :global(p) {
-    margin-bottom: var(--space-6);
-  }
-  .entry__body :global(a) {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: opacity 150ms ease;
-  }
-  .entry__body :global(a:hover) {
-    opacity: 0.75;
-  }
-</style>
+<EntryLayout
+  stream="work"
+  title={entry.data.title}
+  summary={entry.data.summary}
+  meta={[formatDateRange(entry.data.date, entry.data.endDate, entry.data.current), entry.data.organisation]}
+  metaVariant="accent"
+  paragraphGap="var(--space-6)"
+>
+  <Content />
+</EntryLayout>

@@ -1,7 +1,7 @@
 ---
 import Layout from "../../components/Layout.astro";
-import StreamTag from "../../components/StreamTag.astro";
-import SectionLabel from "../../components/SectionLabel.astro";
+import StreamHeader from "../../components/StreamHeader.astro";
+import EntryList from "../../components/EntryList.astro";
 import { getCollection } from "astro:content";
 import { formatDateRange } from "../../utils/formatDateRange";
 
@@ -12,30 +12,23 @@ const live = all
 const archived = all
   .filter(e => e.data.status === "archived")
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const items = live.map(entry => ({
+  href: `/work/${entry.id}/`,
+  date: formatDateRange(entry.data.date, entry.data.endDate, entry.data.current),
+  title: entry.data.title,
+  summary: entry.data.summary,
+}));
 ---
 <Layout title="Work">
-  <section class="stream-header">
-    <div class="stream-header__top">
-      <SectionLabel label="Work index" number="01" kicker="Professional practice" />
-      <StreamTag stream="work" />
-    </div>
-    <h1>Work</h1>
-    <p class="stream-header__lede">A preview of selected projects, consulting and programme design over the years.</p>
-  </section>
-
-  <ul class="entry-list">
-    {live.map(entry => (
-      <li>
-        <a href={`/work/${entry.id}/`} class="entry-link work-card">
-          <span class="entry-link__date work-card-date meta">
-            {formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}
-          </span>
-          <span class="entry-link__title work-card-title">{entry.data.title}</span>
-          <span class="entry-link__summary work-card-summary">{entry.data.summary}</span>
-        </a>
-      </li>
-    ))}
-  </ul>
+  <StreamHeader
+    title="Work"
+    label="Work index"
+    number="01"
+    kicker="Professional practice"
+    stream="work"
+    lede="A preview of selected projects, consulting and programme design over the years."
+  />
+  <EntryList items={items} variant="work" />
 
   {archived.length > 0 && (
     <section class="other-work-section">
@@ -53,7 +46,7 @@ const archived = all
         </button>
         <div class="other-work-expanded" id="other-work-expanded" hidden>
           {archived.map(entry => (
-            <a href={`/work/${entry.id}/`} class="work-card archived-card">
+            <a href={`/work/${entry.id}/`} class="archived-card">
               <span class="work-card-date">{formatDateRange(entry.data.date, entry.data.endDate, entry.data.current)}</span>
               <span class="work-card-title">{entry.data.title}</span>
               <span class="work-card-summary">{entry.data.summary}</span>
@@ -66,123 +59,15 @@ const archived = all
 </Layout>
 
 <style>
-  .stream-header {
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8) var(--space-12);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-12);
-  }
-  .stream-header__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-8);
-    margin-bottom: var(--space-8);
-    flex-wrap: wrap;
-  }
-  .stream-header h1 {
-    font-size: var(--text-6xl);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-    margin-bottom: var(--space-6);
-  }
-  .stream-header__lede {
-    font-size: var(--text-xl);
-    color: var(--color-muted);
-    max-width: 50ch;
-  }
-  .entry-list {
-    list-style: none;
-    padding: 0 var(--space-8);
-    max-width: var(--page-width);
-    margin: 0 auto;
-    display: grid;
-    gap: 0;
-  }
-  .entry-link {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    column-gap: var(--space-8);
-    row-gap: var(--space-2);
-    /* Reserve left padding (bar width plus a gap) so the gilt hover bar sits
-       clear of the text and toggling it causes no layout shift. */
-    padding: var(--space-8) 0 var(--space-8) var(--space-4);
-    border-top: 1px solid var(--color-border);
-    text-decoration: none;
-    /* Load reveal with a light per-item stagger, backwards fill so the hover
-       transform is never blocked by a finished animation. */
-    animation: riseIn 340ms var(--ease-out) backwards;
-    transition: color var(--transition);
-  }
-  .entry-link:hover .entry-link__title {
-    color: var(--color-accent);
-  }
-  .entry-list li:nth-child(1) .entry-link { animation-delay: 40ms; }
-  .entry-list li:nth-child(2) .entry-link { animation-delay: 80ms; }
-  .entry-list li:nth-child(3) .entry-link { animation-delay: 120ms; }
-  .entry-list li:nth-child(4) .entry-link { animation-delay: 160ms; }
-  .entry-list li:nth-child(5) .entry-link { animation-delay: 200ms; }
-  .entry-list li:nth-child(n+6) .entry-link { animation-delay: 240ms; }
-  @keyframes riseIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .entry-link__date {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    align-self: start;
-    padding-top: 4px;
-  }
-  .entry-link__title {
-    grid-column: 2;
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-  .entry-link__summary {
-    grid-column: 2;
-    color: var(--color-muted);
-    max-width: 60ch;
-  }
-
-  /* Live entry hover effects */
-  .work-card {
-    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
-    transform-origin: center;
-  }
-  .work-card .work-card-title {
-    transition: transform 200ms ease;
-    display: inline-block;
-  }
-  .work-card .work-card-summary {
-    transition: opacity 200ms ease;
-    opacity: 0.85;
-  }
-  /* Restrained arch echo: a lift and a gilt left edge drawn in the reserved
-     left padding, so it never overlaps the text. */
-  .work-card:hover {
-    transform: translateY(-4px);
-    box-shadow: inset 3px 0 0 var(--color-accent);
-  }
-  .work-card:hover .work-card-title {
-    transform: translateX(4px);
-  }
-  .work-card:hover .work-card-summary {
-    opacity: 1;
-  }
-
   /* Other work folder */
   .other-work-section {
     max-width: var(--page-width);
-    margin: 6rem auto 0;
+    margin: var(--space-24) auto 0;
     padding: 0 var(--space-8);
   }
   .other-work-folder {
-    border: 1px solid currentColor;
-    border-radius: 4px;
+    border: var(--border-hairline) solid currentColor;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     transition: border-color 200ms ease;
   }
@@ -194,7 +79,7 @@ const archived = all
     text-align: left;
     background: transparent;
     border: 0;
-    padding: 1.5rem 1.75rem;
+    padding: var(--space-6) var(--space-7);
     font: inherit;
     color: inherit;
     display: block;
@@ -209,14 +94,14 @@ const archived = all
   .other-work-label {
     display: block;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: var(--text-legacy-105);
     transition: color 200ms ease;
   }
   .other-work-caption {
     display: block;
-    font-size: 0.85rem;
+    font-size: var(--text-legacy-085);
     opacity: 0.6;
-    margin-top: 0.35rem;
+    margin-top: var(--space-legacy-035);
     transition: color 200ms ease;
   }
   .other-work-titles {
@@ -229,9 +114,9 @@ const archived = all
     transition: max-height 250ms ease, opacity 250ms ease, margin-top 250ms ease;
   }
   .other-work-titles li {
-    font-size: 0.85rem;
+    font-size: var(--text-legacy-085);
     opacity: 0.75;
-    margin-top: 0.25rem;
+    margin-top: var(--space-1);
     transition: color 200ms ease;
   }
   .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-label,
@@ -240,15 +125,15 @@ const archived = all
     color: var(--color-accent);
   }
   .other-work-folder:not([data-open="true"]) .other-work-header:hover .other-work-titles {
-    max-height: 250px;
+    max-height: var(--folder-peek-height);
     opacity: 1;
-    margin-top: 1rem;
+    margin-top: var(--space-4);
   }
   .other-work-folder[data-open="true"] .other-work-titles {
     display: none;
   }
   .other-work-expanded {
-    padding: 0 1.75rem 1.5rem;
+    padding: 0 var(--space-7) var(--space-6);
   }
   .other-work-folder[data-open="true"] .other-work-expanded[hidden] {
     display: block;
@@ -257,50 +142,49 @@ const archived = all
   /* Archived cards inside the expanded folder */
   .archived-card {
     display: grid;
-    padding: 1rem 0;
-    border-top: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+    border-top: var(--border-hairline) solid var(--color-border);
     text-decoration: none;
     color: inherit;
-    font-size: 0.9rem;
+    font-size: var(--text-legacy-090);
     /* Reserve left padding so the gilt hover bar clears the text, no shift. */
     padding-left: var(--space-4);
     transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
   }
   .archived-card .work-card-date {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.02em;
+    font-size: var(--text-legacy-080);
+    letter-spacing: var(--tracking-meta);
     opacity: 0.55;
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-1);
   }
   .archived-card .work-card-title {
     font-family: var(--font-display);
-    font-size: 1.15rem;
+    font-size: var(--text-legacy-115);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--tracking-title);
     display: inline-block;
+    transition: transform 200ms ease;
   }
   .archived-card .work-card-summary {
     opacity: 0.65;
-    margin-top: 0.25rem;
+    margin-top: var(--space-1);
+    transition: opacity 200ms ease;
   }
   .archived-card:hover {
     transform: translateY(-2px);
-    box-shadow: inset 3px 0 0 var(--color-accent);
+    box-shadow: inset var(--border-thick) 0 0 var(--color-accent);
   }
   .archived-card:hover .work-card-title {
     transform: translateX(2px);
     color: var(--color-accent);
   }
-
-  @media (max-width: 600px) {
-    .entry-link { grid-template-columns: 1fr; }
-    .entry-link__date { grid-row: 1; }
+  .archived-card:hover .work-card-summary {
+    opacity: 1;
   }
 
+  /* The global rule stops the motion, this stops the hover lift. */
   @media (prefers-reduced-motion: reduce) {
-    .entry-link { animation: none; }
-    .work-card:hover,
     .archived-card:hover { transform: none; }
   }
 </style>

@@ -2,7 +2,6 @@
 import "../styles/global.css";
 import Fonts from "./Fonts.astro";
 import ThemeToggle from "./ThemeToggle.astro";
-import Cursor from "./Cursor.astro";
 
 interface Props {
   title: string;
@@ -34,7 +33,6 @@ const pathname = Astro.url.pathname;
     <Fonts />
   </head>
   <body>
-    <Cursor />
     <header class="site-header">
       <div class="site-header__inner">
         <a href="/" class="site-header__name">Tomás van Gorp</a>
@@ -63,7 +61,7 @@ const pathname = Astro.url.pathname;
 
     <style>
       .site-header {
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: var(--border-hairline) solid var(--color-border);
         /* Horizontal gutter matches the home section, so the brand lines up
            hard-left with the left-flush rows below, and the toggle sits against
            the right gutter. Full-width inner, no centred page-width cap. */
@@ -82,7 +80,7 @@ const pathname = Astro.url.pathname;
         font-size: var(--text-lg);
         font-weight: 600;
         text-decoration: none;
-        letter-spacing: -0.01em;
+        letter-spacing: var(--tracking-snug);
       }
       .site-header__name:hover {
         color: var(--color-accent);
@@ -99,7 +97,7 @@ const pathname = Astro.url.pathname;
         font-size: var(--text-sm);
         text-decoration: none;
         color: var(--color-muted);
-        letter-spacing: 0.02em;
+        letter-spacing: var(--tracking-meta);
         padding-bottom: 4px;
       }
       .nav-link::after {
@@ -108,7 +106,7 @@ const pathname = Astro.url.pathname;
         left: 0;
         right: 0;
         bottom: 0;
-        height: 2px;
+        height: var(--border-medium);
         background-color: var(--color-text);
         transform: scaleX(0);
         transform-origin: left center;
@@ -132,7 +130,7 @@ const pathname = Astro.url.pathname;
         width: 100%;
       }
       .site-footer {
-        border-top: 1px solid var(--color-border);
+        border-top: var(--border-hairline) solid var(--color-border);
         padding: var(--space-8);
         margin-top: var(--space-24);
       }
