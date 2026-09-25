@@ -1,47 +1,44 @@
-/* Folded layers design tokens. Palette values come from
+/* Monochrome layers design tokens. Palette values come from
    docs/design/redesign-plan.md. Contrast is checked against WCAG AA in the
-   2026-09-25b session doc. */
+   2026-09-25c session doc. */
 
 :root {
   color-scheme: light;
 
-  /* Colour, mist theme (default) */
-  --color-ground: #e6eae5;
-  --color-fold-light: #f2f4f0;
-  --color-fold-shadow: #c8d0c9;
-  --color-ink: #16211c;
-  /* Muted text passes AA on glass and sheets, not bare on the fold shadow
-     (4.09:1), so bare text on the background uses --color-ink. */
-  --color-muted: #56615b;
-  --color-accent: #ffd60a;
-  --color-on-accent: #16211c;
-  /* In mist the accent is never a text colour, so links stay ink. */
-  --color-link: var(--color-ink);
-  /* Emphasised words in running text, such as the home hero. Ink in mist,
-     where the accent may not carry text. */
-  --color-emphasis: var(--color-ink);
-  --color-hairline: rgba(22, 33, 28, 0.12);
-  /* Inner focus ring. The yellow ring alone reaches only about 1.2:1 on mist,
-     so an ink ring sits inside it to give the focus state its contrast. */
-  --color-focus-inner: var(--color-ink);
+  /* Colour, day theme (default, stored as "mist") */
+  --color-ground: #f2f2f2;
+  --color-ink: #000000;
+  /* Muted passes AA on glass and sheets, not bare on the darkest shape
+     (3.23:1), so muted text never sits directly on the background. */
+  --color-muted: #595959;
+  --color-hairline: rgba(0, 0, 0, 0.12);
 
-  /* Glass: white at 45 percent, white top edge at 70 percent, ink bottom edge
-     at 10 percent. --glass-solid is the same glass laid over the ground, used
-     where backdrop-filter is missing or transparency is reduced. */
-  --glass-fill: rgba(255, 255, 255, 0.45);
-  --glass-edge-top: rgba(255, 255, 255, 0.7);
-  --glass-edge-bottom: rgba(22, 33, 28, 0.1);
-  --glass-solid: #f1f3f1;
+  /* Background shapes, lightest to darkest. */
+  --shape-1: #e6e6e6;
+  --shape-2: #d6d6d6;
+  --shape-3: #c8c8c8;
+  --shape-4: #bcbcbc;
+  --shape-5: #b0b0b0;
+  /* Grain strength over the shapes. Chosen by eye, low enough to leave the
+     contrast figures unchanged. */
+  --grain-opacity: 0.05;
+
+  /* Glass: white at 55 percent, light top edge, darker bottom edge.
+     --glass-solid is the same glass laid over the ground, used where
+     backdrop-filter is missing or transparency is reduced. */
+  --glass-fill: rgba(255, 255, 255, 0.55);
+  --glass-edge-top: rgba(255, 255, 255, 0.8);
+  --glass-edge-bottom: rgba(0, 0, 0, 0.1);
+  --glass-solid: #f9f9f9;
   /* Hover state of a row inside a glass panel. Chosen, not from the plan. */
-  --glass-hover: rgba(255, 255, 255, 0.35);
+  --glass-hover: rgba(255, 255, 255, 0.6);
 
-  /* Reading sheet: #F7F8F5 at 94 percent. */
-  --sheet-fill: rgba(247, 248, 245, 0.94);
-  --sheet-solid: #f7f8f5;
+  /* Reading sheet, solid. */
+  --sheet: #ffffff;
 
-  /* Sheet shadow, ink tinted. Offsets and alpha chosen by eye. */
-  --shadow-sheet: 0 1px 2px rgba(22, 33, 28, 0.06), 0 18px 40px -18px rgba(22, 33, 28, 0.28);
-  --shadow-lift: 0 2px 4px rgba(22, 33, 28, 0.08), 0 26px 48px -20px rgba(22, 33, 28, 0.34);
+  /* Sheet shadow. Offsets and alpha chosen by eye. */
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.06), 0 18px 40px -18px rgba(0, 0, 0, 0.25);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.08), 0 26px 48px -20px rgba(0, 0, 0, 0.32);
 
   /* Blur radius of the glass. Chosen by eye. */
   --glass-blur: 18px;
@@ -106,37 +103,35 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Night theme (flip). The head script in Layout.astro sets data-theme="flip"
-   when the visitor chose night, or when there is no stored choice and the
-   system asks for dark. */
+/* Night theme (stored as "flip"). The head script in Layout.astro sets
+   data-theme="flip" when the visitor chose night, or when there is no stored
+   choice and the system asks for dark. */
 [data-theme="flip"] {
   color-scheme: dark;
 
-  --color-ground: #0f1614;
-  --color-fold-light: #1d2724;
-  --color-fold-shadow: #070b0a;
-  --color-ink: #eef1ec;
-  --color-muted: #93a099;
-  --color-accent: #ffd60a;
-  --color-on-accent: #0f1614;
-  /* In night the accent may carry text and links. */
-  --color-link: var(--color-accent);
-  --color-emphasis: var(--color-accent);
-  --color-hairline: rgba(238, 241, 236, 0.12);
-  --color-focus-inner: var(--color-ground);
+  --color-ground: #000000;
+  --color-ink: #ffffff;
+  --color-muted: #a6a6a6;
+  --color-hairline: rgba(255, 255, 255, 0.14);
 
-  /* Glass: #1D2724 at 55 percent, white top edge at 12 percent. The plan
-     names no bottom edge for night, the dark edge here is chosen. */
-  --glass-fill: rgba(29, 39, 36, 0.55);
-  --glass-edge-top: rgba(255, 255, 255, 0.12);
-  --glass-edge-bottom: rgba(7, 11, 10, 0.6);
-  --glass-solid: #171f1d;
-  --glass-hover: rgba(255, 255, 255, 0.05);
+  /* Background shapes, darkest to lightest. */
+  --shape-1: #1a1a1a;
+  --shape-2: #222222;
+  --shape-3: #2b2b2b;
+  --shape-4: #353535;
+  --shape-5: #404040;
+  --grain-opacity: 0.06;
 
-  /* Reading sheet: #141C19 at 94 percent. */
-  --sheet-fill: rgba(20, 28, 25, 0.94);
-  --sheet-solid: #141c19;
+  /* Glass: black at 55 percent. The top edge stays light, the bottom edge
+     darker. */
+  --glass-fill: rgba(0, 0, 0, 0.55);
+  --glass-edge-top: rgba(255, 255, 255, 0.14);
+  --glass-edge-bottom: rgba(0, 0, 0, 0.6);
+  --glass-solid: #0c0c0c;
+  --glass-hover: rgba(255, 255, 255, 0.06);
 
-  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -18px rgba(0, 0, 0, 0.7);
-  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.45), 0 26px 48px -20px rgba(0, 0, 0, 0.8);
+  --sheet: #141414;
+
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.55), 0 26px 48px -20px rgba(0, 0, 0, 0.9);
 }

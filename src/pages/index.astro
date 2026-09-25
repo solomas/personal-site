@@ -18,8 +18,8 @@ import HomeSheets from "../components/HomeSheets.astro";
     flex-direction: column;
     gap: var(--space-12);
   }
-  /* The hero sits bare on the folded background, so it is ink. The three
-     emphasised words use --color-emphasis: bold ink in mist, yellow in night. */
+  /* The hero sits bare on the background, so it is ink. The three emphasised
+     words are bold. */
   .home__hero {
     max-width: 22ch;
     font-size: var(--text-hero);
@@ -29,7 +29,6 @@ import HomeSheets from "../components/HomeSheets.astro";
   }
   .home__hero .accent {
     font-weight: 700;
-    color: var(--color-emphasis);
   }
 
   @media (max-width: 720px) {

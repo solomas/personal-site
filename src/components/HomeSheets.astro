@@ -69,11 +69,10 @@ const sheets = [
     transition: transform 220ms var(--ease-out);
   }
 
-  /* Hover: the sheet lifts a little and shows a yellow edge on the left. */
+  /* Hover: the sheet lifts a little on a deeper shadow. */
   .stack__sheet:hover {
     transform: translateY(-4px);
     box-shadow:
-      inset var(--border-thick) 0 0 var(--color-accent),
       inset 0 var(--border-hairline) 0 var(--glass-edge-top),
       inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
       var(--shadow-lift);

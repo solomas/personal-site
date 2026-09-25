@@ -58,7 +58,7 @@ p, ul, ol {
 }
 
 a {
-  color: var(--color-link);
+  color: var(--color-ink);
   text-decoration: underline;
   text-decoration-thickness: var(--border-hairline);
   text-underline-offset: var(--underline-offset);
@@ -85,18 +85,10 @@ button, input, textarea, select {
   font: inherit;
 }
 
+/* Selection inverts ink and ground. */
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
-}
-
-/* Focus: an inner ring in --color-focus-inner and the yellow accent outside
-   it. The inner ring carries the contrast in mist, where yellow alone does
-   not reach 3:1 against the light ground. */
-:focus-visible {
-  outline: var(--border-thick) solid var(--color-accent);
-  outline-offset: var(--border-medium);
-  box-shadow: 0 0 0 var(--border-medium) var(--color-focus-inner);
+  background-color: var(--color-ink);
+  color: var(--color-ground);
 }
 
 .visually-hidden {
@@ -131,7 +123,7 @@ button, input, textarea, select {
 }
 
 .sheet {
-  background: var(--sheet-fill);
+  background: var(--sheet);
   border-radius: var(--radius-lg);
   box-shadow:
     inset 0 var(--border-hairline) 0 var(--glass-edge-top),
@@ -140,7 +132,7 @@ button, input, textarea, select {
 }
 
 /* Small glass button, a pill with the glass edges and a hairline ring. On
-   hover the ring turns yellow. */
+   hover the ring turns ink. */
 .glass-button {
   display: inline-flex;
   align-items: center;
@@ -162,7 +154,7 @@ button, input, textarea, select {
   box-shadow:
     inset 0 var(--border-hairline) 0 var(--glass-edge-top),
     inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-    0 0 0 var(--border-medium) var(--color-accent);
+    0 0 0 var(--border-hairline) var(--color-ink);
 }
 
 /* Solid sheets where backdrop-filter is missing. */
@@ -181,9 +173,6 @@ button, input, textarea, select {
     background: var(--glass-solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-  }
-  .sheet {
-    background: var(--sheet-solid);
   }
 }
 
@@ -213,7 +202,17 @@ button, input, textarea, select {
 }
 .prose blockquote {
   padding-left: var(--space-4);
-  border-left: var(--border-thick) solid var(--color-accent);
+  border-left: var(--border-thick) solid var(--color-ink);
+}
+
+/* Focus: a 2px ink ring with a 2px ring in the ground colour around it, so
+   it reads on light and dark surfaces alike. The outline stays for forced
+   colours modes. This rule sits after the glass classes so their
+   box-shadow does not replace the ring. */
+:focus-visible {
+  outline: var(--border-medium) solid var(--color-ink);
+  outline-offset: 0;
+  box-shadow: 0 0 0 calc(2 * var(--border-medium)) var(--color-ground);
 }
 
 /* One reduced motion rule for the whole site: no animations and no

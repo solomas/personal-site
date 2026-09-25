@@ -111,32 +111,18 @@ const navItems = [
         justify-content: flex-end;
       }
       .site-nav__link {
-        position: relative;
         font-size: var(--text-sm);
         text-decoration: none;
         padding: var(--space-1) 0;
       }
-      /* Active marker: a yellow bar under the link. The state is also carried
-         by weight and aria-current, since yellow on mist is low contrast. */
-      .site-nav__link::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: var(--border-thick);
-        border-radius: var(--border-thick);
-        background: var(--color-accent);
-        transform: scaleX(0);
-        transform-origin: left center;
-        transition: transform 220ms var(--ease-out);
-      }
-      .site-nav__link:hover::after,
-      .site-nav__link.is-active::after {
-        transform: scaleX(1);
+      /* Active link: bold, with aria-current. Hover underlines. */
+      .site-nav__link:hover {
+        text-decoration: underline;
+        text-decoration-thickness: var(--border-hairline);
+        text-underline-offset: var(--underline-offset);
       }
       .site-nav__link.is-active {
-        font-weight: 600;
+        font-weight: 700;
       }
 
       .site-main {
