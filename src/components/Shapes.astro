@@ -122,6 +122,11 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     animation-iteration-count: infinite;
     animation-direction: alternate;
   }
+  /* The base tilt also holds when the animation is off, under reduced
+     motion. */
+  .shape {
+    transform: rotate(var(--r));
+  }
   .shapes.is-paused .shape {
     animation-play-state: paused;
   }
