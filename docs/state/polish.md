@@ -23,11 +23,13 @@ Inner-page motion landed this session (569e43f). Entry rows and cards lift on ho
 The site has media queries for narrow viewports. No testing has been done on phones or at narrow breakpoints. Work and detail pages are the highest-risk areas given their more complex layouts.
 Next action: open the live site on a phone or use browser devtools at 375px and 390px. Document any layout breaks.
 
-**404 page**
+**404 page** (built on branch `redesign`, 2026-09-25f)
+`src/pages/404.astro` builds `dist/404.html`, which Cloudflare Pages serves for unknown paths. Closes on `main` when the branch merges.
 No custom 404 page exists. The Cloudflare Pages default shows instead. (Migrated from Netlify to Cloudflare Pages at commit a753e98.)
 Next action: create `src/pages/404.astro` using the existing Layout component, matching the site's design language.
 
-**Favicon and Open Graph image**
+**Favicon and Open Graph image** (built on branch `redesign`, 2026-09-25e and 2026-09-25f)
+The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Closes on `main` when the branch merges.
 The Astro scaffold SVG favicon is in place at `public/favicon.svg` and `public/favicon.ico`. No OG image exists. Social shares show no preview image.
 Next action: design a 1200x630 OG image, save to `public/`, add `<meta property="og:image">` to the Layout component head.
 
