@@ -262,6 +262,49 @@ button, input, textarea, select {
   box-shadow: 0 0 0 calc(2 * var(--border-medium)) var(--color-ground);
 }
 
+/* Page transitions. Cross document view transitions: every page stays a
+   normal page load, and browsers without support simply load the page.
+   Nothing transitions under reduced motion.
+   The shapes, nav, main and footer each get their own layer. The shapes
+   layer shows the live new page at once, with no animation and no old
+   snapshot, so the drift carries on through the transition. It paints
+   first, so it stays under the content. The other layers crossfade.
+   The "morph" layer is named by the script in Layout.astro on the element
+   that links the two pages: the clicked home sheet, row or deck panel on
+   one side and the header of the other page on the other side, so one
+   grows into the other. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+.shapes { view-transition-name: shapes; }
+.site-header { view-transition-name: site-header; }
+.site-main { view-transition-name: site-main; }
+.site-footer { view-transition-name: site-footer; }
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-group(shapes),
+::view-transition-new(shapes) {
+  animation: none;
+}
+::view-transition-old(shapes) {
+  display: none;
+}
+/* The morphing element keeps its text at natural size while its box grows
+   from one shape into the other, instead of stretching the snapshot. */
+::view-transition-old(morph),
+::view-transition-new(morph) {
+  height: 100%;
+  object-fit: none;
+  object-position: left top;
+  overflow: clip;
+}
+
 /* One reduced motion rule for the whole site: no animations and no
    transitions. Components keep their own guards only where a hover would
    still move something (a transform), since this rule cannot know that. */

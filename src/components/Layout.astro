@@ -52,6 +52,56 @@ const navItems = [
         }
       })();
     </script>
+    <script is:inline>
+      // Page transitions: name the element that links the two pages "morph"
+      // on both sides. Leaving a page, that is the home sheet, row or deck
+      // panel whose link points to the next page, or else this page's header.
+      // Arriving, it is the item that points back to the page just left, or
+      // else this page's header. So a row grows into the detail page's strip,
+      // and going back the strip shrinks into the row again.
+      (function () {
+        function path(url) {
+          try {
+            return new URL(url, location.href).pathname.replace(/\/+$/, "") || "/";
+          } catch (e) {
+            return null;
+          }
+        }
+        function pick(url) {
+          var target = path(url);
+          if (!target) return null;
+          var items = document.querySelectorAll(".focus-item[href]");
+          for (var i = 0; i < items.length; i++) {
+            if (path(items[i].getAttribute("href")) === target) return items[i];
+          }
+          return document.querySelector("[data-vt-header]");
+        }
+        function mark(el, transition) {
+          if (!el) return;
+          el.style.viewTransitionName = "morph";
+          transition.finished.finally(function () {
+            el.style.viewTransitionName = "";
+          });
+        }
+        window.addEventListener("pageswap", function (e) {
+          if (e.viewTransition && e.activation && e.activation.entry) {
+            mark(pick(e.activation.entry.url), e.viewTransition);
+          }
+        });
+        window.addEventListener("pagereveal", function (e) {
+          var from = window.navigation && navigation.activation && navigation.activation.from;
+          if (e.viewTransition && from) mark(pick(from.url), e.viewTransition);
+        });
+        // A page restored from the back and forward cache may still carry a
+        // name from the transition that left it.
+        window.addEventListener("pageshow", function (e) {
+          if (!e.persisted) return;
+          document.querySelectorAll("[style*='view-transition-name']").forEach(function (el) {
+            el.style.viewTransitionName = "";
+          });
+        });
+      })();
+    </script>
     <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
