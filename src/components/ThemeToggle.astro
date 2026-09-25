@@ -1,26 +1,29 @@
 ---
-// Switches between mist and night. Night is stored as localStorage "theme" =
-// "flip", mist as "mist". With nothing stored the page follows the system
-// setting, also when it changes while the page is open.
+// Switches between day and night. Night is stored as localStorage "theme" =
+// "flip", day as "mist". With nothing stored the page follows the system
+// setting, also when it changes while the page is open. The button is an
+// icon, a half filled circle in the text colour. Its label names the theme it
+// switches to.
 ---
-<button id="theme-toggle" class="theme-toggle glass-button focus-context" type="button" aria-label="Switch between light and dark theme" aria-pressed="false">
-  <span class="theme-toggle__dot" aria-hidden="true"></span>
-  <span class="theme-toggle__label">flip</span>
+<button id="theme-toggle" class="theme-toggle glass-button focus-context" type="button" aria-label="Switch theme">
+  <svg class="theme-toggle__icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.75" />
+    <path d="M10 2.5 A7.5 7.5 0 0 0 10 17.5 Z" fill="currentColor" />
+  </svg>
 </button>
 
 <style>
+  /* A round icon button, the same height as the Menu button. */
   .theme-toggle {
     flex-shrink: 0;
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
   }
-  /* Half filled dot: the filled half shows the current theme's ink. */
-  .theme-toggle__dot {
-    width: 0.75em;
-    height: 0.75em;
-    border-radius: 50%;
-    border: var(--border-hairline) solid var(--color-ink);
-    box-shadow: inset 0.375em 0 0 var(--color-ink);
+  .theme-toggle__icon {
+    width: 1.1rem;
+    height: 1.1rem;
   }
 </style>
 
@@ -39,7 +42,7 @@
     } else {
       root.removeAttribute("data-theme");
     }
-    btn?.setAttribute("aria-pressed", night ? "true" : "false");
+    btn?.setAttribute("aria-label", night ? "Switch to light theme" : "Switch to dark theme");
   }
 
   function storedChoice() {

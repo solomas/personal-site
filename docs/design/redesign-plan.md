@@ -41,7 +41,7 @@ Sheets, panels and the nav have large rounded corners. No glow, no neon, no grad
 One family: Geist, self-hosted in the repo.
 
 ## Layout
-Navigation: a floating glass bar. On the home page it shows only the name and the theme button, because the sheets already link to the streams. On every other page the links (Projects, Work, Research, About, Contact) collapse behind a menu button in the bar. The button carries aria-expanded, works with the keyboard and Escape closes it. Without JavaScript the links show open.
+Navigation: a floating glass bar on every page, the home page included: the name on the left, then a Menu button and the theme button on the right. The theme button is an icon, a half filled circle in the text colour, labelled with the theme it switches to. The links (Projects, Work, Research, About, Contact) stay hidden until Menu is pressed. Opening and closing takes about 250ms inside the bar: the bar grows and the links fade and slide in a little, with no transition under reduced motion. The button carries aria-expanded, Tab moves from it into the links and Escape closes the menu and returns focus to it. Without JavaScript the links show open.
 Home: the glass bar, the hero sentence, then Research, Work and Projects as three overlapping glass sheets with one line each. No numbering.
 Index pages: page title and a short intro, then one glass panel with entries as rows split by hairlines. Other work on the work page folds open inside the same panel. The research page opens with a prominent glass panel that links to the proposal defence deck.
 Detail pages: one shared layout for all three collections. A glass header strip with stream, date and organisation, a reading sheet 68 characters wide and left aligned, and a footer with tags and links for all three.
@@ -62,7 +62,7 @@ Removed: numbered markers, the © label with (01), mono labels, the custom curso
 - Solid sheets as fallback where backdrop-filter is missing or the visitor asks for reduced transparency.
 
 ## Themes
-The first visit follows the system setting. The flip button switches between day and night. The localStorage key "theme" stores "flip" for night and "mist" for day. The head script stays so there is no flash.
+The first visit follows the system setting. The theme button switches between day and night. The localStorage key "theme" stores "flip" for night and "mist" for day. The head script stays so there is no flash.
 
 ## Copy
 Copy stays as it is for now. It will be rewritten in a later pass, so every layout must work with shorter or longer text.
