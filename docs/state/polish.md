@@ -1,6 +1,6 @@
 # Polish state
 
-Last updated: 2026-09-25 (redesign merged to main, 404 and social preview live)
+Last updated: 2026-09-25 (redesign merged to main, 404 and social preview live, npm audit recorded)
 
 ## Status
 
@@ -40,3 +40,8 @@ Next action: open a detail page on the live site, confirm 1.5em reads well, adju
 **Content-Security-Policy absent, and the deck depends on that**
 `public/_headers` sets `X-Frame-Options`, `X-Content-Type-Options` and `Referrer-Policy`, but no Content-Security-Policy. With no CSP there is no `script-src` restriction, which is why the proposal defence deck runs: it uses Babel Standalone, which needs `eval` (`unsafe-eval`), and inline JSX (`unsafe-inline`), and it loads Three.js, React and fonts from `blob:` URLs. A future site-wide CSP would block the deck unless the deck is path-exempted. Cloudflare Pages `_headers` supports path-scoped rules, so any CSP added later must carve out both `/after-the-commitment-proposal-defence.html` and its clean URL `/after-the-commitment-proposal-defence` with a per-path policy allowing `unsafe-eval`, `unsafe-inline` and `blob:` scripts. No change to `_headers` now, this is a backlog note so the dependency is not lost.
 Next action: if a site-wide CSP is introduced, path-exempt the deck as above, then re-test the deck live (console clean, WebGL renders, no CSP violations).
+
+**npm audit: Astro 6.3.1 and its dependencies** (recorded 2026-09-25n)
+npm audit reports 10 vulnerable packages: 1 critical, 8 high, 1 low. All come in through astro@6.3.1, the only direct dependency. None reach the live site: the build ships no JavaScript files, only HTML with small inline scripts, one CSS file, fonts and images, and the site has no server, no user input and no Astro image processing. The exposure is the build, on this Mac and on Cloudflare's build servers, and only with untrusted input such as a crafted AVIF image or YAML file. Astro 6.4.8, the last 6.x, fixes three of the eight Astro advisories and not the critical one. Astro 7.2.8 or later fixes all eight, and 7.3.5 (latest on 2026-09-25) also pulls fixed versions of vite, devalue, js-yaml, smol-toml, svgo, esbuild and sharp. That is a major upgrade from 6 to 7.
+Next action: upgrade to Astro 7.3.5 on a branch, build, check the pages and the view transitions, then merge.
+

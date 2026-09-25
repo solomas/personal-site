@@ -1,6 +1,6 @@
 # State index
 
-Last updated: 2026-06-16
+Last updated: 2026-09-25
 
 Session conventions and the close-out protocol live in `./CLAUDE.md`.
 
@@ -9,7 +9,7 @@ Workstream state docs live in `docs/state/`. Each covers one workstream and reco
 | Doc | Workstream | Key open items |
 |---|---|---|
 | [content.md](docs/state/content.md) | Content entries and field rendering | PhD diagram embed |
-| [polish.md](docs/state/polish.md) | Launch-readiness polish | 404 page, OG image, mobile responsive check, triptych browser smoketest, paragraph spacing confirm |
+| [polish.md](docs/state/polish.md) | Launch-readiness polish | mobile responsive check, paragraph spacing confirm, Astro 7 upgrade to clear the npm audit |
 | [css.md](docs/state/css.md) | Templates and CSS | triptych now fully on theme tokens and flips with the toggle (old fixed-palette exception retired), inner-page motion with per-page reduced-motion guards, cid-attribute scoping sweep narrowed (p fixed, other tags open) |
 | [optional-features.md](docs/state/optional-features.md) | Speculative features pending decision | about page, tag filtering, site search, education/publications placement |
 
