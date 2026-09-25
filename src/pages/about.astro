@@ -1,0 +1,33 @@
+---
+import ReadingLayout from "../components/ReadingLayout.astro";
+---
+<ReadingLayout title="About">
+  <h1 slot="strip" class="about__title">About</h1>
+
+  <div class="prose">
+    <p>I am a researcher and consultant working where science, society and environment meet.</p>
+    <p>My doctoral research in planetary health looks at what happens after a governance framework is adopted, and why implementation so often falls short of the commitment on paper.</p>
+    <p>Alongside the PhD I advise organisations on governance, reporting and programme design.</p>
+    <p>I trained in anthropology and in arts, culture and society in the Netherlands. That background shapes how I work: I look at institutions, incentives and the people who have to make a plan run.</p>
+  </div>
+
+  <p class="about__contact"><a href="/contact/">Contact</a></p>
+</ReadingLayout>
+
+<style>
+  /* The title sits in the glass strip, in ink. */
+  .about__title {
+    padding: var(--space-3) 0;
+    font-size: var(--text-entry-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.05;
+    color: var(--color-ink);
+  }
+  .about__contact {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    font-size: var(--text-lg);
+  }
+</style>

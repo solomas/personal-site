@@ -1,10 +1,10 @@
 ---
-// One detail page for projects, research and work entries: a glass header
-// strip with the stream and the meta line, then a near solid reading sheet,
-// 68 characters wide and left aligned, with the title, summary, body and a
+// One detail page for projects, research and work entries, in the shared
+// reading frame: a back link, a glass header strip with the stream and the
+// meta line, then the reading sheet with the title, summary, body and a
 // footer of tags, co-authors, citation and links. Each footer block renders
 // only when its field has content.
-import Layout from "./Layout.astro";
+import ReadingLayout from "./ReadingLayout.astro";
 
 interface Link {
   label: string;
@@ -37,79 +37,58 @@ const {
 const metaParts = meta.filter((part): part is string => Boolean(part));
 const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) || links.length > 0;
 ---
-<Layout title={title} slowShapes>
-  <div class="entry">
-    <p class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
+<ReadingLayout title={title}>
+  <p slot="before" class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
 
-    <div class="entry__column">
-    <div class="entry__strip glass">
-      <p>
-        <span class="entry__stream">{stream}</span>
-        {metaParts.map(part => <>{"\u00a0· "}<span>{part}</span></>)}
-      </p>
-    </div>
+  <p slot="strip" class="entry__strip-text">
+    <span class="entry__stream">{stream}</span>
+    {metaParts.map(part => <>{"\u00a0· "}<span>{part}</span></>)}
+  </p>
 
-    <article class="entry__sheet sheet">
-      <header class="entry__header">
-        <h1>{title}</h1>
-        <p class="entry__summary">{summary}</p>
-      </header>
+  <header class="entry__header">
+    <h1>{title}</h1>
+    <p class="entry__summary">{summary}</p>
+  </header>
 
-      <div class="entry__body prose">
-        <slot />
-      </div>
-
-      {hasFields && (
-        <footer class="entry__fields">
-          {tags.length > 0 && (
-            <div class="entry__field">
-              <p class="entry__field-label">Tags</p>
-              <p class="entry__field-value">{tags.join(", ")}</p>
-            </div>
-          )}
-          {coauthors.length > 0 && (
-            <div class="entry__field">
-              <p class="entry__field-label">Co-authors</p>
-              <p class="entry__field-value">{coauthors.join(", ")}</p>
-            </div>
-          )}
-          {citation && (
-            <div class="entry__field">
-              <p class="entry__field-label">Citation</p>
-              <p class="entry__field-value">{citation}</p>
-            </div>
-          )}
-          {links.length > 0 && (
-            <div class="entry__field">
-              <p class="entry__field-label">Links</p>
-              <ul class="entry__field-links">
-                {links.map(link => (
-                  <li><a href={link.url}>{link.label}</a></li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </footer>
-      )}
-    </article>
-    </div>
+  <div class="entry__body prose">
+    <slot />
   </div>
-</Layout>
+
+  {hasFields && (
+    <footer class="entry__fields">
+      {tags.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Tags</p>
+          <p class="entry__field-value">{tags.join(", ")}</p>
+        </div>
+      )}
+      {coauthors.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Co-authors</p>
+          <p class="entry__field-value">{coauthors.join(", ")}</p>
+        </div>
+      )}
+      {citation && (
+        <div class="entry__field">
+          <p class="entry__field-label">Citation</p>
+          <p class="entry__field-value">{citation}</p>
+        </div>
+      )}
+      {links.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Links</p>
+          <ul class="entry__field-links">
+            {links.map(link => (
+              <li><a href={link.url}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </footer>
+  )}
+</ReadingLayout>
 
 <style>
-  /* The page column is centred, the strip and sheet sit left aligned in it. */
-  .entry {
-    --entry-pad: var(--space-12);
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-12) var(--page-gutter) 0;
-  }
-  /* The column sets the width in characters of the base size, so the strip's
-     smaller type does not shrink it. */
-  .entry__column {
-    max-width: calc(var(--content-width) + 2 * var(--entry-pad));
-  }
-
   /* Bare on the background, so ink. */
   .entry__back {
     margin-bottom: var(--space-6);
@@ -119,13 +98,7 @@ const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) |
     color: var(--color-ink);
   }
 
-  .entry__strip {
-    padding: var(--space-3) var(--entry-pad);
-    margin-bottom: var(--space-4);
-    border-radius: var(--radius-lg);
-    color: var(--color-muted);
-  }
-  .entry__strip p {
+  .entry__strip-text {
     font-size: var(--text-sm);
   }
   .entry__stream {
@@ -133,9 +106,6 @@ const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) |
     font-weight: 600;
   }
 
-  .entry__sheet {
-    padding: var(--entry-pad);
-  }
   .entry__header {
     margin-bottom: var(--space-8);
   }
@@ -177,10 +147,6 @@ const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) |
   }
 
   @media (max-width: 720px) {
-    .entry {
-      --entry-pad: var(--space-6);
-      padding-top: var(--space-8);
-    }
     .entry__summary {
       font-size: var(--text-lg);
     }

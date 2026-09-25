@@ -1,0 +1,60 @@
+---
+// The reading frame shared by the detail pages and the about page: a column
+// in the centred page, holding a glass header strip and a solid reading
+// sheet, 68 characters wide and left aligned. Detail pages drift the shapes
+// three times slower.
+//   slot "before"  above the strip (the back link on detail pages)
+//   slot "strip"   inside the glass header strip
+//   default slot   inside the reading sheet
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+<Layout title={title} slowShapes>
+  <div class="reading">
+    <slot name="before" />
+    <div class="reading__column">
+      <div class="reading__strip glass">
+        <slot name="strip" />
+      </div>
+      <article class="reading__sheet sheet">
+        <slot />
+      </article>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* The page column is centred, the strip and sheet sit left aligned in it.
+     --reading-pad is read by the pages that fill the frame. */
+  .reading {
+    --reading-pad: var(--space-12);
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-12) var(--page-gutter) 0;
+  }
+  /* The column sets the width in characters of the base size, so smaller
+     type inside the strip does not shrink it. */
+  .reading__column {
+    max-width: calc(var(--content-width) + 2 * var(--reading-pad));
+  }
+  .reading__strip {
+    padding: var(--space-3) var(--reading-pad);
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg);
+    color: var(--color-muted);
+  }
+  .reading__sheet {
+    padding: var(--reading-pad);
+  }
+  @media (max-width: 720px) {
+    .reading {
+      --reading-pad: var(--space-6);
+      padding-top: var(--space-8);
+    }
+  }
+</style>
