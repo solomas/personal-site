@@ -15,11 +15,12 @@ const toItem = (entry: (typeof all)[number]) => ({
 });
 const live = all.filter(e => e.data.status === "live").sort(byDateDesc).map(toItem);
 const archived = all.filter(e => e.data.status === "archived").sort(byDateDesc).map(toItem);
+const lede = "A preview of selected projects, consulting and programme design over the years.";
 ---
-<Layout title="Work">
+<Layout title="Work" description={lede}>
   <StreamHeader
     title="Work"
-    lede="A preview of selected projects, consulting and programme design over the years."
+    lede={lede}
   />
   <EntryList
     items={live}

@@ -11,11 +11,12 @@ const items = entries.map(entry => ({
   title: entry.data.title,
   summary: entry.data.summary,
 }));
+const lede = "Side work, experiments and things made out of curiosity.";
 ---
-<Layout title="Projects">
+<Layout title="Projects" description={lede}>
   <StreamHeader
     title="Projects"
-    lede="Side work, experiments and things made out of curiosity."
+    lede={lede}
   />
   <EntryList items={items} />
 </Layout>

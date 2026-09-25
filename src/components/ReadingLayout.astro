@@ -10,11 +10,13 @@ import Layout from "./Layout.astro";
 
 interface Props {
   title: string;
+  /* Page summary for the description and social preview tags. */
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 ---
-<Layout title={title} slowShapes>
+<Layout title={title} description={description} slowShapes>
   <div class="reading">
     <slot name="before" />
     <div class="reading__column">

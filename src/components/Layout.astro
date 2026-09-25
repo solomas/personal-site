@@ -13,10 +13,16 @@ interface Props {
   navLinks?: boolean;
   /* One drifting shape instead of four, used on the 404 page. */
   singleShape?: boolean;
+  /* Keep the page out of search results and leave out the canonical link,
+     used on the 404 page. */
+  noindex?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, navLinks = true, singleShape = false } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, navLinks = true, singleShape = false, noindex = false } = Astro.props;
 const pathname = Astro.url.pathname;
+// Absolute URLs from the site address in astro.config.mjs.
+const canonical = new URL(pathname, Astro.site).href;
+const socialImage = new URL("/og.png", Astro.site).href;
 const navItems = [
   { href: "/projects/", label: "Projects" },
   { href: "/work/", label: "Work" },
@@ -33,6 +39,20 @@ const navItems = [
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tomás van Gorp" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Tomás van Gorp. I work, advise and research where science, society and environment meet." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
     <script is:inline>
       // Theme before first paint, so there is no flash. A stored "flip" means
       // night and a stored "mist" means mist. With no stored choice the first

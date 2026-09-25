@@ -37,7 +37,7 @@ const {
 const metaParts = meta.filter((part): part is string => Boolean(part));
 const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) || links.length > 0;
 ---
-<ReadingLayout title={title}>
+<ReadingLayout title={title} description={summary}>
   <p slot="before" class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
 
   <p slot="strip" class="entry__strip-text">
