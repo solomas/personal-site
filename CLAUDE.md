@@ -85,7 +85,7 @@ Before any commit that touches `.md`, `.mdx`, `.astro`, `.html` or content files
 - `src/styles/` for shared styles.
 
 ## Design tokens
-Monochrome layers design, see `docs/design/redesign-plan.md`. Two themes: day (stored as "mist", ground #F2F2F2, black ink) and night (stored as "flip", ground #000000, white ink). No accent colour: links are underlined, the active nav link is bold, focus is a 2px ink ring inside a 2px ground ring. Soft grey round shapes drift behind a fine static grain. Translucent glass for navigation, panels and buttons, a solid reading sheet for long text. Muted text only on glass or sheets. One family, Geist, self-hosted in `public/fonts/`. See `src/styles/tokens.css` for values. Do not duplicate values in component styles, reference the custom properties.
+Primary layers design, see `docs/design/redesign-plan.md`. Blue #0033A0, red #E30613, yellow #FFD100. Day (stored as "mist"): white ground, black ink, blue leads (links, active nav link, focus ring, selection), yellow only for large shapes. Night (stored as "flip"): black ground, white ink, yellow leads, blue only for large shapes. Red appears once per page, the dot next to the name in the nav, and in the favicon. Nothing else is red. Focus is a 2px lead ring inside a 2px ground ring. Two soft round shapes and one 70s stripe drift under a static grain, never overlapping, never under text. Glass for navigation, panels and buttons, a solid reading sheet for long text. Muted text only on glass or sheets. One family, Geist, self-hosted in `public/fonts/`. See `src/styles/tokens.css` for values. Do not duplicate values in component styles, reference the custom properties.
 
 ## Build commands
 - Dev: `npm run dev`
