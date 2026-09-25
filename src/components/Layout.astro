@@ -8,14 +8,18 @@ interface Props {
   description?: string;
   /* Slower background drift, used on the detail pages. */
   slowShapes?: boolean;
+  /* Show the menu with the page links. The home page turns it off, since its
+     sheets already link to the streams. */
+  navLinks?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, navLinks = true } = Astro.props;
 const pathname = Astro.url.pathname;
 const navItems = [
   { href: "/projects/", label: "Projects" },
   { href: "/work/", label: "Work" },
   { href: "/research/", label: "Research" },
+  { href: "/about/", label: "About" },
   { href: "/contact/", label: "Contact" },
 ];
 ---
@@ -55,20 +59,58 @@ const navItems = [
     <header class="site-header">
       <div class="site-nav glass">
         <a href="/" class="site-nav__name"><span class="focus-context">Tomás van Gorp</span></a>
-        <nav class="site-nav__links focus-context" aria-label="Primary">
-          {navItems.map(item => {
-            const active = pathname.startsWith(item.href);
-            return (
-              <a
-                href={item.href}
-                class:list={["site-nav__link", { "is-active": active }]}
-                aria-current={active ? "page" : undefined}
-              >{item.label}</a>
-            );
-          })}
-        </nav>
         <ThemeToggle />
+        {navLinks && (
+          <button type="button" class="site-nav__menu glass-button focus-context" aria-expanded="false" aria-controls="site-nav-links" hidden>
+            <span class="site-nav__menu-icon" aria-hidden="true"></span>
+            Menu
+          </button>
+        )}
+        {navLinks && (
+          <nav id="site-nav-links" class="site-nav__links focus-context" aria-label="Primary">
+            {navItems.map(item => {
+              const active = pathname.startsWith(item.href);
+              return (
+                <a
+                  href={item.href}
+                  class:list={["site-nav__link", { "is-active": active }]}
+                  aria-current={active ? "page" : undefined}
+                >{item.label}</a>
+              );
+            })}
+          </nav>
+        )}
       </div>
+      {navLinks && (
+        <script is:inline>
+          // The menu. Without JavaScript the links stay open and the button
+          // stays hidden. With it, the links collapse behind the button before
+          // first paint. The button toggles them, Escape closes them and
+          // returns focus to the button.
+          (function () {
+            var nav = document.querySelector(".site-nav");
+            var button = nav && nav.querySelector(".site-nav__menu");
+            var links = document.getElementById("site-nav-links");
+            if (!button || !links) return;
+            function set(open) {
+              button.setAttribute("aria-expanded", open ? "true" : "false");
+              links.hidden = !open;
+              nav.classList.toggle("is-open", open);
+            }
+            button.hidden = false;
+            set(false);
+            button.addEventListener("click", function () {
+              set(button.getAttribute("aria-expanded") !== "true");
+            });
+            document.addEventListener("keydown", function (e) {
+              if (e.key !== "Escape" || button.getAttribute("aria-expanded") !== "true") return;
+              var inside = nav.contains(document.activeElement);
+              set(false);
+              if (inside) button.focus();
+            });
+          })();
+        </script>
+      )}
     </header>
 
     <main class="site-main">
@@ -100,20 +142,70 @@ const navItems = [
         color: var(--color-ink);
       }
       .site-nav__name {
+        flex: 1;
         font-size: var(--text-base);
         font-weight: 600;
         letter-spacing: var(--tracking-snug);
         text-decoration: none;
         white-space: nowrap;
       }
+      /* Menu button: a glass pill with a two line icon that turns into a
+         cross while the menu is open. */
+      .site-nav__menu {
+        flex-shrink: 0;
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--text-sm);
+      }
+      .site-nav__menu[hidden] {
+        display: none;
+      }
+      .site-nav__menu-icon {
+        position: relative;
+        width: 0.9em;
+        height: 0.6em;
+        border-top: var(--border-medium) solid currentColor;
+        border-bottom: var(--border-medium) solid currentColor;
+        transition: transform 180ms var(--ease-out), border-color 180ms var(--ease-out);
+      }
+      .site-nav.is-open .site-nav__menu-icon {
+        border-color: transparent;
+      }
+      .site-nav.is-open .site-nav__menu-icon::before,
+      .site-nav.is-open .site-nav__menu-icon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(50% - var(--border-medium) / 2);
+        height: var(--border-medium);
+        background: currentColor;
+        transform: rotate(45deg);
+      }
+      .site-nav.is-open .site-nav__menu-icon::after {
+        transform: rotate(-45deg);
+      }
+
+      /* The links sit on their own row inside the bar, under a hairline.
+         While they show, the bar trades its pill shape for panel corners. */
+      .site-nav:has(.site-nav__links:not([hidden])) {
+        flex-wrap: wrap;
+        border-radius: var(--radius-lg);
+      }
       .site-nav__links {
+        flex-basis: 100%;
         display: flex;
-        gap: var(--space-6);
-        flex: 1;
-        justify-content: flex-end;
+        flex-wrap: wrap;
+        column-gap: var(--space-8);
+        row-gap: var(--space-2);
+        margin: var(--space-1) var(--space-4) var(--space-2) 0;
+        padding-top: var(--space-3);
+        border-top: var(--border-hairline) solid var(--color-hairline);
+      }
+      .site-nav__links[hidden] {
+        display: none;
       }
       .site-nav__link {
-        font-size: var(--text-sm);
+        font-size: var(--text-base);
         text-decoration: none;
         padding: var(--space-1) 0;
       }
@@ -152,14 +244,18 @@ const navItems = [
           border-radius: var(--radius-lg);
           padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
         }
-        .site-nav__name {
-          flex: 1;
+        .site-nav {
+          column-gap: var(--space-2);
+        }
+        .site-nav :global(.glass-button) {
+          padding: var(--space-2) var(--space-3);
         }
         .site-nav__links {
-          order: 3;
-          flex-basis: 100%;
-          justify-content: space-between;
-          gap: var(--space-3);
+          flex-direction: column;
+          row-gap: 0;
+        }
+        .site-nav__link {
+          padding: var(--space-2) 0;
         }
       }
     </style>
