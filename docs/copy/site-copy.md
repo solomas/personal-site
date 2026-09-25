@@ -281,7 +281,7 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 
   > The mechanism I study is second-stage brokerage: what an identifiable person or organisation does to link sectors after a framework has been adopted, once the political moment has passed.
 
-  > Three cases will carry the comparison. In Wales, the Well-being of Future Generations Act 2015 put the commitment into law, and a decade of implementation now gives something to trace. In Brazil, the 2016 national adaptation plan and the AdaptaSUS plan for the health system, which runs from 2024 to 2035, bring climate and health together. Both were set by ministerial order under the national climate law of 2009. The third case is in China, and the choice of case is still open.
+  > Three cases will carry the comparison. In Wales, the Well-being of Future Generations Act 2015 put the commitment into law, and a decade of implementation now gives something to trace. In Brazil, the 2016 national adaptation plan and the AdaptaSUS plan for the health system, which runs from 2024 to 2035, bring climate and health together. Both were set by ministerial order under the national climate law of 2009. The third case is in China, around the national policy agenda of ecological civilisation.
 
   > Each case will be traced as a sequence of brokerage episodes, moments where an identifiable broker tries to move a framework into an institution with the authority to act on it. Each episode is coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration.
 
@@ -289,7 +289,7 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 
   > This is the only research project I run. The other entries on this page are its parts: the proposal, the literature review, a conceptual paper and the tracker I code the cases in. More will follow as I write them.
 
-  > Work on Wales and Brazil is under way. The case in China depends on a decision in July 2027, and São Tomé and Príncipe is held in reserve as an alternative.
+  > Work on Wales and Brazil is under way, and China comes next. São Tomé and Príncipe is held in reserve as a fourth case.
 
 #### The Conversion Tracker
 
