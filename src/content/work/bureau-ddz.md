@@ -9,4 +9,4 @@ status: archived
 tags: [design-research, public-sector]
 ---
 
-Bureau DDZ was a full service innovation agency in Amsterdam, now closed. Research projects on the desk mixed arts and science methods for public clients, including the Ministry of Infrastructure and Water Management and the municipalities of Amsterdam and Utrecht. Project management and stakeholder coordination across government, corporate and cultural partners ran alongside.
+Bureau DDZ was a full-service innovation agency in Amsterdam. It has since closed. I worked on research projects that mixed methods from art and science for public clients, including the Ministry of Infrastructure and Water Management and the municipalities of Amsterdam and Utrecht. Alongside the research I managed projects and coordinated partners across government, business and culture.

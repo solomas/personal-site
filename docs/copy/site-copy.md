@@ -1,6 +1,6 @@
 # Site copy
 
-Every piece of visible text on the site as of 25 September 2026, branch `redesign`, exported for the copy rewrite. Nothing here changes the site. Each item names its source file.
+Every piece of visible text on the site as of 25 September 2026, branch `redesign`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`. Nothing here changes the site. Each item names its source file.
 
 Tags: [phd] marks text about the PhD or academic research. [general] marks everything else. Research roles outside the PhD, such as the Rabobank and Paradiso work, count as [general].
 
@@ -19,55 +19,55 @@ Text built from data rather than written as copy, such as dates, date ranges and
 - [general] "Switch to dark theme" (theme button label for screen readers, day theme). Source: `src/components/ThemeToggle.astro`
 - [general] "Switch to light theme" (theme button label for screen readers, night theme). Source: `src/components/ThemeToggle.astro`
 - [general] "Switch theme" (theme button label before its script runs). Source: `src/components/ThemeToggle.astro`
-- [general] "Primary" (screen reader name of the menu). Source: `src/components/Layout.astro`
+- [general] "Main menu" (screen reader name of the menu). Source: `src/components/Layout.astro`
 
 ### Footer
 - [general] "Last updated 2026." (the year is the build year). Source: `src/components/Layout.astro`
 - [general] "Contact" (footer link). Source: `src/components/Layout.astro`
 
 ### Meta description and social preview
-- [general] "Tomás van Gorp. Projects, work, research." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
+- [general] "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (og:site_name). Source: `src/components/Layout.astro`
-- [general] "Tomás van Gorp. I work, advise and research where science, society and environment meet." (og:image:alt). Source: `src/components/Layout.astro`
+- [general] "Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." (og:image:alt). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (text in the social preview image public/og.png). Source: `scripts/og-image/og.html`
-- [general] "I work, advise and research where science, society and environment meet." (text in the social preview image, science, society and environment in bold). Source: `scripts/og-image/og.html`
+- [general] "I research what happens after a plan is signed, and help organisations make it work." (text in the social preview image, after a plan is signed in bold). Source: `scripts/og-image/og.html`
 
 Page titles, meta descriptions and social titles per page are listed under each page below.
 
 ## Home, /
 
 - [general] "Tomás van Gorp" (page title). Source: `src/pages/index.astro`
-- [general] "I work, advise and research where science, society and environment meet." (hero sentence, science, society and environment in bold). Source: `src/pages/index.astro`
+- [general] "I research what happens after a plan is signed, and help organisations make it work." (hero sentence, after a plan is signed in bold). Source: `src/pages/index.astro`
 - [general] "Three streams of work" (screen reader name of the three sheets). Source: `src/components/HomeSheets.astro`
 - [phd] "Research" (sheet title). Source: `src/components/HomeSheets.astro`
-- [phd] "Doctoral work in planetary health." (sheet line). Source: `src/components/HomeSheets.astro`
+- [phd] "My PhD on how governments turn planetary health plans into practice." (sheet line). Source: `src/components/HomeSheets.astro`
 - [general] "Work" (sheet title). Source: `src/components/HomeSheets.astro`
-- [general] "Consulting and programme design." (sheet line). Source: `src/components/HomeSheets.astro`
+- [general] "Consulting, board support and programme design." (sheet line). Source: `src/components/HomeSheets.astro`
 - [general] "Projects" (sheet title). Source: `src/components/HomeSheets.astro`
-- [general] "Side work and experiments." (sheet line). Source: `src/components/HomeSheets.astro`
+- [general] "Tools and experiments of my own." (sheet line). Source: `src/components/HomeSheets.astro`
 
 ## Projects index, /projects/
 
 - [general] "Projects" (page title and heading). Source: `src/pages/projects/index.astro`
-- [general] "Side work, experiments and things made out of curiosity." (intro, also the meta and social description). Source: `src/pages/projects/index.astro`
+- [general] "Tools and experiments I build in my own time, out of curiosity." (intro, also the meta and social description). Source: `src/pages/projects/index.astro`
 
 Each row shows an entry's date (month and year), title and summary, listed under Projects entries below.
 
 ## Work index, /work/
 
 - [general] "Work" (page title and heading). Source: `src/pages/work/index.astro`
-- [general] "A preview of selected projects, consulting and programme design over the years." (intro, also the meta and social description). Source: `src/pages/work/index.astro`
+- [general] "Selected roles and assignments, from a zoo's planetary health programme to board work in mental health care." (intro, also the meta and social description). Source: `src/pages/work/index.astro`
 - [general] "Other work" (label of the fold out group). Source: `src/pages/work/index.astro`
-- [general] "Earlier work, kept for record. Click to expand." (caption of the fold out group). Source: `src/pages/work/index.astro`
+- [general] "Earlier roles, for the record." (caption of the fold out group). Source: `src/pages/work/index.astro`
 
 Each row shows an entry's date range, title and summary. Date ranges read like "Jun 2025 to present" or "Dec 2022 to Sep 2024", built by `src/utils/formatDateRange.ts`.
 
 ## Research index, /research/
 
 - [phd] "Research" (page title and heading). Source: `src/pages/research/index.astro`
-- [phd] "Doctoral work, papers, talks and notes from the field." (intro, also the meta and social description). Source: `src/pages/research/index.astro`
+- [phd] "My PhD and the pieces it is built from: the proposal, a literature review, a conceptual paper and the tool I code the cases in." (intro, also the meta and social description). Source: `src/pages/research/index.astro`
 - [phd] "The research proposal" (deck panel title, taken from the research proposal entry). Source: `src/components/DeckPanel.astro`
-- [phd] "Proposal defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
+- [phd] "Open the defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
 
 ## Detail pages, /projects/, /work/ and /research/ entries
 
@@ -94,7 +94,7 @@ The page title is the entry title and the meta and social description is the ent
 ## Contact, /contact/
 
 - [general] "Contact" (page title and heading). Source: `src/pages/contact.astro`
-- [general] "Get in touch via hello@tomasvangorp.com." (the address is a link). Source: `src/pages/contact.astro`
+- [general] "Write to me at hello@tomasvangorp.com." (the address is a link). Source: `src/pages/contact.astro`
 - [general] "Email" (button). Source: `src/pages/contact.astro`
 - [general] "LinkedIn" (button). Source: `src/pages/contact.astro`
 - [general] "ORCID" (button). Source: `src/pages/contact.astro`
@@ -102,7 +102,7 @@ The page title is the entry title and the meta and social description is the ent
 ## 404, any unknown address
 
 - [general] "Page not found" (page title and heading). Source: `src/pages/404.astro`
-- [general] "Home" (link). Source: `src/pages/404.astro`
+- [general] "Go to the home page" (link). Source: `src/pages/404.astro`
 
 ## Collection entries
 
@@ -110,24 +110,24 @@ Each entry lists what the site shows: title, summary, the strip fields, tags, li
 
 ### Projects entries
 
-#### loelens: scenario modelling for city property markets
+#### loelens: scenario modelling for property prices in Dutch cities
 
 Source: `src/content/projects/loelens.md`. All items [general].
 
-- Title: "loelens: scenario modelling for city property markets"
-- Summary: "A scenario tool for residential property values, live for five Dutch cities. Built on public data, honest about what it borrows."
+- Title: "loelens: scenario modelling for property prices in Dutch cities"
+- Summary: "A free tool that shows where home prices in five Dutch cities could go under four scenarios. Built on public data and open about its limits."
 - Status in the strip: "live"
 - Tags: "housing, modelling, cities, public-data, loelens, netherlands, scenario-modelling"
 - Link label: "loelens.com"
 - Body:
 
-  > Property market debate runs on assertion. Rates will rise, supply will fail, this neighbourhood will hold. Almost none of it is stated in a form anyone can check later.
+  > Debate about the property market runs on confident claims. Rates will rise, supply will fail, this neighbourhood will hold. Almost none of it is said in a form anyone can check later.
 
-  > loelens projects residential property values at postcode level under four scenarios, for five Dutch cities. Amsterdam is calibrated against its own data. Rotterdam, Utrecht, The Hague and Eindhoven read their own neighbourhood figures, but the rules that turn those figures into a price path still come from Amsterdam. The tool says so on screen rather than hiding it behind a smooth number.
+  > loelens projects home values by postcode under four scenarios, for five Dutch cities. The Amsterdam model is tuned on Amsterdam's own data. Rotterdam, Utrecht, The Hague and Eindhoven use their own neighbourhood figures, but the rules that turn those figures into a price path still come from Amsterdam. The tool says so on screen instead of hiding it behind a smooth number.
 
-  > The projections run on public data: national statistics on housing stock, valuations and transactions, plus central bank rates. A few commercial and industry figures sit alongside as on screen context and never enter the maths. A separate pipeline refreshes the sources on a fixed schedule.
+  > The projections run on public data: national statistics on housing stock, valuations and sales, plus central bank interest rates. A few commercial and industry figures appear on screen for context but never enter the calculations. A separate process refreshes the sources on a fixed schedule.
 
-  > Scenario modelling is free to use. Reports and a professional tier are built and open once payment is in place. Amsterdam came first because the data is best there, and the method is meant to travel.
+  > The scenario tool is free to use. Reports and a professional tier are built and will open once payments are set up. Amsterdam came first because its data is the best, and the method is meant to travel.
 
 ### Work entries
 
@@ -136,12 +136,16 @@ Source: `src/content/projects/loelens.md`. All items [general].
 Source: `src/content/work/artis.md`. All items [general].
 
 - Title: "ARTIS Natura Artis Magistra"
-- Summary: "Built ARTIS' Planetary Health programme from a single producer remit into a permanent institutional theme reaching tens of thousands of visitors."
+- Summary: "Built ARTIS' planetary health programme from one producer's brief into a permanent theme that reached tens of thousands of visitors."
 - Organisation in the strip: "ARTIS Natura Artis Magistra"
 - Tags: "planetary-health, public-engagement, cultural-institution"
 - Body:
 
-  > ARTIS is the oldest zoo in the Netherlands and considerably more than a zoo. It runs as a cultural institution that asks visitors to think about the living world, with research, art and public programming alongside the animals. The Planetary Health work started in 2022 as a scientific conference for researchers and decision makers, and grew into Aardbewoners, a public programme that kept the expert track running on the side. The audience widened across the period to include scientists, policymakers, students, families and weekend visitors in the same building. The job covered programme architecture, a multi day symposium, and the editorial line that ran across the year. The 2024 edition reached over 30,000 visitors across nine days. Aardbewoners stayed at ARTIS after the role ended.
+  > ARTIS is the oldest zoo in the Netherlands, and much more than a zoo. It works as a cultural institution that asks visitors to think about the living world, with research, art and public programmes alongside the animals.
+
+  > The planetary health work started in 2022 with the First European Planetary Health Congress, for researchers and decision-makers. It grew into Aardbewoners, a public programme that kept the expert track running alongside. Over those years the audience widened to scientists, policymakers, students, families and weekend visitors, all in the same building.
+
+  > I designed the programme, ran a multi-day symposium and set the editorial line across the year. The 2024 edition reached over 30,000 visitors across nine days. Aardbewoners stayed at ARTIS after my role ended.
 
 #### Bureau Design Digitale Zaken
 
@@ -153,43 +157,49 @@ Source: `src/content/work/bureau-ddz.md`. All items [general].
 - Tags: "design-research, public-sector"
 - Body:
 
-  > Bureau DDZ was a full service innovation agency in Amsterdam, now closed. Research projects on the desk mixed arts and science methods for public clients, including the Ministry of Infrastructure and Water Management and the municipalities of Amsterdam and Utrecht. Project management and stakeholder coordination across government, corporate and cultural partners ran alongside.
+  > Bureau DDZ was a full-service innovation agency in Amsterdam. It has since closed. I worked on research projects that mixed methods from art and science for public clients, including the Ministry of Infrastructure and Water Management and the municipalities of Amsterdam and Utrecht. Alongside the research I managed projects and coordinated partners across government, business and culture.
 
 #### Earlier research roles
 
 Source: `src/content/work/earlier-research-roles.md`. All items [general].
 
 - Title: "Earlier research roles"
-- Summary: "User research at Rabobank for a future financial planning product, and behavioural research at Paradiso on concert attendance patterns."
+- Summary: "User research at Rabobank for a financial planning product, and research at Paradiso into why concert attendance stalled."
 - Organisation in the strip: "Rabobank Groep and Paradiso"
 - Tags: "research"
 - Body:
 
-  > Two short research roles. Rabobank ran first, with user research feeding the design of a financial planning product suite. Paradiso, the Amsterdam concert venue, followed. The brief there analysed Indiestadpas holders to find why attendance stalled, then proposed a strategy to lift average attendance from four to ten events a year.
+  > Two short research roles. At Rabobank I did user research that fed into the design of a set of financial planning products.
+
+  > Then came Paradiso, the Amsterdam concert venue. There I analysed holders of the Indiestadpas card to find out why their attendance stalled, and proposed a strategy to raise the average from four to ten events a year.
 
 #### Expertisecentrum Transculturele Therapie
 
 Source: `src/content/work/ett.md`. All items [general].
 
 - Title: "Expertisecentrum Transculturele Therapie"
-- Summary: "Strategic and operational support to the executive board of a specialist mental health centre working across cultures."
+- Summary: "Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
 - Organisation in the strip: "Expertisecentrum Transculturele Therapie"
 - Tags: "healthcare, governance"
 - Body:
 
-  > ETT is a Dutch mental health centre that treats clients whose distress sits inside migration, language and cultural rupture. The board needed someone to hold the line between clinical reality, insurer demands and regulator expectations. The role sits next to the executive board. Annual plans, strategic reports and policy documents go out to insurers, auditors and internal teams, and they all read the same source. Contract cycles with health insurers and the reporting that follows run through this desk. Work with the quality manager turns operational data into decisions the board can act on. Half the job is drafting. The other half is moving information between clinicians, managers and external partners who each frame the same case differently.
+  > ETT is a Dutch mental health centre for people whose distress is bound up with migration, language and cultural rupture. The board needed someone to hold the line between clinical reality, what insurers demand and what regulators expect.
+
+  > I work next to the executive board. I draft the annual plans, strategic reports and policy documents that go to insurers, auditors and internal teams, and I make sure they all draw on the same source. The contract cycles with health insurers, and the reporting that follows, run through me. With the quality manager I turn operational data into decisions the board can act on.
+
+  > Half the job is drafting. The other half is moving information between clinicians, managers and outside partners who each see the same case differently.
 
 #### Foundation We Are
 
 Source: `src/content/work/foundation-we-are.md`. All items [general].
 
 - Title: "Foundation We Are"
-- Summary: "Project management for a creative collaborative running multiple social impact briefs in parallel."
+- Summary: "Project management for a creative collective running several social impact briefs at once."
 - Organisation in the strip: "Foundation We Are"
 - Tags: "design, project-management"
 - Body:
 
-  > Short engagement at a small Eindhoven design outfit working on briefs with a social edge. Workflow systems went in so several projects could run together without quality slipping. A short acquisition framework mapped sectors where design interventions could plausibly create value.
+  > A short engagement at a small Eindhoven design studio working on briefs with a social edge. I set up workflows so several projects could run at once without quality slipping, and wrote a short plan for finding new clients that mapped the sectors where design could plausibly add value.
 
 #### InScience Festival
 
@@ -201,43 +211,55 @@ Source: `src/content/work/inscience.md`. All items [general].
 - Tags: "public-engagement, science-communication"
 - Body:
 
-  > InScience pairs new science films with live debate. The Head of Talks Programme runs the cycle from concept to stage. Partnerships with research institutes and media houses give the programme its weight, and the editorial choices that follow decide what reaches the audience. The remit is editorial as much as logistical. Choosing which research the talks would foreground, finding speakers who could open the work to a non specialist room, and shaping questions the audience could carry past the festival itself. The 2024 edition ran across multiple venues in Nijmegen, with a cross functional team behind the production.
+  > InScience pairs new science films with live debate. As Head of Talks Programme I ran the cycle from first idea to stage. Partnerships with research institutes and media organisations gave the programme its weight.
+
+  > The work was as much editorial as logistical. I chose which research the talks would put forward, found speakers who could open that work up to a non-specialist audience and shaped questions people could take home with them. The 2024 edition ran across several venues in Nijmegen, with a cross-functional team behind the production.
 
 #### Netherlands Ministry of Foreign Affairs
 
 Source: `src/content/work/mvbz.md`. All items [general].
 
 - Title: "Netherlands Ministry of Foreign Affairs"
-- Summary: "Two diplomatic postings researching innovation, mobility and urban design at the consulate in Istanbul and the embassy in Tokyo."
+- Summary: "Two placements in the Dutch foreign service, researching innovation, mobility and urban design at the consulate in Istanbul and the embassy in Tokyo."
 - Organisation in the strip: "Ministerie van Buitenlandse Zaken"
 - Tags: "diplomacy, research, mobility"
 - Body:
 
-  > Two postings inside the Dutch foreign service in 2018. Istanbul came first. The brief there mapped the Turkish green and smart mobility ecosystem, named the stakeholders that mattered, and produced the opportunity analysis for Dutch organisations looking to enter the sustainable transport sector. Policy reports on Turkish science and technology and coordination of visiting delegations sat alongside. Tokyo followed in autumn, with the desk split between the embassy and Shibaura House, a public architecture and civic space in Minato. The work ran metropolitan design impact research on public space interventions and compared how design thinking travelled between Japanese and Dutch urban contexts. A featured talk at FORUM DESIGN KYOTO closed the posting, on inclusive design.
+  > Two placements in the Dutch foreign service in 2018. Istanbul came first. There I mapped Turkey's green and smart mobility sector, identified the people and organisations that mattered and wrote the opportunity analysis for Dutch organisations looking to enter sustainable transport. I also wrote policy reports on Turkish science and technology and coordinated visiting delegations.
+
+  > Tokyo followed in the autumn. I split my time between the embassy and Shibaura House, a public architecture and civic space in Minato. I researched the impact of design interventions in public space and compared how design thinking travels between Japanese and Dutch cities. The placement ended with a featured talk on inclusive design at FORUM DESIGN KYOTO.
 
 #### TOMICA
 
 Source: `src/content/work/tomica.md`. All items [general].
 
 - Title: "TOMICA"
-- Summary: "My practice. Applied research, programme design and strategy for organisations working at the intersection of science, society and environment."
+- Summary: "My own practice: applied research, programme design and strategy for organisations working where science, society and the environment meet."
 - Organisation in the strip: "TOMICA"
 - Tags: "consulting, planetary-health"
 - Body:
 
-  > TOMICA is the name the work runs under when organisations bring me in from outside. The remit stays narrow on purpose. Assignments tend to ask three things at once. Read a complex evidence base. Design a programme or policy response that real teams can run. Hold the political and ethical stakes along the way. Clients have included cultural institutions, public sector teams and research consortia. The work is usually short, written, and meant to land somewhere specific. A board paper. A funding case. A programme architecture. A decision that was stuck. The practice stays small so the material gets the attention it needs and the claims stay honest.
+  > TOMICA is the name I work under when organisations bring me in from outside. I keep the remit narrow on purpose.
+
+  > Most assignments ask me to read a complex body of evidence, design a programme or policy response that real teams can run and keep the political and ethical stakes in view along the way. Clients have included cultural institutions, public sector teams and research consortia.
+
+  > The work is usually short and written, and meant to land somewhere specific: a board paper, a funding case, a programme design or a decision that was stuck. I keep the practice small so the material gets the attention it needs and the claims stay honest.
 
 #### What Design Can Do
 
 Source: `src/content/work/what-design-can-do.md`. All items [general].
 
 - Title: "What Design Can Do"
-- Summary: "Programme delivery for an international design platform tackling social and climate briefs, including the Dutch track of the No Waste Challenge."
+- Summary: "Ran programmes for an international design platform working on social and climate briefs, including the Dutch track of the No Waste Challenge."
 - Organisation in the strip: "What Design Can Do"
 - Tags: "design, climate, public-engagement"
 - Body:
 
-  > What Design Can Do runs international challenges that ask designers to work on briefs that sit outside commercial demand, including waste, energy and climate adaptation. The Dutch track of the No Waste Challenge, a global call on circular design, ran through this desk from open submission to selection and follow on support. New Narrative Energy Transition ran in parallel with Provincie Noord Holland, sitting between creative professionals and a regional government that talked about the same problem in different words. What Design Can Do LIVE went through the same hands. The work taught how to hold a creative process and a public sector deadline together.
+  > What Design Can Do runs international challenges that ask designers to work on problems the market does not pay for, such as waste, energy and climate adaptation. I ran the Dutch track of the No Waste Challenge, a global call for circular design, from open submission through selection to follow-on support.
+
+  > In parallel I led New Narrative Energy Transition with the Province of North Holland, working between creative professionals and a regional government that described the same problem in different words. I also worked on What Design Can Do LIVE.
+
+  > The job taught me to hold a creative process and a public sector deadline together.
 
 ### Research entries
 
@@ -246,37 +268,39 @@ Source: `src/content/work/what-design-can-do.md`. All items [general].
 Source: `src/content/research/after-the-commitment.md`. All items [phd].
 
 - Title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
-- Summary: "Why governments that sign integrative planetary health frameworks turn them into rules and budgets, or fail to. Comparative process tracing across Wales, Brazil and China."
+- Summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. A comparison of Wales, Brazil and China, traced step by step."
 - Venue in the strip: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
 - Tags: "planetary-health, governance, institutional-change, process-tracing, implementation"
 - Body:
 
-  > Signing is the easy part. A government adopts an integrative framework, and then the work begins of turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
+  > Signing is the easy part. A government adopts a framework that asks its departments to work together on health and the environment, and then the real work begins: turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
 
-  > The thesis asks under what conditions a signed framework produces substantive institutional change rather than fragmented adoption or stalled implementation. It tests brokerage as the mechanism: who carries a framework across sectoral boundaries once the political moment has passed, and what those people can and cannot move.
+  > The thesis asks under what conditions a signed framework produces substantive institutional change, meaning change in how government actually works, rather than fragmented adoption or stalled implementation. Fragmented adoption is the pattern where each sector does its own part and the links between sectors never change.
 
-  > Three cases carry the comparison. Wales, where the Well-being of Future Generations Act 2015 puts the commitment in primary legislation and gives a decade of implementation to read. Brazil, where climate and health integration has been pursued at federal level since 2016 and again since 2024, resting on multilateral agreement and domestic scientific authority rather than statute. China, where ecological civilisation policy has been translated into local accounting practice in Lishui, Zhejiang.
+  > I test brokerage as the mechanism. Brokers are the people who carry a framework across the boundaries between sectors once the political moment has passed. The thesis asks what they can and cannot move.
 
-  > Each case is traced as a sequence of brokerage episodes and coded across five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms, and cross sectoral integration. Each dimension resolves as substantive conversion, fragmented adoption or implementation stalling. The five exist to separate a framework that changed how a state works from one that changed how a state talks.
+  > Three cases carry the comparison. In Wales, the Well-being of Future Generations Act 2015 puts the commitment into law, and a decade of implementation now gives something to read. In Brazil, the federal government has pursued joined-up climate and health policy since 2016 and again since 2024, resting on international agreements and domestic scientific authority rather than on a law. In China, ecological civilisation, the national policy agenda for the environment, has been translated into local accounting practice in Lishui, in Zhejiang Province.
 
-  > This is the only research project I run. The entries alongside this one are its parts: the proposal, the literature review, a conceptual paper and the tracker the coding runs on. More will follow as they are written.
+  > Each case is traced as a sequence of brokerage episodes and coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration. Each dimension comes out as substantive conversion, fragmented adoption or stalled implementation. The five exist to separate a framework that changed how a state works from one that changed how a state talks.
 
-  > Wales is coded. Brazil is scoped and in progress. China follows. São Tomé and Príncipe is held in reserve as a fourth case.
+  > This is the only research project I run. The other entries on this page are its parts: the proposal, the literature review, a conceptual paper and the tracker I code the cases in. More will follow as I write them.
+
+  > Wales is coded. Brazil is scoped and in progress. China comes next. São Tomé and Príncipe is held in reserve as a fourth case.
 
 #### The Conversion Tracker
 
 Source: `src/content/research/conversion-tracker.md`. All items [phd].
 
 - Title: "The Conversion Tracker"
-- Summary: "A structured record for each case: five dimensions, the evidence behind each, an outcome class and a confidence rating. No aggregate score anywhere."
+- Summary: "One structured record per case: five dimensions, the evidence behind each, an outcome category and a confidence rating. Deliberately no overall score."
 - Tags: "planetary-health, governance, methods, process-tracing"
 - Body:
 
-  > Comparative work goes wrong quietly. Cases get coded at different moments against slightly different standards, and by the end nobody can say what the difference between two scores rests on.
+  > Comparative work goes wrong quietly. Cases get assessed at different moments against slightly different standards, and by the end nobody can say what the difference between two scores rests on.
 
-  > The tracker is one record per case. Five dimensions, the evidence behind each with its locator, an outcome class and a confidence rating that stays visible. There is no aggregate score anywhere, on purpose. A single number would hide exactly the variation the comparison exists to find.
+  > The tracker holds one record per case: the five dimensions, the evidence behind each with a pointer to where it was found, an outcome category and a confidence rating that stays visible. There is no overall score anywhere, on purpose. A single number would hide exactly the variation the comparison exists to find.
 
-  > Wales is coded. Brazil is scoped. It is not public yet, and will be opened once enough cases sit in it to be worth reading.
+  > Wales is coded and Brazil is scoped. The tracker is not public yet. I will open it once there are enough cases in it to be worth reading.
 
 #### Fragmented adoption: naming the pattern
 
@@ -287,39 +311,41 @@ Source: `src/content/research/fragmented-adoption.md`. All items [phd].
 - Tags: "planetary-health, governance, institutional-change"
 - Body:
 
-  > Accounts of adoption failure measure depth, how far a commitment reaches inside an institution. Decoupling, means ends decoupling and so on. That axis works when the commitment is one sector's to keep.
+  > Existing accounts of why adoption fails measure depth: how far a commitment reaches inside an institution. Decoupling, where an organisation adopts a policy on paper without changing its practice, is the classic case. Means-ends decoupling, where practice changes but never reaches the goal, is a close relative. That lens works when the commitment belongs to one sector.
 
-  > Integrative frameworks are not. They ask sectors to change how they relate to each other, and depth cannot see whether that happened. The paper adds a second axis, scope, and names what shows up in the gap: fragmented adoption, where every sector does the work asked of it, resources it and reports it, and the relationships between them are exactly as they were. A system in that state passes every within sector test. The Welsh Act 2015 is the case it is worked through.
+  > Integrative frameworks do not belong to one sector. They ask sectors to change how they relate to each other, and depth cannot show whether that happened. The paper adds a second axis, scope, and names what appears in the gap: fragmented adoption. Every sector does the work asked of it, funds it and reports on it, while the relationships between sectors stay exactly as they were.
 
-  > Written for an elective on urban and regional systems and sustainability. Drafted, with an eye on submission. It will be linked here if it is published.
+  > A system in that state passes every test applied within a single sector. The paper works the pattern through the case of Wales and its Act of 2015.
+
+  > I wrote it for an elective on urban and regional systems and sustainability. It is drafted, with an eye on submission, and I will link it here if it is published.
 
 #### Literature review: three traditions, one demand
 
 Source: `src/content/research/literature-review.md`. All items [phd].
 
 - Title: "Literature review: three traditions, one demand"
-- Summary: "A chapter tracing three governance traditions that developed apart and arrived at the same demand, that governance act across sectoral boundaries rather than within them."
+- Summary: "A chapter on three governance traditions that grew up apart and arrived at the same demand: that governance should work across sectors rather than inside them."
 - Tags: "planetary-health, governance, literature-review"
 - Body:
 
-  > Planetary health, ecological civilisation and the sustainable development tradition that produced the Welsh legislation each grew up separately and out of different politics. Read together they turn out to make the same demand: that governance act across sectoral boundaries rather than within them.
+  > Planetary health, ecological civilisation and the sustainable development tradition behind the Welsh legislation each grew up separately, out of different politics. Read together, they make the same demand: that governance work across the boundaries between sectors rather than inside them.
 
-  > The chapter traces how each arrived there, and where each runs into the same wall. Frameworks get adopted formally and then fail to produce the cross sectoral change they ask for. That is the gap the thesis works in.
+  > The chapter traces how each tradition got there, and where each runs into the same wall. Frameworks are adopted formally and then fail to produce the cross-sectoral change they ask for. That is the gap the thesis works in.
 
-  > Drafted, not yet published. It will be linked here if it becomes public.
+  > Drafted, not yet published. I will link it here if it becomes public.
 
 #### The research proposal
 
 Source: `src/content/research/research-proposal.md`. All items [phd].
 
 - Title: "The research proposal"
-- Summary: "The design the thesis runs on: the question, the three cases, the five dimensions and the method, defended before the scientific committee at ULisboa."
+- Summary: "The design the thesis runs on: the question, the three cases, the five dimensions and the method, defended before the scientific committee at the University of Lisbon."
 - Tags: "planetary-health, governance, process-tracing, research-design"
-- Link label: "Proposal defence slides"
+- Link label: "Open the defence slides"
 - Body:
 
   > A proposal is where a thesis commits itself. It fixes the question, picks the cases and says in advance what would count as an answer and what would count as being wrong.
 
-  > This one sets out brokerage as the mechanism, Wales, Brazil and China as the comparison and five dimensions along which a signed framework either becomes institutional practice or does not. It also names the traps. Comparative work drifts when cases get coded against standards that move, so the standard is written down before the coding starts.
+  > This one sets out brokerage as the mechanism and five dimensions along which a signed framework either becomes institutional practice or does not, and it compares Wales, Brazil and China. It also names the traps. Comparative work drifts when cases are coded against standards that move, so the standard is written down before the coding starts.
 
-  > Defended before the scientific committee at Universidade de Lisboa. Not a thesis defence, a defence of the design.
+  > I defended it before the scientific committee at the University of Lisbon. It was not a thesis defence but a defence of the design.

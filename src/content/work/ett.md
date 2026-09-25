@@ -1,6 +1,6 @@
 ---
 title: Expertisecentrum Transculturele Therapie
-summary: Strategic and operational support to the executive board of a specialist mental health centre working across cultures.
+summary: "Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
 organisation: Expertisecentrum Transculturele Therapie
 role: Board Support Officer
 date: 2025-06-01
@@ -9,4 +9,8 @@ status: live
 tags: [healthcare, governance]
 ---
 
-ETT is a Dutch mental health centre that treats clients whose distress sits inside migration, language and cultural rupture. The board needed someone to hold the line between clinical reality, insurer demands and regulator expectations. The role sits next to the executive board. Annual plans, strategic reports and policy documents go out to insurers, auditors and internal teams, and they all read the same source. Contract cycles with health insurers and the reporting that follows run through this desk. Work with the quality manager turns operational data into decisions the board can act on. Half the job is drafting. The other half is moving information between clinicians, managers and external partners who each frame the same case differently.
+ETT is a Dutch mental health centre for people whose distress is bound up with migration, language and cultural rupture. The board needed someone to hold the line between clinical reality, what insurers demand and what regulators expect.
+
+I work next to the executive board. I draft the annual plans, strategic reports and policy documents that go to insurers, auditors and internal teams, and I make sure they all draw on the same source. The contract cycles with health insurers, and the reporting that follows, run through me. With the quality manager I turn operational data into decisions the board can act on.
+
+Half the job is drafting. The other half is moving information between clinicians, managers and outside partners who each see the same case differently.

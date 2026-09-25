@@ -1,6 +1,6 @@
 ---
 title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
-summary: "Why governments that sign integrative planetary health frameworks turn them into rules and budgets, or fail to. Comparative process tracing across Wales, Brazil and China."
+summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. A comparison of Wales, Brazil and China, traced step by step."
 date: 2025-10-01
 status: live
 venue: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
@@ -10,14 +10,16 @@ featured: true
 links: []
 ---
 
-Signing is the easy part. A government adopts an integrative framework, and then the work begins of turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
+Signing is the easy part. A government adopts a framework that asks its departments to work together on health and the environment, and then the real work begins: turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
 
-The thesis asks under what conditions a signed framework produces substantive institutional change rather than fragmented adoption or stalled implementation. It tests brokerage as the mechanism: who carries a framework across sectoral boundaries once the political moment has passed, and what those people can and cannot move.
+The thesis asks under what conditions a signed framework produces substantive institutional change, meaning change in how government actually works, rather than fragmented adoption or stalled implementation. Fragmented adoption is the pattern where each sector does its own part and the links between sectors never change.
 
-Three cases carry the comparison. Wales, where the Well-being of Future Generations Act 2015 puts the commitment in primary legislation and gives a decade of implementation to read. Brazil, where climate and health integration has been pursued at federal level since 2016 and again since 2024, resting on multilateral agreement and domestic scientific authority rather than statute. China, where ecological civilisation policy has been translated into local accounting practice in Lishui, Zhejiang.
+I test brokerage as the mechanism. Brokers are the people who carry a framework across the boundaries between sectors once the political moment has passed. The thesis asks what they can and cannot move.
 
-Each case is traced as a sequence of brokerage episodes and coded across five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms, and cross sectoral integration. Each dimension resolves as substantive conversion, fragmented adoption or implementation stalling. The five exist to separate a framework that changed how a state works from one that changed how a state talks.
+Three cases carry the comparison. In Wales, the Well-being of Future Generations Act 2015 puts the commitment into law, and a decade of implementation now gives something to read. In Brazil, the federal government has pursued joined-up climate and health policy since 2016 and again since 2024, resting on international agreements and domestic scientific authority rather than on a law. In China, ecological civilisation, the national policy agenda for the environment, has been translated into local accounting practice in Lishui, in Zhejiang Province.
 
-This is the only research project I run. The entries alongside this one are its parts: the proposal, the literature review, a conceptual paper and the tracker the coding runs on. More will follow as they are written.
+Each case is traced as a sequence of brokerage episodes and coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration. Each dimension comes out as substantive conversion, fragmented adoption or stalled implementation. The five exist to separate a framework that changed how a state works from one that changed how a state talks.
 
-Wales is coded. Brazil is scoped and in progress. China follows. São Tomé and Príncipe is held in reserve as a fourth case.
+This is the only research project I run. The other entries on this page are its parts: the proposal, the literature review, a conceptual paper and the tracker I code the cases in. More will follow as I write them.
+
+Wales is coded. Brazil is scoped and in progress. China comes next. São Tomé and Príncipe is held in reserve as a fourth case.

@@ -15,7 +15,7 @@ const toItem = (entry: (typeof all)[number]) => ({
 });
 const live = all.filter(e => e.data.status === "live").sort(byDateDesc).map(toItem);
 const archived = all.filter(e => e.data.status === "archived").sort(byDateDesc).map(toItem);
-const lede = "A preview of selected projects, consulting and programme design over the years.";
+const lede = "Selected roles and assignments, from a zoo's planetary health programme to board work in mental health care.";
 ---
 <Layout title="Work" description={lede}>
   <StreamHeader
@@ -24,6 +24,6 @@ const lede = "A preview of selected projects, consulting and programme design ov
   />
   <EntryList
     items={live}
-    more={{ label: "Other work", caption: "Earlier work, kept for record. Click to expand.", items: archived }}
+    more={{ label: "Other work", caption: "Earlier roles, for the record.", items: archived }}
   />
 </Layout>

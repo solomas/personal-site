@@ -9,8 +9,10 @@ featured: false
 links: []
 ---
 
-Accounts of adoption failure measure depth, how far a commitment reaches inside an institution. Decoupling, means ends decoupling and so on. That axis works when the commitment is one sector's to keep.
+Existing accounts of why adoption fails measure depth: how far a commitment reaches inside an institution. Decoupling, where an organisation adopts a policy on paper without changing its practice, is the classic case. Means-ends decoupling, where practice changes but never reaches the goal, is a close relative. That lens works when the commitment belongs to one sector.
 
-Integrative frameworks are not. They ask sectors to change how they relate to each other, and depth cannot see whether that happened. The paper adds a second axis, scope, and names what shows up in the gap: fragmented adoption, where every sector does the work asked of it, resources it and reports it, and the relationships between them are exactly as they were. A system in that state passes every within sector test. The Welsh Act 2015 is the case it is worked through.
+Integrative frameworks do not belong to one sector. They ask sectors to change how they relate to each other, and depth cannot show whether that happened. The paper adds a second axis, scope, and names what appears in the gap: fragmented adoption. Every sector does the work asked of it, funds it and reports on it, while the relationships between sectors stay exactly as they were.
 
-Written for an elective on urban and regional systems and sustainability. Drafted, with an eye on submission. It will be linked here if it is published.
+A system in that state passes every test applied within a single sector. The paper works the pattern through the case of Wales and its Act of 2015.
+
+I wrote it for an elective on urban and regional systems and sustainability. It is drafted, with an eye on submission, and I will link it here if it is published.

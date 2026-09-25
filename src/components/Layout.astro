@@ -15,7 +15,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
@@ -45,7 +45,7 @@ const navItems = [
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Tomás van Gorp. I work, advise and research where science, society and environment meet." />
+    <meta property="og:image:alt" content="Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -137,7 +137,7 @@ const navItems = [
         </button>
         <div id="site-nav-drawer" class="site-nav__drawer">
           <div class="site-nav__drawer-inner">
-            <nav class="site-nav__links focus-context" aria-label="Primary">
+            <nav class="site-nav__links focus-context" aria-label="Main menu">
               {navItems.map(item => {
                 const active = pathname.startsWith(item.href);
                 return (
