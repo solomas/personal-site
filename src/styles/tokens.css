@@ -96,8 +96,9 @@
   --entry-date-width: 10rem;
 
   /* Radius and borders */
-  --radius-md: 8px;
-  --radius-lg: 18px;
+  /* Large, soft corners for sheets, panels and the nav. Chosen by eye. */
+  --radius-md: 14px;
+  --radius-lg: 32px;
   --radius-pill: 999px;
   --border-hairline: 1px;
   --border-medium: 2px;

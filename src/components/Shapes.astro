@@ -34,6 +34,13 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
 <div class:list={["shapes", { "shapes--slow": slow }]} aria-hidden="true">
   <div class="shape shape--a"></div>
   <div class="shape shape--b"></div>
+  <div class="stripe">
+    <svg viewBox="0 0 200 200" preserveAspectRatio="xMaxYMax meet" focusable="false">
+      <path class="stripe__band stripe__band--blue" d="M 30 200 A 170 170 0 0 1 200 30" />
+      <path class="stripe__band stripe__band--yellow" d="M 60 200 A 140 140 0 0 1 200 60" />
+      <path class="stripe__band stripe__band--blue" d="M 90 200 A 110 110 0 0 1 200 90" />
+    </svg>
+  </div>
   <div class="shapes__grain" style={`background-image: ${grain}`}></div>
 </div>
 
@@ -86,6 +93,45 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     animation-duration: calc(109s * var(--pace));
   }
 
+  /* The 70s stripe, an experiment. Three parallel rounded bands, blue,
+     yellow and blue in both themes, rising from the bottom and bending into
+     the right edge. Flat, under the grain.
+     It lives only in the right gutter beside the 1100px content column, so
+     no text or glass ever lies over it: text on either band fails contrast
+     in one of the themes. The gutter is too narrow below 1340px wide, so
+     the stripe only shows from there. The shapes stay out of this gutter. */
+  .stripe {
+    display: none;
+    position: absolute;
+    left: calc(50% + var(--page-width) / 2);
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  @media (min-width: 1340px) {
+    .stripe {
+      display: block;
+      aspect-ratio: 1;
+    }
+  }
+  .stripe svg {
+    width: 100%;
+    height: 100%;
+    transform-origin: 100% 100%;
+    will-change: transform;
+    animation: drift-stripe calc(97s * var(--pace)) ease-in-out infinite alternate;
+  }
+  .shapes.is-paused .stripe svg {
+    animation-play-state: paused;
+  }
+  .stripe__band {
+    fill: none;
+    stroke-width: 22;
+    stroke-linecap: round;
+  }
+  .stripe__band--blue { stroke: var(--blue); }
+  .stripe__band--yellow { stroke: var(--yellow); }
+
   .shapes__grain {
     position: absolute;
     inset: 0;
@@ -100,6 +146,14 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     35%  { transform: translate(3vw, 3vh) rotate(8deg) scale(1.03); }
     70%  { transform: translate(-2vw, 4vh) rotate(-6deg) scale(0.97); }
     100% { transform: translate(2vw, -3vh) rotate(4deg) scale(1.04); }
+  }
+  /* The stripe turns a few degrees about the bottom right corner and shifts
+     a little. The gutter clips it, so it never leaves the gutter. */
+  @keyframes drift-stripe {
+    0%   { transform: rotate(0deg) translate(0, 0); }
+    40%  { transform: rotate(-5deg) translate(-2%, 1%); }
+    75%  { transform: rotate(3deg) translate(1%, -2%); }
+    100% { transform: rotate(-2deg) translate(-1%, 0); }
   }
   @keyframes drift-b {
     0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
