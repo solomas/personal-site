@@ -30,8 +30,6 @@ Next action: create `src/pages/404.astro` using the existing Layout component, m
 
 **Favicon and Open Graph image** (built on branch `redesign`, 2026-09-25e and 2026-09-25f)
 The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Done, live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: og.png and sitemap.xml return 200. 
-The Astro scaffold SVG favicon is in place at `public/favicon.svg` and `public/favicon.ico`. No OG image exists. Social shares show no preview image.
-Next action: design a 1200x630 OG image, save to `public/`, add `<meta property="og:image">` to the Layout component head.
 
 **Triptych browser smoketest** (obsolete: the redesign replaced the triptych with HomeSheets.astro, merged at 690a8ee)
 The triptych door turn, hover lift, carousel and SVG paint cost have not been confirmed in a browser, across both themes or on a phone. The 2026-06-15a session flagged this, and the 2026-06-15b audit repeated it. This is the highest visual-risk gap before a wider share.
