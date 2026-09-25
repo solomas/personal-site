@@ -1,24 +1,30 @@
-/* Monochrome layers design tokens. Palette values come from
+/* Primary layers design tokens. Palette values come from
    docs/design/redesign-plan.md. Contrast is checked against WCAG AA in the
-   2026-09-25c session doc. */
+   2026-09-25d session doc. */
 
 :root {
   color-scheme: light;
 
+  /* The three primaries. Each theme gives them a role below. */
+  --blue: #0033a0;
+  --red: #e30613;
+  --yellow: #ffd100;
+
   /* Colour, day theme (default, stored as "mist") */
-  --color-ground: #f2f2f2;
+  --color-ground: #ffffff;
   --color-ink: #000000;
-  /* Muted passes AA on glass and sheets, not bare on the darkest shape
-     (3.23:1), so muted text never sits directly on the background. */
+  /* Muted passes AA on glass and sheets. It never sits directly on the
+     background. */
   --color-muted: #595959;
   --color-hairline: rgba(0, 0, 0, 0.12);
-
-  /* Background shapes, lightest to darkest. */
-  --shape-1: #e6e6e6;
-  --shape-2: #d6d6d6;
-  --shape-3: #c8c8c8;
-  --shape-4: #bcbcbc;
-  --shape-5: #b0b0b0;
+  /* The lead colour carries links, the active nav link, the focus ring and
+     the selection. Blue in day. */
+  --color-lead: var(--blue);
+  --color-on-lead: #ffffff;
+  /* The one red mark per page: the dot next to the name in the nav. */
+  --color-mark: var(--red);
+  /* Large shapes only. Yellow in day, never for text or small elements. */
+  --color-shape: var(--yellow);
   /* Grain strength over the shapes. Chosen by eye, low enough to leave the
      contrast figures unchanged. */
   --grain-opacity: 0.05;
@@ -29,9 +35,9 @@
   --glass-fill: rgba(255, 255, 255, 0.55);
   --glass-edge-top: rgba(255, 255, 255, 0.8);
   --glass-edge-bottom: rgba(0, 0, 0, 0.1);
-  --glass-solid: #f9f9f9;
+  --glass-solid: #ffffff;
   /* Hover state of a row inside a glass panel. Chosen, not from the plan. */
-  --glass-hover: rgba(255, 255, 255, 0.6);
+  --glass-hover: rgba(0, 0, 0, 0.035);
 
   /* Reading sheet, solid. */
   --sheet: #ffffff;
@@ -113,21 +119,22 @@
   --color-ink: #ffffff;
   --color-muted: #a6a6a6;
   --color-hairline: rgba(255, 255, 255, 0.14);
-
-  /* Background shapes, darkest to lightest. */
-  --shape-1: #1a1a1a;
-  --shape-2: #222222;
-  --shape-3: #2b2b2b;
-  --shape-4: #353535;
-  --shape-5: #404040;
+  /* Yellow leads in night. */
+  --color-lead: var(--yellow);
+  --color-on-lead: #000000;
+  /* Blue only for large shapes. */
+  --color-shape: var(--blue);
   --grain-opacity: 0.06;
 
-  /* Glass: black at 55 percent. The top edge stays light, the bottom edge
-     darker. */
-  --glass-fill: rgba(0, 0, 0, 0.55);
-  --glass-edge-top: rgba(255, 255, 255, 0.14);
+  /* Glass: reads as white at 8 percent over black (#141414), with a brighter
+     top edge. Plain white at 8 percent would leave muted text at 3.59:1 over
+     the blue shape, so the fill is a more opaque dark grey: over black it
+     gives the same #141414, over blue it darkens the shape enough for muted
+     text to reach 5.34:1. */
+  --glass-fill: rgba(41, 41, 41, 0.494);
+  --glass-edge-top: rgba(255, 255, 255, 0.22);
   --glass-edge-bottom: rgba(0, 0, 0, 0.6);
-  --glass-solid: #0c0c0c;
+  --glass-solid: #141414;
   --glass-hover: rgba(255, 255, 255, 0.06);
 
   --sheet: #141414;

@@ -58,7 +58,7 @@ p, ul, ol {
 }
 
 a {
-  color: var(--color-ink);
+  color: var(--color-lead);
   text-decoration: underline;
   text-decoration-thickness: var(--border-hairline);
   text-underline-offset: var(--underline-offset);
@@ -85,10 +85,11 @@ button, input, textarea, select {
   font: inherit;
 }
 
-/* Selection inverts ink and ground. */
+/* Selection in the lead colour: white on blue in day, black on yellow in
+   night. */
 ::selection {
-  background-color: var(--color-ink);
-  color: var(--color-ground);
+  background-color: var(--color-lead);
+  color: var(--color-on-lead);
 }
 
 .visually-hidden {
@@ -205,12 +206,12 @@ button, input, textarea, select {
   border-left: var(--border-thick) solid var(--color-ink);
 }
 
-/* Focus: a 2px ink ring with a 2px ring in the ground colour around it, so
-   it reads on light and dark surfaces alike. The outline stays for forced
+/* Focus: a 2px ring in the lead colour with a 2px ring in the ground colour
+   around it, so it reads on light and dark surfaces alike. The outline stays for forced
    colours modes. This rule sits after the glass classes so their
    box-shadow does not replace the ring. */
 :focus-visible {
-  outline: var(--border-medium) solid var(--color-ink);
+  outline: var(--border-medium) solid var(--color-lead);
   outline-offset: 0;
   box-shadow: 0 0 0 calc(2 * var(--border-medium)) var(--color-ground);
 }

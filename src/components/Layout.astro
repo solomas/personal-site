@@ -54,7 +54,7 @@ const navItems = [
     <Shapes slow={slowShapes} />
     <header class="site-header">
       <div class="site-nav glass">
-        <a href="/" class="site-nav__name">Tomás van Gorp</a>
+        <a href="/" class="site-nav__name">Tomás van Gorp<span class="site-nav__mark" aria-hidden="true"></span></a>
         <nav class="site-nav__links" aria-label="Primary">
           {navItems.map(item => {
             const active = pathname.startsWith(item.href);
@@ -117,14 +117,26 @@ const navItems = [
         text-decoration: none;
         padding: var(--space-1) 0;
       }
-      /* Active link: bold, with aria-current. Hover underlines. */
+      /* The one red mark on the page: a small dot after the name. */
+      .site-nav__mark {
+        display: inline-block;
+        width: 0.45em;
+        height: 0.45em;
+        margin-left: 0.3em;
+        border-radius: 50%;
+        background: var(--color-mark);
+        vertical-align: 0.1em;
+      }
+      /* Active link: bold in the lead colour, with aria-current. Hover
+         underlines. */
       .site-nav__link:hover {
         text-decoration: underline;
         text-decoration-thickness: var(--border-hairline);
         text-underline-offset: var(--underline-offset);
       }
-      .site-nav__link.is-active {
+      .site-nav a.site-nav__link.is-active {
         font-weight: 700;
+        color: var(--color-lead);
       }
 
       .site-main {
