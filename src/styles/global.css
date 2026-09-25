@@ -1,5 +1,22 @@
 @import "./tokens.css";
 
+/* Geist, self-hosted. Variable fonts, weights 100 to 900. SIL Open Font
+   License 1.1, see public/fonts/OFL.txt. */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Italic-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -11,11 +28,11 @@
 }
 
 html {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: var(--font-size-root);
   line-height: var(--leading-normal);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: var(--color-ground);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -24,12 +41,7 @@ body {
   min-height: 100dvh;
 }
 
-html, body, header, footer, main, a, button, .stream-tag {
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
-}
-
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
   font-weight: 600;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-snug);
@@ -46,22 +58,22 @@ p, ul, ol {
 }
 
 a {
-  color: var(--color-text);
+  color: var(--color-link);
   text-decoration: underline;
   text-decoration-thickness: var(--border-hairline);
   text-underline-offset: var(--underline-offset);
-  transition: color var(--transition);
+  transition: text-decoration-thickness var(--transition);
 }
 
 a:hover {
-  color: var(--color-accent);
+  text-decoration-thickness: var(--border-medium);
 }
 
+/* Small secondary text. Muted only passes AA on glass and sheets, so use it
+   there and not bare on the folded background. */
 .meta {
-  font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-muted);
-  letter-spacing: var(--tracking-meta);
 }
 
 img, picture, video, canvas, svg {
@@ -75,35 +87,106 @@ button, input, textarea, select {
 
 ::selection {
   background-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
 }
 
-/* Shared load reveal: rise and fade in. Used with a backwards fill so hover
-   transforms are never blocked by a finished animation. */
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Focus: an inner ring in --color-focus-inner and the yellow accent outside
+   it. The inner ring carries the contrast in mist, where yellow alone does
+   not reach 3:1 against the light ground. */
+:focus-visible {
+  outline: var(--border-thick) solid var(--color-accent);
+  outline-offset: var(--border-medium);
+  box-shadow: 0 0 0 var(--border-medium) var(--color-focus-inner);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Glass building blocks.
+   .glass        translucent sheet for navigation, panels and buttons
+   .glass-panel  a glass sheet with the panel radius and padding
+   .sheet        the near solid reading sheet for long text
+   Depth comes from a light top edge and a darker bottom edge, drawn as inset
+   shadows, plus a soft outer shadow. */
+.glass,
+.glass-panel {
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow:
+    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+    var(--shadow-sheet);
+}
+
+.glass-panel {
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+}
+
+.sheet {
+  background: var(--sheet-fill);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+    var(--shadow-sheet);
+}
+
+/* Solid sheets where backdrop-filter is missing. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass-panel {
+    background: var(--glass-solid);
+  }
+}
+
+/* Solid sheets when the visitor asks for reduced transparency. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-panel {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .sheet {
+    background: var(--sheet-solid);
+  }
 }
 
 /* Markdown body content on the detail pages. Global because rendered markdown
-   carries no Astro scope attribute. The paragraph gap reads --prose-gap so a
-   page can set its own value. */
+   carries no Astro scope attribute. */
 .prose {
   font-size: var(--text-lg);
   line-height: var(--leading-normal);
 }
-.prose p {
-  margin-bottom: var(--prose-gap, 1.5em);
+.prose :is(p, ul, ol, blockquote) {
+  font-size: inherit;
+  margin-bottom: var(--space-6);
 }
-.prose a {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-hairline);
-  text-underline-offset: var(--underline-offset);
-  transition: opacity 150ms ease;
+.prose :is(p, ul, ol, blockquote):last-child {
+  margin-bottom: 0;
 }
-.prose a:hover {
-  opacity: 0.75;
+.prose :is(ul, ol) {
+  padding-left: var(--space-6);
+}
+.prose h2 {
+  font-size: var(--text-xl);
+  margin: var(--space-8) 0 var(--space-3);
+}
+.prose h3 {
+  font-size: var(--text-lg);
+  margin: var(--space-6) 0 var(--space-2);
+}
+.prose blockquote {
+  padding-left: var(--space-4);
+  border-left: var(--border-thick) solid var(--color-accent);
 }
 
 /* One reduced motion rule for the whole site: no animations and no

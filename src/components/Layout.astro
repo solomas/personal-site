@@ -1,16 +1,21 @@
 ---
 import "../styles/global.css";
-import Fonts from "./Fonts.astro";
+import Folds from "./Folds.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   title: string;
   description?: string;
-  hideNav?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", hideNav = false } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research." } = Astro.props;
 const pathname = Astro.url.pathname;
+const navItems = [
+  { href: "/projects/", label: "Projects" },
+  { href: "/work/", label: "Work" },
+  { href: "/research/", label: "Research" },
+  { href: "/contact/", label: "Contact" },
+];
 ---
 <!doctype html>
 <html lang="en">
@@ -21,29 +26,45 @@ const pathname = Astro.url.pathname;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <script is:inline>
+      // Theme before first paint, so there is no flash. A stored "flip" means
+      // night and a stored "mist" means mist. With no stored choice the first
+      // visit follows the system setting.
       (function () {
+        var night = false;
         try {
-          const saved = localStorage.getItem("theme");
+          var saved = localStorage.getItem("theme");
           if (saved === "flip") {
-            document.documentElement.setAttribute("data-theme", "flip");
+            night = true;
+          } else if (saved !== "mist") {
+            night = window.matchMedia("(prefers-color-scheme: dark)").matches;
           }
-        } catch (e) {}
+        } catch (e) {
+          night = !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        }
+        if (night) {
+          document.documentElement.setAttribute("data-theme", "flip");
+        }
       })();
     </script>
-    <Fonts />
+    <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
+    <Folds />
     <header class="site-header">
-      <div class="site-header__inner">
-        <a href="/" class="site-header__name">Tomás van Gorp</a>
-        {!hideNav && (
-          <nav class="site-header__nav" aria-label="Primary">
-            <a href="/projects/" class:list={["nav-link", { active: pathname.startsWith("/projects") }]}>Projects</a>
-            <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
-            <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
-            <a href="/contact/" class:list={["nav-link", { active: pathname.startsWith("/contact") }]}>Contact</a>
-          </nav>
-        )}
+      <div class="site-nav glass">
+        <a href="/" class="site-nav__name">Tomás van Gorp</a>
+        <nav class="site-nav__links" aria-label="Primary">
+          {navItems.map(item => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <a
+                href={item.href}
+                class:list={["site-nav__link", { "is-active": active }]}
+                aria-current={active ? "page" : undefined}
+              >{item.label}</a>
+            );
+          })}
+        </nav>
         <ThemeToggle />
       </div>
     </header>
@@ -53,101 +74,103 @@ const pathname = Astro.url.pathname;
     </main>
 
     <footer class="site-footer">
-      <div class="site-footer__inner">
-        <span class="meta">Built in the open. Last updated {new Date().getFullYear()}.</span>
-        <a href="/contact/" class="site-footer__contact meta">Contact</a>
-      </div>
+      <span>Built in the open. Last updated {new Date().getFullYear()}.</span>
+      <a href="/contact/" class="site-footer__contact">Contact</a>
     </footer>
 
     <style>
+      /* Floating glass navigation. It sits in the page flow at the top, not
+         fixed, so it only ever lies over the folded background and never
+         over text. */
       .site-header {
-        border-bottom: var(--border-hairline) solid var(--color-border);
-        /* Horizontal gutter matches the home section, so the brand lines up
-           hard-left with the left-flush rows below, and the toggle sits against
-           the right gutter. Full-width inner, no centred page-width cap. */
-        padding: var(--space-6) var(--space-4);
+        padding: var(--space-4) var(--page-gutter) 0;
       }
-      .site-header__inner {
-        width: 100%;
+      .site-nav {
+        max-width: var(--page-width);
+        margin: 0 auto;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         gap: var(--space-6);
-        flex-wrap: wrap;
+        padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+        border-radius: var(--radius-pill);
       }
-      .site-header__name {
-        font-family: var(--font-display);
-        font-size: var(--text-lg);
+      .site-nav a {
+        color: var(--color-ink);
+      }
+      .site-nav__name {
+        font-size: var(--text-base);
         font-weight: 600;
-        text-decoration: none;
         letter-spacing: var(--tracking-snug);
+        text-decoration: none;
+        white-space: nowrap;
       }
-      .site-header__name:hover {
-        color: var(--color-accent);
-      }
-      .site-header__nav {
+      .site-nav__links {
         display: flex;
         gap: var(--space-6);
         flex: 1;
-        position: relative;
+        justify-content: flex-end;
       }
-      .nav-link {
+      .site-nav__link {
         position: relative;
-        font-family: var(--font-mono);
         font-size: var(--text-sm);
         text-decoration: none;
-        color: var(--color-muted);
-        letter-spacing: var(--tracking-meta);
-        padding-bottom: 4px;
+        padding: var(--space-1) 0;
       }
-      .nav-link::after {
+      /* Active marker: a yellow bar under the link. The state is also carried
+         by weight and aria-current, since yellow on mist is low contrast. */
+      .site-nav__link::after {
         content: "";
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
-        height: var(--border-medium);
-        background-color: var(--color-text);
+        height: var(--border-thick);
+        border-radius: var(--border-thick);
+        background: var(--color-accent);
         transform: scaleX(0);
         transform-origin: left center;
-        transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        transition: transform 220ms var(--ease-out);
       }
-      .nav-link:hover {
-        color: var(--color-text);
-      }
-      .nav-link:hover::after {
+      .site-nav__link:hover::after,
+      .site-nav__link.is-active::after {
         transform: scaleX(1);
       }
-      .nav-link.active {
-        color: var(--color-text);
+      .site-nav__link.is-active {
+        font-weight: 600;
       }
-      .nav-link.active::after {
-        transform: scaleX(1);
-        background-color: var(--color-text);
-      }
+
       .site-main {
         min-height: 60vh;
-        width: 100%;
       }
+
+      /* Footer text sits bare on the background, so it uses ink. */
       .site-footer {
-        border-top: var(--border-hairline) solid var(--color-border);
-        padding: var(--space-8);
-        margin-top: var(--space-24);
-      }
-      .site-footer__inner {
         max-width: var(--page-width);
-        margin: 0 auto;
+        margin: var(--space-24) auto 0;
+        padding: var(--space-8) var(--page-gutter);
         display: flex;
         justify-content: space-between;
-        align-items: center;
         gap: var(--space-4);
         flex-wrap: wrap;
+        font-size: var(--text-sm);
       }
-      .site-footer__contact {
-        text-decoration: none;
-      }
-      .site-footer__contact:hover {
-        color: var(--color-accent);
+
+      @media (max-width: 720px) {
+        .site-nav {
+          flex-wrap: wrap;
+          row-gap: var(--space-1);
+          border-radius: var(--radius-lg);
+          padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+        }
+        .site-nav__name {
+          flex: 1;
+        }
+        .site-nav__links {
+          order: 3;
+          flex-basis: 100%;
+          justify-content: space-between;
+          gap: var(--space-3);
+        }
       }
     </style>
   </body>

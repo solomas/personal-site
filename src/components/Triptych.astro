@@ -93,14 +93,14 @@
     flex: 1 1 0;
     min-width: 0;
     padding: clamp(var(--space-3), 2.2vw, var(--space-6)) clamp(var(--space-4), 2.4vw, var(--space-8));
-    background: var(--color-bg);
+    background: var(--color-ground);
     /* Thick Paradiso divider between the bands. */
-    border-top: var(--border-thick) solid var(--color-text);
+    border-top: var(--border-thick) solid var(--color-ink);
     text-decoration: none;
     transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
   .row:last-child {
-    border-bottom: var(--border-thick) solid var(--color-text);
+    border-bottom: var(--border-thick) solid var(--color-ink);
   }
 
   /* Hover fill as a left-to-right sweep rather than a flat colour change. The
@@ -133,7 +133,7 @@
     top: 50%;
     transform: translate(13%, -50%);
     z-index: 1;
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: clamp(6rem, 13vh, 11rem);
     line-height: 1;
@@ -168,14 +168,14 @@
      off the right. Tune the extra cut via the trailing 2vw. */
   .row__title {
     margin-left: calc(-1 * clamp(var(--space-4), 2.4vw, var(--space-8)) - 2vw);
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-weight: 700;
     letter-spacing: var(--tracking-display);
     line-height: 0.9;
     white-space: nowrap;
     text-transform: lowercase;
     font-size: clamp(4rem, 16vw, 13rem);
-    color: var(--color-text);
+    color: var(--color-ink);
     transform-origin: left center;
     transition: color 260ms var(--ease-out), transform 280ms var(--ease-out);
   }
@@ -195,7 +195,7 @@
   }
   .row__caption {
     min-width: 0;
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     font-size: clamp(0.82rem, 1.3vw, 0.98rem);
     line-height: 1.4;
     color: var(--color-muted);
@@ -206,11 +206,11 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-text);
+    letter-spacing: var(--tracking-snug);
+    color: var(--color-ink);
     transition: color 260ms var(--ease-out), transform 280ms var(--ease-out);
   }
   .row__arrow {
@@ -233,7 +233,7 @@
     .row:hover .row__title,
     .row:hover .row__caption,
     .row:hover .row__go {
-      color: var(--color-bg);
+      color: var(--color-ground);
     }
     /* Title grows from its left edge. */
     .row:hover .row__title {
@@ -241,7 +241,7 @@
     }
     /* Numeral brightens and drifts a touch left with the sweep. */
     .row:hover .row__num {
-      color: var(--color-bg);
+      color: var(--color-ground);
       opacity: 0.2;
       transform: translate(calc(13% - 6px), -50%);
     }

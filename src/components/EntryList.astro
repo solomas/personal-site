@@ -45,7 +45,7 @@ const { items, variant = "default" } = Astro.props;
     /* Reserve left padding (bar width plus a gap) so the gilt hover bar sits
        clear of the text and toggling it causes no layout shift. */
     padding: var(--space-8) 0 var(--space-8) var(--space-4);
-    border-top: var(--border-hairline) solid var(--color-border);
+    border-top: var(--border-hairline) solid var(--color-hairline);
     text-decoration: none;
     /* Load reveal with a light per-item stagger. riseIn lives in global.css. */
     animation: riseIn 340ms var(--ease-out) backwards;
@@ -74,7 +74,7 @@ const { items, variant = "default" } = Astro.props;
   }
   .entry-link__title {
     grid-column: 2;
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: var(--text-2xl);
     font-weight: 600;
     letter-spacing: var(--tracking-title);

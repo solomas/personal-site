@@ -1,0 +1,62 @@
+---
+// The folded background: a still, inline SVG behind all content. Flat planes
+// in the ground and fold light colours, with soft blurred shadows along the
+// creases. No colour gradients. Every shadow is the fold shadow colour at or
+// below full opacity, so no pixel is darker than --color-fold-shadow and none
+// lighter than --color-fold-light. The contrast checks rely on that range.
+// Plane positions and blur radius are chosen by eye.
+---
+<svg
+  class="folds"
+  viewBox="0 0 1440 900"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <filter id="fold-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="30" />
+    </filter>
+    <filter id="fold-crisp" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+  </defs>
+
+  <rect class="folds__ground" width="1440" height="900" />
+
+  <!-- Left sheet, folded along a diagonal crease. Its shadow falls on the
+       ground to the right of the crease. -->
+  <polygon class="folds__shadow" filter="url(#fold-soft)" opacity="0.9"
+    points="780,-40 900,-40 640,940 500,940" />
+  <polygon class="folds__light" points="-20,-20 800,-20 540,920 -20,920" />
+  <!-- Darker bottom edge along the crease of the left sheet. -->
+  <polygon class="folds__shadow" filter="url(#fold-crisp)" opacity="0.45"
+    points="760,-20 800,-20 540,920 500,920" />
+
+  <!-- A second, lower fold across the bottom left. -->
+  <polygon class="folds__shadow" filter="url(#fold-soft)" opacity="0.55"
+    points="-20,640 600,560 640,640 -20,760" />
+  <polygon class="folds__light" opacity="0.7" points="-20,700 640,610 600,920 -20,920" />
+
+  <!-- Right sheet, a narrow panel leaning in from the right edge. -->
+  <polygon class="folds__shadow" filter="url(#fold-soft)" opacity="0.8"
+    points="1130,-40 1230,-40 1330,940 1210,940" />
+  <polygon class="folds__light" opacity="0.85" points="1200,-20 1460,-20 1460,920 1300,920" />
+  <polygon class="folds__shadow" filter="url(#fold-crisp)" opacity="0.35"
+    points="1200,-20 1230,-20 1330,920 1300,920" />
+</svg>
+
+<style>
+  .folds {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    pointer-events: none;
+  }
+  .folds__ground { fill: var(--color-ground); }
+  .folds__light { fill: var(--color-fold-light); }
+  .folds__shadow { fill: var(--color-fold-shadow); }
+</style>

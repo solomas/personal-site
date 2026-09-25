@@ -1,23 +1,53 @@
-:root {
-  /* Colour, default (yellow) theme */
-  --color-bg: #ffd60a;
-  --color-surface: #ffce00;
-  --color-text: #000000;
-  --color-muted: #2a2a2a;
-  --color-border: rgba(0, 0, 0, 0.18);
-  --color-accent: #000000;
-  --color-accent-hover: #1a1a1a;
-  --color-on-accent: #ffd60a;
+/* Folded layers design tokens. Palette values come from
+   docs/design/redesign-plan.md. Contrast is checked against WCAG AA in the
+   2026-09-25b session doc. */
 
-  /* Root font size, rem tokens below scale from this */
+:root {
+  color-scheme: light;
+
+  /* Colour, mist theme (default) */
+  --color-ground: #e6eae5;
+  --color-fold-light: #f2f4f0;
+  --color-fold-shadow: #c8d0c9;
+  --color-ink: #16211c;
+  /* Muted text passes AA on glass and sheets, not bare on the fold shadow
+     (4.09:1), so bare text on the background uses --color-ink. */
+  --color-muted: #56615b;
+  --color-accent: #ffd60a;
+  --color-on-accent: #16211c;
+  /* In mist the accent is never a text colour, so links stay ink. */
+  --color-link: var(--color-ink);
+  --color-hairline: rgba(22, 33, 28, 0.12);
+  /* Inner focus ring. The yellow ring alone reaches only about 1.2:1 on mist,
+     so an ink ring sits inside it to give the focus state its contrast. */
+  --color-focus-inner: var(--color-ink);
+
+  /* Glass: white at 45 percent, white top edge at 70 percent, ink bottom edge
+     at 10 percent. --glass-solid is the same glass laid over the ground, used
+     where backdrop-filter is missing or transparency is reduced. */
+  --glass-fill: rgba(255, 255, 255, 0.45);
+  --glass-edge-top: rgba(255, 255, 255, 0.7);
+  --glass-edge-bottom: rgba(22, 33, 28, 0.1);
+  --glass-solid: #f1f3f1;
+  /* Hover state of a row inside a glass panel. Chosen, not from the plan. */
+  --glass-hover: rgba(255, 255, 255, 0.35);
+
+  /* Reading sheet: #F7F8F5 at 94 percent. */
+  --sheet-fill: rgba(247, 248, 245, 0.94);
+  --sheet-solid: #f7f8f5;
+
+  /* Sheet shadow, ink tinted. Offsets and alpha chosen by eye. */
+  --shadow-sheet: 0 1px 2px rgba(22, 33, 28, 0.06), 0 18px 40px -18px rgba(22, 33, 28, 0.28);
+  --shadow-lift: 0 2px 4px rgba(22, 33, 28, 0.08), 0 26px 48px -20px rgba(22, 33, 28, 0.34);
+
+  /* Blur radius of the glass. Chosen by eye. */
+  --glass-blur: 18px;
+
+  /* Type: one family, Geist, self-hosted in public/fonts */
+  --font-sans: "Geist", system-ui, sans-serif;
   --font-size-root: 17px;
 
-  /* Type */
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-display: "Geist", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
-
-  /* Type scale, modular at 1.25 ratio */
+  /* Type scale */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -27,31 +57,17 @@
   --text-3xl: 2.75rem;
   --text-4xl: 3.5rem;
   --text-5xl: 5rem;
-  --text-6xl: 7rem;
-  --text-display: clamp(4rem, 12vw, 10rem);
 
-  /* Off-scale sizes carried over from the work pages, unified in phase 2 */
-  --text-legacy-080: 0.8rem;
-  --text-legacy-085: 0.85rem;
-  --text-legacy-090: 0.9rem;
-  --text-legacy-095: 0.95rem;
-  --text-legacy-105: 1.05rem;
-  --text-legacy-115: 1.15rem;
+  /* Line heights */
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
 
   /* Letter spacing */
   --tracking-display: -0.04em;
   --tracking-heading: -0.03em;
   --tracking-title: -0.02em;
   --tracking-snug: -0.01em;
-  --tracking-meta: 0.02em;
-  --tracking-label: 0.04em;
-  --tracking-caps: 0.06em;
-  --tracking-wide: 0.2em;
-
-  /* Line heights */
-  --leading-tight: 1.15;
-  --leading-snug: 1.35;
-  --leading-normal: 1.6;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -59,48 +75,63 @@
   --space-3: 0.75rem;
   --space-4: 1rem;
   --space-6: 1.5rem;
-  --space-7: 1.75rem;
   --space-8: 2rem;
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
-  --space-32: 8rem;
-  --space-40: 10rem;
-  /* Off-scale gap under the Other work label, unified in phase 2 */
-  --space-legacy-035: 0.35rem;
 
   /* Layout */
   --content-width: 68ch;
   --page-width: 1100px;
-  /* Approximate site header height, used to fit the home hero in the viewport */
-  --header-height: 5rem;
+  --page-gutter: clamp(var(--space-4), 4vw, var(--space-8));
   --entry-date-width: 140px;
-  /* Height the Other work title list opens to on hover */
+  /* Old Other work folder, removed with the phase 2 layout */
   --folder-peek-height: 250px;
 
-  /* Borders, radius */
-  --radius-sm: 4px;
+  /* Radius and borders */
   --radius-md: 8px;
+  --radius-lg: 18px;
   --radius-pill: 999px;
   --border-hairline: 1px;
   --border-medium: 2px;
   --border-thick: 3px;
   --underline-offset: 3px;
-  --underline-offset-lg: 4px;
 
-  /* Transitions */
+  /* Motion */
   --transition: 150ms ease;
-  /* Settled ease echoing the homepage arch hover, for restrained inner-page motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Night theme (flip). The head script in Layout.astro sets data-theme="flip"
+   when the visitor chose night, or when there is no stored choice and the
+   system asks for dark. */
 [data-theme="flip"] {
-  --color-bg: #000000;
-  --color-surface: #0d0d0d;
-  --color-text: #ffffff;
-  --color-muted: #8a8a8a;
-  --color-border: #222222;
+  color-scheme: dark;
+
+  --color-ground: #0f1614;
+  --color-fold-light: #1d2724;
+  --color-fold-shadow: #070b0a;
+  --color-ink: #eef1ec;
+  --color-muted: #93a099;
   --color-accent: #ffd60a;
-  --color-accent-hover: #ffe04d;
-  --color-on-accent: #000000;
+  --color-on-accent: #0f1614;
+  /* In night the accent may carry text and links. */
+  --color-link: var(--color-accent);
+  --color-hairline: rgba(238, 241, 236, 0.12);
+  --color-focus-inner: var(--color-ground);
+
+  /* Glass: #1D2724 at 55 percent, white top edge at 12 percent. The plan
+     names no bottom edge for night, the dark edge here is chosen. */
+  --glass-fill: rgba(29, 39, 36, 0.55);
+  --glass-edge-top: rgba(255, 255, 255, 0.12);
+  --glass-edge-bottom: rgba(7, 11, 10, 0.6);
+  --glass-solid: #171f1d;
+  --glass-hover: rgba(255, 255, 255, 0.05);
+
+  /* Reading sheet: #141C19 at 94 percent. */
+  --sheet-fill: rgba(20, 28, 25, 0.94);
+  --sheet-solid: #141c19;
+
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.45), 0 26px 48px -20px rgba(0, 0, 0, 0.8);
 }
