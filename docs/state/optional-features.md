@@ -13,7 +13,7 @@ Features that require a product decision before build: pages and interactions th
 ## Open items
 
 **About page** (built on branch `redesign`, 2026-09-25e)
-/about/ exists on the redesign branch with placeholder text from Tomás, linked from the menu. It closes on `main` when the branch merges.
+/about/ exists on the redesign branch with final text from Tomás (2026-09-25h), linked from the menu. It closes on `main` when the branch merges.
 No about page or bio exists. The site has no page that introduces Tomás directly. Contact details are now covered by `/contact` (shipped 2026-05-20). The remaining decision is whether to create a standalone `/about` route for bio and identity copy, or fold it into the homepage hero.
 Next action: decide on scope and route, then draft copy.
 
