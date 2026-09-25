@@ -1,6 +1,6 @@
 ---
 title: "Literature review: three traditions, one demand"
-summary: "A chapter tracing three governance traditions that developed apart and arrived at the same demand, that governance act across sectoral boundaries rather than within them."
+summary: "A chapter on three governance traditions that developed in different settings and arrive at the same demand: that governance should work across sectors rather than inside them."
 date: 2026-06-25
 status: parked
 coauthors: []
@@ -9,8 +9,8 @@ featured: false
 links: []
 ---
 
-Planetary health, ecological civilisation and the sustainable development tradition that produced the Welsh legislation each grew up separately and out of different politics. Read together they turn out to make the same demand: that governance act across sectoral boundaries rather than within them.
+Planetary health, China's ecological civilisation and the Wellbeing of Future Generations tradition behind the Welsh legislation developed in different institutional settings. They are not fully independent. The Welsh tradition and ecological civilisation both grow out of the same sustainable development tradition. Read together, all three make the same demand: that governance work across the boundaries between sectors rather than inside them.
 
-The chapter traces how each arrived there, and where each runs into the same wall. Frameworks get adopted formally and then fail to produce the cross sectoral change they ask for. That is the gap the thesis works in.
+The chapter traces how each tradition got there, and where each runs into the same wall. Frameworks are adopted formally and then fail to produce the cross-sectoral change they ask for. That is the gap the thesis works in.
 
-Drafted, not yet published. It will be linked here if it becomes public.
+The chapter is still in progress. I am adding a scoping review, which maps the published research in a structured way. I will link the chapter here once it is public.

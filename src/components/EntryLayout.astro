@@ -1,0 +1,154 @@
+---
+// One detail page for projects, research and work entries, in the shared
+// reading frame: a back link, a glass header strip with the stream and the
+// meta line, then the reading sheet with the title, summary, body and a
+// footer of tags, co-authors, citation and links. Each footer block renders
+// only when its field has content.
+import ReadingLayout from "./ReadingLayout.astro";
+
+interface Link {
+  label: string;
+  url: string;
+}
+
+interface Props {
+  stream: "projects" | "work" | "research";
+  title: string;
+  summary: string;
+  /* Parts of the meta line in the strip. Empty parts are dropped. */
+  meta?: (string | undefined)[];
+  tags?: string[];
+  coauthors?: string[];
+  citation?: string;
+  links?: Link[];
+}
+
+const {
+  stream,
+  title,
+  summary,
+  meta = [],
+  tags = [],
+  coauthors = [],
+  citation,
+  links = [],
+} = Astro.props;
+
+const metaParts = meta.filter((part): part is string => Boolean(part));
+const hasFields = tags.length > 0 || coauthors.length > 0 || Boolean(citation) || links.length > 0;
+---
+<ReadingLayout title={title} description={summary}>
+  <p slot="before" class="entry__back"><a href={`/${stream}/`}>Back to {stream}</a></p>
+
+  <p slot="strip" class="entry__strip-text">
+    <span class="entry__stream">{stream}</span>
+    {metaParts.map(part => <>{"\u00a0· "}<span>{part}</span></>)}
+  </p>
+
+  <header class="entry__header">
+    <h1>{title}</h1>
+    <p class="entry__summary">{summary}</p>
+  </header>
+
+  <div class="entry__body prose">
+    <slot />
+  </div>
+
+  {hasFields && (
+    <footer class="entry__fields">
+      {tags.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Tags</p>
+          <p class="entry__field-value">{tags.join(", ")}</p>
+        </div>
+      )}
+      {coauthors.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Co-authors</p>
+          <p class="entry__field-value">{coauthors.join(", ")}</p>
+        </div>
+      )}
+      {citation && (
+        <div class="entry__field">
+          <p class="entry__field-label">Citation</p>
+          <p class="entry__field-value">{citation}</p>
+        </div>
+      )}
+      {links.length > 0 && (
+        <div class="entry__field">
+          <p class="entry__field-label">Links</p>
+          <ul class="entry__field-links">
+            {links.map(link => (
+              <li><a href={link.url}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </footer>
+  )}
+</ReadingLayout>
+
+<style>
+  /* Bare on the background, so ink. */
+  .entry__back {
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .entry__back a {
+    color: var(--color-ink);
+  }
+
+  .entry__strip-text {
+    font-size: var(--text-sm);
+  }
+  .entry__stream {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .entry__header {
+    margin-bottom: var(--space-8);
+  }
+  .entry__header h1 {
+    font-size: var(--text-entry-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.05;
+    overflow-wrap: break-word;
+    margin-bottom: var(--space-4);
+  }
+  .entry__summary {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    color: var(--color-muted);
+  }
+
+  .entry__fields {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-6);
+  }
+  .entry__field-label {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+  .entry__field-value {
+    color: var(--color-muted);
+  }
+  .entry__field-links {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  @media (max-width: 720px) {
+    .entry__summary {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

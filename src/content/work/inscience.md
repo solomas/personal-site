@@ -9,4 +9,6 @@ status: live
 tags: [public-engagement, science-communication]
 ---
 
-InScience pairs new science films with live debate. The Head of Talks Programme runs the cycle from concept to stage. Partnerships with research institutes and media houses give the programme its weight, and the editorial choices that follow decide what reaches the audience. The remit is editorial as much as logistical. Choosing which research the talks would foreground, finding speakers who could open the work to a non specialist room, and shaping questions the audience could carry past the festival itself. The 2024 edition ran across multiple venues in Nijmegen, with a cross functional team behind the production.
+InScience pairs new science films with live debate. As Head of Talks Programme I ran the cycle from first idea to stage. Partnerships with research institutes and media organisations gave the programme its weight.
+
+The work was as much editorial as logistical. I chose which research the talks would put forward, found speakers who could open that work up to a non-specialist audience and shaped questions people could take home with them. The 2024 edition ran across several venues in Nijmegen, with a cross-functional team behind the production.

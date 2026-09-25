@@ -1,0 +1,157 @@
+---
+// The three streams on the home page as overlapping glass sheets, one line
+// each. Each sheet slides a step to the right and overlaps the one above it.
+// The overlap only covers the empty lower padding of the sheet beneath, so no
+// text ever sits under another sheet.
+//
+// Motion: on the first visit the sheets settle into their stack, once, gated
+// by the "triptych-revealed" localStorage key. Otherwise a sheet only lifts a
+// little on hover. The focus on hover effect comes from global.css, in its
+// strong version (data-focus="strong").
+const sheets = [
+  { href: "/research/", title: "Research", line: "My PhD on how governments turn planetary health plans into practice." },
+  { href: "/work/", title: "Work", line: "Consulting, board support and programme design." },
+  { href: "/projects/", title: "Projects", line: "Tools and experiments of my own." },
+];
+---
+<nav class="stack focus-panel" data-focus="strong" aria-label="Three streams of work">
+  {sheets.map((sheet, i) => (
+    <a href={sheet.href} class="stack__sheet glass-panel focus-item" style={`--i: ${i}`}>
+      <span class="stack__title">{sheet.title}</span>
+      <span class="stack__line">{sheet.line}</span>
+      <span class="stack__arrow" aria-hidden="true">&#8594;</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .stack {
+    /* Step and overlap chosen by eye. */
+    --stack-step: 9%;
+    --stack-overlap: var(--space-6);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stack__sheet {
+    position: relative;
+    z-index: calc(var(--i) + 1);
+    width: calc(100% - 2 * var(--stack-step));
+    margin-left: calc(var(--i) * var(--stack-step));
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: var(--space-6);
+    row-gap: var(--space-1);
+    /* The bottom padding holds the overlap of the next sheet plus the normal
+       padding, so the text stays clear of it. */
+    padding: var(--space-6) var(--space-8) calc(var(--space-6) + var(--stack-overlap));
+    color: var(--color-ink);
+    text-decoration: none;
+    transition:
+      var(--focus-transition),
+      transform 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out);
+  }
+  .stack__sheet + .stack__sheet {
+    margin-top: calc(-1 * var(--stack-overlap));
+  }
+
+  .stack__title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-tight);
+  }
+  .stack__line {
+    flex: 1 1 16rem;
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+  }
+  .stack__arrow {
+    font-size: var(--text-xl);
+    transition: transform 220ms var(--ease-out);
+  }
+
+  /* Hover and keyboard focus: the sheet lifts a little on a deeper shadow.
+     Hover only on devices that can hover. The focused sheet keeps the ground
+     ring of the site focus style around its ink outline. */
+  .stack__sheet:focus-visible {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 calc(2 * var(--border-medium)) var(--color-ground),
+      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+      var(--shadow-lift);
+  }
+  @media (hover: hover) {
+    .stack__sheet:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+        var(--shadow-lift);
+    }
+    .stack__sheet:hover .stack__arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  /* First visit only: the sheets settle into the stack from a looser spread.
+     The markup ships in the rest position, so no JS, return visits and
+     reduced motion all show the stack at rest. */
+  .stack[data-reveal] .stack__sheet {
+    animation: stack-settle 700ms var(--ease-out) backwards;
+    animation-delay: calc(var(--i) * 110ms);
+  }
+  @keyframes stack-settle {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--space-6) + var(--i) * var(--space-4)));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .stack {
+      --stack-step: 4%;
+    }
+    .stack__sheet {
+      padding: var(--space-4) var(--space-6) calc(var(--space-4) + var(--stack-overlap));
+    }
+    .stack__title {
+      font-size: var(--text-2xl);
+    }
+    .stack__arrow {
+      display: none;
+    }
+  }
+
+  /* The global rule stops the motion, this stops the hover movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .stack__sheet:hover,
+    .stack__sheet:focus-visible,
+    .stack__sheet:hover .stack__arrow {
+      transform: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var stack = document.querySelector(".stack");
+    if (!stack) return;
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var revealed = false;
+    try { revealed = localStorage.getItem("triptych-revealed") === "1"; } catch (e) {}
+    if (reduceMotion || revealed) return;
+    stack.setAttribute("data-reveal", "");
+    // The last sheet lands at about 920ms. Set the key after that.
+    window.setTimeout(function () {
+      try { localStorage.setItem("triptych-revealed", "1"); } catch (e) {}
+    }, 1200);
+  })();
+</script>

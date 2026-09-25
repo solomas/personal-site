@@ -1,0 +1,42 @@
+---
+// Title and short intro above the glass panel on the stream index pages. Both
+// sit bare on the background, so both are ink.
+interface Props {
+  title: string;
+  lede?: string;
+}
+
+const { title, lede } = Astro.props;
+---
+<header class="stream-header focus-context" data-vt-header>
+  <h1>{title}</h1>
+  {lede && <p class="stream-header__lede">{lede}</p>}
+</header>
+
+<style>
+  .stream-header {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-16) var(--page-gutter) var(--space-8);
+  }
+  .stream-header h1 {
+    font-size: var(--text-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-display);
+    line-height: 1;
+    margin-bottom: var(--space-4);
+  }
+  .stream-header__lede {
+    max-width: 50ch;
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+  @media (max-width: 720px) {
+    .stream-header {
+      padding-top: var(--space-12);
+    }
+    .stream-header__lede {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

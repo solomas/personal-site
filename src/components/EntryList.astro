@@ -1,0 +1,184 @@
+---
+// One glass panel holding the entries of a stream index page, as rows split
+// by hairlines. An optional "more" group folds open inside the same panel,
+// used for Other work on the work page.
+interface Item {
+  href: string;
+  date: string;
+  title: string;
+  summary: string;
+}
+
+interface More {
+  label: string;
+  caption: string;
+  items: Item[];
+}
+
+interface Props {
+  items: Item[];
+  more?: More;
+}
+
+const { items, more } = Astro.props;
+---
+<div class="entry-panel-wrap">
+  <div class="entry-panel glass-panel focus-panel">
+    <ul class="entry-list">
+      {items.map(item => (
+        <li>
+          <a href={item.href} class="entry-row focus-item">
+            <span class="entry-row__date meta">{item.date}</span>
+            <span class="entry-row__title">{item.title}</span>
+            <span class="entry-row__summary meta">{item.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {more && more.items.length > 0 && (
+      <details class="entry-more">
+        <summary class="entry-more__summary focus-item">
+          <span class="entry-more__text">
+            <span class="entry-more__label">{more.label}</span>
+            <span class="entry-more__caption meta">{more.caption}</span>
+          </span>
+          <span class="entry-more__marker" aria-hidden="true"></span>
+        </summary>
+        <ul class="entry-list">
+          {more.items.map(item => (
+            <li>
+              <a href={item.href} class="entry-row focus-item">
+                <span class="entry-row__date meta">{item.date}</span>
+                <span class="entry-row__title">{item.title}</span>
+                <span class="entry-row__summary meta">{item.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </div>
+</div>
+
+<style>
+  .entry-panel-wrap {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
+  }
+  .entry-panel {
+    padding: var(--space-2);
+  }
+
+  .entry-list {
+    list-style: none;
+    padding: 0;
+  }
+  .entry-list > li + li {
+    border-top: var(--border-hairline) solid var(--color-hairline);
+  }
+
+  .entry-row {
+    display: grid;
+    grid-template-columns: var(--entry-date-width) 1fr;
+    column-gap: var(--space-8);
+    row-gap: var(--space-1);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: var(--focus-transition), background-color var(--transition);
+  }
+  /* Hover answers with a lighter row and an underlined title. */
+  .entry-row:hover {
+    background: var(--glass-hover);
+  }
+  .entry-row__date {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    padding-top: var(--space-1);
+  }
+  .entry-row__title {
+    grid-column: 2;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-title);
+    line-height: var(--leading-snug);
+  }
+  .entry-row:hover .entry-row__title {
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-medium);
+    text-underline-offset: var(--underline-offset);
+  }
+  .entry-row__summary {
+    grid-column: 2;
+    max-width: 60ch;
+    font-size: var(--text-base);
+  }
+
+  /* Other work: a disclosure row inside the same panel. */
+  .entry-more {
+    border-top: var(--border-hairline) solid var(--color-hairline);
+  }
+  .entry-more__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    list-style: none;
+    cursor: pointer;
+    transition: var(--focus-transition), background-color var(--transition);
+  }
+  .entry-more__summary::-webkit-details-marker {
+    display: none;
+  }
+  .entry-more__summary:hover {
+    background: var(--glass-hover);
+  }
+  .entry-more__text {
+    display: grid;
+    gap: var(--space-1);
+  }
+  .entry-more__label {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+  /* A chevron drawn with two borders, turning when the group opens. */
+  .entry-more__marker {
+    flex-shrink: 0;
+    width: 0.6em;
+    height: 0.6em;
+    border-right: var(--border-medium) solid var(--color-ink);
+    border-bottom: var(--border-medium) solid var(--color-ink);
+    transform: rotate(45deg);
+    transition: transform 220ms var(--ease-out);
+  }
+  .entry-more[open] .entry-more__marker {
+    transform: rotate(-135deg);
+  }
+  .entry-more[open] > .entry-list {
+    border-top: var(--border-hairline) solid var(--color-hairline);
+  }
+
+  @media (max-width: 600px) {
+    .entry-row {
+      grid-template-columns: 1fr;
+      padding: var(--space-4);
+    }
+    .entry-row__date {
+      grid-row: auto;
+      grid-column: 1;
+      padding-top: 0;
+    }
+    .entry-row__title,
+    .entry-row__summary {
+      grid-column: 1;
+    }
+    .entry-more__summary {
+      padding: var(--space-4);
+    }
+  }
+</style>

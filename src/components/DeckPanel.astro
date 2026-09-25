@@ -1,0 +1,73 @@
+---
+// A prominent glass panel on the research page that links to the proposal
+// defence deck. The title and the link label come from the research proposal
+// entry, so the panel carries no copy of its own.
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("research", "research-proposal");
+const deck = entry?.data.links.find(link => link.url.includes("proposal-defence"));
+---
+{entry && deck && (
+  <div class="deck-wrap">
+    <a href={deck.url} class="deck glass-panel focus-item">
+      <span class="deck__title">{entry.data.title}</span>
+      <span class="deck__label glass-button">{deck.label} <span aria-hidden="true">&#8594;</span></span>
+    </a>
+  </div>
+)}
+
+<style>
+  .deck-wrap {
+    max-width: var(--page-width);
+    margin: 0 auto var(--space-6);
+    padding: 0 var(--page-gutter);
+  }
+  .deck {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-8);
+    padding: var(--space-12);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: var(--focus-transition), transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+  }
+  .deck__title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-tight);
+  }
+  .deck__label {
+    font-size: var(--text-base);
+  }
+  /* Hover: the panel lifts a little, and the label ring turns ink as a
+     glass button does. */
+  @media (hover: hover) {
+    .deck:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+        var(--shadow-lift);
+    }
+    .deck:hover .deck__label {
+      box-shadow:
+        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+        0 0 0 var(--border-hairline) var(--color-ink);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deck:hover { transform: none; }
+  }
+  @media (max-width: 720px) {
+    .deck {
+      padding: var(--space-6);
+    }
+    .deck__title {
+      font-size: var(--text-2xl);
+    }
+  }
+</style>

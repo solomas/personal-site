@@ -1,17 +1,32 @@
 ---
 import "../styles/global.css";
-import Fonts from "./Fonts.astro";
+import Shapes from "./Shapes.astro";
 import ThemeToggle from "./ThemeToggle.astro";
-import Cursor from "./Cursor.astro";
 
 interface Props {
   title: string;
   description?: string;
-  hideNav?: boolean;
+  /* Slower background drift, used on the detail pages. */
+  slowShapes?: boolean;
+  /* One drifting shape instead of four, used on the 404 page. */
+  singleShape?: boolean;
+  /* Keep the page out of search results and leave out the canonical link,
+     used on the 404 page. */
+  noindex?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", hideNav = false } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
 const pathname = Astro.url.pathname;
+// Absolute URLs from the site address in astro.config.mjs.
+const canonical = new URL(pathname, Astro.site).href;
+const socialImage = new URL("/og.png", Astro.site).href;
+const navItems = [
+  { href: "/projects/", label: "Projects" },
+  { href: "/work/", label: "Work" },
+  { href: "/research/", label: "Research" },
+  { href: "/about/", label: "About" },
+  { href: "/contact/", label: "Contact" },
+];
 ---
 <!doctype html>
 <html lang="en">
@@ -21,33 +36,146 @@ const pathname = Astro.url.pathname;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tomás van Gorp" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
     <script is:inline>
+      // Theme before first paint, so there is no flash. A stored "flip" means
+      // night and a stored "mist" means mist. With no stored choice the first
+      // visit follows the system setting.
       (function () {
+        // Marks that scripts run, so the menu can start closed. Without
+        // JavaScript the class never appears and the links stay open.
+        document.documentElement.classList.add("js");
+        var night = false;
         try {
-          const saved = localStorage.getItem("theme");
+          var saved = localStorage.getItem("theme");
           if (saved === "flip") {
-            document.documentElement.setAttribute("data-theme", "flip");
+            night = true;
+          } else if (saved !== "mist") {
+            night = window.matchMedia("(prefers-color-scheme: dark)").matches;
           }
-        } catch (e) {}
+        } catch (e) {
+          night = !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        }
+        if (night) {
+          document.documentElement.setAttribute("data-theme", "flip");
+        }
       })();
     </script>
-    <Fonts />
+    <script is:inline>
+      // Page transitions: name the element that links the two pages "morph"
+      // on both sides. Leaving a page, that is the home sheet, row or deck
+      // panel whose link points to the next page, or else this page's header.
+      // Arriving, it is the item that points back to the page just left, or
+      // else this page's header. So a row grows into the detail page's strip,
+      // and going back the strip shrinks into the row again.
+      (function () {
+        function path(url) {
+          try {
+            return new URL(url, location.href).pathname.replace(/\/+$/, "") || "/";
+          } catch (e) {
+            return null;
+          }
+        }
+        function pick(url) {
+          var target = path(url);
+          if (!target) return null;
+          var items = document.querySelectorAll(".focus-item[href]");
+          for (var i = 0; i < items.length; i++) {
+            if (path(items[i].getAttribute("href")) === target) return items[i];
+          }
+          return document.querySelector("[data-vt-header]");
+        }
+        function mark(el, transition) {
+          if (!el) return;
+          el.style.viewTransitionName = "morph";
+          transition.finished.finally(function () {
+            el.style.viewTransitionName = "";
+          });
+        }
+        window.addEventListener("pageswap", function (e) {
+          if (e.viewTransition && e.activation && e.activation.entry) {
+            mark(pick(e.activation.entry.url), e.viewTransition);
+          }
+        });
+        window.addEventListener("pagereveal", function (e) {
+          var from = window.navigation && navigation.activation && navigation.activation.from;
+          if (e.viewTransition && from) mark(pick(from.url), e.viewTransition);
+        });
+        // A page restored from the back and forward cache may still carry a
+        // name from the transition that left it.
+        window.addEventListener("pageshow", function (e) {
+          if (!e.persisted) return;
+          document.querySelectorAll("[style*='view-transition-name']").forEach(function (el) {
+            el.style.viewTransitionName = "";
+          });
+        });
+      })();
+    </script>
+    <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <Cursor />
+    <Shapes slow={slowShapes} single={singleShape} />
     <header class="site-header">
-      <div class="site-header__inner">
-        <a href="/" class="site-header__name">Tomás van Gorp</a>
-        {!hideNav && (
-          <nav class="site-header__nav" aria-label="Primary">
-            <a href="/projects/" class:list={["nav-link", { active: pathname.startsWith("/projects") }]}>Projects</a>
-            <a href="/work/" class:list={["nav-link", { active: pathname.startsWith("/work") }]}>Work</a>
-            <a href="/research/" class:list={["nav-link", { active: pathname.startsWith("/research") }]}>Research</a>
-            <a href="/contact/" class:list={["nav-link", { active: pathname.startsWith("/contact") }]}>Contact</a>
-          </nav>
-        )}
+      <div class="site-nav glass">
+        <a href="/" class="site-nav__name"><span class="focus-context">Tomás van Gorp</span></a>
+        <button type="button" class="site-nav__menu glass-button focus-context" aria-expanded="false" aria-controls="site-nav-drawer">
+          <span class="site-nav__menu-icon" aria-hidden="true"></span>
+          Menu
+        </button>
+        <div id="site-nav-drawer" class="site-nav__drawer">
+          <div class="site-nav__drawer-inner">
+            <nav class="site-nav__links focus-context" aria-label="Main menu">
+              {navItems.map(item => {
+                const active = pathname.startsWith(item.href);
+                return (
+                  <a
+                    href={item.href}
+                    class:list={["site-nav__link", { "is-active": active }]}
+                    aria-current={active ? "page" : undefined}
+                  >{item.label}</a>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
         <ThemeToggle />
       </div>
+      <script is:inline>
+        // The menu. It starts closed when JavaScript runs (see the "js" class
+        // set in the head). The button toggles it, Escape closes it and
+        // returns focus to the button.
+        (function () {
+          var nav = document.querySelector(".site-nav");
+          var button = nav && nav.querySelector(".site-nav__menu");
+          if (!button) return;
+          function set(open) {
+            button.setAttribute("aria-expanded", open ? "true" : "false");
+            nav.classList.toggle("is-open", open);
+          }
+          button.addEventListener("click", function () {
+            set(button.getAttribute("aria-expanded") !== "true");
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key !== "Escape" || button.getAttribute("aria-expanded") !== "true") return;
+            var inside = nav.contains(document.activeElement);
+            set(false);
+            if (inside) button.focus();
+          });
+        })();
+      </script>
     </header>
 
     <main class="site-main">
@@ -55,101 +183,177 @@ const pathname = Astro.url.pathname;
     </main>
 
     <footer class="site-footer">
-      <div class="site-footer__inner">
-        <span class="meta">Built in the open. Last updated {new Date().getFullYear()}.</span>
-        <a href="/contact/" class="site-footer__contact meta">Contact</a>
-      </div>
+      <span>Last updated {new Date().getFullYear()}.</span>
+      <a href="/contact/" class="site-footer__contact">Contact</a>
     </footer>
 
     <style>
+      /* Floating glass navigation. It sits in the page flow at the top, not
+         fixed, so it only ever lies over the background and never over
+         text. */
       .site-header {
-        border-bottom: 1px solid var(--color-border);
-        /* Horizontal gutter matches the home section, so the brand lines up
-           hard-left with the left-flush rows below, and the toggle sits against
-           the right gutter. Full-width inner, no centred page-width cap. */
-        padding: var(--space-6) var(--space-4);
+        padding: var(--space-4) var(--page-gutter) 0;
       }
-      .site-header__inner {
-        width: 100%;
+      /* The bar: name on the left, then Menu and the theme button on the
+         right. The drawer with the links sits in the DOM between Menu and the
+         theme button, so Tab moves from Menu straight into the links, and
+         order puts it on its own row below. */
+      .site-nav {
+        max-width: var(--page-width);
+        margin: 0 auto;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--space-6);
         flex-wrap: wrap;
+        align-items: center;
+        column-gap: var(--space-3);
+        padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+        border-radius: var(--radius-lg);
       }
-      .site-header__name {
-        font-family: var(--font-display);
-        font-size: var(--text-lg);
-        font-weight: 600;
-        text-decoration: none;
-        letter-spacing: -0.01em;
+      .site-nav a {
+        color: var(--color-ink);
       }
-      .site-header__name:hover {
-        color: var(--color-accent);
-      }
-      .site-header__nav {
-        display: flex;
-        gap: var(--space-6);
+      .site-nav__name {
         flex: 1;
-        position: relative;
-      }
-      .nav-link {
-        position: relative;
-        font-family: var(--font-mono);
-        font-size: var(--text-sm);
+        font-size: var(--text-base);
+        font-weight: 600;
+        letter-spacing: var(--tracking-snug);
         text-decoration: none;
-        color: var(--color-muted);
-        letter-spacing: 0.02em;
-        padding-bottom: 4px;
+        white-space: nowrap;
       }
-      .nav-link::after {
+      .site-nav__menu {
+        order: 1;
+      }
+      .site-nav :global(.theme-toggle) {
+        order: 2;
+      }
+      .site-nav__drawer {
+        order: 3;
+      }
+
+      /* Menu button: a glass pill with a two line icon that turns into a
+         cross while the menu is open. Only shown when JavaScript runs. */
+      .site-nav__menu {
+        display: none;
+        flex-shrink: 0;
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--text-sm);
+      }
+      :global(.js) .site-nav__menu {
+        display: inline-flex;
+      }
+      .site-nav__menu-icon {
+        position: relative;
+        width: 0.9em;
+        height: 0.6em;
+        border-top: var(--border-medium) solid currentColor;
+        border-bottom: var(--border-medium) solid currentColor;
+        transition: border-color 180ms var(--ease-out);
+      }
+      .site-nav.is-open .site-nav__menu-icon {
+        border-color: transparent;
+      }
+      .site-nav.is-open .site-nav__menu-icon::before,
+      .site-nav.is-open .site-nav__menu-icon::after {
         content: "";
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 0;
-        height: 2px;
-        background-color: var(--color-text);
-        transform: scaleX(0);
-        transform-origin: left center;
-        transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        top: calc(50% - var(--border-medium) / 2);
+        height: var(--border-medium);
+        background: currentColor;
+        transform: rotate(45deg);
       }
-      .nav-link:hover {
-        color: var(--color-text);
+      .site-nav.is-open .site-nav__menu-icon::after {
+        transform: rotate(-45deg);
       }
-      .nav-link:hover::after {
-        transform: scaleX(1);
+
+      /* The drawer grows the bar over 250ms: its grid row eases from 0fr to
+         1fr, and the links fade and slide down a little. While closed the
+         links are also hidden from the keyboard and screen readers, after
+         the fade has run. Without JavaScript the drawer stays open. The
+         global reduced motion rule removes the transitions. */
+      .site-nav__drawer {
+        flex-basis: 100%;
+        display: grid;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows 250ms var(--ease-out);
       }
-      .nav-link.active {
-        color: var(--color-text);
+      .site-nav__drawer-inner {
+        min-height: 0;
+        overflow: hidden;
       }
-      .nav-link.active::after {
-        transform: scaleX(1);
-        background-color: var(--color-text);
+      .site-nav__links {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: var(--space-8);
+        row-gap: var(--space-2);
+        margin: var(--space-2) var(--space-4) var(--space-2) 0;
+        padding-top: var(--space-3);
+        border-top: var(--border-hairline) solid var(--color-hairline);
+        transition:
+          opacity 250ms var(--ease-out),
+          transform 250ms var(--ease-out),
+          visibility 0s;
       }
+      :global(.js) .site-nav:not(.is-open) .site-nav__drawer {
+        grid-template-rows: 0fr;
+      }
+      :global(.js) .site-nav:not(.is-open) .site-nav__links {
+        opacity: 0;
+        transform: translateY(calc(-1 * var(--space-2)));
+        visibility: hidden;
+        transition:
+          opacity 250ms var(--ease-out),
+          transform 250ms var(--ease-out),
+          visibility 0s 250ms;
+      }
+      .site-nav__link {
+        font-size: var(--text-base);
+        text-decoration: none;
+        padding: var(--space-1) 0;
+      }
+      /* Active link: bold in the highlight colour, with aria-current. Hover
+         underlines. */
+      .site-nav__link:hover {
+        text-decoration: underline;
+        text-decoration-thickness: var(--border-hairline);
+        text-underline-offset: var(--underline-offset);
+      }
+      .site-nav a.site-nav__link.is-active {
+        font-weight: 700;
+        color: var(--color-highlight);
+      }
+
       .site-main {
         min-height: 60vh;
-        width: 100%;
       }
+
+      /* Footer text sits bare on the background, so it uses ink. */
       .site-footer {
-        border-top: 1px solid var(--color-border);
-        padding: var(--space-8);
-        margin-top: var(--space-24);
-      }
-      .site-footer__inner {
         max-width: var(--page-width);
-        margin: 0 auto;
+        margin: var(--space-24) auto 0;
+        padding: var(--space-8) var(--page-gutter);
         display: flex;
         justify-content: space-between;
-        align-items: center;
         gap: var(--space-4);
         flex-wrap: wrap;
+        font-size: var(--text-sm);
       }
-      .site-footer__contact {
-        text-decoration: none;
-      }
-      .site-footer__contact:hover {
-        color: var(--color-accent);
+
+      @media (max-width: 720px) {
+        .site-nav {
+          column-gap: var(--space-2);
+          padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+        }
+        .site-nav__menu {
+          padding: var(--space-2) var(--space-3);
+        }
+        .site-nav__links {
+          flex-direction: column;
+          row-gap: 0;
+        }
+        .site-nav__link {
+          padding: var(--space-2) 0;
+        }
       }
     </style>
   </body>

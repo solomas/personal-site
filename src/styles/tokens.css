@@ -1,21 +1,61 @@
+/* Two colour layers design tokens. Palette values come from
+   docs/design/redesign-plan.md. Contrast is checked against WCAG AA in the
+   2026-09-25e session doc. */
+
 :root {
-  /* Colour, default (yellow) theme */
-  --color-bg: #ffd60a;
-  --color-surface: #ffce00;
-  --color-text: #000000;
-  --color-muted: #2a2a2a;
-  --color-border: rgba(0, 0, 0, 0.18);
-  --color-accent: #000000;
-  --color-accent-hover: #1a1a1a;
-  --color-on-accent: #ffd60a;
+  color-scheme: light;
 
-  /* Type */
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-display: "Geist", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  /* The two colours. Each theme uses one for its shapes and the other as
+     its highlight. */
+  --blue: #0033a0;
+  --yellow: #ffd100;
 
-  /* Type scale, modular at 1.25 ratio */
-  --text-xs: 0.75rem;
+  /* Colour, day theme (default, stored as "mist") */
+  --color-ground: #ffffff;
+  --color-ink: #000000;
+  /* Muted passes AA on glass and sheets. It never sits directly on the
+     background. */
+  --color-muted: #595959;
+  --color-hairline: rgba(0, 0, 0, 0.12);
+  /* The highlight carries links, the active nav link, the focus ring and
+     the selection. Blue in day. */
+  --color-highlight: var(--blue);
+  --color-on-highlight: #ffffff;
+  /* Large shapes only. Yellow in day, never for text or small elements. */
+  --color-shape: var(--yellow);
+  /* How strongly the shapes show: about a third of the full colour, a pale
+     yellow wash in day (#fff0ab on white) and a dim deep blue in night
+     (#001135 on black). Chosen from the brief. */
+  --shape-strength: 0.33;
+  /* Grain strength over the shapes. Chosen by eye, low enough to leave the
+     contrast figures unchanged. */
+  --grain-opacity: 0.05;
+
+  /* Glass: white at 55 percent, light top edge, darker bottom edge.
+     --glass-solid is the same glass laid over the ground, used where
+     backdrop-filter is missing or transparency is reduced. */
+  --glass-fill: rgba(255, 255, 255, 0.55);
+  --glass-edge-top: rgba(255, 255, 255, 0.8);
+  --glass-edge-bottom: rgba(0, 0, 0, 0.1);
+  --glass-solid: #ffffff;
+  /* Hover state of a row inside a glass panel. Chosen, not from the plan. */
+  --glass-hover: rgba(0, 0, 0, 0.035);
+
+  /* Reading sheet, solid. */
+  --sheet: #ffffff;
+
+  /* Sheet shadow. Offsets and alpha chosen by eye. */
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.06), 0 18px 40px -18px rgba(0, 0, 0, 0.25);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.08), 0 26px 48px -20px rgba(0, 0, 0, 0.32);
+
+  /* Blur radius of the glass. Chosen by eye. */
+  --glass-blur: 18px;
+
+  /* Type: one family, Geist, self-hosted in public/fonts */
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-size-root: 17px;
+
+  /* Type scale */
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
@@ -24,13 +64,21 @@
   --text-3xl: 2.75rem;
   --text-4xl: 3.5rem;
   --text-5xl: 5rem;
-  --text-6xl: 7rem;
-  --text-display: clamp(4rem, 12vw, 10rem);
+  /* Fluid sizes for the home hero and the page titles. Chosen by eye. */
+  --text-hero: clamp(var(--text-2xl), 4.4vw, var(--text-4xl));
+  --text-title: clamp(var(--text-3xl), 7vw, var(--text-5xl));
+  --text-entry-title: clamp(var(--text-2xl), 4.5vw, var(--text-4xl));
 
   /* Line heights */
   --leading-tight: 1.15;
   --leading-snug: 1.35;
   --leading-normal: 1.6;
+
+  /* Letter spacing */
+  --tracking-display: -0.04em;
+  --tracking-heading: -0.03em;
+  --tracking-title: -0.02em;
+  --tracking-snug: -0.01em;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -42,30 +90,65 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
-  --space-32: 8rem;
-  --space-40: 10rem;
 
   /* Layout */
   --content-width: 68ch;
   --page-width: 1100px;
+  --page-gutter: clamp(var(--space-4), 4vw, var(--space-8));
+  --entry-date-width: 10rem;
 
-  /* Borders, radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  /* Radius and borders */
+  /* Large, soft corners for sheets, panels and the nav. Chosen by eye. */
+  --radius-md: 14px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+  --border-hairline: 1px;
+  --border-medium: 2px;
+  --border-thick: 3px;
+  --underline-offset: 3px;
 
-  /* Transitions */
+  /* Focus on hover: how far everything else fades and blurs while one
+     highlight is active. The light version is the default, pages with a
+     [data-focus="strong"] group use the strong one. Values from the brief. */
+  --focus-dim-opacity: 0.6;
+  --focus-dim-blur: 1px;
+  --focus-transition: opacity 250ms var(--ease-out), filter 250ms var(--ease-out);
+
+  /* Motion */
   --transition: 150ms ease;
-  /* Settled ease echoing the homepage arch hover, for restrained inner-page motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Night theme (stored as "flip"). The head script in Layout.astro sets
+   data-theme="flip" when the visitor chose night, or when there is no stored
+   choice and the system asks for dark. */
 [data-theme="flip"] {
-  --color-bg: #000000;
-  --color-surface: #0d0d0d;
-  --color-text: #ffffff;
-  --color-muted: #8a8a8a;
-  --color-border: #222222;
-  --color-accent: #ffd60a;
-  --color-accent-hover: #ffe04d;
-  --color-on-accent: #000000;
+  color-scheme: dark;
+
+  --color-ground: #000000;
+  --color-ink: #ffffff;
+  --color-muted: #a6a6a6;
+  --color-hairline: rgba(255, 255, 255, 0.14);
+  /* Yellow is the highlight in night. */
+  --color-highlight: var(--yellow);
+  --color-on-highlight: #000000;
+  /* Blue only for large shapes. */
+  --color-shape: var(--blue);
+  --grain-opacity: 0.06;
+
+  /* Glass: reads as white at 8 percent over black (#141414), with a brighter
+     top edge. Plain white at 8 percent would leave muted text at 3.59:1 over
+     the blue shape, so the fill is a more opaque dark grey: over black it
+     gives the same #141414, over blue it darkens the shape enough for muted
+     text to reach 5.34:1. */
+  --glass-fill: rgba(41, 41, 41, 0.494);
+  --glass-edge-top: rgba(255, 255, 255, 0.22);
+  --glass-edge-bottom: rgba(0, 0, 0, 0.6);
+  --glass-solid: #141414;
+  --glass-hover: rgba(255, 255, 255, 0.06);
+
+  --sheet: #141414;
+
+  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.55), 0 26px 48px -20px rgba(0, 0, 0, 0.9);
 }

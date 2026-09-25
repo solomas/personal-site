@@ -43,7 +43,7 @@ Run in order at the end of any session that did substantive work:
 2. Update the relevant bucket file(s) in `docs/state/`: move new open items in, mark closed items as done, update Status if reality changed.
 3. Update STATE.md only if the workstream structure itself changed (new bucket, renamed bucket).
 4. Commit and push as a distinct step: `git add`, `git commit`, `git push`.
-5. Verify the push reached origin: `git log --oneline origin/main | head -5`.
+5. Verify the push reached origin: `git log --oneline origin/main | head -5`. On any branch other than main, verify against that branch instead: `git log --oneline origin/<branch> | head -5`.
 
 Rules from past mistakes:
 - Never create a second STATE.md or duplicate bucket files in other paths.
@@ -85,7 +85,7 @@ Before any commit that touches `.md`, `.mdx`, `.astro`, `.html` or content files
 - `src/styles/` for shared styles.
 
 ## Design tokens
-Dark anthracite base, warm mustard accent, Inter body, Geist display, Geist Mono meta. See `src/styles/tokens.css` for values. Do not duplicate values in component styles, reference the custom properties.
+Two colour layers design, see `docs/design/redesign-plan.md`. Each theme uses two surface colours and one highlight. Day (stored as "mist"): white ground, yellow #FFD100 shapes, blue #0033A0 highlight (links, active nav link, focus ring, selection), black text. Night (stored as "flip"): black ground, blue #0033A0 shapes, yellow #FFD100 highlight, white text. No red anywhere. Focus is a 2px highlight ring inside a 2px ground ring. Large organic shapes drift under a static grain on a clock shared across pages. Glass for navigation, panels and buttons, a solid reading sheet for long text. Muted text only on glass or sheets. One family, Geist, self-hosted in `public/fonts/`. See `src/styles/tokens.css` for values. Do not duplicate values in component styles, reference the custom properties.
 
 ## Build commands
 - Dev: `npm run dev`

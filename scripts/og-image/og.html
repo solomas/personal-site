@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Geist"; src: url("../../public/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; box-sizing: border-box; }
+html, body { width: 1200px; height: 630px; overflow: hidden; background: #ffffff; font-family: "Geist", sans-serif; color: #000; -webkit-font-smoothing: antialiased; }
+.shape { position: absolute; opacity: 0.33; }
+.a { width: 900px; height: 330px; left: -260px; top: -150px; transform: rotate(-18deg);
+  background: radial-gradient(closest-side at 50% 50%, #ffd100 62%, transparent 100%), radial-gradient(closest-side at 78% 62%, #ffd100 55%, transparent 96%); }
+.b { width: 760px; height: 260px; right: -330px; top: 150px; transform: rotate(64deg);
+  background: radial-gradient(closest-side at 46% 50%, #ffd100 60%, transparent 100%), radial-gradient(closest-side at 22% 40%, #ffd100 50%, transparent 94%); }
+.c { width: 820px; height: 270px; left: 120px; bottom: -190px; transform: rotate(8deg);
+  background: radial-gradient(closest-side at 50% 50%, #ffd100 60%, transparent 100%), radial-gradient(closest-side at 76% 36%, #ffd100 48%, transparent 92%); }
+.card { position: absolute; left: 80px; top: 118px; width: 860px; padding: 48px 56px 56px; border-radius: 32px;
+  background: rgba(255,255,255,0.55); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06), 0 18px 40px -18px rgba(0,0,0,0.25); }
+.name { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 28px; }
+h1 { font-size: 60px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; }
+h1 b { font-weight: 700; }
+</style></head>
+<body>
+  <div class="shape a"></div><div class="shape b"></div><div class="shape c"></div>
+  <div class="card">
+    <p class="name">Tomás van Gorp</p>
+    <h1>I research what happens <b>after a plan is signed</b>, and help organisations make it work.</h1>
+  </div>
+</body></html>

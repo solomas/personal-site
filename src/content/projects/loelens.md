@@ -1,6 +1,6 @@
 ---
-title: "loelens: scenario modelling for city property markets"
-summary: "A scenario tool for residential property values, live for five Dutch cities. Built on public data, honest about what it borrows."
+title: "loelens: scenario modelling for property prices in Dutch cities"
+summary: "A tool that shows where home prices in Dutch cities could go over the next ten years, under four scenarios. Live, and still changing."
 date: 2026-04-01
 status: live
 tags: ["housing", "modelling", "cities", "public-data", "loelens", "netherlands", "scenario-modelling"]
@@ -10,10 +10,10 @@ links:
     url: "https://www.loelens.com"
 ---
 
-Property market debate runs on assertion. Rates will rise, supply will fail, this neighbourhood will hold. Almost none of it is stated in a form anyone can check later.
+Debate about the property market runs on confident claims. Rates will rise, supply will fail, this neighbourhood will hold. Almost none of it is said in a form anyone can check later.
 
-loelens projects residential property values at postcode level under four scenarios, for five Dutch cities. Amsterdam is calibrated against its own data. Rotterdam, Utrecht, The Hague and Eindhoven read their own neighbourhood figures, but the rules that turn those figures into a price path still come from Amsterdam. The tool says so on screen rather than hiding it behind a smooth number.
+loelens projects home values by postcode area, ten years ahead, under four scenarios. Amsterdam is calibrated on its own data. Rotterdam, Utrecht, The Hague and Eindhoven are live as provisional cities. They use their own neighbourhood figures, but part of the rules that turn those figures into a price path still comes from Amsterdam. The tool says so on screen instead of hiding it behind a smooth number.
 
-The projections run on public data: national statistics on housing stock, valuations and transactions, plus central bank rates. A few commercial and industry figures sit alongside as on screen context and never enter the maths. A separate pipeline refreshes the sources on a fixed schedule.
+Most of the data is public. The main sources are the Dutch statistics office CBS, the European Central Bank, De Nederlandsche Bank and the City of Amsterdam's own statistics. A few market figures from commercial sources sit alongside. Scheduled jobs refresh the data every week, month and quarter.
 
-Scenario modelling is free to use. Reports and a professional tier are built and open once payment is in place. Amsterdam came first because the data is best there, and the method is meant to travel.
+Anyone can explore the baseline scenario for free, one neighbourhood at a time. The four scenarios, reports and a professional tier are priced and will open once payments are set up. Amsterdam came first because its data is the best, and the method is meant to travel. It is a work in progress, live and still changing.
