@@ -4,7 +4,7 @@ Last updated: 2026-09-25
 
 ## Status
 
-The redesign runs on branch `redesign` following `docs/design/redesign-plan.md`. Phase 1 (2026-09-25a) cleaned up the code with no visible change beyond removing the custom cursor. Phase 2 (2026-09-25b) built the plan: mist and night tokens, self-hosted Geist, the folded background, glass classes and the new layouts. The triptych is replaced by `HomeSheets.astro` on this branch. Phase 3 (2026-09-25c) turned the palette monochrome, replaced the folds with drifting round shapes and a static grain, added focus on hover on the home page and a deck panel on the research page. Phase 4 (2026-09-25d) brought in blue, red and yellow with fixed roles, one red dot in the nav, two non overlapping shapes, focus on hover for every highlight through shared code, and a 70s stripe as a separate experiment commit. Phase 5 (2026-09-25e) narrowed each theme to two surface colours, removed red and the stripe, made the shapes larger and bolder on a clock shared across pages, collapsed the navigation behind a menu and added an about page on a shared ReadingLayout. Phase 6 (2026-09-25f) added cross document page transitions with a morph, a 404 page, canonical links, social tags, a sitemap and robots.txt. The index header, entry list and detail layout are now shared components (`StreamHeader`, `EntryList`, `EntryLayout`). `@keyframes riseIn`, the markdown body styles (`.prose`) and one global reduced motion rule live in `global.css`. Hardcoded values now read tokens. Everything below describes `main` unless it says otherwise.
+The redesign runs on branch `redesign` following `docs/design/redesign-plan.md`. Phase 1 (2026-09-25a) cleaned up the code with no visible change beyond removing the custom cursor. Phase 2 (2026-09-25b) built the plan: mist and night tokens, self-hosted Geist, the folded background, glass classes and the new layouts. The triptych is replaced by `HomeSheets.astro` on this branch. Phase 3 (2026-09-25c) turned the palette monochrome, replaced the folds with drifting round shapes and a static grain, added focus on hover on the home page and a deck panel on the research page. Phase 4 (2026-09-25d) brought in blue, red and yellow with fixed roles, one red dot in the nav, two non overlapping shapes, focus on hover for every highlight through shared code, and a 70s stripe as a separate experiment commit. Phase 5 (2026-09-25e) narrowed each theme to two surface colours, removed red and the stripe, made the shapes larger and bolder on a clock shared across pages, collapsed the navigation behind a menu and added an about page on a shared ReadingLayout. Phase 6 (2026-09-25f) added cross document page transitions with a morph, a 404 page, canonical links, social tags, a sitemap and robots.txt. Phase 7 (2026-09-25g) faded the shapes to a third of their strength, put Menu and an icon theme button in the bar on every page and exported the copy to `docs/copy/site-copy.md`. The index header, entry list and detail layout are now shared components (`StreamHeader`, `EntryList`, `EntryLayout`). `@keyframes riseIn`, the markdown body styles (`.prose`) and one global reduced motion rule live in `global.css`. Hardcoded values now read tokens. Everything below describes `main` unless it says otherwise.
 
 A known Astro scoping issue was found and fixed during the content session: `.entry__body p` was failing because Astro appends its cid attribute to both sides of descendant selectors, but markdown-rendered elements do not carry that attribute. The fix was `.entry__body :global(p)`. The same class of bug may exist in other template rules that target markdown-rendered content.
 
@@ -26,7 +26,11 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
-**Redesign phase 6** (built 2026-09-25f, branch `redesign`, awaiting review)
+**Redesign phase 7** (built 2026-09-25g, branch `redesign`, awaiting review)
+Built in b450792, 5226200 and 6ca723a.
+Next action: Tomás reviews the preview and starts the copy rewrite from `docs/copy/site-copy.md`. Merge to `main` only after approval.
+
+**Redesign phase 6** (built 2026-09-25f, branch `redesign`, superseded by phase 7)
 Built in 3a183e7 to 40f85a2.
 Next action: Tomás reviews the preview. Check the transitions on a real phone and in Safari. Merge to `main` only after approval.
 
