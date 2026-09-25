@@ -11,9 +11,11 @@ interface Props {
   /* Show the menu with the page links. The home page turns it off, since its
      sheets already link to the streams. */
   navLinks?: boolean;
+  /* One drifting shape instead of four, used on the 404 page. */
+  singleShape?: boolean;
 }
 
-const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, navLinks = true } = Astro.props;
+const { title, description = "Tomás van Gorp. Projects, work, research.", slowShapes = false, navLinks = true, singleShape = false } = Astro.props;
 const pathname = Astro.url.pathname;
 const navItems = [
   { href: "/projects/", label: "Projects" },
@@ -105,7 +107,7 @@ const navItems = [
     <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <Shapes slow={slowShapes} />
+    <Shapes slow={slowShapes} single={singleShape} />
     <header class="site-header">
       <div class="site-nav glass">
         <a href="/" class="site-nav__name"><span class="focus-context">Tomás van Gorp</span></a>
