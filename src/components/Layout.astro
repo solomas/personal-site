@@ -81,7 +81,18 @@ const navItems = [
       // Arriving, it is the item that points back to the page just left, or
       // else this page's header. So a row grows into the detail page's strip,
       // and going back the strip shrinks into the row again.
+      // The class "vt-active" on the root names the header, main and footer
+      // layers only while a transition runs (see global.css), because a
+      // named element cuts the glass inside it off from the background it
+      // should blur.
       (function () {
+        var root = document.documentElement;
+        function active(transition) {
+          root.classList.add("vt-active");
+          transition.finished.finally(function () {
+            root.classList.remove("vt-active");
+          });
+        }
         function path(url) {
           try {
             return new URL(url, location.href).pathname.replace(/\/+$/, "") || "/";
@@ -106,18 +117,23 @@ const navItems = [
           });
         }
         window.addEventListener("pageswap", function (e) {
-          if (e.viewTransition && e.activation && e.activation.entry) {
+          if (!e.viewTransition) return;
+          active(e.viewTransition);
+          if (e.activation && e.activation.entry) {
             mark(pick(e.activation.entry.url), e.viewTransition);
           }
         });
         window.addEventListener("pagereveal", function (e) {
+          if (!e.viewTransition) return;
+          active(e.viewTransition);
           var from = window.navigation && navigation.activation && navigation.activation.from;
-          if (e.viewTransition && from) mark(pick(from.url), e.viewTransition);
+          if (from) mark(pick(from.url), e.viewTransition);
         });
         // A page restored from the back and forward cache may still carry a
         // name from the transition that left it.
         window.addEventListener("pageshow", function (e) {
           if (!e.persisted) return;
+          root.classList.remove("vt-active");
           document.querySelectorAll("[style*='view-transition-name']").forEach(function (el) {
             el.style.viewTransitionName = "";
           });

@@ -304,9 +304,14 @@ button, input, textarea, select {
   }
 }
 .shapes { view-transition-name: shapes; }
-.site-header { view-transition-name: site-header; }
-.site-main { view-transition-name: site-main; }
-.site-footer { view-transition-name: site-footer; }
+/* The header, main and footer layers carry their names only while a
+   transition runs. A named element becomes a backdrop root, so the glass
+   inside it would blur nothing and show the paper and the shapes sharp
+   through its fill. The script in Layout.astro sets "vt-active" in pageswap
+   and pagereveal and removes it when the transition finishes. */
+:root:is(.vt-active, :active-view-transition) .site-header { view-transition-name: site-header; }
+:root:is(.vt-active, :active-view-transition) .site-main { view-transition-name: site-main; }
+:root:is(.vt-active, :active-view-transition) .site-footer { view-transition-name: site-footer; }
 ::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {
