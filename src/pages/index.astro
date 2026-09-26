@@ -4,21 +4,9 @@ import HomeSheets from "../components/HomeSheets.astro";
 ---
 <Layout title="Tomás van Gorp" print>
   <section class="home">
-    <h1 class="home__hero focus-context"><span class="home__ink">I research what happens <span class="accent">after a plan is signed</span>, and help organisations make it work.</span></h1>
+    <h1 class="home__hero focus-context">I research what happens <span class="accent">after a plan is signed</span>, and help organisations make it work.</h1>
     <HomeSheets />
   </section>
-  <!-- Print test: the ink filter for the headings. Static, so the browser
-       renders it once per heading and never per frame. -->
-  <svg class="print-defs" width="0" height="0" aria-hidden="true" focusable="false">
-    <filter id="print-ink" x="-2%" y="-4%" width="104%" height="108%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="fray" />
-      <feDisplacementMap in="SourceGraphic" in2="fray" scale="1.1" xChannelSelector="R" yChannelSelector="G" result="shifted" />
-      <feGaussianBlur in="shifted" stdDeviation="0.35" result="rough" />
-      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="9" result="speck" />
-      <feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0 0 0 0.72" result="speckAlpha" />
-      <feComposite in="rough" in2="speckAlpha" operator="in" />
-    </filter>
-  </svg>
 </Layout>
 
 <style>
@@ -42,9 +30,6 @@ import HomeSheets from "../components/HomeSheets.astro";
   .home__hero .accent {
     font-weight: 700;
   }
-  .home__ink {
-    display: block;
-  }
 
   @media (max-width: 720px) {
     .home {
@@ -58,13 +43,6 @@ import HomeSheets from "../components/HomeSheets.astro";
   /* Print test, branch print-test only. Everything below hangs off the class
      "print" that Layout puts on the root of this page, so every other page
      stays exactly as it is. Not part of docs/design/redesign-plan.md. */
-
-  .print-defs {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-  }
 
   :root.print {
     /* Ink strength of the shapes. A little above --shape-strength because
@@ -154,17 +132,10 @@ import HomeSheets from "../components/HomeSheets.astro";
     mask-image: url("/print/shape-d.png");
   }
 
-  /* Headings as printed letters: the heaviest weight with the static ink
-     filter above. The filter sits on an inner element, so the focus on
-     hover blur on the heading itself still works. The text stays real
-     text. */
+  /* Headings in the heaviest weight, with plain sharp edges. */
   :root.print .home__hero,
   :root.print .home__hero .accent,
   :root.print .stack__title {
     font-weight: var(--print-heading-weight);
-  }
-  :root.print .home__ink,
-  :root.print .stack__title {
-    filter: url("#print-ink");
   }
 </style>
