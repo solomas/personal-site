@@ -1,16 +1,16 @@
 # Redesign plan: two colour layers
 
-Approved by Tomás on 25 September 2026. Phase 1 cleaned up the code and kept the old look. Phase 2 built the folded layers version. Phase 3 turned it monochrome with round drifting shapes and focus on hover. Phase 4 brought in the primaries, a red mark and a 70s stripe. Phase 5 narrows each theme to two surface colours, drops red and the stripe, makes the shapes larger and bolder, collapses the navigation and adds an about page. Phase 6 added page transitions, a 404 page and launch metadata. Phase 7 fades the shapes to about a third of their strength and puts the menu in the bar on every page. This file describes the phase 7 target.
+Approved by Tomás on 25 September 2026. Phase 1 cleaned up the code and kept the old look. Phase 2 built the folded layers version. Phase 3 turned it monochrome with round drifting shapes and focus on hover. Phase 4 brought in the primaries, a red mark and a 70s stripe. Phase 5 narrows each theme to two surface colours, drops red and the stripe, makes the shapes larger and bolder, collapses the navigation and adds an about page. Phase 6 added page transitions, a 404 page and launch metadata. Phase 7 fades the shapes to about a third of their strength and puts the menu in the bar on every page. Phase 8, the print pass requested by Tomás on 26 September 2026, removes blue from the day theme, gives the shapes a baked ink grain with ragged rims and gives the ground a paper grain. This file describes the phase 8 target.
 
 ## Concept
 The site is a stack of translucent sheets above a slow field of large, soft, organic shapes. Depth comes from layers, a light top edge and a darker bottom edge. No colour gradients as decoration. Glass is for navigation, panels and buttons only. Long text sits on a solid reading sheet.
 
 ## Palette
-Each theme uses two surface colours only: the ground and the shape colour. One highlight colour carries links, the active nav link, the focus ring and text selection.
+Each theme uses two surface colours only: the ground and the shape colour. One highlight colour carries links, the active nav link and the focus ring. Text selection is black on yellow in both themes.
 
 Day theme (stored as "mist"):
 - ground #FFFFFF, shapes yellow #FFD100
-- highlight blue #0033A0, selection in white on blue
+- highlight black #000000, no blue anywhere in day. Links in running text carry a yellow #FFD100 highlighter stroke under the word, thin at rest and growing over the word on hover. Selection is black on yellow.
 - text black #000000, muted #595959
 - glass: white at about 55 percent with a light top edge and a darker bottom edge
 - reading sheet #FFFFFF
@@ -24,7 +24,7 @@ Night theme (stored as "flip"):
 
 No red anywhere on the site.
 
-The favicon is a plain circle: blue on light browser themes, yellow on dark ones, through a prefers-color-scheme query inside the SVG. The .ico fallback is a blue circle.
+The favicon is a yellow circle: with a thin black rim on light browser themes and plain on dark ones, through a prefers-color-scheme query inside the SVG. The .ico fallback is the yellow circle with the black rim.
 
 The focus ring is 2px in the highlight colour with a 2px ring in the ground colour around it. The active nav link is bold in the highlight colour and carries aria-current.
 
@@ -33,12 +33,14 @@ Muted text only sits on glass or sheets, never directly on the background.
 Every text and background pair must pass WCAG AA contrast, including highlight and muted text on glass over the shapes.
 
 ## Background
-Three or four large, stretched, organic shapes in the theme's shape colour, shown at about a third of full strength: a pale yellow wash in day and a dim, deep blue in night. Soft edges come from radial gradients rather than a blur filter. They may overlap, since they share one colour. A fine static grain lies over the shapes and under the glass at very low opacity in both themes.
+Three or four large, stretched, organic shapes in the theme's shape colour, printed like ink at a little over a third of full strength: a pale yellow in day and a dim, deep blue in night. Each shape has a short, slightly ragged rim and a baked ink grain in the colour itself, so the colour breaks up as in a light risoprint. Where shapes overlap they multiply, so the colour deepens as ink does on paper. Rims and grain are baked once into bitmaps, nothing is filtered in the browser.
+
+The ground itself carries a clearly visible paper grain, white paper in day and black paper in night, like uncoated paper rather than screen noise. It is finer and more even than the ink grain. It is static, baked once as a repeating image, and lies under the shapes, the glass and the reading sheets, so text on glass and sheets stays clean. Text directly on the ground passes AA with the paper grain counted.
 
 Sheets, panels and the nav have large rounded corners. No glow, no neon, no gradient text, no shiny or 3D effects.
 
 ## Type
-One family: Geist, self-hosted in the repo.
+One family: Geist, self-hosted in the repo. The home hero sentence and the three home sheet titles use the heaviest weight, 900, with plain sharp edges.
 
 ## Layout
 Navigation: a floating glass bar on every page, the home page included: the name on the left, then a Menu button and the theme button on the right. The theme button is an icon, a half filled circle in the text colour, labelled with the theme it switches to. The links (Projects, Work, Research, About, Contact) stay hidden until Menu is pressed. Opening and closing takes about 250ms inside the bar: the bar grows and the links fade and slide in a little, with no transition under reduced motion. The button carries aria-expanded, Tab moves from it into the links and Escape closes the menu and returns focus to it. Without JavaScript the links show open.
