@@ -1,6 +1,6 @@
 # Site copy
 
-Every piece of visible text on the site as of 26 September 2026, branch `phd-live`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md`, the InScience year change of 26 September and the research page elements of 26 September (pattern switch, progress grid and two entry updates, the timeline removed again the same day). Nothing here changes the site. Each item names its source file.
+Every piece of visible text on the site as of 26 September 2026, branch `thesis-header`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md`, the InScience year change of 26 September and the research page elements of 26 September (pattern switch, progress grid and two entry updates, the timeline removed again the same day) and the thesis header panel of 26 September. Nothing here changes the site. Each item names its source file.
 
 Tags: [phd] marks text about the PhD or academic research. [general] marks everything else. Research roles outside the PhD, such as the Rabobank and Paradiso work, count as [general].
 
@@ -66,6 +66,9 @@ Each row shows an entry's date range, title and summary. Date ranges read like "
 
 - [phd] "Research" (page title and heading). Source: `src/pages/research/index.astro`
 - [phd] "My PhD and the pieces it is built from: the proposal, a literature review, a conceptual paper and the tool I code the cases in." (intro, also the meta and social description). Source: `src/pages/research/index.astro`
+- [phd] "The thesis" (small label at the top of the thesis header panel). Source: `src/components/ThesisPanel.astro`
+- [phd] "After the commitment:" (large) and "Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance" (smaller, below it), the title of the overview entry split at the colon, then its summary (thesis header panel). Source: `src/components/ThesisPanel.astro`
+- [phd] "Read the research" (thesis header panel action, followed by an arrow). Source: `src/components/ThesisPanel.astro`
 - [phd] "The research proposal" (deck panel title, taken from the research proposal entry). Source: `src/components/DeckPanel.astro`
 - [phd] "Open the defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
 
@@ -269,6 +272,7 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 
 - Title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
 - Summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. Built on cases in Wales, Brazil and China."
+- In the strip, in place of a date: "Doctoral research, University of Lisbon" (the entry's dateLabel)
 - Venue in the strip: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
 - Tags: "planetary-health, governance, institutional-change, process-tracing, implementation"
 - Body:

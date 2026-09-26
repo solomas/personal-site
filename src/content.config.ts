@@ -38,6 +38,8 @@ const research = defineCollection({
     venue: z.string().optional(),
     coauthors: z.array(z.string()).default([]),
     citation: z.string().optional(),
+    /* Shown in the detail page strip instead of the date, when set. */
+    dateLabel: z.string().optional(),
   }),
 });
 

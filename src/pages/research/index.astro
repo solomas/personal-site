@@ -3,13 +3,12 @@ import Layout from "../../components/Layout.astro";
 import StreamHeader from "../../components/StreamHeader.astro";
 import EntryList from "../../components/EntryList.astro";
 import DeckPanel from "../../components/DeckPanel.astro";
+import ThesisPanel from "../../components/ThesisPanel.astro";
 import { getCollection } from "astro:content";
-const entries = await getCollection("research", ({ data }) => data.status !== "archived");
-// Featured first (the project overview sits above its own parts), then date descending.
-entries.sort((a, b) => {
-  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
-  return b.data.date.valueOf() - a.data.date.valueOf();
-});
+// The featured entry, the thesis overview, is the header panel above the
+// deck panel. The dated list holds its parts, newest first.
+const entries = await getCollection("research", ({ data }) => data.status !== "archived" && !data.featured);
+entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const items = entries.map(entry => ({
   href: `/research/${entry.id}/`,
   date: entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" }),
@@ -23,6 +22,7 @@ const lede = "My PhD and the pieces it is built from: the proposal, a literature
     title="Research"
     lede={lede}
   />
+  <ThesisPanel />
   <DeckPanel />
   <EntryList items={items} />
 </Layout>

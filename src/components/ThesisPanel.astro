@@ -1,0 +1,161 @@
+---
+// The thesis as the header panel of the research page: a wide glass panel
+// above the deck panel, larger than it and the first thing the page offers.
+// From top to bottom: a small label, the title with the part before the
+// colon large and the rest smaller below it, the summary and an action. The
+// whole panel is one link to the thesis page and carries no date. The title
+// and summary come from the featured research entry.
+//
+// Hover and keyboard focus answer as the home sheets do: the panel lifts a
+// little on a deeper shadow and the arrow moves, and the rest of the page
+// fades and blurs with the strong version of the focus effect, as on the
+// home page. As a .focus-item with the thesis page as its href, the panel
+// grows into that page's glass strip in the page transition.
+import { getCollection } from "astro:content";
+
+const [entry] = await getCollection("research", ({ data }) => data.featured && data.status !== "archived");
+const title = entry?.data.title ?? "";
+const cut = title.indexOf(":");
+const lead = cut === -1 ? title : title.slice(0, cut + 1);
+const rest = cut === -1 ? "" : title.slice(cut + 1).trim();
+---
+{entry && (
+  <div class="thesis-wrap">
+    <a href={`/research/${entry.id}/`} class="thesis glass-panel focus-item">
+      <span class="thesis__label meta">The thesis</span>
+      <h2 class="thesis__title">
+        <span class="thesis__lead">{lead}</span>
+        {rest && <span class="thesis__rest">{rest}</span>}
+      </h2>
+      <span class="thesis__summary">{entry.data.summary}</span>
+      <span class="thesis__action glass-button">Read the research <span class="thesis__arrow" aria-hidden="true">&#8594;</span></span>
+    </a>
+  </div>
+)}
+
+<style>
+  .thesis-wrap {
+    max-width: var(--page-width);
+    margin: 0 auto var(--space-6);
+    padding: 0 var(--page-gutter);
+  }
+  .thesis {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-16) var(--space-12);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition:
+      var(--focus-transition),
+      transform 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out);
+  }
+  .thesis__title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+  }
+  .thesis__lead {
+    font-size: var(--text-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-display);
+    line-height: 1;
+  }
+  .thesis__rest {
+    max-width: 40ch;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-title);
+    line-height: var(--leading-snug);
+  }
+  .thesis__summary {
+    max-width: 60ch;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+  .thesis__action {
+    margin-top: var(--space-4);
+    font-size: var(--text-base);
+  }
+  .thesis__arrow {
+    display: inline-block;
+    transition: transform 220ms var(--ease-out);
+  }
+
+  /* Hover and keyboard focus, as the home sheets: the panel lifts a little
+     on a deeper shadow and the arrow moves. Hover only on devices that can
+     hover. The focused panel keeps the ground ring of the site focus style
+     around its outline. */
+  .thesis:focus-visible {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 calc(2 * var(--border-medium)) var(--color-ground),
+      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+      var(--shadow-lift);
+  }
+  .thesis:focus-visible .thesis__arrow {
+    transform: translateX(4px);
+  }
+  @media (hover: hover) {
+    .thesis:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+        var(--shadow-lift);
+    }
+    .thesis:hover .thesis__arrow {
+      transform: translateX(4px);
+    }
+    .thesis:hover .thesis__action {
+      box-shadow:
+        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
+        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
+        0 0 0 var(--border-hairline) var(--color-ink);
+    }
+  }
+
+  /* While the thesis panel is active, the rest of the page steps back as far
+     as on the home page, the strong version of the focus effect. The rows
+     and the deck panel keep the light version when they are active. */
+  :global(:root:has(.thesis:focus-visible)) {
+    --focus-dim-opacity: 0.4;
+    --focus-dim-blur: 2px;
+  }
+  @media (hover: hover) {
+    :global(:root:has(.thesis:hover)) {
+      --focus-dim-opacity: 0.4;
+      --focus-dim-blur: 2px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .thesis {
+      padding: var(--space-8) var(--space-6);
+    }
+    .thesis__rest {
+      font-size: var(--text-lg);
+    }
+    .thesis__summary {
+      font-size: var(--text-base);
+    }
+  }
+
+  /* The global rule stops the motion, this stops the hover movement and,
+     as the global rule does, leaves the fade without blur. */
+  @media (prefers-reduced-motion: reduce) {
+    :global(:root:has(.thesis:is(:hover, :focus-visible))) {
+      --focus-dim-blur: 0px;
+    }
+    .thesis:hover,
+    .thesis:focus-visible,
+    .thesis:hover .thesis__arrow,
+    .thesis:focus-visible .thesis__arrow {
+      transform: none;
+    }
+  }
+</style>

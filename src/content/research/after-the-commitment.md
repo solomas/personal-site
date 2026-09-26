@@ -2,6 +2,7 @@
 title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
 summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. Built on cases in Wales, Brazil and China."
 date: 2026-07-03
+dateLabel: "Doctoral research, University of Lisbon"
 status: live
 venue: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
 coauthors: []
