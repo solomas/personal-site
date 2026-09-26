@@ -1,6 +1,6 @@
 # CSS state
 
-Last updated: 2026-09-25
+Last updated: 2026-09-26
 
 ## Status
 
@@ -25,6 +25,10 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 - Design token usage across component styles (no duplication, all values reference `src/styles/tokens.css`)
 
 ## Open items
+
+**Print test on the home page** (built 2026-09-26a, branch `print-test`, not merged)
+A test of ink coloured shapes, printed headings and a day home page without blue, behind the class `print` on the home page only. Every other page builds byte identical to `main`. See the session doc for values, contrast and performance.
+Next action: Tomás reviews the preview, also on a real phone and a retina screen, and decides to keep, change or drop it. Keeping it means updating the plan and the CLAUDE.md token section for the day highlight, and deciding how the hero phrase keeps its emphasis.
 
 **Redesign phase 7** (built 2026-09-25g, merged into `main` 2026-09-25 at 690a8ee, done)
 Built in b450792, 5226200 and 6ca723a.
