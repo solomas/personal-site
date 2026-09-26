@@ -16,6 +16,8 @@ The research question reads: "under what conditions does strategic brokerage pro
 
 In plain words, the question is when the people who connect different parts of government manage to turn a framework into lasting change. An integrative framework asks several sectors, such as health and environment, to act together. Substantive institutional conversion means the framework changes how government actually works, not only what it says. Fragmented adoption is the pattern where each sector does its own part and the links between sectors never change.
 
+<!-- embed:pattern-switch -->
+
 The mechanism I study is second-stage brokerage: what an identifiable person or organisation does to link sectors after a framework has been adopted, once the political moment has passed.
 
 Three cases will carry the comparison. In Wales, the Well-being of Future Generations Act 2015 put the commitment into law, and a decade of implementation now gives something to trace. In Brazil, the 2016 national adaptation plan and the AdaptaSUS plan for the health system, which runs from 2024 to 2035, bring climate and health together. Both were set by ministerial order under the national climate law of 2009. The third case is in China, around the national policy agenda of ecological civilisation.

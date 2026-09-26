@@ -1,0 +1,220 @@
+---
+// The pattern, in one switch: four sectors as circles with lines between
+// them, and two options. Fragmented adoption fills every circle and leaves
+// the lines thin and grey: each sector does its part. Conversion lights the
+// lines in the theme's accent and leaves the circles as rings: the work now
+// lives in the links. The change takes about 400ms, and reduced motion
+// makes it direct.
+//
+// The options are native radio buttons in one named group, so arrow keys
+// move between them and the switch works through CSS alone, with or
+// without JavaScript. Browsers without :has() keep the fragmented view. The
+// script only reads the new caption out to screen readers.
+// The sector names are real text laid over the drawing, so they keep their
+// size on a phone. Colours: the circles fill with the shape colour inside a
+// ring in the highlight colour, the lit lines are the highlight colour on a
+// band of the shape colour, so day reads black on yellow and night yellow
+// on blue.
+interface Props {
+  /* Makes the ids unique if the switch appears more than once. */
+  id?: string;
+}
+const { id = "pattern" } = Astro.props;
+
+// Circle centres and radius in the drawing's own units. The view box keeps
+// only the band the circles use, so the drawing holds no empty margin.
+const R = 34;
+const VB = { y: 50, w: 420, h: 220 };
+const nodes = [
+  { name: "Health", x: 95, y: 100, place: "above" },
+  { name: "Environment", x: 325, y: 100, place: "above" },
+  { name: "Finance", x: 95, y: 220, place: "below" },
+  { name: "Planning", x: 325, y: 220, place: "below" },
+];
+// Every pair of sectors, each line stopping at the circle's rim.
+const lines: { x1: number; y1: number; x2: number; y2: number }[] = [];
+for (let i = 0; i < nodes.length; i++) {
+  for (let j = i + 1; j < nodes.length; j++) {
+    const a = nodes[i], b = nodes[j];
+    const d = Math.hypot(b.x - a.x, b.y - a.y);
+    const ux = (b.x - a.x) / d, uy = (b.y - a.y) / d;
+    const gap = R + 6;
+    lines.push({ x1: a.x + ux * gap, y1: a.y + uy * gap, x2: b.x - ux * gap, y2: b.y - uy * gap });
+  }
+}
+const fmt = (n: number) => n.toFixed(1);
+---
+<section class="pattern" aria-labelledby={`${id}-title`} data-pattern>
+  <h2 id={`${id}-title`} class="pattern__title">The pattern, in one switch</h2>
+  <div class="pattern__body">
+    <div class="pattern__controls" role="radiogroup" aria-labelledby={`${id}-title`}>
+      <label class="pattern__option"><input class="pattern__input visually-hidden" type="radio" name={`${id}-state`} value="fragmented" checked />Fragmented adoption</label>
+      <label class="pattern__option"><input class="pattern__input pattern__input--conv visually-hidden" type="radio" name={`${id}-state`} value="conversion" />Conversion</label>
+    </div>
+    <div class="pattern__figure">
+      <svg class="pattern__drawing" viewBox={`0 ${VB.y} ${VB.w} ${VB.h}`} aria-hidden="true" focusable="false">
+        <g class="pattern__bands">
+          {lines.map(l => <line x1={fmt(l.x1)} y1={fmt(l.y1)} x2={fmt(l.x2)} y2={fmt(l.y2)} />)}
+        </g>
+        <g class="pattern__lines">
+          {lines.map(l => <line x1={fmt(l.x1)} y1={fmt(l.y1)} x2={fmt(l.x2)} y2={fmt(l.y2)} />)}
+        </g>
+        <g class="pattern__nodes">
+          {nodes.map(n => <circle cx={n.x} cy={n.y} r={R} />)}
+        </g>
+      </svg>
+      <ul class="pattern__sectors">
+        {nodes.map(n => (
+          <li class={`pattern__sector pattern__sector--${n.place}`} style={`--x: ${(n.x / VB.w) * 100}%; --y: ${((n.y - VB.y) / VB.h) * 100}%; --r: ${(R / VB.h) * 100}%`}>{n.name}</li>
+        ))}
+      </ul>
+    </div>
+    <p class="pattern__caption pattern__caption--frag">Every sector does its part. The links between them stay as they were.</p>
+    <p class="pattern__caption pattern__caption--conv">The sectors change how they work together. The framework becomes part of how government works.</p>
+    <p class="visually-hidden" aria-live="polite" data-pattern-live></p>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll("[data-pattern]").forEach(function (root) {
+      var live = root.querySelector("[data-pattern-live]");
+      root.addEventListener("change", function (e) {
+        if (!live || !e.target.matches(".pattern__input")) return;
+        var conv = e.target.value === "conversion";
+        var caption = root.querySelector(conv ? ".pattern__caption--conv" : ".pattern__caption--frag");
+        live.textContent = caption ? caption.textContent : "";
+      });
+    });
+  })();
+</script>
+
+<style>
+  .pattern {
+    margin: var(--space-8) 0;
+    padding: var(--space-6) 0;
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    border-bottom: var(--border-hairline) solid var(--color-hairline);
+  }
+  .pattern .pattern__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-snug);
+    margin: 0 0 var(--space-4);
+  }
+
+  /* Two options side by side, the chosen one black on yellow in both
+     themes, as the selection is. */
+  .pattern__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+  .pattern__option {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    line-height: 1.2;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 var(--border-hairline) var(--color-muted);
+    cursor: pointer;
+    transition: background-color var(--transition), color var(--transition), box-shadow var(--transition);
+  }
+  .pattern__option:hover {
+    box-shadow: inset 0 0 0 var(--border-medium) var(--color-ink);
+  }
+  .pattern__option:has(.pattern__input:checked) {
+    background: var(--color-selection);
+    color: var(--color-on-selection);
+    box-shadow: inset 0 0 0 var(--border-hairline) var(--color-on-selection);
+    font-weight: 600;
+  }
+  /* The radio itself is hidden, so its keyboard focus shows on its label,
+     with the site's focus ring. */
+  .pattern__option:has(.pattern__input:focus-visible) {
+    outline: var(--border-medium) solid var(--color-highlight);
+    outline-offset: var(--border-medium);
+  }
+
+  /* The drawing, with the sector names laid over it in the same box. */
+  .pattern__figure {
+    position: relative;
+    max-width: 30rem;
+    aspect-ratio: 420 / 220;
+    margin: var(--space-8) 0;
+  }
+  .pattern__drawing {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .pattern__bands line {
+    stroke: var(--color-shape);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-opacity: 0;
+    transition: stroke-opacity 400ms var(--ease-out);
+  }
+  .pattern__lines line {
+    stroke: var(--color-muted);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    transition: stroke 400ms var(--ease-out), stroke-width 400ms var(--ease-out);
+  }
+  .pattern__nodes circle {
+    fill: var(--color-shape);
+    fill-opacity: 1;
+    stroke: var(--color-highlight);
+    stroke-width: 2.5;
+    transition: fill-opacity 400ms var(--ease-out);
+  }
+  .pattern:has(.pattern__input--conv:checked) .pattern__figure .pattern__bands line {
+    stroke-opacity: 1;
+  }
+  .pattern:has(.pattern__input--conv:checked) .pattern__figure .pattern__lines line {
+    stroke: var(--color-highlight);
+    stroke-width: 3.5;
+  }
+  .pattern:has(.pattern__input--conv:checked) .pattern__figure .pattern__nodes circle {
+    fill-opacity: 0;
+  }
+
+  .pattern__sectors {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pattern .pattern__sector {
+    position: absolute;
+    left: var(--x);
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  /* Names sit above the top circles and below the bottom ones, clear of
+     the circle by a fixed gap. */
+  .pattern__sector--above {
+    bottom: calc(100% - var(--y) + var(--r) + var(--space-2));
+  }
+  .pattern__sector--below {
+    top: calc(var(--y) + var(--r) + var(--space-2));
+  }
+
+  .pattern .pattern__caption {
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-base);
+  }
+  .pattern__caption--conv,
+  .pattern:has(.pattern__input--conv:checked) .pattern__caption--frag {
+    display: none;
+  }
+  .pattern:has(.pattern__input--conv:checked) .pattern__caption--conv {
+    display: block;
+  }
+</style>
