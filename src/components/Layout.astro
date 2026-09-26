@@ -13,9 +13,13 @@ interface Props {
   /* Keep the page out of search results and leave out the canonical link,
      used on the 404 page. */
   noindex?: boolean;
+  /* The print test: puts the class "print" on the root, so the home page can
+     try ink coloured shapes and printed headings while every other page stays
+     as it is. Branch print-test only. */
+  print?: boolean;
 }
 
-const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false, print = false } = Astro.props;
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
@@ -29,7 +33,7 @@ const navItems = [
 ];
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" class:list={[{ print }]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
