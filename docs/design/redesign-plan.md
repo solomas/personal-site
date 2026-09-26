@@ -51,6 +51,13 @@ About: the detail page layout, with a glass header strip holding the title and a
 Contact: one glass panel.
 Removed: numbered markers, the © label with (01), mono labels, the custom cursor, the red mark and the stripe.
 
+## Research page elements
+Two elements make the PhD pages more alive, added on 26 September 2026. All use Geist, the theme colours and inline SVG or plain HTML shapes, work with the keyboard, carry text for screen readers, change directly under reduced motion and show a clean static version without JavaScript.
+- Pattern switch, in the overview after the paragraph that explains fragmented adoption and in the fragmented adoption paper after its second paragraph: four sectors as circles with a line between each pair and two options in one radio group. Fragmented adoption fills the circles and keeps the lines thin and grey. Conversion lights the lines in the highlight colour on a band of the shape colour and leaves the circles as rings, over about 400ms. It runs on CSS, so it works without JavaScript.
+- Progress grid, in the overview after the paragraph that names the five dimensions: three cases by five dimensions from `src/data/phd-progress.json`, each cell an empty ring, a half filled ring or a disc in the highlight colour for planned, in progress and coded. It shows how far the coding has got, never what it found. Hover or focus shows case, dimension and status in words.
+
+A research entry places such an element with a marker line in its markdown, and the detail page renders it at that point.
+
 ## Motion
 - The shapes drift slowly and without end. Each shape has its own cycle between 60 and 120 seconds, so the pattern never visibly repeats. Only transform moves: position, a little scale and a little rotation. No animated filters.
 - On detail pages the shapes move three times slower.

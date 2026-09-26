@@ -1,6 +1,6 @@
 # Content state
 
-Last updated: 2026-07-24
+Last updated: 2026-09-26
 
 ## Status
 
@@ -15,7 +15,23 @@ On branch `redesign` the work detail page also renders tags and links when prese
 - The metadata line (date range plus venue or organisation) on research and projects detail templates
 - Static assets embedded into entries (diagrams, images)
 
+## Updating the PhD progress grid
+
+The grid "Where the cases stand" on /research/after-the-commitment/ reads `src/data/phd-progress.json`. Nothing else feeds it, so the site only changes when this file changes.
+
+1. Open the records in the conversion-tracker repo (`records/<case>/record.yaml`), one per case.
+2. For each case and dimension set the status: "coded" when the record holds evidence and a code for that dimension, "in-progress" when it holds some of it, such as evidence without a code or one channel coded and another open, and "planned" when it holds nothing. D5 in the record is `d5_classifier` and maps to "cross_sectoral_integration". A case with no record is "planned" on every dimension.
+3. Never copy a code, confidence, score or outcome into the file. The grid shows how far the coding has got, never what it found, as `docs/outputs_roadmap.md` in the phd repo requires until cross-case validation.
+4. Set "updated" to the day you checked the records, as YYYY-MM-DD, and name the tracker commit you read in "source".
+5. Run `bash scripts/check-prose.sh` and `npm run build`, then commit.
+
+A new case is a new object in "cases" with the same five keys. The grid adds a row by itself.
+
 ## Open items
+
+**PhD pages, more alive** (built 2026-09-26d, branch `phd-live`, not merged)
+A timeline on /research/, a pattern switch in the overview and the fragmented adoption paper, a progress grid in the overview and updated milestone dates and texts. Built in e939f93 to 2ac446f.
+Next action: Tomás reviews the preview, decides on the overview date and merges.
 
 **Metadata line on research and projects detail pages** (done 2026-07-23)
 Both detail templates now render a metadata line between the title and the summary, using the shared `.meta` typography. Research maps to date plus venue. Projects maps to status only. Research date format matches the index pages (en-GB, year plus short month). Absent fields render nothing and produce no empty separator.

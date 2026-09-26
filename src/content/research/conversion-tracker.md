@@ -1,7 +1,7 @@
 ---
 title: "The Conversion Tracker"
 summary: "One structured record per case: five dimensions, the evidence behind each, an outcome category and a confidence rating. Deliberately no overall score."
-date: 2026-07-13
+date: 2026-09-18
 status: parked
 coauthors: []
 tags: ["planetary-health", "governance", "methods", "process-tracing"]

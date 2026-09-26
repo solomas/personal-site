@@ -1,0 +1,206 @@
+---
+// Where the cases stand: how far the coding of each case has got on each of
+// the five dimensions, read from src/data/phd-progress.json. It shows
+// progress only, never a code, score or outcome. docs/state/content.md says
+// how to update the file.
+//
+// A table: the cases as rows, the dimensions as columns, each cell one
+// shape. An empty ring is planned, a half filled one in progress, a full one
+// coded. The shapes use the highlight colour, black in day and yellow in
+// night, so a half filled ring reads against the sheet in both. Each cell
+// can take keyboard focus, and hover or focus shows the case, dimension and
+// status in words. The same words are in the cell for screen readers.
+// Static, with no script. On narrow screens the column names turn upright.
+import progress from "../data/phd-progress.json";
+
+type Status = "planned" | "in-progress" | "coded";
+const labels: Record<Status, string> = { planned: "Planned", "in-progress": "In progress", coded: "Coded" };
+const rows = progress.cases.map(c => {
+  const status = c.status as Record<string, Status>;
+  return {
+    name: c.name,
+    cells: progress.dimensions.map(d => {
+      const value: Status = status[d.key] ?? "planned";
+      return { value, text: `${c.name}, ${d.label}: ${labels[value]}` };
+    }),
+  };
+});
+const updated = new Date(`${progress.updated}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+---
+<section class="progress" aria-labelledby="progress-title">
+  <h2 id="progress-title" class="progress__title">Where the cases stand</h2>
+  <ul class="progress__legend">
+    {(Object.keys(labels) as Status[]).map(status => (
+      <li><span class={`progress__shape progress__shape--${status}`} aria-hidden="true"></span>{labels[status]}</li>
+    ))}
+  </ul>
+  <table class="progress__table" aria-labelledby="progress-title">
+    <thead>
+      <tr>
+        <td></td>
+        {progress.dimensions.map(d => <th scope="col"><span>{d.label}</span></th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map(row => (
+        <tr>
+          <th scope="row">{row.name}</th>
+          {row.cells.map(cell => (
+            <td>
+              <span class="progress__cell" tabindex="0">
+                <span class={`progress__shape progress__shape--${cell.value}`} aria-hidden="true"></span>
+                <span class="progress__tip">{cell.text}</span>
+              </span>
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="progress__note">This shows how far the coding has got, not what it found.</p>
+  <p class="progress__note">Updated {updated}</p>
+</section>
+
+<style>
+  .progress {
+    --shape: 1.25rem;
+    margin: var(--space-8) 0;
+    padding: var(--space-6) 0;
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    border-bottom: var(--border-hairline) solid var(--color-hairline);
+  }
+  .progress .progress__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-snug);
+    margin: 0 0 var(--space-3);
+  }
+  .progress .progress__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .progress__legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* The three shapes: a ring, a ring half filled from the left, a disc. */
+  .progress__shape {
+    display: inline-block;
+    flex-shrink: 0;
+    width: var(--shape);
+    height: var(--shape);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--border-medium) var(--color-highlight);
+  }
+  .progress__shape--in-progress {
+    background: linear-gradient(90deg, var(--color-highlight) 50%, transparent 50%);
+  }
+  .progress__shape--coded {
+    background: var(--color-highlight);
+  }
+
+  .progress__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: var(--text-sm);
+  }
+  .progress__table thead td {
+    width: 5.5rem;
+  }
+  .progress__table th {
+    font-weight: 600;
+    text-align: left;
+    line-height: var(--leading-snug);
+  }
+  .progress__table thead th {
+    vertical-align: bottom;
+    padding: 0 var(--space-2) var(--space-3) 0;
+  }
+  .progress__table tbody th,
+  .progress__table td {
+    padding: var(--space-2) var(--space-2) var(--space-2) 0;
+    border-top: var(--border-hairline) solid var(--color-hairline);
+  }
+  .progress__table thead td {
+    border-top: 0;
+  }
+
+  .progress__cell {
+    position: relative;
+    display: inline-flex;
+    padding: var(--space-1);
+    border-radius: var(--radius-md);
+    cursor: default;
+  }
+  .progress__cell:hover .progress__shape,
+  .progress__cell:focus-visible .progress__shape {
+    transform: scale(1.2);
+  }
+  .progress__cell .progress__shape {
+    transition: transform var(--transition);
+  }
+  /* The words for a cell: always in the markup, shown on hover or focus as
+     a small solid label above the cell, black on yellow as the selection. */
+  .progress__tip {
+    position: absolute;
+    bottom: calc(100% + var(--space-2));
+    left: 50%;
+    z-index: 2;
+    width: max-content;
+    max-width: 14rem;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    background: var(--color-selection);
+    color: var(--color-on-selection);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    transform: translateX(-50%);
+    clip-path: inset(50%);
+    pointer-events: none;
+  }
+  .progress__cell:hover .progress__tip,
+  .progress__cell:focus-visible .progress__tip {
+    clip-path: none;
+  }
+  /* Cells in the first two columns open their label to the right and
+     cells in the last two to the left, so it stays inside the sheet. */
+  .progress__table td:nth-child(-n + 3) .progress__tip {
+    left: 0;
+    transform: none;
+  }
+  .progress__table td:nth-last-child(-n + 2) .progress__tip {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  .progress .progress__note {
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .progress .progress__note + .progress__note {
+    margin-top: var(--space-1);
+  }
+
+  /* Narrow: the column names turn upright so five columns fit. */
+  @media (max-width: 720px) {
+    .progress__table thead td {
+      width: 4.25rem;
+    }
+    .progress__table thead th span {
+      display: inline-block;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      max-height: 11rem;
+    }
+  }
+</style>

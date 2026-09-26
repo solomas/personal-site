@@ -1,0 +1,43 @@
+{
+  "updated": "2026-09-26",
+  "source": "conversion-tracker at 614f2cc, 21 September 2026: record 001 Wales and record 002 Brazil. China has no record yet. Status only, never a code, score or outcome.",
+  "dimensions": [
+    { "key": "formal_rules", "label": "Formal rules and mandates" },
+    { "key": "resource_allocation", "label": "Resource allocation" },
+    { "key": "monitoring_enforcement", "label": "Monitoring and enforcement" },
+    { "key": "accountability", "label": "Accountability mechanisms" },
+    { "key": "cross_sectoral_integration", "label": "Cross-sectoral integration" }
+  ],
+  "cases": [
+    {
+      "name": "Wales",
+      "status": {
+        "formal_rules": "coded",
+        "resource_allocation": "coded",
+        "monitoring_enforcement": "coded",
+        "accountability": "coded",
+        "cross_sectoral_integration": "coded"
+      }
+    },
+    {
+      "name": "Brazil",
+      "status": {
+        "formal_rules": "coded",
+        "resource_allocation": "coded",
+        "monitoring_enforcement": "in-progress",
+        "accountability": "coded",
+        "cross_sectoral_integration": "in-progress"
+      }
+    },
+    {
+      "name": "China",
+      "status": {
+        "formal_rules": "planned",
+        "resource_allocation": "planned",
+        "monitoring_enforcement": "planned",
+        "accountability": "planned",
+        "cross_sectoral_integration": "planned"
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 ---
 import EntryLayout from "../../components/EntryLayout.astro";
+import PatternSwitch from "../../components/PatternSwitch.astro";
+import CaseProgress from "../../components/CaseProgress.astro";
 import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
   const entries = await getCollection("research");
@@ -7,6 +9,14 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+// An entry places a component with a marker line of its own in the
+// markdown, such as <!-- embed:pattern-switch -->. The rendered body is
+// split at each marker and the component goes in between, so it sits
+// exactly where the text puts it and renders without JavaScript. Unknown
+// names render nothing.
+const embeds: Record<string, any> = { "pattern-switch": PatternSwitch, "case-progress": CaseProgress };
+const html = entry.rendered?.html;
+const segments = html ? html.split(/<!--\s*embed:([a-z-]+)\s*-->/) : null;
 const dateLabel = entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" });
 ---
 <EntryLayout
@@ -19,5 +29,11 @@ const dateLabel = entry.data.date.toLocaleDateString("en-GB", { year: "numeric",
   citation={entry.data.citation}
   links={entry.data.links}
 >
-  <Content />
+  {segments
+    ? segments.map((segment, i) => {
+        if (i % 2 === 0) return <Fragment set:html={segment} />;
+        const Embed = embeds[segment];
+        return Embed ? <Embed /> : null;
+      })
+    : <Content />}
 </EntryLayout>

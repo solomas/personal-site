@@ -1,7 +1,7 @@
 ---
 title: "The research proposal"
 summary: "The design the thesis runs on: the question, the three cases, the five dimensions and the method, defended before the scientific committee at the University of Lisbon."
-date: 2026-05-12
+date: 2026-07-03
 status: parked
 coauthors: []
 tags: ["planetary-health", "governance", "process-tracing", "research-design"]
