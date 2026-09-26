@@ -237,7 +237,7 @@ button, input, textarea, select {
      .focus-panel    a container of highlights (the home stack, a glass panel)
      .focus-context  page text that should step back (the hero, a page title)
    While one .focus-item is hovered or has keyboard focus, everything else
-   fades and blurs: the footer, the context, the other items in the same
+   fades and blurs: the context, the other items in the same
    panel, other panels and items outside any panel. The nav takes part
    through its contents (name, links and buttons marked .focus-context).
    The active item stays sharp. Hover only counts on devices that can hover, keyboard focus
@@ -246,13 +246,12 @@ button, input, textarea, select {
   --focus-dim-opacity: 0.4;
   --focus-dim-blur: 2px;
 }
-.site-footer,
 .focus-context,
 .focus-panel,
 .focus-item {
   transition: var(--focus-transition);
 }
-:root:has(.focus-item:focus-visible) :is(.site-footer, .focus-context),
+:root:has(.focus-item:focus-visible) .focus-context,
 :root:has(.focus-item:focus-visible) .focus-panel:not(:has(.focus-item:focus-visible)),
 :root:has(.focus-item:focus-visible) .focus-item:not(.focus-panel .focus-item):not(:focus-visible),
 .focus-panel:has(.focus-item:focus-visible) .focus-item:not(:focus-visible) {
@@ -260,7 +259,7 @@ button, input, textarea, select {
   filter: blur(var(--focus-dim-blur));
 }
 @media (hover: hover) {
-  :root:has(.focus-item:hover) :is(.site-footer, .focus-context),
+  :root:has(.focus-item:hover) .focus-context,
   :root:has(.focus-item:hover) .focus-panel:not(:has(.focus-item:hover)),
   :root:has(.focus-item:hover) .focus-item:not(.focus-panel .focus-item):not(:hover),
   .focus-panel:has(.focus-item:hover) .focus-item:not(:hover) {
@@ -290,7 +289,7 @@ button, input, textarea, select {
 /* Page transitions. Cross document view transitions: every page stays a
    normal page load, and browsers without support simply load the page.
    Nothing transitions under reduced motion.
-   The shapes, nav, main and footer each get their own layer. The shapes
+   The shapes, nav and main each get their own layer. The shapes
    layer shows the live new page at once, with no animation and no old
    snapshot, so the drift carries on through the transition. It paints
    first, so it stays under the content. The other layers crossfade.
@@ -304,14 +303,13 @@ button, input, textarea, select {
   }
 }
 .shapes { view-transition-name: shapes; }
-/* The header, main and footer layers carry their names only while a
+/* The header and main layers carry their names only while a
    transition runs. A named element becomes a backdrop root, so the glass
    inside it would blur nothing and show the paper and the shapes sharp
    through its fill. The script in Layout.astro sets "vt-active" in pageswap
    and pagereveal and removes it when the transition finishes. */
 :root:is(.vt-active, :active-view-transition) .site-header { view-transition-name: site-header; }
 :root:is(.vt-active, :active-view-transition) .site-main { view-transition-name: site-main; }
-:root:is(.vt-active, :active-view-transition) .site-footer { view-transition-name: site-footer; }
 ::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {

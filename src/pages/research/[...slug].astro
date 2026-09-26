@@ -17,7 +17,9 @@ const { Content } = await render(entry);
 const embeds: Record<string, any> = { "pattern-switch": PatternSwitch, "case-progress": CaseProgress };
 const html = entry.rendered?.html;
 const segments = html ? html.split(/<!--\s*embed:([a-z-]+)\s*-->/) : null;
-const dateLabel = entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" });
+// The featured entry, the thesis overview, shows no date in its strip, only
+// its venue. The other entries show their month.
+const dateLabel = entry.data.featured ? undefined : entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" });
 ---
 <EntryLayout
   stream="research"

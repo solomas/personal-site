@@ -1,10 +1,10 @@
 # Site copy
 
-Every piece of visible text on the site as of 26 September 2026, branch `phd-live`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md`, the InScience year change of 26 September and the research page elements of 26 September (pattern switch, progress grid and two entry updates, the timeline removed again the same day). Nothing here changes the site. Each item names its source file.
+Every piece of visible text on the site as of 26 September 2026, branch `thesis-header`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md`, the InScience year change of 26 September and the research page elements of 26 September (pattern switch, progress grid and two entry updates, the timeline removed again the same day) the thesis header panel of 26 September and the removal of the site footer. Nothing here changes the site. Each item names its source file.
 
 Tags: [phd] marks text about the PhD or academic research. [general] marks everything else. Research roles outside the PhD, such as the Rabobank and Paradiso work, count as [general].
 
-Text built from data rather than written as copy, such as dates, date ranges and the year in the footer, is noted where it appears. The proposal defence deck at `public/after-the-commitment-proposal-defence.html` is a standalone generated file with its own slide text, outside the site templates, and is not listed.
+Text built from data rather than written as copy, such as dates and date ranges, is noted where it appears. The proposal defence deck at `public/after-the-commitment-proposal-defence.html` is a standalone generated file with its own slide text, outside the site templates, and is not listed.
 
 ## On every page
 
@@ -20,10 +20,6 @@ Text built from data rather than written as copy, such as dates, date ranges and
 - [general] "Switch to light theme" (theme button label for screen readers, night theme). Source: `src/components/ThemeToggle.astro`
 - [general] "Switch theme" (theme button label before its script runs). Source: `src/components/ThemeToggle.astro`
 - [general] "Main menu" (screen reader name of the menu). Source: `src/components/Layout.astro`
-
-### Footer
-- [general] "Last updated 2026." (the year is the build year). Source: `src/components/Layout.astro`
-- [general] "Contact" (footer link). Source: `src/components/Layout.astro`
 
 ### Meta description and social preview
 - [general] "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
@@ -66,6 +62,9 @@ Each row shows an entry's date range, title and summary. Date ranges read like "
 
 - [phd] "Research" (page title and heading). Source: `src/pages/research/index.astro`
 - [phd] "My PhD and the pieces it is built from: the proposal, a literature review, a conceptual paper and the tool I code the cases in." (intro, also the meta and social description). Source: `src/pages/research/index.astro`
+- [phd] "The thesis" (small label at the top of the thesis header panel). Source: `src/components/ThesisPanel.astro`
+- [phd] "After the commitment:" (large) and "Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance" (smaller, below it), the title of the overview entry split at the colon, then its summary (thesis header panel). Source: `src/components/ThesisPanel.astro`
+- [phd] "Read the research" (thesis header panel action, followed by an arrow). Source: `src/components/ThesisPanel.astro`
 - [phd] "The research proposal" (deck panel title, taken from the research proposal entry). Source: `src/components/DeckPanel.astro`
 - [phd] "Open the defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
 
@@ -269,6 +268,7 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 
 - Title: "After the commitment: Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance"
 - Summary: "Why some governments turn the planetary health frameworks they sign into rules and budgets, and others do not. Built on cases in Wales, Brazil and China."
+- No date in the strip, as the featured entry
 - Venue in the strip: "Doctoral Programme in Planetary Health Studies, Universidade de Lisboa"
 - Tags: "planetary-health, governance, institutional-change, process-tracing, implementation"
 - Body:
