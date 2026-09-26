@@ -1,6 +1,7 @@
 ---
 import EntryLayout from "../../components/EntryLayout.astro";
 import PatternSwitch from "../../components/PatternSwitch.astro";
+import CaseProgress from "../../components/CaseProgress.astro";
 import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
   const entries = await getCollection("research");
@@ -13,7 +14,7 @@ const { Content } = await render(entry);
 // split at each marker and the component goes in between, so it sits
 // exactly where the text puts it and renders without JavaScript. Unknown
 // names render nothing.
-const embeds: Record<string, any> = { "pattern-switch": PatternSwitch };
+const embeds: Record<string, any> = { "pattern-switch": PatternSwitch, "case-progress": CaseProgress };
 const html = entry.rendered?.html;
 const segments = html ? html.split(/<!--\s*embed:([a-z-]+)\s*-->/) : null;
 const dateLabel = entry.data.date.toLocaleDateString("en-GB", { year: "numeric", month: "short" });

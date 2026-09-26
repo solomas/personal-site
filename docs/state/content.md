@@ -1,6 +1,6 @@
 # Content state
 
-Last updated: 2026-07-24
+Last updated: 2026-09-26
 
 ## Status
 
@@ -14,6 +14,18 @@ On branch `redesign` the work detail page also renders tags and links when prese
 - Rendering schema fields that are populated but not yet shown on detail pages
 - The metadata line (date range plus venue or organisation) on research and projects detail templates
 - Static assets embedded into entries (diagrams, images)
+
+## Updating the PhD progress grid
+
+The grid "Where the cases stand" on /research/after-the-commitment/ reads `src/data/phd-progress.json`. Nothing else feeds it, so the site only changes when this file changes.
+
+1. Open the records in the conversion-tracker repo (`records/<case>/record.yaml`), one per case.
+2. For each case and dimension set the status: "coded" when the record holds evidence and a code for that dimension, "in-progress" when it holds some of it, such as evidence without a code or one channel coded and another open, and "planned" when it holds nothing. D5 in the record is `d5_classifier` and maps to "cross_sectoral_integration". A case with no record is "planned" on every dimension.
+3. Never copy a code, confidence, score or outcome into the file. The grid shows how far the coding has got, never what it found, as `docs/outputs_roadmap.md` in the phd repo requires until cross-case validation.
+4. Set "updated" to the day you checked the records, as YYYY-MM-DD, and name the tracker commit you read in "source".
+5. Run `bash scripts/check-prose.sh` and `npm run build`, then commit.
+
+A new case is a new object in "cases" with the same five keys. The grid adds a row by itself.
 
 ## Open items
 
