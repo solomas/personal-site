@@ -29,9 +29,9 @@ A new case is a new object in "cases" with the same five keys. The grid adds a r
 
 ## Open items
 
-**PhD pages, more alive** (built 2026-09-26d, branch `phd-live`, not merged)
-A timeline on /research/, a pattern switch in the overview and the fragmented adoption paper, a progress grid in the overview and updated milestone dates and texts. Built in e939f93 to 2ac446f.
-Next action: Tomás reviews the preview, decides on the overview date and merges.
+**PhD pages, more alive** (built 2026-09-26d, merged into `main` 2026-09-26 at 43bb629, done)
+A pattern switch in the overview and the fragmented adoption paper, a progress grid in the overview, updated milestone dates and texts and the lighter day paper. Built in e939f93 to 2ac446f. The timeline on /research/ was built in 0356776 and removed again in d8567a2 at Tomás's request. `git revert -m 1 43bb629` undoes the merge in one step. Live since 2026-09-26.
+Open: the overview date is 3 July 2026, the proposal defence, and 1 October 2025 is the alternative. Without JavaScript, Cloudflare's email address obfuscation turns the "Request the draft" link, and the email links on the contact page, into its protection page. With JavaScript the mailto link is intact.
 
 **Metadata line on research and projects detail pages** (done 2026-07-23)
 Both detail templates now render a metadata line between the title and the summary, using the shared `.meta` typography. Research maps to date plus venue. Projects maps to status only. Research date format matches the index pages (en-GB, year plus short month). Absent fields render nothing and produce no empty separator.
