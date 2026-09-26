@@ -46,9 +46,10 @@ fibres = np.asarray(canvas.resize((N, N), Image.LANCZOS)).astype(float) / 255
 
 alpha = 0.045 + 0.028 * tooth + 0.006 * cloud + 0.08 * fibres
 alpha = np.clip(alpha, 0, 0.2)
-# Night uses 70 percent of the day strength, because light specks on black
-# read stronger than dark specks on white.
-for name, v, k in (("paper-day.png", 0, 1.0), ("paper-night.png", 255, 0.7)):
+# Day uses 85 percent of the base strength, a step lighter on white. Night
+# uses 70 percent, because light specks on black read stronger than dark
+# specks on white.
+for name, v, k in (("paper-day.png", 0, 0.85), ("paper-night.png", 255, 0.7)):
     rgba = np.zeros((N, N, 4), dtype=np.uint8)
     rgba[..., :3] = v
     rgba[..., 3] = np.round(alpha * k * 255).astype(np.uint8)

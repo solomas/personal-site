@@ -1,7 +1,9 @@
-// Renders scripts/og-image/og.html to public/og.png at 1200 by 630 through
-// headless Chrome and the DevTools protocol. Nothing to install.
+// Renders scripts/og-image/og.html to a PNG at 1200 by 630 through headless
+// Chrome and the DevTools protocol. Nothing to install. The site serves the
+// JPEG that to_jpeg.py makes from it.
 // Usage, from the repo root:
-//   node scripts/og-image/render.mjs "file://$PWD/scripts/og-image/og.html" public/og.png
+//   node scripts/og-image/render.mjs "file://$PWD/scripts/og-image/og.html" /tmp/og.png
+//   python3 scripts/og-image/to_jpeg.py /tmp/og.png
 import { spawn } from "node:child_process";
 import { writeFileSync, mkdtempSync } from "node:fs"; import { tmpdir } from "node:os"; import { join } from "node:path";
 const [url, out] = process.argv.slice(2);

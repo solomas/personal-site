@@ -19,7 +19,7 @@ const { title, description = "Tomás van Gorp researches what happens after a pl
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
-const socialImage = new URL("/og.png", Astro.site).href;
+const socialImage = new URL("/og.jpg", Astro.site).href;
 const navItems = [
   { href: "/projects/", label: "Projects" },
   { href: "/work/", label: "Work" },
