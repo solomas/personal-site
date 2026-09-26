@@ -13,4 +13,4 @@ Planetary health, China's ecological civilisation and the Wellbeing of Future Ge
 
 The chapter traces how each tradition got there, and where each runs into the same wall. Frameworks are adopted formally and then fail to produce the cross-sectoral change they ask for. That is the gap the thesis works in.
 
-The chapter is still in progress. I am adding a scoping review, which maps the published research in a structured way. I will link the chapter here once it is public.
+I finished a full revision in September 2026. Next comes a scoping review, which maps the published research in a structured way. I will link the chapter here once it is public.

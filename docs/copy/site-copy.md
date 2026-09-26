@@ -1,6 +1,6 @@
 # Site copy
 
-Every piece of visible text on the site as of 26 September 2026, branch `print-test`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md` and the InScience year change of 26 September. Nothing here changes the site. Each item names its source file.
+Every piece of visible text on the site as of 26 September 2026, branch `phd-live`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md`, the InScience year change of 26 September and the research page elements of 26 September (timeline, pattern switch, progress grid and two entry updates). Nothing here changes the site. Each item names its source file.
 
 Tags: [phd] marks text about the PhD or academic research. [general] marks everything else. Research roles outside the PhD, such as the Rabobank and Paradiso work, count as [general].
 
@@ -66,6 +66,9 @@ Each row shows an entry's date range, title and summary. Date ranges read like "
 
 - [phd] "Research" (page title and heading). Source: `src/pages/research/index.astro`
 - [phd] "My PhD and the pieces it is built from: the proposal, a literature review, a conceptual paper and the tool I code the cases in." (intro, also the meta and social description). Source: `src/pages/research/index.astro`
+- [phd] "PhD, October 2025 to July 2029" (timeline heading). Source: `src/components/ResearchTimeline.astro`
+- [phd] "Start", "Expected completion" and "Today" (timeline markers at the ends of the line and at the visitor's date). Source: `src/components/ResearchTimeline.astro`
+- [phd] "The research proposal", "Fragmented adoption", "The Conversion Tracker" and "Literature review" (timeline points, the part of each entry title before the colon, each linking to its entry). Screen readers also hear the month of each part and today's date. Source: `src/components/ResearchTimeline.astro`
 - [phd] "The research proposal" (deck panel title, taken from the research proposal entry). Source: `src/components/DeckPanel.astro`
 - [phd] "Open the defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
 
@@ -273,6 +276,8 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 - Tags: "planetary-health, governance, institutional-change, process-tracing, implementation"
 - Body:
 
+  Components placed in the body: the pattern switch after the paragraph that begins "In plain words", and the progress grid after the paragraph that begins "Each case will be traced". Their text is listed under "Components in research entries" below.
+
   > Signing is the easy part. A government adopts a framework that asks its departments to work together on health and the environment, and then the real work begins: turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
 
   > The research question reads: "under what conditions does strategic brokerage produce substantive institutional conversion of integrative planetary health frameworks, rather than implementation stalling or fragmented adoption?"
@@ -313,7 +318,8 @@ Source: `src/content/research/fragmented-adoption.md`. All items [phd].
 - Title: "Fragmented adoption: naming the pattern"
 - Summary: "A conceptual paper naming fragmented adoption, where every sector does the work asked of it and the relationships between them stay as they were."
 - Tags: "planetary-health, governance, institutional-change"
-- Body:
+- Link label: "Request the draft" (opens an email to hello@tomasvangorp.com with the subject "Fragmented adoption draft")
+- Body, with the pattern switch after the second paragraph:
 
   > Existing accounts of why adoption fails measure depth: how far a commitment reaches inside an institution. Decoupling, where an organisation adopts a policy on paper without changing its practice, is the classic case. Means-ends decoupling, where practice changes but never reaches the goal, is a close relative. That lens works when the commitment belongs to one sector.
 
@@ -321,7 +327,7 @@ Source: `src/content/research/fragmented-adoption.md`. All items [phd].
 
   > A system in that state passes every test applied within a single sector. The paper works the pattern through the case of Wales and its Act of 2015.
 
-  > I first wrote it as coursework in August 2026. A journal version is planned, and I will link it here once it is published.
+  > I submitted it as coursework in August 2026 and am preparing a journal version. A pre-publication version is available on request.
 
 #### Literature review: three traditions, one demand
 
@@ -336,7 +342,7 @@ Source: `src/content/research/literature-review.md`. All items [phd].
 
   > The chapter traces how each tradition got there, and where each runs into the same wall. Frameworks are adopted formally and then fail to produce the cross-sectoral change they ask for. That is the gap the thesis works in.
 
-  > The chapter is still in progress. I am adding a scoping review, which maps the published research in a structured way. I will link the chapter here once it is public.
+  > I finished a full revision in September 2026. Next comes a scoping review, which maps the published research in a structured way. I will link the chapter here once it is public.
 
 #### The research proposal
 
@@ -353,3 +359,26 @@ Source: `src/content/research/research-proposal.md`. All items [phd].
   > This one sets out brokerage as the mechanism and five dimensions along which a signed framework either becomes institutional practice or does not, and it compares Wales, Brazil and China. It also names the traps. Comparative work drifts when cases are coded against standards that move, so the standard is written down before the coding starts.
 
   > I defended it before the scientific committee at the University of Lisbon. It was not a thesis defence but a defence of the design.
+
+### Components in research entries
+
+#### The pattern switch
+
+Source: `src/components/PatternSwitch.astro`. Placed in "After the commitment" and "Fragmented adoption: naming the pattern". All items [phd].
+
+- Heading: "The pattern, in one switch"
+- Options: "Fragmented adoption" (the default) and "Conversion"
+- Sector names: "Health", "Environment", "Finance" and "Planning"
+- Caption for fragmented adoption: "Every sector does its part. The links between them stay as they were."
+- Caption for conversion: "The sectors change how they work together. The framework becomes part of how government works."
+
+#### The progress grid
+
+Source: `src/components/CaseProgress.astro` with `src/data/phd-progress.json`. Placed in "After the commitment". All items [phd].
+
+- Heading: "Where the cases stand"
+- Legend: "Planned", "In progress" and "Coded"
+- Rows: "Wales", "Brazil" and "China"
+- Columns: "Formal rules and mandates", "Resource allocation", "Monitoring and enforcement", "Accountability mechanisms" and "Cross-sectoral integration"
+- Cell label on hover or focus, built from the data: case, dimension and status, such as "Brazil, Resource allocation: Coded"
+- Notes: "This shows how far the coding has got, not what it found." and "Updated" followed by the date in the data file, now "Updated 26 September 2026"

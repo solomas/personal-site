@@ -11,8 +11,8 @@ const baseSchema = z.object({
   links: z.array(z.object({
     label: z.string(),
     url: z.string().refine(
-      (v) => v.startsWith("/") || /^https?:\/\//.test(v),
-      "must be an absolute URL or a root-relative path"
+      (v) => v.startsWith("/") || /^https?:\/\//.test(v) || v.startsWith("mailto:"),
+      "must be an absolute URL, a root-relative path or a mailto: address"
     ),
   })).default([]),
 });
