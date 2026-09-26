@@ -27,14 +27,20 @@
   margin: 0;
 }
 
+/* The root carries the same paper as the shapes layer, so overscroll and
+   anything outside the fixed shapes layer shows paper too. */
 html {
   font-family: var(--font-sans);
   font-size: var(--font-size-root);
   line-height: var(--leading-normal);
-  background-color: var(--color-ground);
+  background: url("/textures/paper-day.png") repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+html[data-theme="flip"] {
+  background-image: url("/textures/paper-night.png");
 }
 
 body {

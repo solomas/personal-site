@@ -40,9 +40,8 @@
   --shape-strength: 0.42;
   /* One ink grain tile, two tile pixels per CSS pixel. */
   --ink-grain-size: 160px;
-  /* Grain strength over the shapes. Chosen by eye, low enough to leave the
-     contrast figures unchanged. */
-  --grain-opacity: 0.05;
+  /* One paper grain tile on the ground, two tile pixels per CSS pixel. */
+  --paper-size: 128px;
 
   /* Glass: white at 55 percent, light top edge, darker bottom edge.
      --glass-solid is the same glass laid over the ground, used where
@@ -147,7 +146,6 @@
   --color-on-highlight: #000000;
   /* Blue only for large shapes. */
   --color-shape: var(--blue);
-  --grain-opacity: 0.06;
 
   /* Glass: reads as white at 8 percent over black (#141414), with a brighter
      top edge. Plain white at 8 percent would leave muted text at 3.59:1 over
