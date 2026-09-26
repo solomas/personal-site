@@ -26,12 +26,12 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
-**Phase 8, the print pass** (built 2026-09-26a and 2026-09-26b, branch `print-test`, not merged)
-The home page test from 2026-09-26a now covers the whole site with one set of rules: no blue in day, a yellow highlighter stroke under links in running text, ink shapes with a baked grain and ragged rims that multiply, a paper grain on the ground, a yellow favicon and a new social image. The plan and the CLAUDE.md token section describe it. Built in af67d5a to 26ee2ae.
-Next action: Tomás reviews the preview on a phone and a retina screen and decides on the merge.
+**Phase 8, the print pass** (built 2026-09-26a to 2026-09-26c, merged into `main` 2026-09-26 at 7f1b5c3)
+The home page test from 2026-09-26a now covers the whole site with one set of rules: no blue in day, a yellow highlighter stroke under links in running text, ink shapes with a baked grain and ragged rims that multiply, a paper grain on the ground, a yellow favicon and a new social image. The plan and the CLAUDE.md token section describe it. Built in af67d5a to 1264bc5, the day paper lightened a step in 1264bc5. Merged with 7f1b5c3, which `git revert -m 1 7f1b5c3` undoes in one step. The branches `print-test` and `redesign` are kept.
+Open: check the texture, hover, focus and first paint on a real phone and a retina screen.
 
-**Glass blur cut off by view transition names** (found and fixed 2026-09-26b on `print-test`, open on `main`)
-Since phase 6 the header, main and footer carried a view transition name at all times, which made them backdrop roots, so the glass inside them blurred nothing. Fixed in 26ee2ae by naming them only during a transition. `main` still has the bug until the branch merges.
+**Glass blur cut off by view transition names** (found 2026-09-26b, fixed in 26ee2ae, live since the merge at 7f1b5c3, done)
+Since phase 6 the header, main and footer carried a view transition name at all times, which made them backdrop roots, so the glass inside them blurred nothing. Fixed in 26ee2ae by naming them only during a transition. Checked live on 2026-09-26: the glass on the contact page shows no paper grain through it.
 
 **Redesign phase 7** (built 2026-09-25g, merged into `main` 2026-09-25 at 690a8ee, done)
 Built in b450792, 5226200 and 6ca723a.
