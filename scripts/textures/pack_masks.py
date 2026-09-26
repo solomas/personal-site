@@ -9,5 +9,5 @@ for k in "abcd":
     q = (np.round(a / 255 * 31) * 255 / 31).astype(np.uint8)
     rgba = np.zeros(q.shape + (4,), dtype=np.uint8)
     rgba[..., 3] = q
-    Image.fromarray(rgba, "RGBA").save(f"{out}/shape-{k}.png", optimize=True)
+    Image.fromarray(rgba, "RGBA").save(f"{out}/ink-shape-{k}.png", optimize=True)
     print(k, q.shape, round(q.mean() / 255, 3))

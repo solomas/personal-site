@@ -20,7 +20,7 @@ kernel = np.exp(-2 * (np.pi ** 2) * (sigma ** 2) * (fx ** 2 + fy ** 2))
 soft = np.real(np.fft.ifft2(np.fft.fft2(noise) * kernel))
 soft = (soft - soft.mean()) / soft.std()
 alpha = np.clip(0.8 + 0.16 * soft, 0.5, 1.0)
-for name, v in (("grain-day.png", 255), ("grain-night.png", 0)):
+for name, v in (("ink-grain-day.png", 255), ("ink-grain-night.png", 0)):
     rgba = np.zeros((N, N, 4), dtype=np.uint8)
     rgba[..., :3] = v
     # Sixteen alpha levels are enough for grain and keep the file small.

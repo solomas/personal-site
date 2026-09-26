@@ -13,13 +13,9 @@ interface Props {
   /* Keep the page out of search results and leave out the canonical link,
      used on the 404 page. */
   noindex?: boolean;
-  /* The print test: puts the class "print" on the root, so the home page can
-     try ink coloured shapes and printed headings while every other page stays
-     as it is. Branch print-test only. */
-  print?: boolean;
 }
 
-const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false, print = false } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
@@ -33,7 +29,7 @@ const navItems = [
 ];
 ---
 <!doctype html>
-<html lang="en" class:list={[{ print }]}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -316,11 +312,19 @@ const navItems = [
         padding: var(--space-1) 0;
       }
       /* Active link: bold in the highlight colour, with aria-current. Hover
-         underlines. */
+         underlines in night. In day the highlighter stroke from global.css
+         shows only on the active link and on hover, where it grows over the
+         word. */
       .site-nav__link:hover {
         text-decoration: underline;
         text-decoration-thickness: var(--border-hairline);
         text-underline-offset: var(--underline-offset);
+      }
+      :global(:root:not([data-theme="flip"])) .site-nav__link:hover {
+        text-decoration: none;
+      }
+      :global(:root:not([data-theme="flip"])) .site-nav__link:not(:hover, .is-active) {
+        background-size: 100% 0;
       }
       .site-nav a.site-nav__link.is-active {
         font-weight: 700;

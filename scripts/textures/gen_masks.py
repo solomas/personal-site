@@ -1,6 +1,6 @@
-# Writes the print test shape masks as SVG, which bake_masks.mjs renders to
-# PNG for public/print/. Ellipses follow the radial gradients in Shapes.astro,
-# at the radius where the old soft rim crossed half strength.
+# Writes the ink shape masks as SVG, which bake_masks.mjs renders to PNG
+# for public/textures/. Ellipses follow the radial gradients the shapes had
+# before phase 8, at the radius where their soft rim crossed half strength.
 import sys
 out = sys.argv[1]
 shapes = {
@@ -14,7 +14,7 @@ for k,(w,h,els) in shapes.items():
     s = seeds[k]
     ell = "".join(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}"/>' for cx,cy,rx,ry in els)
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" preserveAspectRatio="none">
-<!-- Print test mask for shape {k}. Only the alpha counts. The ellipses merge
+<!-- Ink mask for shape {k}. Only the alpha counts. The ellipses merge
      through a blur, a slow wobble and a fine ragged noise roughen the rim, a
      steep alpha curve keeps the edge short, and a faint mottle leaves the ink a
      little uneven. Rendered once when the image loads. Values chosen by

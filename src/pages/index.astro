@@ -2,9 +2,9 @@
 import Layout from "../components/Layout.astro";
 import HomeSheets from "../components/HomeSheets.astro";
 ---
-<Layout title="Tomás van Gorp" print>
+<Layout title="Tomás van Gorp">
   <section class="home">
-    <h1 class="home__hero focus-context">I research what happens <span class="accent">after a plan is signed</span>, and help organisations make it work.</h1>
+    <h1 class="home__hero focus-context">I research what happens after a plan is signed, and help organisations make it work.</h1>
     <HomeSheets />
   </section>
 </Layout>
@@ -18,17 +18,14 @@ import HomeSheets from "../components/HomeSheets.astro";
     flex-direction: column;
     gap: var(--space-12);
   }
-  /* The hero sits bare on the background, so it is ink. The emphasised
-     phrase is bold. */
+  /* The hero sits bare on the background, so it is ink, in the heaviest
+     weight. */
   .home__hero {
     max-width: 22ch;
     font-size: var(--text-hero);
-    font-weight: 500;
+    font-weight: 900;
     letter-spacing: var(--tracking-title);
     line-height: 1.12;
-  }
-  .home__hero .accent {
-    font-weight: 700;
   }
 
   @media (max-width: 720px) {
@@ -36,106 +33,5 @@ import HomeSheets from "../components/HomeSheets.astro";
       padding-top: var(--space-12);
       gap: var(--space-8);
     }
-  }
-</style>
-
-<style is:global>
-  /* Print test, branch print-test only. Everything below hangs off the class
-     "print" that Layout puts on the root of this page, so every other page
-     stays exactly as it is. Not part of docs/design/redesign-plan.md. */
-
-  :root.print {
-    /* Ink strength of the shapes. A little above --shape-strength because
-       the grain takes out part of the colour. Chosen by eye, aiming at a
-       light risoprint. */
-    --print-shape-strength: 0.42;
-    /* Size of one grain tile, two tile pixels per CSS pixel. */
-    --print-grain-size: 160px;
-    /* The highlighter mark under links in day, its height at rest and on
-       hover, when it grows over the whole word. Chosen by eye. */
-    --print-marker-size: 0.42em;
-    --print-marker-size-hover: 0.95em;
-    --print-marker-color: var(--yellow);
-    /* The heaviest weight in the Geist variable font. */
-    --print-heading-weight: 900;
-  }
-
-  /* Day without blue: links, the active state and the focus ring turn ink,
-     selection is ink on yellow. Night keeps its yellow highlight. */
-  :root.print:not([data-theme="flip"]) {
-    --color-highlight: var(--color-ink);
-    --color-on-highlight: var(--color-ground);
-  }
-  :root.print:not([data-theme="flip"]) ::selection {
-    background-color: var(--yellow);
-    color: var(--color-ink);
-  }
-  /* Text links get a yellow highlighter stroke instead of an underline. The
-     menu links are ink and only mark on hover, as they only underlined on
-     hover before. */
-  :root.print:not([data-theme="flip"]) :is(.site-footer a, .site-nav__link) {
-    text-decoration: none;
-    background-image: linear-gradient(var(--print-marker-color), var(--print-marker-color));
-    background-repeat: no-repeat;
-    background-position: 0 88%;
-    background-size: 100% var(--print-marker-size);
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    transition: background-size var(--transition);
-  }
-  :root.print:not([data-theme="flip"]) .site-nav__link:not(:hover):not(.is-active) {
-    background-size: 100% 0;
-  }
-  :root.print:not([data-theme="flip"]) .site-footer a:hover {
-    background-size: 100% var(--print-marker-size-hover);
-  }
-
-  /* Shapes as ink. The ground comes off the shapes layer, so the shapes
-     multiply with each other and not with the black of night: where two
-     overlap the colour gets deeper, as with ink on paper. Each shape is a
-     block of the shape colour cut by one mask, public/print/shape-*.png,
-     which holds the ragged outline. The grain sits in the colour itself: a
-     tile in the ground colour, white in day and black in night, with fine
-     specks of transparency lies over the shape colour, so the ink thins
-     towards the ground as in a risoprint. Masks and tiles are bitmaps baked
-     once by scripts/print-test/, so nothing is filtered in the browser and
-     the drift still only animates transform. */
-  :root.print .shapes {
-    background: transparent;
-  }
-  :root.print .shape {
-    background: url("/print/grain-day.png") repeat 0 0 / var(--print-grain-size) var(--print-grain-size), var(--color-shape);
-    opacity: var(--print-shape-strength);
-    mix-blend-mode: multiply;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-  }
-  :root.print[data-theme="flip"] .shape {
-    background-image: url("/print/grain-night.png");
-  }
-  :root.print .shape--a {
-    -webkit-mask-image: url("/print/shape-a.png");
-    mask-image: url("/print/shape-a.png");
-  }
-  :root.print .shape--b {
-    -webkit-mask-image: url("/print/shape-b.png");
-    mask-image: url("/print/shape-b.png");
-  }
-  :root.print .shape--c {
-    -webkit-mask-image: url("/print/shape-c.png");
-    mask-image: url("/print/shape-c.png");
-  }
-  :root.print .shape--d {
-    -webkit-mask-image: url("/print/shape-d.png");
-    mask-image: url("/print/shape-d.png");
-  }
-
-  /* Headings in the heaviest weight, with plain sharp edges. */
-  :root.print .home__hero,
-  :root.print .home__hero .accent,
-  :root.print .stack__title {
-    font-weight: var(--print-heading-weight);
   }
 </style>

@@ -69,6 +69,26 @@ a:hover {
   text-decoration-thickness: var(--border-medium);
 }
 
+/* Day: links in running text carry a yellow highlighter stroke instead of
+   an underline, thin at rest and growing over the word on hover. Block
+   links that are rows, sheets, panels or buttons are left out, as is the
+   name in the nav. :where() keeps this as weak as the plain a rule, so a
+   component can still set its own link colour. Night keeps the yellow
+   underline. */
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)) {
+  text-decoration: none;
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: var(--marker-position);
+  background-size: 100% var(--marker-size);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size var(--transition);
+}
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)):hover {
+  background-size: 100% var(--marker-size-hover);
+}
+
 /* Small secondary text. Muted only passes AA on glass and sheets, so use it
    there and not bare on the background. */
 .meta {
@@ -85,11 +105,10 @@ button, input, textarea, select {
   font: inherit;
 }
 
-/* Selection in the highlight colour: white on blue in day, black on yellow in
-   night. */
+/* Selection: black on yellow in both themes. */
 ::selection {
-  background-color: var(--color-highlight);
-  color: var(--color-on-highlight);
+  background-color: var(--color-selection);
+  color: var(--color-on-selection);
 }
 
 .visually-hidden {

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Rebuilds the print test bitmaps in public/print/. Needs Google Chrome,
-# Node 22 or later and Python 3 with numpy and Pillow. Branch print-test only.
+# Rebuilds the texture bitmaps in public/textures/: the ink masks and ink
+# grain of the shapes. Needs Google Chrome, Node 22 or later and Python 3
+# with numpy and Pillow. The output is the same on every run.
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUT="$HERE/../../public/print"
+OUT="$HERE/../../public/textures"
 TMP="$(mktemp -d)"
 python3 "$HERE/gen_masks.py" "$TMP"
 node "$HERE/bake_masks.mjs" "$TMP" "$TMP"
