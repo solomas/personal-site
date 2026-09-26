@@ -29,9 +29,8 @@ A new case is a new object in "cases" with the same five keys. The grid adds a r
 
 ## Open items
 
-**Thesis header panel on /research/** (built 2026-09-26f, branch `thesis-header`, not merged)
-The overview is the header panel of the research page instead of a dated row, and its page shows "Doctoral research, University of Lisbon" in the strip instead of a date. Built in cded20c.
-Next action: Tomás reviews the preview, decides whether the venue stays in the strip and merges.
+**Thesis header panel on /research/** (built 2026-09-26f and 2026-09-26g, merged into `main` 2026-09-26 at e3d1fda, done)
+The overview is the header panel of the research page instead of a dated row, built in cded20c. Its page strip shows no date and names the university once, through the programme, since 27e08f3, which also removed the dateLabel field again. `git revert -m 1 e3d1fda` undoes the merge in one step. Live since 2026-09-26.
 
 **PhD pages, more alive** (built 2026-09-26d, merged into `main` 2026-09-26 at 43bb629, done)
 A pattern switch in the overview and the fragmented adoption paper, a progress grid in the overview, updated milestone dates and texts and the lighter day paper. Built in e939f93 to 2ac446f. The timeline on /research/ was built in 0356776 and removed again in d8567a2 at Tomás's request. `git revert -m 1 43bb629` undoes the merge in one step. Live since 2026-09-26.
