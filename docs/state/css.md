@@ -26,9 +26,12 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
-**Print test on the home page** (built 2026-09-26a, branch `print-test`, not merged)
-A test of ink coloured shapes, printed headings and a day home page without blue, behind the class `print` on the home page only. Every other page builds byte identical to `main`. See the session doc for values, contrast and performance.
-Next action: Tomás reviews the preview, also on a real phone and a retina screen, and decides to keep, change or drop it. Keeping it means updating the plan and the CLAUDE.md token section for the day highlight, and deciding how the hero phrase keeps its emphasis.
+**Phase 8, the print pass** (built 2026-09-26a and 2026-09-26b, branch `print-test`, not merged)
+The home page test from 2026-09-26a now covers the whole site with one set of rules: no blue in day, a yellow highlighter stroke under links in running text, ink shapes with a baked grain and ragged rims that multiply, a paper grain on the ground, a yellow favicon and a new social image. The plan and the CLAUDE.md token section describe it. Built in af67d5a to 26ee2ae.
+Next action: Tomás reviews the preview on a phone and a retina screen and decides on the merge.
+
+**Glass blur cut off by view transition names** (found and fixed 2026-09-26b on `print-test`, open on `main`)
+Since phase 6 the header, main and footer carried a view transition name at all times, which made them backdrop roots, so the glass inside them blurred nothing. Fixed in 26ee2ae by naming them only during a transition. `main` still has the bug until the branch merges.
 
 **Redesign phase 7** (built 2026-09-25g, merged into `main` 2026-09-25 at 690a8ee, done)
 Built in b450792, 5226200 and 6ca723a.

@@ -1,6 +1,6 @@
 # Polish state
 
-Last updated: 2026-09-25 (redesign merged to main, 404 and social preview live, npm audit recorded)
+Last updated: 2026-09-26 (favicon and social image redone on branch print-test)
 
 ## Status
 
@@ -27,7 +27,7 @@ Next action: open the live site on a phone or use browser devtools at 375px and 
 Done. `src/pages/404.astro` builds `dist/404.html`, which Cloudflare Pages serves for unknown paths. Live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: an unknown address returns 404 with "Page not found".
 
 **Favicon and Open Graph image** (built on branch `redesign`, 2026-09-25e and 2026-09-25f)
-The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Done, live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: og.png and sitemap.xml return 200. 
+The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Done, live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: og.png and sitemap.xml return 200. On branch `print-test` (2026-09-26b) the favicon is a yellow circle, rimmed in black on light browser themes, and og.png shows the paper and ink look. Live after the merge.
 
 **Triptych browser smoketest** (obsolete: the redesign replaced the triptych with HomeSheets.astro, merged at 690a8ee)
 The triptych door turn, hover lift, carousel and SVG paint cost have not been confirmed in a browser, across both themes or on a phone. The 2026-06-15a session flagged this, and the 2026-06-15b audit repeated it. This is the highest visual-risk gap before a wider share.
