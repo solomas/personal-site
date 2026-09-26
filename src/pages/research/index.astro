@@ -3,6 +3,7 @@ import Layout from "../../components/Layout.astro";
 import StreamHeader from "../../components/StreamHeader.astro";
 import EntryList from "../../components/EntryList.astro";
 import DeckPanel from "../../components/DeckPanel.astro";
+import ResearchTimeline from "../../components/ResearchTimeline.astro";
 import { getCollection } from "astro:content";
 const entries = await getCollection("research", ({ data }) => data.status !== "archived");
 // Featured first (the project overview sits above its own parts), then date descending.
@@ -23,6 +24,7 @@ const lede = "My PhD and the pieces it is built from: the proposal, a literature
     title="Research"
     lede={lede}
   />
+  <ResearchTimeline />
   <DeckPanel />
   <EntryList items={items} />
 </Layout>
