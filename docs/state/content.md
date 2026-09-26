@@ -29,6 +29,10 @@ A new case is a new object in "cases" with the same five keys. The grid adds a r
 
 ## Open items
 
+**PhD pages, more alive** (built 2026-09-26d, branch `phd-live`, not merged)
+A timeline on /research/, a pattern switch in the overview and the fragmented adoption paper, a progress grid in the overview and updated milestone dates and texts. Built in e939f93 to 2ac446f.
+Next action: Tomás reviews the preview, decides on the overview date and merges.
+
 **Metadata line on research and projects detail pages** (done 2026-07-23)
 Both detail templates now render a metadata line between the title and the summary, using the shared `.meta` typography. Research maps to date plus venue. Projects maps to status only. Research date format matches the index pages (en-GB, year plus short month). Absent fields render nothing and produce no empty separator.
 
