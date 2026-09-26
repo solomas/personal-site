@@ -1,7 +1,7 @@
 ---
 title: "Fragmented adoption: naming the pattern"
 summary: "A conceptual paper naming fragmented adoption, where every sector does the work asked of it and the relationships between them stay as they were."
-date: 2026-07-11
+date: 2026-08-05
 status: parked
 coauthors: []
 tags: ["planetary-health", "governance", "institutional-change"]

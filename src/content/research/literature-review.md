@@ -1,7 +1,7 @@
 ---
 title: "Literature review: three traditions, one demand"
 summary: "A chapter on three governance traditions that developed in different settings and arrive at the same demand: that governance should work across sectors rather than inside them."
-date: 2026-06-25
+date: 2026-09-22
 status: parked
 coauthors: []
 tags: ["planetary-health", "governance", "literature-review"]
