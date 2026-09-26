@@ -1,15 +1,21 @@
 ---
 // The background: four large, stretched, organic shapes in the theme's shape
 // colour (yellow in day, blue in night) that drift slowly behind all content,
-// with a fine static grain on top.
+// printed on a paper grain.
 //
-// Each shape is two or three radial gradients in one colour, solid through
-// most of their radius and fading only at the rim, shown at about a third of
-// full strength (--shape-strength), so they read as a pale wash in day and a
-// dim deep blue in night. No blur filter. The shapes share one colour, so
-// they may overlap. Only transform animates (position, a little scale, a
-// little rotation), each shape on its own cycle between 60 and 120 seconds.
-// With slow, as on the detail pages, every cycle runs three times longer.
+// Each shape is printed like ink: a block of the shape colour cut by a
+// bitmap mask with a short, slightly ragged rim and a faint unevenness
+// (public/textures/ink-shape-*.png), under a tile in the ground colour with
+// fine specks of transparency, so the colour itself breaks up as in a light
+// risoprint (ink-grain-day.png and ink-grain-night.png). The masks and tiles
+// are baked once by scripts/textures/, nothing is filtered in the browser.
+// The shapes show at a little over a third of full strength
+// (--shape-strength) and multiply with each other, so where they overlap the
+// colour deepens. They sit in their own isolated group above the paper, so
+// the multiply never meets the black of night. Only transform animates (position, a
+// little scale, a little rotation), each shape on its own cycle between 60
+// and 120 seconds. With slow, as on the detail pages, every cycle runs three
+// times longer.
 //
 // The drift follows a clock shared across pages. The inline script below
 // sets a negative animation delay from that clock before first paint, so a
@@ -22,9 +28,11 @@
 // The animation pauses while the tab is hidden. The global reduced motion
 // rule removes it, so the shapes stand still.
 //
-// The grain is an SVG noise tile rendered once as a background image, not an
-// animated filter. It sits over the shapes and under the glass. Sizes,
-// positions and paths are chosen by eye.
+// The paper is the ground itself: the ground colour under a repeating tile
+// of fine tooth and short fibres (paper-day.png and paper-night.png), baked
+// once by scripts/textures/ and never animated. It lies under the shapes,
+// the glass and the reading sheets, so text on glass and sheets stays
+// clean.
 interface Props {
   slow?: boolean;
   /* One shape only, centred, as on the 404 page. */
@@ -32,18 +40,14 @@ interface Props {
 }
 
 const { slow = false, single = false } = Astro.props;
-
-// Grain tile: fractal noise, desaturated, as a data URI.
-const grain = `url("data:image/svg+xml,${encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>'
-)}")`;
 ---
 <div class:list={["shapes", { "shapes--slow": slow, "shapes--single": single }]} data-pace={slow ? "3" : "1"} aria-hidden="true">
-  <div class="shape shape--a"></div>
-  <div class="shape shape--b"></div>
-  <div class="shape shape--c"></div>
-  <div class="shape shape--d"></div>
-  <div class="shapes__grain" style={`background-image: ${grain}`}></div>
+  <div class="shapes__ink">
+    <div class="shape shape--a"></div>
+    <div class="shape shape--b"></div>
+    <div class="shape shape--c"></div>
+    <div class="shape shape--d"></div>
+  </div>
 </div>
 <script is:inline>
   (function () {
@@ -101,8 +105,17 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     inset: 0;
     z-index: -1;
     overflow: hidden;
-    background: var(--color-ground);
+    background: url("/textures/paper-day.png") repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
     pointer-events: none;
+  }
+  :global([data-theme="flip"]) .shapes {
+    background-image: url("/textures/paper-night.png");
+  }
+  /* The shapes multiply with each other inside this group only. */
+  .shapes__ink {
+    position: absolute;
+    inset: 0;
+    isolation: isolate;
   }
   .shapes--slow {
     --pace: 3;
@@ -120,7 +133,13 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
 
   .shape {
     position: absolute;
+    background: url("/textures/ink-grain-day.png") repeat 0 0 / var(--ink-grain-size) var(--ink-grain-size), var(--color-shape);
     opacity: var(--shape-strength);
+    mix-blend-mode: multiply;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
     will-change: transform;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
@@ -135,18 +154,20 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     animation-play-state: paused;
   }
 
-  /* Each shape is a long body plus one or two lobes, all in the shape colour,
-     solid to about 60 percent of their radius. The base tilt --r is part of
-     every keyframe, so the drift turns around it. */
+  :global([data-theme="flip"]) .shape {
+    background-image: url("/textures/ink-grain-night.png");
+  }
+
+  /* Each shape is a long body plus one or two lobes, drawn in its mask. The
+     base tilt --r is part of every keyframe, so the drift turns around it. */
   .shape--a {
     --r: -18deg;
     width: calc(88vmax * var(--k));
     height: calc(32vmax * var(--k));
     left: calc(-30vmax * var(--k));
     top: calc(-12vmax * var(--k));
-    background:
-      radial-gradient(closest-side at 50% 50%, var(--color-shape) 62%, transparent 100%),
-      radial-gradient(closest-side at 78% 62%, var(--color-shape) 55%, transparent 96%);
+    -webkit-mask-image: url("/textures/ink-shape-a.png");
+    mask-image: url("/textures/ink-shape-a.png");
     animation-name: drift-a;
     animation-duration: calc(83s * var(--pace));
   }
@@ -156,9 +177,8 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     height: calc(24vmax * var(--k));
     right: calc(-30vmax * var(--k));
     top: calc(8vmax * var(--k));
-    background:
-      radial-gradient(closest-side at 46% 50%, var(--color-shape) 60%, transparent 100%),
-      radial-gradient(closest-side at 22% 40%, var(--color-shape) 50%, transparent 94%);
+    -webkit-mask-image: url("/textures/ink-shape-b.png");
+    mask-image: url("/textures/ink-shape-b.png");
     animation-name: drift-b;
     animation-duration: calc(109s * var(--pace));
   }
@@ -168,10 +188,8 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     height: calc(26vmax * var(--k));
     left: calc(-18vmax * var(--k));
     bottom: calc(-16vmax * var(--k));
-    background:
-      radial-gradient(closest-side at 50% 50%, var(--color-shape) 60%, transparent 100%),
-      radial-gradient(closest-side at 76% 36%, var(--color-shape) 48%, transparent 92%),
-      radial-gradient(closest-side at 24% 64%, var(--color-shape) 44%, transparent 90%);
+    -webkit-mask-image: url("/textures/ink-shape-c.png");
+    mask-image: url("/textures/ink-shape-c.png");
     animation-name: drift-c;
     animation-duration: calc(97s * var(--pace));
   }
@@ -181,9 +199,8 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     height: calc(16vmax * var(--k));
     left: 40%;
     top: 44%;
-    background:
-      radial-gradient(closest-side at 50% 50%, var(--color-shape) 58%, transparent 100%),
-      radial-gradient(closest-side at 70% 30%, var(--color-shape) 46%, transparent 92%);
+    -webkit-mask-image: url("/textures/ink-shape-d.png");
+    mask-image: url("/textures/ink-shape-d.png");
     animation-name: drift-d;
     animation-duration: calc(71s * var(--pace));
   }
@@ -197,12 +214,6 @@ const grain = `url("data:image/svg+xml,${encodeURIComponent(
     top: calc(50% - 16vmax * var(--k));
   }
 
-  .shapes__grain {
-    position: absolute;
-    inset: 0;
-    background-size: 180px 180px;
-    opacity: var(--grain-opacity);
-  }
 
   @keyframes drift-a {
     0%   { transform: translate(0, 0) rotate(var(--r)) scale(1); }

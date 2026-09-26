@@ -1,6 +1,6 @@
 # Site copy
 
-Every piece of visible text on the site as of 25 September 2026, branch `redesign`, after the copy rewrite from `docs/copy/site-copy-rewritten.md` and copy update 2 from `docs/copy/site-copy-update-2.md`. Nothing here changes the site. Each item names its source file.
+Every piece of visible text on the site as of 26 September 2026, branch `print-test`, after the copy rewrite from `docs/copy/site-copy-rewritten.md`, copy update 2 from `docs/copy/site-copy-update-2.md` and the InScience year change of 26 September. Nothing here changes the site. Each item names its source file.
 
 Tags: [phd] marks text about the PhD or academic research. [general] marks everything else. Research roles outside the PhD, such as the Rabobank and Paradiso work, count as [general].
 
@@ -29,15 +29,15 @@ Text built from data rather than written as copy, such as dates, date ranges and
 - [general] "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (og:site_name). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." (og:image:alt). Source: `src/components/Layout.astro`
-- [general] "Tomás van Gorp" (text in the social preview image public/og.png). Source: `scripts/og-image/og.html`
-- [general] "I research what happens after a plan is signed, and help organisations make it work." (text in the social preview image, after a plan is signed in bold). Source: `scripts/og-image/og.html`
+- [general] "Tomás van Gorp" (text in the social preview image public/og.jpg). Source: `scripts/og-image/og.html`
+- [general] "I research what happens after a plan is signed, and help organisations make it work." (text in the social preview image). Source: `scripts/og-image/og.html`
 
 Page titles, meta descriptions and social titles per page are listed under each page below.
 
 ## Home, /
 
 - [general] "Tomás van Gorp" (page title). Source: `src/pages/index.astro`
-- [general] "I research what happens after a plan is signed, and help organisations make it work." (hero sentence, after a plan is signed in bold). Source: `src/pages/index.astro`
+- [general] "I research what happens after a plan is signed, and help organisations make it work." (hero sentence). Source: `src/pages/index.astro`
 - [general] "Three streams of work" (screen reader name of the three sheets). Source: `src/components/HomeSheets.astro`
 - [phd] "Research" (sheet title). Source: `src/components/HomeSheets.astro`
 - [phd] "My PhD on how governments turn planetary health plans into practice." (sheet line). Source: `src/components/HomeSheets.astro`
@@ -213,7 +213,7 @@ Source: `src/content/work/inscience.md`. All items [general].
 
   > InScience pairs new science films with live debate. As Head of Talks Programme I ran the cycle from first idea to stage. Partnerships with research institutes and media organisations gave the programme its weight.
 
-  > The work was as much editorial as logistical. I chose which research the talks would put forward, found speakers who could open that work up to a non-specialist audience and shaped questions people could take home with them. The 2024 edition ran across several venues in Nijmegen, with a cross-functional team behind the production.
+  > The work was as much editorial as logistical. I chose which research the talks would put forward, found speakers who could open that work up to a non-specialist audience and shaped questions people could take home with them. The 2025 edition ran across several venues in Nijmegen, with a cross-functional team behind the production.
 
 #### Netherlands Ministry of Foreign Affairs
 

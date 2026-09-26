@@ -27,14 +27,20 @@
   margin: 0;
 }
 
+/* The root carries the same paper as the shapes layer, so overscroll and
+   anything outside the fixed shapes layer shows paper too. */
 html {
   font-family: var(--font-sans);
   font-size: var(--font-size-root);
   line-height: var(--leading-normal);
-  background-color: var(--color-ground);
+  background: url("/textures/paper-day.png") repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+html[data-theme="flip"] {
+  background-image: url("/textures/paper-night.png");
 }
 
 body {
@@ -69,6 +75,26 @@ a:hover {
   text-decoration-thickness: var(--border-medium);
 }
 
+/* Day: links in running text carry a yellow highlighter stroke instead of
+   an underline, thin at rest and growing over the word on hover. Block
+   links that are rows, sheets, panels or buttons are left out, as is the
+   name in the nav. :where() keeps this as weak as the plain a rule, so a
+   component can still set its own link colour. Night keeps the yellow
+   underline. */
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)) {
+  text-decoration: none;
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: var(--marker-position);
+  background-size: 100% var(--marker-size);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size var(--transition);
+}
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)):hover {
+  background-size: 100% var(--marker-size-hover);
+}
+
 /* Small secondary text. Muted only passes AA on glass and sheets, so use it
    there and not bare on the background. */
 .meta {
@@ -85,11 +111,10 @@ button, input, textarea, select {
   font: inherit;
 }
 
-/* Selection in the highlight colour: white on blue in day, black on yellow in
-   night. */
+/* Selection: black on yellow in both themes. */
 ::selection {
-  background-color: var(--color-highlight);
-  color: var(--color-on-highlight);
+  background-color: var(--color-selection);
+  color: var(--color-on-selection);
 }
 
 .visually-hidden {
@@ -279,9 +304,14 @@ button, input, textarea, select {
   }
 }
 .shapes { view-transition-name: shapes; }
-.site-header { view-transition-name: site-header; }
-.site-main { view-transition-name: site-main; }
-.site-footer { view-transition-name: site-footer; }
+/* The header, main and footer layers carry their names only while a
+   transition runs. A named element becomes a backdrop root, so the glass
+   inside it would blur nothing and show the paper and the shapes sharp
+   through its fill. The script in Layout.astro sets "vt-active" in pageswap
+   and pagereveal and removes it when the transition finishes. */
+:root:is(.vt-active, :active-view-transition) .site-header { view-transition-name: site-header; }
+:root:is(.vt-active, :active-view-transition) .site-main { view-transition-name: site-main; }
+:root:is(.vt-active, :active-view-transition) .site-footer { view-transition-name: site-footer; }
 ::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {

@@ -4,7 +4,7 @@ import HomeSheets from "../components/HomeSheets.astro";
 ---
 <Layout title="Tomás van Gorp">
   <section class="home">
-    <h1 class="home__hero focus-context">I research what happens <span class="accent">after a plan is signed</span>, and help organisations make it work.</h1>
+    <h1 class="home__hero focus-context">I research what happens after a plan is signed, and help organisations make it work.</h1>
     <HomeSheets />
   </section>
 </Layout>
@@ -18,17 +18,14 @@ import HomeSheets from "../components/HomeSheets.astro";
     flex-direction: column;
     gap: var(--space-12);
   }
-  /* The hero sits bare on the background, so it is ink. The emphasised
-     phrase is bold. */
+  /* The hero sits bare on the background, so it is ink, in the heaviest
+     weight. */
   .home__hero {
     max-width: 22ch;
     font-size: var(--text-hero);
-    font-weight: 500;
+    font-weight: 900;
     letter-spacing: var(--tracking-title);
     line-height: 1.12;
-  }
-  .home__hero .accent {
-    font-weight: 700;
   }
 
   @media (max-width: 720px) {

@@ -5,8 +5,8 @@
 :root {
   color-scheme: light;
 
-  /* The two colours. Each theme uses one for its shapes and the other as
-     its highlight. */
+  /* The two colours. Yellow is the day shape colour and the night
+     highlight, blue is the night shape colour. Day has no blue. */
   --blue: #0033a0;
   --yellow: #ffd100;
 
@@ -17,19 +17,31 @@
      background. */
   --color-muted: #595959;
   --color-hairline: rgba(0, 0, 0, 0.12);
-  /* The highlight carries links, the active nav link, the focus ring and
-     the selection. Blue in day. */
-  --color-highlight: var(--blue);
-  --color-on-highlight: #ffffff;
+  /* The highlight carries links, the active nav link and the focus ring.
+     Ink in day, so day has no blue. */
+  --color-highlight: var(--color-ink);
+  --color-on-highlight: var(--color-ground);
+  /* Selection is black on yellow in both themes. */
+  --color-selection: var(--yellow);
+  --color-on-selection: #000000;
+  /* The highlighter stroke under links in running text in day: its colour,
+     its height at rest and on hover, when it grows over the word, and where
+     it sits in the line box. Sizes and position chosen by eye. */
+  --marker: var(--yellow);
+  --marker-size: 0.2em;
+  --marker-size-hover: 0.95em;
+  --marker-position: 0 90%;
   /* Large shapes only. Yellow in day, never for text or small elements. */
   --color-shape: var(--yellow);
-  /* How strongly the shapes show: about a third of the full colour, a pale
-     yellow wash in day (#fff0ab on white) and a dim deep blue in night
-     (#001135 on black). Chosen from the brief. */
-  --shape-strength: 0.33;
-  /* Grain strength over the shapes. Chosen by eye, low enough to leave the
-     contrast figures unchanged. */
-  --grain-opacity: 0.05;
+  /* How strongly the shapes show: a little over a third of the full colour,
+     a pale yellow in day and a dim deep blue in night. Above the 0.33 of
+     phase 7 because the ink grain takes out about a fifth of the colour.
+     Chosen by eye, aiming at a light risoprint. */
+  --shape-strength: 0.42;
+  /* One ink grain tile, two tile pixels per CSS pixel. */
+  --ink-grain-size: 160px;
+  /* One paper grain tile on the ground, two tile pixels per CSS pixel. */
+  --paper-size: 128px;
 
   /* Glass: white at 55 percent, light top edge, darker bottom edge.
      --glass-solid is the same glass laid over the ground, used where
@@ -134,7 +146,6 @@
   --color-on-highlight: #000000;
   /* Blue only for large shapes. */
   --color-shape: var(--blue);
-  --grain-opacity: 0.06;
 
   /* Glass: reads as white at 8 percent over black (#141414), with a brighter
      top edge. Plain white at 8 percent would leave muted text at 3.59:1 over

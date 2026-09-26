@@ -19,7 +19,7 @@ const { title, description = "Tomás van Gorp researches what happens after a pl
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
-const socialImage = new URL("/og.png", Astro.site).href;
+const socialImage = new URL("/og.jpg", Astro.site).href;
 const navItems = [
   { href: "/projects/", label: "Projects" },
   { href: "/work/", label: "Work" },
@@ -81,7 +81,18 @@ const navItems = [
       // Arriving, it is the item that points back to the page just left, or
       // else this page's header. So a row grows into the detail page's strip,
       // and going back the strip shrinks into the row again.
+      // The class "vt-active" on the root names the header, main and footer
+      // layers only while a transition runs (see global.css), because a
+      // named element cuts the glass inside it off from the background it
+      // should blur.
       (function () {
+        var root = document.documentElement;
+        function active(transition) {
+          root.classList.add("vt-active");
+          transition.finished.finally(function () {
+            root.classList.remove("vt-active");
+          });
+        }
         function path(url) {
           try {
             return new URL(url, location.href).pathname.replace(/\/+$/, "") || "/";
@@ -106,18 +117,23 @@ const navItems = [
           });
         }
         window.addEventListener("pageswap", function (e) {
-          if (e.viewTransition && e.activation && e.activation.entry) {
+          if (!e.viewTransition) return;
+          active(e.viewTransition);
+          if (e.activation && e.activation.entry) {
             mark(pick(e.activation.entry.url), e.viewTransition);
           }
         });
         window.addEventListener("pagereveal", function (e) {
+          if (!e.viewTransition) return;
+          active(e.viewTransition);
           var from = window.navigation && navigation.activation && navigation.activation.from;
-          if (e.viewTransition && from) mark(pick(from.url), e.viewTransition);
+          if (from) mark(pick(from.url), e.viewTransition);
         });
         // A page restored from the back and forward cache may still carry a
         // name from the transition that left it.
         window.addEventListener("pageshow", function (e) {
           if (!e.persisted) return;
+          root.classList.remove("vt-active");
           document.querySelectorAll("[style*='view-transition-name']").forEach(function (el) {
             el.style.viewTransitionName = "";
           });
@@ -312,11 +328,19 @@ const navItems = [
         padding: var(--space-1) 0;
       }
       /* Active link: bold in the highlight colour, with aria-current. Hover
-         underlines. */
+         underlines in night. In day the highlighter stroke from global.css
+         shows only on the active link and on hover, where it grows over the
+         word. */
       .site-nav__link:hover {
         text-decoration: underline;
         text-decoration-thickness: var(--border-hairline);
         text-underline-offset: var(--underline-offset);
+      }
+      :global(:root:not([data-theme="flip"])) .site-nav__link:hover {
+        text-decoration: none;
+      }
+      :global(:root:not([data-theme="flip"])) .site-nav__link:not(:hover, .is-active) {
+        background-size: 100% 0;
       }
       .site-nav a.site-nav__link.is-active {
         font-weight: 700;
