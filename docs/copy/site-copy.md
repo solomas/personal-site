@@ -96,7 +96,7 @@ The page title is the entry title and the meta and social description is the ent
 ## Contact, /contact/
 
 - [general] "Contact" (page title and heading). Source: `src/pages/contact.astro`
-- [general] "Write to Tomás van Gorp about consulting projects or research collaborations, in Dutch or English." (meta and social description). Source: `src/pages/contact.astro`
+- [general] "Write to Tomás van Gorp about consulting projects or research collaborations." (meta and social description). Source: `src/pages/contact.astro`
 - [general] "Write to me at hello@tomasvangorp.com. I'm open to consulting projects and research collaborations." (the address is a link). Source: `src/pages/contact.astro`
 - [general] "LinkedIn" (button). Source: `src/pages/contact.astro`
 - [general] "ORCID" (button). Source: `src/pages/contact.astro`
@@ -372,13 +372,9 @@ Source: `src/components/PatternSwitch.astro`. Placed in "After the commitment" a
 - Caption for fragmented adoption: "Every sector does its part. The links between them stay as they were."
 - Caption for conversion: "The sectors change how they work together. The framework becomes part of how government works."
 
-#### The progress grid
+#### The five dimensions
 
-Source: `src/components/CaseProgress.astro` with `src/data/phd-progress.json`. Placed in "After the commitment". All items [phd].
+Source: `src/components/CaseDimensions.astro`, which takes the names from `src/data/phd-progress.json`. Placed in "After the commitment", where the progress grid sat until 2026-10-14c. All items [phd].
 
-- Heading: "Where the cases stand"
-- Legend: "Planned", "In progress" and "Coded"
-- Rows: "Wales", "Brazil" and "China"
-- Columns: "Formal rules and mandates", "Resource allocation", "Monitoring and enforcement", "Accountability mechanisms" and "Cross-sectoral integration"
-- Cell label on hover or focus, built from the data: case, dimension and status, such as "Brazil, Resource allocation: Coded"
-- Notes: "This shows how far the coding has got, not what it found." and "Updated" followed by the date in the data file, now "Updated 26 September 2026"
+- Heading: "What each case is coded on"
+- A numbered list: "Formal rules and mandates", "Resource allocation", "Monitoring and enforcement", "Accountability mechanisms" and "Cross-sectoral integration"
