@@ -24,9 +24,8 @@ The list "What each case is coded on" on /research/after-the-commitment/ comes f
 **October site review** (built 2026-10-14a, 2026-10-14b and 2026-10-14c on branch `site-review-oktober`, merged into `main` 2026-10-14 at 116f87d, done)
 Training block on /about/ from `src/data/training.ts`, with links to the certificate PDFs in `public/certificates/` since 4bc225e, menu order, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Session b (07a575f to 39a7253) took the line under the home hero away again and made it the work page intro, and removed "in Dutch or English" from the contact line. Session c (b89f11a, c562f94) replaced the progress grid on the overview with the five dimensions and took "in Dutch or English" out of the contact description too. `git revert -m 1 116f87d` undoes the merge in one step. Live since 2026-10-14.
 
-**Cleanup after the October review** (built 2026-10-14d on branch `cleanup-case-progress`, not merged)
-`CaseProgress.astro` removed, the status per case, update date and source removed from `src/data/phd-progress.json`, and the steps for the grid in this file replaced. Preview at https://cleanup-case-progress.tomasvangorp.pages.dev.
-Next action: Tomás reviews the branch, then merges with `git merge --no-ff`.
+**Cleanup after the October review** (built 2026-10-14d on branch `cleanup-case-progress`, merged into `main` 2026-10-14 at 2e8b4bf, done)
+`CaseProgress.astro` removed, the status per case, update date and source removed from `src/data/phd-progress.json`, and the steps for the grid in this file replaced. The case names stay in the file at Tomás's request. `git revert -m 1 2e8b4bf` undoes the merge in one step. Live since 2026-10-14.
 
 **Thesis header panel on /research/** (built 2026-09-26f and 2026-09-26g, merged into `main` 2026-09-26 at e3d1fda, done)
 The overview is the header panel of the research page instead of a dated row, built in cded20c. Its page strip shows no date and names the university once, through the programme, since 27e08f3, which also removed the dateLabel field again. `git revert -m 1 e3d1fda` undoes the merge in one step. Live since 2026-09-26.
