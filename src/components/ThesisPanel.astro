@@ -24,8 +24,7 @@ const rest = cut === -1 ? "" : title.slice(cut + 1).trim();
     <a href={`/research/${entry.id}/`} class="thesis glass-panel focus-item">
       <span class="thesis__label meta">The thesis</span>
       <h2 class="thesis__title">
-        <span class="thesis__lead">{lead}</span>
-        {rest && <span class="thesis__rest">{rest}</span>}
+        <span class="thesis__lead">{lead}</span>{rest && <>{" "}<span class="thesis__rest">{rest}</span></>}
       </h2>
       <span class="thesis__summary">{entry.data.summary}</span>
       <span class="thesis__action glass-button">Read the research <span class="thesis__arrow" aria-hidden="true">&#8594;</span></span>
