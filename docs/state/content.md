@@ -29,8 +29,8 @@ A new case is a new object in "cases" with the same five keys. The grid adds a r
 
 ## Open items
 
-**October site review** (built 2026-10-14a on branch `site-review-oktober`, not merged)
-Training block on /about/ from `src/data/training.ts`, menu order, a line under the home hero, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Preview at https://site-review-oktober.tomasvangorp.pages.dev.
+**October site review** (built 2026-10-14a and 2026-10-14b on branch `site-review-oktober`, not merged)
+Training block on /about/ from `src/data/training.ts`, with links to the certificate PDFs in `public/certificates/` since 4bc225e, menu order, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Session b (07a575f to 39a7253) took the line under the home hero away again and made it the work page intro, and removed "in Dutch or English" from the contact line. Preview at https://site-review-oktober.tomasvangorp.pages.dev.
 Next action: Tomás reviews `REVIEW-oktober-2026.md` and the preview, then merges with `git merge --no-ff`.
 
 **Thesis header panel on /research/** (built 2026-09-26f and 2026-09-26g, merged into `main` 2026-09-26 at e3d1fda, done)

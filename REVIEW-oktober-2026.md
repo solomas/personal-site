@@ -118,3 +118,50 @@ Meta description:
 8. Kijk op tomasvangorp.com of de About pagina het Training blok toont en het menu met Research begint.
 9. Gaat er iets mis, zoek dan de hash van de merge commit op met `git log --oneline -3` en draai alles in één keer terug met `git revert -m 1 <hash>` en daarna `git push origin main`.
 10. De branch mag blijven staan, zoals de eerdere branches. Verwijderen hoeft niet.
+
+## Sessie 2
+
+Zelfde branch, `site-review-oktober`. Niets naar `main`, niets gemerged. De opdracht met de globe en de tracker op de homepage heb ik niet uitgevoerd, omdat je die verving voordat er iets veranderd was.
+
+### Wat er veranderd is
+
+**Homepage.** `src/pages/index.astro` is weer precies de versie van `main`: de kop en de kaarten Research, Work en Projects. De regel onder de kop is weg. Commit 07a575f.
+
+**Work pagina.** `src/pages/work/index.astro`: nieuwe intro onder de kop, in dezelfde stijl als de oude. De meta description is de oude introzin gebleven. Commit 3ec2224.
+
+> I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience.
+
+**Certificaten.** Commit 4bc225e.
+
+- Gekopieerd, ongewijzigd, naar `public/certificates/`: `climate-and-health-medicine-2026.pdf`, `isglobal-2026-m2.pdf`, `isglobal-2026-m3.pdf` en `isglobal-2026-m5.pdf`.
+- Persoonsgegevens: op alle vier staat alleen je naam. Geen e-mailadres, geboortedatum of identiteitsnummer, ook niet in de tekstlaag of de metadata van de PDF's. De QR-code op de ISGlobal certificaten linkt naar de verificatiepagina van ISGlobal. Die toont je naam, de cursus, de module en de datum, verder niets. Alle vier zijn daarom gepubliceerd.
+- `src/data/training.ts`: elk item heeft een `certificate` met het pad naar de PDF, en elke ISGlobal module heeft een eigen `certificate`. Het congres blijft uitgecommentarieerd, zonder PDF.
+- About: bij Climate and Health Medicine staat "View certificate (PDF)". Bij ISGlobal is elke moduletitel zelf de link, met "(PDF)" erachter. Alle links openen in een nieuw tabblad. Schermlezers horen bijvoorbeeld "View certificate for Climate and Health Medicine: A Clinical Training Program for Healthcare Educators (PDF, opens in a new tab)".
+
+Nieuwe tekst op About, letterlijk (links tussen haken):
+
+> - Climate and Health Medicine: A Clinical Training Program for Healthcare Educators, Global Consortium on Climate and Health Education and European Network on Climate and Health Education, 2026. [View certificate (PDF)]
+> - International Spring School in Global Health, ISGlobal, Barcelona Institute for Global Health, 2026. Modules: [Understanding and assessing the impact of research in society (PDF)] · [Intersectionality and gender: advancing equity in health research (PDF)] · [Climate change, sustainable work practices, and green jobs: research methods in occupational health (PDF)]
+
+Keuze bij twijfel: bij ISGlobal staat geen aparte "View certificate" link, want er zijn drie certificaten. Elke moduletitel is zelf de link, zoals je vroeg. Drie keer "View certificate" achter elkaar zou er ook kunnen staan, maar dan zijn drie links met dezelfde tekst lastig uit elkaar te houden.
+
+**Contact.** `src/pages/contact.astro`, commit 23a0dac:
+
+> Write to me at hello@tomasvangorp.com. I'm open to consulting projects and research collaborations.
+
+**Overig.** `docs/copy/site-copy.md` bijgewerkt (39a7253). Sessieverslag `docs/sessions/2026-10-14b-site-review-2.md`, en `docs/state/content.md` bijgewerkt.
+
+### Controle
+
+- `bash scripts/check-prose.sh` schoon, `npm run build` zonder fouten.
+- 243 interne links in de build, waaronder de vier PDF links. Alle wijzen naar een bestaand bestand.
+- Home, Work, About en Contact bekeken op 1440 en 390 pixels breed, in dag en nacht. Schermafbeeldingen in `~/Documents/personal-site-screenshots/2026-10-14-site-review-2/`.
+- Branch gepusht, de preview is bijgewerkt.
+
+### Wat ik bewust niet deed
+
+- Geen globe, tracker of andere nieuwe vormgeving op de homepage.
+- De meta description van de contactpagina niet aangepast. Daar staat nog "in Dutch or English". Je vroeg alleen de zin op de pagina te wijzigen. Wil je hem gelijk trekken, dan staat hij bovenaan `src/pages/contact.astro`.
+- De meta description van de Work pagina niet aangepast, zoals gevraagd.
+- De PDF's niet bewerkt of verkleind. Ze staan er zoals ze uit Drive kwamen, samen ongeveer 2,3 MB.
+- Geen bestanden verwijderd. De bestanden in Drive staan er nog.
