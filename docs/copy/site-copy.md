@@ -11,9 +11,9 @@ Text built from data rather than written as copy, such as dates and date ranges,
 ### Top bar
 - [general] "Tomás van Gorp" (name, links home). Source: `src/components/Layout.astro`
 - [general] "Menu" (menu button). Source: `src/components/Layout.astro`
-- [general] "Projects" (menu link). Source: `src/components/Layout.astro`
-- [general] "Work" (menu link). Source: `src/components/Layout.astro`
 - [general] "Research" (menu link). Source: `src/components/Layout.astro`
+- [general] "Work" (menu link). Source: `src/components/Layout.astro`
+- [general] "Projects" (menu link). Source: `src/components/Layout.astro`
 - [general] "About" (menu link). Source: `src/components/Layout.astro`
 - [general] "Contact" (menu link). Source: `src/components/Layout.astro`
 - [general] "Switch to dark theme" (theme button label for screen readers, day theme). Source: `src/components/ThemeToggle.astro`
@@ -22,7 +22,7 @@ Text built from data rather than written as copy, such as dates and date ranges,
 - [general] "Main menu" (screen reader name of the menu). Source: `src/components/Layout.astro`
 
 ### Meta description and social preview
-- [general] "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work." (default meta and social description, used on the home, contact and 404 pages). Source: `src/components/Layout.astro`
+- [general] "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work." (default meta and social description, used on the home and 404 pages). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (og:site_name). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." (og:image:alt). Source: `src/components/Layout.astro`
 - [general] "Tomás van Gorp" (text in the social preview image public/og.jpg). Source: `scripts/og-image/og.html`
@@ -34,6 +34,7 @@ Page titles, meta descriptions and social titles per page are listed under each 
 
 - [general] "Tomás van Gorp" (page title). Source: `src/pages/index.astro`
 - [general] "I research what happens after a plan is signed, and help organisations make it work." (hero sentence). Source: `src/pages/index.astro`
+- [general] "I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience." (line under the hero). Source: `src/pages/index.astro`
 - [general] "Three streams of work" (screen reader name of the three sheets). Source: `src/components/HomeSheets.astro`
 - [phd] "Research" (sheet title). Source: `src/components/HomeSheets.astro`
 - [phd] "My PhD on how governments turn planetary health plans into practice." (sheet line). Source: `src/components/HomeSheets.astro`
@@ -65,8 +66,7 @@ Each row shows an entry's date range, title and summary. Date ranges read like "
 - [phd] "The thesis" (small label at the top of the thesis header panel). Source: `src/components/ThesisPanel.astro`
 - [phd] "After the commitment:" (large) and "Brokerage, fragmentation and the politics of turning planetary health frameworks into operational governance" (smaller, below it), the title of the overview entry split at the colon, then its summary (thesis header panel). Source: `src/components/ThesisPanel.astro`
 - [phd] "Read the research" (thesis header panel action, followed by an arrow). Source: `src/components/ThesisPanel.astro`
-- [phd] "The research proposal" (deck panel title, taken from the research proposal entry). Source: `src/components/DeckPanel.astro`
-- [phd] "Open the defence slides" (deck panel link label, taken from the research proposal entry, followed by an arrow). Source: `src/components/DeckPanel.astro`
+- The deck panel is no longer on this page since 2026-10-14. The defence slides are linked from the research proposal page. `src/components/DeckPanel.astro` is unused.
 
 ## Detail pages, /projects/, /work/ and /research/ entries
 
@@ -88,13 +88,16 @@ The page title is the entry title and the meta and social description is the ent
 - [general] "My doctoral research at the University of Lisbon looks at planetary health frameworks after governments adopt them, and at why so many stall before they change how anything works. I compare cases in Wales, Brazil and China. I'm also part of a European COST Action on nature-based solutions and health, and of Open Research Amsterdam's urban ecology workspace.". Source: `src/pages/about.astro`
 - [general] "Alongside the research I work with organisations as an independent consultant. I support boards with governance, planning and reporting. I design and run programmes, from the First European Planetary Health Congress to a nine-day festival for over 30,000 visitors. And I do applied research and evaluation, often by bringing together people who rarely sit at the same table: scientists, policymakers, artists and the public. Right now I'm open to both consulting projects and research collaborations.". Source: `src/pages/about.astro`
 - [general] "I studied arts and economics at HKU University of the Arts Utrecht, and later arts, culture and society at Erasmus University Rotterdam. I live in Portugal and work in Dutch and English, and my Portuguese is getting better.". Source: `src/pages/about.astro`
+- [general] "Training" (heading). Source: `src/pages/about.astro`
+- [general] "Short courses I have taken alongside the PhD." (intro of the Training block). Source: `src/pages/about.astro`
+- [general] One line per course: title, organisation and year, then the modules if any, separated by middle dots. Built from `src/data/training.ts`, titles as printed on the certificates.
 - [general] "Contact" (closing link). Source: `src/pages/about.astro`
 
 ## Contact, /contact/
 
 - [general] "Contact" (page title and heading). Source: `src/pages/contact.astro`
-- [general] "Write to me at hello@tomasvangorp.com." (the address is a link). Source: `src/pages/contact.astro`
-- [general] "Email" (button). Source: `src/pages/contact.astro`
+- [general] "Write to Tomás van Gorp about consulting projects or research collaborations, in Dutch or English." (meta and social description). Source: `src/pages/contact.astro`
+- [general] "Write to me at hello@tomasvangorp.com. I'm open to consulting projects and research collaborations, in Dutch or English." (the address is a link). Source: `src/pages/contact.astro`
 - [general] "LinkedIn" (button). Source: `src/pages/contact.astro`
 - [general] "ORCID" (button). Source: `src/pages/contact.astro`
 
@@ -177,7 +180,7 @@ Source: `src/content/work/earlier-research-roles.md`. All items [general].
 Source: `src/content/work/ett.md`. All items [general].
 
 - Title: "Expertisecentrum Transculturele Therapie"
-- Summary: "Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
+- Summary: "An assignment through my own practice, TOMICA. Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
 - Organisation in the strip: "Expertisecentrum Transculturele Therapie"
 - Tags: "healthcare, governance"
 - Body:
