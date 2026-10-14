@@ -1,0 +1,54 @@
+---
+// What each case is coded on: the five dimensions of the method, as a
+// numbered list. The names come from src/data/phd-progress.json, so the
+// method has one source. The status per case in that file is not shown.
+// The numbers match the text around it, which speaks of the first four
+// dimensions and the fifth. Static, with no script.
+import progress from "../data/phd-progress.json";
+---
+<section class="dimensions" aria-labelledby="dimensions-title">
+  <h2 id="dimensions-title" class="dimensions__title">What each case is coded on</h2>
+  <ol class="dimensions__list">
+    {progress.dimensions.map(d => <li>{d.label}</li>)}
+  </ol>
+</section>
+
+<style>
+  .dimensions {
+    margin: var(--space-8) 0;
+    padding: var(--space-6) 0;
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    border-bottom: var(--border-hairline) solid var(--color-hairline);
+  }
+  .dimensions .dimensions__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-snug);
+    margin: 0 0 var(--space-3);
+  }
+  /* One row per dimension with a hairline between rows, as the rows of the
+     table this replaces. The number sits in its own column. */
+  .dimensions .dimensions__list {
+    list-style: none;
+    counter-reset: dimension;
+    padding: 0;
+    margin: 0;
+    font-size: var(--text-base);
+  }
+  .dimensions__list li {
+    counter-increment: dimension;
+    display: grid;
+    grid-template-columns: var(--space-8) 1fr;
+    padding: var(--space-2) 0;
+    border-top: var(--border-hairline) solid var(--color-hairline);
+    line-height: var(--leading-snug);
+  }
+  .dimensions__list li:first-child {
+    border-top: 0;
+  }
+  .dimensions__list li::before {
+    content: counter(dimension);
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

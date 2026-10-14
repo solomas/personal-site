@@ -1,5 +1,6 @@
 ---
 import ReadingLayout from "../components/ReadingLayout.astro";
+import { training } from "../data/training";
 ---
 <ReadingLayout title="About" description="Tomás van Gorp on his research, his work with organisations and what he is open to.">
   <h1 slot="strip" class="about__title">About</h1>
@@ -10,6 +11,13 @@ import ReadingLayout from "../components/ReadingLayout.astro";
     <p>My doctoral research at the University of Lisbon looks at planetary health frameworks after governments adopt them, and at why so many stall before they change how anything works. I compare cases in Wales, Brazil and China. I'm also part of a European COST Action on nature-based solutions and health, and of Open Research Amsterdam's urban ecology workspace.</p>
     <p>Alongside the research I work with organisations as an independent consultant. I support boards with governance, planning and reporting. I design and run programmes, from the First European Planetary Health Congress to a nine-day festival for over 30,000 visitors. And I do applied research and evaluation, often by bringing together people who rarely sit at the same table: scientists, policymakers, artists and the public. Right now I'm open to both consulting projects and research collaborations.</p>
     <p>I studied arts and economics at HKU University of the Arts Utrecht, and later arts, culture and society at Erasmus University Rotterdam. I live in Portugal and work in Dutch and English, and my Portuguese is getting better.</p>
+    <h2>Training</h2>
+    <p>Short courses I have taken alongside the PhD.</p>
+    <ul>
+      {training.map(item => (
+        <li>{item.title}, {item.organisation}, {item.year}.{item.certificate && <> <a href={item.certificate} target="_blank" rel="noopener" aria-label={`View certificate for ${item.title} (PDF, opens in a new tab)`}>View certificate (PDF)</a></>}{item.modules && item.modules.length > 0 && <> Modules: {item.modules.map((module, i) => <>{i > 0 && "\u00a0· "}{module.certificate ? <a href={module.certificate} target="_blank" rel="noopener" aria-label={`${module.title}, certificate (PDF, opens in a new tab)`}>{module.title} (PDF)</a> : module.title}</>)}</>}</li>
+      ))}
+    </ul>
   </div>
 
   <p class="about__contact"><a href="/contact/">Contact</a></p>

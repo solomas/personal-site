@@ -2,11 +2,11 @@
 import Layout from "../../components/Layout.astro";
 import StreamHeader from "../../components/StreamHeader.astro";
 import EntryList from "../../components/EntryList.astro";
-import DeckPanel from "../../components/DeckPanel.astro";
 import ThesisPanel from "../../components/ThesisPanel.astro";
 import { getCollection } from "astro:content";
 // The featured entry, the thesis overview, is the header panel above the
-// deck panel. The dated list holds its parts, newest first.
+// dated list of its parts, newest first. The proposal defence slides are
+// linked from the research proposal page, not from here.
 const entries = await getCollection("research", ({ data }) => data.status !== "archived" && !data.featured);
 entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const items = entries.map(entry => ({
@@ -23,6 +23,5 @@ const lede = "My PhD and the pieces it is built from: the proposal, a literature
     lede={lede}
   />
   <ThesisPanel />
-  <DeckPanel />
   <EntryList items={items} />
 </Layout>

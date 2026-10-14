@@ -24,7 +24,7 @@ Three cases will carry the comparison. In Wales, the Well-being of Future Genera
 
 Each case will be traced as a sequence of brokerage episodes, moments where an identifiable broker tries to move a framework into an institution with the authority to act on it. Each episode is coded on five dimensions: formal rules and mandates, resource allocation, monitoring and enforcement, accountability mechanisms and cross-sectoral integration.
 
-<!-- embed:case-progress -->
+<!-- embed:case-dimensions -->
 
 The first four dimensions are scored as substantive change, procedural adoption or symbolic adoption. Roughly, that means real change, a change in procedure only or a change on paper only. The fifth, cross-sectoral integration, shows whether the sectors actually work together, and it is the one that tells fragmented adoption apart from real conversion. Fragmented adoption is a finding about a whole case, never a score on one dimension.
 
