@@ -4,7 +4,10 @@ import HomeSheets from "../components/HomeSheets.astro";
 ---
 <Layout title="Tomás van Gorp">
   <section class="home">
-    <h1 class="home__hero focus-context">I research what happens after a plan is signed, and help organisations make it work.</h1>
+    <div>
+      <h1 class="home__hero focus-context">I research what happens after a plan is signed, and help organisations make it work.</h1>
+      <p class="home__proof focus-context">I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience.</p>
+    </div>
     <HomeSheets />
   </section>
 </Layout>
@@ -27,11 +30,21 @@ import HomeSheets from "../components/HomeSheets.astro";
     letter-spacing: var(--tracking-title);
     line-height: 1.12;
   }
+  /* The line under the hero, set as the intro on the stream pages. */
+  .home__proof {
+    max-width: 50ch;
+    margin-top: var(--space-4);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
 
   @media (max-width: 720px) {
     .home {
       padding-top: var(--space-12);
       gap: var(--space-8);
+    }
+    .home__proof {
+      font-size: var(--text-lg);
     }
   }
 </style>
