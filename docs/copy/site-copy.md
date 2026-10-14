@@ -276,7 +276,7 @@ Source: `src/content/research/after-the-commitment.md`. All items [phd].
 - Tags: "planetary-health, governance, institutional-change, process-tracing, implementation"
 - Body:
 
-  Components placed in the body: the pattern switch after the paragraph that begins "In plain words", and the progress grid after the paragraph that begins "Each case will be traced". Their text is listed under "Components in research entries" below.
+  Components placed in the body: the pattern switch after the paragraph that begins "In plain words", and the list of the five dimensions after the paragraph that begins "Each case will be traced". Their text is listed under "Components in research entries" below.
 
   > Signing is the easy part. A government adopts a framework that asks its departments to work together on health and the environment, and then the real work begins: turning it into mandates, budgets, staff and accountability. Most of the interesting failure happens after the commitment, not before it.
 
