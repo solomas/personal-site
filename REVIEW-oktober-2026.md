@@ -165,3 +165,39 @@ Keuze bij twijfel: bij ISGlobal staat geen aparte "View certificate" link, want 
 - De meta description van de Work pagina niet aangepast, zoals gevraagd.
 - De PDF's niet bewerkt of verkleind. Ze staan er zoals ze uit Drive kwamen, samen ongeveer 2,3 MB.
 - Geen bestanden verwijderd. De bestanden in Drive staan er nog.
+
+## Sessie 3
+
+Zelfde branch, `site-review-oktober`. Niets naar `main`, niets gemerged.
+
+### Wat er veranderd is
+
+**Proefschriftpagina.** Op /research/after-the-commitment/ is de tabel "Where the cases stand" vervangen door een genummerde lijst van de vijf dimensies. Commit b89f11a.
+
+> What each case is coded on
+> 1 Formal rules and mandates
+> 2 Resource allocation
+> 3 Monitoring and enforcement
+> 4 Accountability mechanisms
+> 5 Cross-sectoral integration
+
+- Geen status per case, geen legenda Planned, In progress en Coded, en geen regel "Updated". De zin "This shows how far the coding has got, not what it found." is weg.
+- De alinea's erboven en eronder zijn ongewijzigd. De nummers sluiten aan op de alinea eronder, die over "the first four dimensions" en "the fifth" spreekt.
+- Vormgeving: hetzelfde kader als de tabel, met dunne lijnen boven en onder en dezelfde kopstijl. Elke dimensie staat op een eigen rij met een dunne lijn ertussen, het nummer in de gedempte kleur. Geen nieuwe kleuren of lettertypes.
+- De namen komen uit `src/data/phd-progress.json`, het nieuwe onderdeel staat in `src/components/CaseDimensions.astro`. `CaseProgress.astro` blijft ongebruikt staan en de status per case blijft in het databestand. Zo is er niets verwijderd en kan de tabel terug als je dat wilt.
+
+**Contact.** De meta description is nu "Write to Tomás van Gorp about consulting projects or research collaborations." Commit c562f94.
+
+**Overig.** `docs/copy/site-copy.md` bijgewerkt (bbfc6e5). Sessieverslag `docs/sessions/2026-10-14c-site-review-3.md`, en `docs/state/content.md` bijgewerkt.
+
+### Controle
+
+- `bash scripts/check-prose.sh` schoon, `npm run build` zonder fouten.
+- 30 verschillende interne linkdoelen in de build, geen enkele kapot.
+- De proefschriftpagina bekeken op 1440 en 390 pixels breed, in dag en nacht. Schermafbeeldingen in `~/Documents/personal-site-screenshots/2026-10-14-site-review-3/`.
+- Branch gepusht, de preview is bijgewerkt.
+
+### Keuzes bij twijfel
+
+- Ik heb een nieuw onderdeel gemaakt in plaats van de tabel te herschrijven. De oude blijft zo ongebruikt in de repo staan, net als `DeckPanel.astro`.
+- In `docs/state/content.md` staan nog de stappen om de tabel bij te werken. Die gelden voor `main` zolang de branch niet gemerged is. Ik heb er een alinea bij gezet die dat uitlegt. Na de merge kunnen die stappen weg.

@@ -19,6 +19,8 @@ On branch `redesign` the work detail page also renders tags and links when prese
 
 The grid "Where the cases stand" on /research/after-the-commitment/ reads `src/data/phd-progress.json`. Nothing else feeds it, so the site only changes when this file changes.
 
+On branch `site-review-oktober` (b89f11a, 2026-10-14c) the grid gives way to a numbered list of the five dimensions, "What each case is coded on", in `src/components/CaseDimensions.astro`. It reads only the dimension names from the same file. The status per case stays in the file but no longer shows, and `CaseProgress.astro` stays unused. Once that branch is merged, the steps below change nothing on the site. Until then they hold for `main`.
+
 1. Open the records in the conversion-tracker repo (`records/<case>/record.yaml`), one per case.
 2. For each case and dimension set the status: "coded" when the record holds evidence and a code for that dimension, "in-progress" when it holds some of it, such as evidence without a code or one channel coded and another open, and "planned" when it holds nothing. D5 in the record is `d5_classifier` and maps to "cross_sectoral_integration". A case with no record is "planned" on every dimension.
 3. Never copy a code, confidence, score or outcome into the file. The grid shows how far the coding has got, never what it found, as `docs/outputs_roadmap.md` in the phd repo requires until cross-case validation.
@@ -29,8 +31,8 @@ A new case is a new object in "cases" with the same five keys. The grid adds a r
 
 ## Open items
 
-**October site review** (built 2026-10-14a and 2026-10-14b on branch `site-review-oktober`, not merged)
-Training block on /about/ from `src/data/training.ts`, with links to the certificate PDFs in `public/certificates/` since 4bc225e, menu order, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Session b (07a575f to 39a7253) took the line under the home hero away again and made it the work page intro, and removed "in Dutch or English" from the contact line. Preview at https://site-review-oktober.tomasvangorp.pages.dev.
+**October site review** (built 2026-10-14a, 2026-10-14b and 2026-10-14c on branch `site-review-oktober`, not merged)
+Training block on /about/ from `src/data/training.ts`, with links to the certificate PDFs in `public/certificates/` since 4bc225e, menu order, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Session b (07a575f to 39a7253) took the line under the home hero away again and made it the work page intro, and removed "in Dutch or English" from the contact line. Session c (b89f11a, c562f94) replaced the progress grid on the overview with the five dimensions and took "in Dutch or English" out of the contact description too. Preview at https://site-review-oktober.tomasvangorp.pages.dev.
 Next action: Tomás reviews `REVIEW-oktober-2026.md` and the preview, then merges with `git merge --no-ff`.
 
 **Thesis header panel on /research/** (built 2026-09-26f and 2026-09-26g, merged into `main` 2026-09-26 at e3d1fda, done)
