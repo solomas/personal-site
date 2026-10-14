@@ -34,7 +34,6 @@ Page titles, meta descriptions and social titles per page are listed under each 
 
 - [general] "Tomás van Gorp" (page title). Source: `src/pages/index.astro`
 - [general] "I research what happens after a plan is signed, and help organisations make it work." (hero sentence). Source: `src/pages/index.astro`
-- [general] "I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience." (line under the hero). Source: `src/pages/index.astro`
 - [general] "Three streams of work" (screen reader name of the three sheets). Source: `src/components/HomeSheets.astro`
 - [phd] "Research" (sheet title). Source: `src/components/HomeSheets.astro`
 - [phd] "My PhD on how governments turn planetary health plans into practice." (sheet line). Source: `src/components/HomeSheets.astro`
@@ -53,7 +52,8 @@ Each row shows an entry's date (month and year), title and summary, listed under
 ## Work index, /work/
 
 - [general] "Work" (page title and heading). Source: `src/pages/work/index.astro`
-- [general] "Selected roles and assignments, from a zoo's planetary health programme to board work in mental health care." (intro, also the meta and social description). Source: `src/pages/work/index.astro`
+- [general] "I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience." (intro). Source: `src/pages/work/index.astro`
+- [general] "Selected roles and assignments, from a zoo's planetary health programme to board work in mental health care." (meta and social description). Source: `src/pages/work/index.astro`
 - [general] "Other work" (label of the fold out group). Source: `src/pages/work/index.astro`
 - [general] "Earlier roles, for the record." (caption of the fold out group). Source: `src/pages/work/index.astro`
 
@@ -90,14 +90,14 @@ The page title is the entry title and the meta and social description is the ent
 - [general] "I studied arts and economics at HKU University of the Arts Utrecht, and later arts, culture and society at Erasmus University Rotterdam. I live in Portugal and work in Dutch and English, and my Portuguese is getting better.". Source: `src/pages/about.astro`
 - [general] "Training" (heading). Source: `src/pages/about.astro`
 - [general] "Short courses I have taken alongside the PhD." (intro of the Training block). Source: `src/pages/about.astro`
-- [general] One line per course: title, organisation and year, then the modules if any, separated by middle dots. Built from `src/data/training.ts`, titles as printed on the certificates.
+- [general] One line per course: title, organisation and year, then "View certificate (PDF)", or for a course in modules the module titles separated by middle dots, each a link ending in "(PDF)". The links open the PDFs in `public/certificates/` in a new tab. Screen readers hear "View certificate for <title> (PDF, opens in a new tab)" or "<module title>, certificate (PDF, opens in a new tab)". Built from `src/data/training.ts`, titles as printed on the certificates.
 - [general] "Contact" (closing link). Source: `src/pages/about.astro`
 
 ## Contact, /contact/
 
 - [general] "Contact" (page title and heading). Source: `src/pages/contact.astro`
 - [general] "Write to Tomás van Gorp about consulting projects or research collaborations, in Dutch or English." (meta and social description). Source: `src/pages/contact.astro`
-- [general] "Write to me at hello@tomasvangorp.com. I'm open to consulting projects and research collaborations, in Dutch or English." (the address is a link). Source: `src/pages/contact.astro`
+- [general] "Write to me at hello@tomasvangorp.com. I'm open to consulting projects and research collaborations." (the address is a link). Source: `src/pages/contact.astro`
 - [general] "LinkedIn" (button). Source: `src/pages/contact.astro`
 - [general] "ORCID" (button). Source: `src/pages/contact.astro`
 
