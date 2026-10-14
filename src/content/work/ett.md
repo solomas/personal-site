@@ -1,6 +1,6 @@
 ---
 title: Expertisecentrum Transculturele Therapie
-summary: "Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
+summary: "An assignment through my own practice, TOMICA. Supporting the executive board of a specialist mental health centre that works across cultures, on strategy and operations."
 organisation: Expertisecentrum Transculturele Therapie
 role: Board Support Officer
 date: 2025-06-01
