@@ -1,6 +1,6 @@
 # Content state
 
-Last updated: 2026-09-26
+Last updated: 2026-10-14
 
 ## Status
 
@@ -28,6 +28,10 @@ The grid "Where the cases stand" on /research/after-the-commitment/ reads `src/d
 A new case is a new object in "cases" with the same five keys. The grid adds a row by itself.
 
 ## Open items
+
+**October site review** (built 2026-10-14a on branch `site-review-oktober`, not merged)
+Training block on /about/ from `src/data/training.ts`, menu order, a line under the home hero, the deck panel off /research/ (`DeckPanel.astro` unused), the thesis panel space, the ETT summary, the contact page and `lang` on the deck. Built in 10ab6d4 to abe4f7a. Preview at https://site-review-oktober.tomasvangorp.pages.dev.
+Next action: Tomás reviews `REVIEW-oktober-2026.md` and the preview, then merges with `git merge --no-ff`.
 
 **Thesis header panel on /research/** (built 2026-09-26f and 2026-09-26g, merged into `main` 2026-09-26 at e3d1fda, done)
 The overview is the header panel of the research page instead of a dated row, built in cded20c. Its page strip shows no date and names the university once, through the programme, since 27e08f3, which also removed the dateLabel field again. `git revert -m 1 e3d1fda` undoes the merge in one step. Live since 2026-09-26.

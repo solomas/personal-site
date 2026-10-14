@@ -28,3 +28,4 @@ Next action: revisit when entry count exceeds roughly 15 across all streams.
 **Education and publications placement**
 Academic credentials (degrees, publications) are not represented on the site. Decision pending: new `education` collection, fold into the research stream using a `type` field, or list on a static about page.
 Next action: decide placement before creating any files. This decision affects the schema and the nav.
+Partly settled 2026-10-14a on branch `site-review-oktober`: courses are a Training block on /about/, read from `src/data/training.ts`, with no page, PDF or badge of their own. Degrees stay in the about text. Publications are still open.
