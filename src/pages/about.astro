@@ -15,7 +15,7 @@ import { training } from "../data/training";
     <p>Short courses I have taken alongside the PhD.</p>
     <ul>
       {training.map(item => (
-        <li>{item.title}, {item.organisation}, {item.year}{item.modules && item.modules.length > 0 && <>. Modules: {item.modules.join("\u00a0· ")}</>}</li>
+        <li>{item.title}, {item.organisation}, {item.year}.{item.certificate && <> <a href={item.certificate} target="_blank" rel="noopener" aria-label={`View certificate for ${item.title} (PDF, opens in a new tab)`}>View certificate (PDF)</a></>}{item.modules && item.modules.length > 0 && <> Modules: {item.modules.map((module, i) => <>{i > 0 && "\u00a0· "}{module.certificate ? <a href={module.certificate} target="_blank" rel="noopener" aria-label={`${module.title}, certificate (PDF, opens in a new tab)`}>{module.title} (PDF)</a> : module.title}</>)}</>}</li>
       ))}
     </ul>
   </div>
