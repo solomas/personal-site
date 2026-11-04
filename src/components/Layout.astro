@@ -13,9 +13,17 @@ interface Props {
   /* Keep the page out of search results and leave out the canonical link,
      used on the 404 page. */
   noindex?: boolean;
+  /* Structured data for search engines, written into the head as JSON-LD.
+     Used on the homepage only. */
+  jsonLd?: object;
 }
 
-const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false, jsonLd } = Astro.props;
+// Every page title ends in the name, so search results show who the page
+// belongs to. A title that already starts with the name, such as the
+// homepage, stays as it is.
+const siteName = "Tomás van Gorp";
+const fullTitle = title.startsWith(siteName) ? title : `${title} | ${siteName}`;
 const pathname = Astro.url.pathname;
 // Absolute URLs from the site address in astro.config.mjs.
 const canonical = new URL(pathname, Astro.site).href;
@@ -35,11 +43,11 @@ const navItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tomás van Gorp" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
@@ -47,9 +55,10 @@ const navItems = [
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Tomás van Gorp. I research what happens after a plan is signed, and help organisations make it work." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
       // Theme before first paint, so there is no flash. A stored "flip" means
       // night and a stored "mist" means mist. With no stored choice the first

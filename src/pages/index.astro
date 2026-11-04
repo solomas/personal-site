@@ -1,8 +1,37 @@
 ---
 import Layout from "../components/Layout.astro";
 import HomeSheets from "../components/HomeSheets.astro";
+
+// Structured data for search engines: the site and the person it belongs to.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Tomás van Gorp",
+      url: "https://tomasvangorp.com/",
+    },
+    {
+      "@type": "Person",
+      name: "Tomás van Gorp",
+      alternateName: ["Tomas van Gorp"],
+      url: "https://tomasvangorp.com/",
+      jobTitle: "PhD researcher in Planetary Health",
+      affiliation: { "@type": "CollegeOrUniversity", name: "Universidade de Lisboa" },
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "HKU University of the Arts Utrecht" },
+        { "@type": "CollegeOrUniversity", name: "Erasmus University Rotterdam" },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/in/tomasvangorp",
+        "https://orcid.org/0009-0007-1067-039X",
+        "https://scholar.google.com/citations?user=CBPBnw0AAAAJ",
+      ],
+    },
+  ],
+};
 ---
-<Layout title="Tomás van Gorp">
+<Layout title="Tomás van Gorp | Planetary health researcher, Lisbon" jsonLd={jsonLd}>
   <section class="home">
     <h1 class="home__hero focus-context">I research what happens after a plan is signed, and help organisations make it work.</h1>
     <HomeSheets />
