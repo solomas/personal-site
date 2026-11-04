@@ -1,6 +1,6 @@
 # Polish state
 
-Last updated: 2026-09-26 (phase 8 merged: yellow favicon, og.jpg)
+Last updated: 2026-11-04 (seo-naam merged: name in titles, JSON-LD, noindex on pages.dev)
 
 ## Status
 
@@ -28,6 +28,10 @@ Done. `src/pages/404.astro` builds `dist/404.html`, which Cloudflare Pages serve
 
 **Favicon and Open Graph image** (built on branch `redesign`, 2026-09-25e and 2026-09-25f)
 The favicon is a blue or yellow circle. `public/og.png` and Open Graph and Twitter tags on every page, with canonical links, sitemap.xml and robots.txt. Done, live on tomasvangorp.com since the merge at 690a8ee, checked 2026-09-25: og.png and sitemap.xml return 200. Since the merge at 7f1b5c3 (2026-09-26) the favicon is a yellow circle, rimmed in black on light browser themes, and the social image is `public/og.jpg`, 196,624 bytes, in the paper and ink look. og.png is gone. Checked live 2026-09-26: og.jpg returns 200, and an uncached request for og.png returns 404, while the Cloudflare cache still served the old og.png for up to four hours.
+
+**Search titles, structured data and pages.dev noindex** (2026-11-04a, merged at 4d5c40b)
+Done. Every page title ends in "| Tomás van Gorp", the homepage title is "Tomás van Gorp | Planetary health researcher, Lisbon" and the homepage carries JSON-LD for the site and the person. `public/_headers` sends `X-Robots-Tag: noindex` on every pages.dev address, so only tomasvangorp.com gets indexed. Checked live 2026-11-04: tomasvangorp.com has no X-Robots-Tag, tomasvangorp.pages.dev has noindex.
+Next action: in Google Search Console, submit sitemap.xml and request indexing of the homepage.
 
 **Triptych browser smoketest** (obsolete: the redesign replaced the triptych with HomeSheets.astro, merged at 690a8ee)
 The triptych door turn, hover lift, carousel and SVG paint cost have not been confirmed in a browser, across both themes or on a phone. The 2026-06-15a session flagged this, and the 2026-06-15b audit repeated it. This is the highest visual-risk gap before a wider share.
