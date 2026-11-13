@@ -7,6 +7,7 @@ Where this section conflicts with a rule further down, the rule further down app
 - In Cowork, Claude reads the repo itself.
 - Claude changes text in the content files (.md or .mdx under `src/content/`) only after Tomás approves the text. It reads the file again, makes a targeted change and checks the result.
 - Build, git and deploy stay with Code or Tomás.
+- State docs in `docs/state/` and session docs in `docs/sessions/` stay with Code.
 - Without a linked folder the Code route applies.
 
 ## Session start, read before any edit
