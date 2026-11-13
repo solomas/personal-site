@@ -1,5 +1,14 @@
 # Project conventions for personal-site
 
+## Working in Cowork (since 13 November 2026)
+
+Where this section conflicts with a rule further down, the rule further down applies until Tomás decides.
+
+- In Cowork, Claude reads the repo itself.
+- Claude changes text in the content files (.md or .mdx under `src/content/`) only after Tomás approves the text. It reads the file again, makes a targeted change and checks the result.
+- Build, git and deploy stay with Code or Tomás.
+- Without a linked folder the Code route applies.
+
 ## Session start, read before any edit
 
 At the start of every session, before producing any output, edits or commits, read the full contents of CLAUDE.md and STATE.md. This rule is absolute. No exceptions. If either file is missing, stop and report rather than proceeding without context.
