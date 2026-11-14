@@ -68,9 +68,10 @@ const sheets = [
     color: var(--color-muted);
   }
 
-  /* First visit only: the bands slide in from the right, one after the
-     other. The markup ships in the rest position, so no JS, return visits
-     and reduced motion all show the bands at rest. */
+  /* First visit only: the bands rise into place, one after the other. They
+     move up, not in from the side, so a phone never gets a sideways scroll
+     while they arrive. The markup ships in the rest position, so no JS,
+     return visits and reduced motion all show the bands at rest. */
   .stack[data-reveal] .home-band {
     animation: band-settle 700ms var(--ease-out) backwards;
     animation-delay: calc(var(--i) * 110ms);
@@ -78,7 +79,7 @@ const sheets = [
   @keyframes band-settle {
     from {
       opacity: 0;
-      transform: translateX(var(--space-8));
+      transform: translateY(var(--space-4));
     }
     to {
       opacity: 1;

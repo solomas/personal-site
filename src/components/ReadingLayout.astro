@@ -12,11 +12,15 @@ interface Props {
   title: string;
   /* Page summary for the description and social preview tags. */
   description?: string;
+  /* Language of the page and its versions in other languages, passed on
+     to Layout. */
+  lang?: string;
+  alternates?: { lang: string; href: string }[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, lang, alternates } = Astro.props;
 ---
-<Layout title={title} description={description} slowShapes>
+<Layout title={title} description={description} lang={lang} alternates={alternates} slowShapes>
   <div class="reading">
     <slot name="before" />
     <div class="reading__column">

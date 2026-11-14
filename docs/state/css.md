@@ -26,9 +26,13 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
+**Dutch scan page and the WebKit check** (built 2026-11-14e, branch `scan-nl`, awaiting Tomás's approval of the Dutch text)
+A Dutch version of the Governance Scan page at `/nl/governance-scan/`, linked both ways with the English page and marked with `lang="nl"` and hreflang links. Layout and ReadingLayout take a `lang` and an `alternates` prop for this. A check in WebKit, the engine of Safari, at 1280px and with iPhone 15 emulation found two faults, both fixed: the home bands slid in from the side on a first visit and gave phones a sideways scroll, and a tap left a band button ink because its hover state stuck. The sticky intro, the bites, hover and the menu work in WebKit. Merge to `main` only after Tomás approves the Dutch text.
+Open: a check on a real iPhone, which emulation cannot replace.
+
 **Site pass 2** (built 2026-11-14c, merged into `main` 2026-11-14 at 8fa59e0, live)
 The bands are a flat full colour, the ink grain is gone from them. The notch is a real bite, open to the paper and the shapes behind it. Work, Research and Projects use the new `StreamLayout`: title and intro on the left, sticky on wide screens, the bands on the right, one column below 960px. Entry rows stack date, title and summary. A new page `/work/governance-scan/` describes the Governance Scan without a price, and an `OfferBand` at the top of the work page links to it. `DeckPanel.astro` is removed. Tomás approved the preview and the scan text. `git revert -m 1 8fa59e0` undoes the merge in one step. The branch `site-pass-2` is kept.
-Open: a Dutch version of the scan page for Dutch boards. Check the sticky intro and the notch on a real phone and in Safari.
+Open: the Dutch scan page and the Safari check moved to 2026-11-14e.
 
 **Bands replace the glass** (built 2026-11-14a in 06cf5e3, merged into `main` 2026-11-14 at d9b4dab, live)
 Solid colour bands replace every glass element, following the I3 sketch Tomás chose on 2026-11-14: yellow in day, blue in night, with the ink grain and square corners. The home page puts the hero on the left and the three streams as notched bands on the right. Entry rows, the thesis panel, the contact panel and the reading strip are bands. The nav sits bare on the background, Menu and the theme button are solid blocks. The class names `.glass`, `.glass-panel` and `.glass-button` stayed and now draw bands. The notch lives in `global.css` as `.notched`. Tomás approved the preview at https://bands.tomasvangorp.pages.dev. `git revert -m 1 d9b4dab` undoes the merge in one step. The branch `bands` is kept.

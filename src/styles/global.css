@@ -171,10 +171,14 @@ button, input, textarea, select {
   background: var(--color-ground);
   color: var(--color-ink);
 }
-.glass-button:hover,
-:is(.glass, .glass-panel) .glass-button:hover {
-  background: var(--color-ink);
-  color: var(--color-ground);
+/* Hover only on devices that can hover. On a phone a tap would otherwise
+   leave the button ink until the next tap elsewhere. */
+@media (hover: hover) {
+  .glass-button:hover,
+  :is(.glass, .glass-panel) .glass-button:hover {
+    background: var(--color-ink);
+    color: var(--color-ground);
+  }
 }
 
 /* The notch: a half circle bitten out of the right end of a band, open to
