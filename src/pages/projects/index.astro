@@ -1,6 +1,6 @@
 ---
 import Layout from "../../components/Layout.astro";
-import StreamHeader from "../../components/StreamHeader.astro";
+import StreamLayout from "../../components/StreamLayout.astro";
 import EntryList from "../../components/EntryList.astro";
 import { getCollection } from "astro:content";
 const entries = await getCollection("projects", ({ data }) => data.status !== "archived");
@@ -14,9 +14,7 @@ const items = entries.map(entry => ({
 const lede = "Tools and experiments I build in my own time, out of curiosity.";
 ---
 <Layout title="Projects" description={lede}>
-  <StreamHeader
-    title="Projects"
-    lede={lede}
-  />
-  <EntryList items={items} />
+  <StreamLayout title="Projects" lede={lede}>
+    <EntryList items={items} />
+  </StreamLayout>
 </Layout>

@@ -1,0 +1,54 @@
+---
+// The frame of the stream index pages: the title and intro on the left, the
+// bands on the right, as on the home page. On wide screens the intro stays in
+// view while the bands scroll. Below 960px the bands move under the intro.
+//   default slot   the bands (the thesis panel, the entry list)
+import StreamHeader from "./StreamHeader.astro";
+
+interface Props {
+  title: string;
+  lede?: string;
+}
+
+const { title, lede } = Astro.props;
+---
+<div class="stream">
+  <div class="stream__intro">
+    <StreamHeader title={title} lede={lede} />
+  </div>
+  <div class="stream__bands">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .stream {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--space-16) var(--page-gutter) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--space-16);
+    row-gap: var(--space-8);
+    align-items: start;
+  }
+  /* The intro stays in view while the bands scroll past it. */
+  .stream__intro {
+    position: sticky;
+    top: var(--space-8);
+  }
+
+  @media (max-width: 960px) {
+    .stream {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .stream__intro {
+      position: static;
+    }
+  }
+  @media (max-width: 720px) {
+    .stream {
+      padding-top: var(--space-12);
+    }
+  }
+</style>

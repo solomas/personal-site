@@ -1,6 +1,6 @@
 ---
 import Layout from "../../components/Layout.astro";
-import StreamHeader from "../../components/StreamHeader.astro";
+import StreamLayout from "../../components/StreamLayout.astro";
 import EntryList from "../../components/EntryList.astro";
 import ThesisPanel from "../../components/ThesisPanel.astro";
 import { getCollection } from "astro:content";
@@ -18,10 +18,8 @@ const items = entries.map(entry => ({
 const lede = "My PhD and the pieces it is built from: the proposal, a literature review, a conceptual paper and the tool I code the cases in.";
 ---
 <Layout title="Research" description={lede}>
-  <StreamHeader
-    title="Research"
-    lede={lede}
-  />
-  <ThesisPanel />
-  <EntryList items={items} />
+  <StreamLayout title="Research" lede={lede}>
+    <ThesisPanel />
+    <EntryList items={items} />
+  </StreamLayout>
 </Layout>

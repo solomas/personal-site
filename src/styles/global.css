@@ -81,7 +81,7 @@ a:hover {
    name in the nav. :where() keeps this as weak as the plain a rule, so a
    component can still set its own link colour. Night keeps the yellow
    underline. */
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)) {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .offer-band, .thesis, .glass-button, .site-nav__name)) {
   text-decoration: none;
   background-image: linear-gradient(var(--marker), var(--marker));
   background-repeat: no-repeat;
@@ -91,7 +91,7 @@ a:hover {
   box-decoration-break: clone;
   transition: background-size var(--transition);
 }
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)):hover {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .offer-band, .thesis, .glass-button, .site-nav__name)):hover {
   background-size: 100% var(--marker-size-hover);
 }
 
@@ -126,7 +126,7 @@ button, input, textarea, select {
   white-space: nowrap;
 }
 
-/* Bands, the solid colour blocks of the site since November 2026. They
+/* Bands, the flat colour blocks of the site since November 2026. They
    replaced the glass, and the class names stayed so the markup did not have
    to change.
    .glass        a band, used for strips and rows
@@ -140,7 +140,7 @@ button, input, textarea, select {
   --color-muted: var(--on-band-muted);
   --color-hairline: var(--band-hairline);
   --marker: var(--band-marker);
-  background: var(--band-grain) repeat 0 0 / var(--ink-grain-size) var(--ink-grain-size), var(--band);
+  background: var(--band);
   color: var(--on-band);
 }
 

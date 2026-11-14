@@ -26,9 +26,13 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
+**Site pass 2** (built 2026-11-14c, branch `site-pass-2`, awaiting Tomás's review)
+The bands are a flat full colour, the ink grain is gone from them. Work, Research and Projects use the new `StreamLayout`: title and intro on the left, sticky on wide screens, the bands on the right, one column below 960px. Entry rows stack date, title and summary. A new page `/work/governance-scan/` describes the Governance Scan without a price, and an `OfferBand` at the top of the work page links to it. `DeckPanel.astro` is removed. Merge to `main` only after Tomás approves the preview and the scan text.
+Open: a Dutch version of the scan page for Dutch boards. Check the sticky intro and the notch on a real phone and in Safari.
+
 **Bands replace the glass** (built 2026-11-14a in 06cf5e3, merged into `main` 2026-11-14 at d9b4dab, live)
 Solid colour bands replace every glass element, following the I3 sketch Tomás chose on 2026-11-14: yellow in day, blue in night, with the ink grain and square corners. The home page puts the hero on the left and the three streams as notched bands on the right. Entry rows, the thesis panel, the contact panel and the reading strip are bands. The nav sits bare on the background, Menu and the theme button are solid blocks. The class names `.glass`, `.glass-panel` and `.glass-button` stayed and now draw bands. The notch lives in `global.css` as `.notched`. Tomás approved the preview at https://bands.tomasvangorp.pages.dev. `git revert -m 1 d9b4dab` undoes the merge in one step. The branch `bands` is kept.
-Open: the stream index pages still put the header above the list, where the I3 sketch puts the intro left and the bands right. `DeckPanel.astro` is unused and still names the removed glass tokens. Check the notch, hover and focus on a real phone and in Safari.
+Open: check the notch, hover and focus on a real phone and in Safari. The stream page layout and the DeckPanel clean up moved to site pass 2.
 
 **Phase 8, the print pass** (built 2026-09-26a to 2026-09-26c, merged into `main` 2026-09-26 at 7f1b5c3)
 The home page test from 2026-09-26a now covers the whole site with one set of rules: no blue in day, a yellow highlighter stroke under links in running text, ink shapes with a baked grain and ragged rims that multiply, a paper grain on the ground, a yellow favicon and a new social image. The plan and the CLAUDE.md token section describe it. Built in af67d5a to 1264bc5, the day paper lightened a step in 1264bc5. Merged with 7f1b5c3, which `git revert -m 1 7f1b5c3` undoes in one step. The branches `print-test` and `redesign` are kept.

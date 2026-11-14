@@ -1,7 +1,8 @@
 ---
 import Layout from "../../components/Layout.astro";
-import StreamHeader from "../../components/StreamHeader.astro";
+import StreamLayout from "../../components/StreamLayout.astro";
 import EntryList from "../../components/EntryList.astro";
+import OfferBand from "../../components/OfferBand.astro";
 import { getCollection } from "astro:content";
 import { formatDateRange } from "../../utils/formatDateRange";
 
@@ -21,12 +22,11 @@ const description = "Selected roles and assignments, from a zoo's planetary heal
 const lede = "I'm doing a PhD at the University of Lisbon and support the executive board of a Dutch mental health centre. Earlier I designed and ran programmes for organisations such as ARTIS and InScience.";
 ---
 <Layout title="Work" description={description}>
-  <StreamHeader
-    title="Work"
-    lede={lede}
-  />
-  <EntryList
-    items={live}
-    more={{ label: "Other work", caption: "Earlier roles, for the record.", items: archived }}
-  />
+  <StreamLayout title="Work" lede={lede}>
+    <OfferBand />
+    <EntryList
+      items={live}
+      more={{ label: "Other work", caption: "Earlier roles, for the record.", items: archived }}
+    />
+  </StreamLayout>
 </Layout>

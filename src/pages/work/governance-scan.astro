@@ -1,0 +1,60 @@
+---
+import ReadingLayout from "../../components/ReadingLayout.astro";
+// The Governance Scan, an offer for the boards of care organisations. A
+// static page under /work/, so it wins over the [...slug] route of the work
+// collection. No price on the page.
+---
+<ReadingLayout title="Governance Scan" description="A six week scan for cooperative and mission driven care organisations: does your governance framework work in practice?">
+  <p slot="before" class="scan__back"><a href="/work/">Back to work</a></p>
+  <h1 slot="strip" class="scan__title">Governance Scan</h1>
+
+  <div class="prose">
+    <p class="scan__lede">Many care organisations have a governance framework on paper: statutes, a board regulation, a code they signed up to. The harder question is whether it shapes how decisions get made. The Governance Scan looks at the gap between the framework you adopted and the way your organisation runs.</p>
+
+    <h2>Who it is for</h2>
+    <p>Boards of cooperative and mission driven care organisations in the Netherlands. It suits a board that wants an outside view before a members' meeting, after a change at the top, or when the rules and the daily practice have started to drift apart.</p>
+
+    <h2>What I look at</h2>
+    <p>The scan uses five dimensions from my research on how commitments turn into practice.</p>
+    <ul>
+      <li><strong>Formal rules:</strong> what the statutes, regulations and mandates say.</li>
+      <li><strong>Resources:</strong> whether the time, money and people are there to do what the rules ask.</li>
+      <li><strong>Monitoring and enforcement:</strong> who checks that it happens, and what follows when it does not.</li>
+      <li><strong>Accountability:</strong> who answers to whom, and whether members and supervisors can see it.</li>
+      <li><strong>Working across parts:</strong> how board, management, members and partners connect, or whether each part does its own share while the links between them stay loose.</li>
+    </ul>
+
+    <h2>How it works</h2>
+    <p>The scan takes six weeks from start to report. I read your documents: statutes, regulations, minutes and annual reports. I interview four to six people from the board, management and, where it fits, the supervisory board or the members. You receive a short report that rates each dimension, shows where the framework and the practice part ways and names what to change first. We go through it together with the board.</p>
+    <p>It is a defined assignment with a fixed price agreed before we start. No hourly billing and no open ended engagement.</p>
+
+    <h2>The research behind it</h2>
+    <p>The method comes from my PhD at the University of Lisbon, where I study why governments that adopt planetary health frameworks so often stall before anything changes. The same pattern turns up inside organisations. The scan applies the method. Client work never becomes a case in the thesis.</p>
+
+    <h2>Get in touch</h2>
+    <p>Write to me at <a href="mailto:hello@tomasvangorp.com">hello@tomasvangorp.com</a> with a few lines about your organisation and what prompted the question. I take on a small number of scans each year alongside the PhD.</p>
+  </div>
+</ReadingLayout>
+
+<style>
+  .scan__back {
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .scan__back a {
+    color: var(--color-ink);
+  }
+  /* The title sits in the header strip, in ink. */
+  .scan__title {
+    padding: var(--space-3) 0;
+    font-size: var(--text-entry-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.05;
+    color: var(--color-ink);
+  }
+  .scan__lede {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+</style>
