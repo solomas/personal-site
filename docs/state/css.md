@@ -26,8 +26,8 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
-**Site pass 2** (built 2026-11-14c, branch `site-pass-2`, awaiting Tomás's review)
-The bands are a flat full colour, the ink grain is gone from them. The notch is a real bite, open to the paper and the shapes behind it. Work, Research and Projects use the new `StreamLayout`: title and intro on the left, sticky on wide screens, the bands on the right, one column below 960px. Entry rows stack date, title and summary. A new page `/work/governance-scan/` describes the Governance Scan without a price, and an `OfferBand` at the top of the work page links to it. `DeckPanel.astro` is removed. Merge to `main` only after Tomás approves the preview and the scan text.
+**Site pass 2** (built 2026-11-14c, merged into `main` 2026-11-14 at 8fa59e0, live)
+The bands are a flat full colour, the ink grain is gone from them. The notch is a real bite, open to the paper and the shapes behind it. Work, Research and Projects use the new `StreamLayout`: title and intro on the left, sticky on wide screens, the bands on the right, one column below 960px. Entry rows stack date, title and summary. A new page `/work/governance-scan/` describes the Governance Scan without a price, and an `OfferBand` at the top of the work page links to it. `DeckPanel.astro` is removed. Tomás approved the preview and the scan text. `git revert -m 1 8fa59e0` undoes the merge in one step. The branch `site-pass-2` is kept.
 Open: a Dutch version of the scan page for Dutch boards. Check the sticky intro and the notch on a real phone and in Safari.
 
 **Bands replace the glass** (built 2026-11-14a in 06cf5e3, merged into `main` 2026-11-14 at d9b4dab, live)
