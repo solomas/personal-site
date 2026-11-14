@@ -1,6 +1,6 @@
 ---
-// Title and short intro above the entry bands on the stream index pages. Both
-// sit bare on the background, so both are ink.
+// Title and short intro of the stream index pages, in the left column of
+// StreamLayout. Both sit bare on the background, so both are ink.
 interface Props {
   title: string;
   lede?: string;
@@ -14,13 +14,8 @@ const { title, lede } = Astro.props;
 </header>
 
 <style>
-  .stream-header {
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: var(--space-16) var(--page-gutter) var(--space-8);
-  }
   .stream-header h1 {
-    font-size: var(--text-title);
+    font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
     font-weight: 700;
     letter-spacing: var(--tracking-display);
     line-height: 1;
@@ -28,15 +23,12 @@ const { title, lede } = Astro.props;
   }
   .stream-header__lede {
     max-width: 50ch;
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     line-height: var(--leading-snug);
   }
-  @media (max-width: 720px) {
-    .stream-header {
-      padding-top: var(--space-12);
-    }
-    .stream-header__lede {
-      font-size: var(--text-lg);
+  @media (max-width: 960px) {
+    .stream-header h1 {
+      font-size: var(--text-title);
     }
   }
 </style>

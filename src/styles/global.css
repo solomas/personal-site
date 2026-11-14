@@ -81,7 +81,7 @@ a:hover {
    name in the nav. :where() keeps this as weak as the plain a rule, so a
    component can still set its own link colour. Night keeps the yellow
    underline. */
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)) {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .offer-band, .thesis, .glass-button, .site-nav__name)) {
   text-decoration: none;
   background-image: linear-gradient(var(--marker), var(--marker));
   background-repeat: no-repeat;
@@ -91,7 +91,7 @@ a:hover {
   box-decoration-break: clone;
   transition: background-size var(--transition);
 }
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)):hover {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .offer-band, .thesis, .glass-button, .site-nav__name)):hover {
   background-size: 100% var(--marker-size-hover);
 }
 
@@ -126,7 +126,7 @@ button, input, textarea, select {
   white-space: nowrap;
 }
 
-/* Bands, the solid colour blocks of the site since November 2026. They
+/* Bands, the flat colour blocks of the site since November 2026. They
    replaced the glass, and the class names stayed so the markup did not have
    to change.
    .glass        a band, used for strips and rows
@@ -140,7 +140,7 @@ button, input, textarea, select {
   --color-muted: var(--on-band-muted);
   --color-hairline: var(--band-hairline);
   --marker: var(--band-marker);
-  background: var(--band-grain) repeat 0 0 / var(--ink-grain-size) var(--ink-grain-size), var(--band);
+  background: var(--band);
   color: var(--on-band);
 }
 
@@ -177,28 +177,17 @@ button, input, textarea, select {
   color: var(--color-ground);
 }
 
-/* The notch: a half circle in the ground colour cut out of the right end of
-   a band, with the arrow inside it. Hover and keyboard focus fill the notch
-   with ink and turn the arrow the band colour. Add .notched to a band that
-   links somewhere. The band keeps room on the right so text never runs
-   under the notch. Both parts are drawn in CSS, so the markup needs nothing
-   extra, and the arrow carries empty alternative text for screen readers. */
+/* The notch: a half circle bitten out of the right end of a band, open to
+   whatever lies behind it (the paper, a shape), with the arrow inside it.
+   The bite is drawn in the band's own background, so the arrow and the text
+   stay visible. Hover and keyboard focus move the arrow a little. Add
+   .notched to a band that links somewhere. The band keeps room on the right
+   so text never runs into the bite. The arrow carries empty alternative
+   text for screen readers. */
 .notched {
   position: relative;
-  overflow: hidden;
   padding-right: calc(var(--notch) / 2 + var(--space-6));
-}
-.notched::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: calc(var(--notch) / -2);
-  width: var(--notch);
-  height: var(--notch);
-  border-radius: 50%;
-  transform: translateY(-50%);
-  background: var(--paper-texture) repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
-  transition: background-color var(--transition);
+  background: radial-gradient(circle at 100% 50%, transparent calc(var(--notch) / 2), var(--band) calc(var(--notch) / 2 + 0.5px));
 }
 .notched::after {
   content: "\2192";
@@ -211,20 +200,20 @@ button, input, textarea, select {
   font-weight: 600;
   line-height: 1;
   color: var(--color-ink);
-  transition: color var(--transition), transform 180ms var(--ease-out);
-}
-.notched:focus-visible::before {
-  background: var(--color-ink);
+  transition: transform 180ms var(--ease-out);
 }
 .notched:focus-visible::after {
-  color: var(--band);
+  transform: translate(3px, -50%);
 }
 @media (hover: hover) {
-  .notched:hover::before {
-    background: var(--color-ink);
-  }
   .notched:hover::after {
-    color: var(--band);
+    transform: translate(3px, -50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notched:hover::after,
+  .notched:focus-visible::after {
+    transform: translateY(-50%);
   }
 }
 
