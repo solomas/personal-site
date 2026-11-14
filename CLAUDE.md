@@ -4,10 +4,13 @@
 
 Where this section conflicts with a rule further down, the rule further down applies until Tomás decides.
 
-- In Cowork, Claude reads the repo itself.
+Tomás gave Claude standing permission in Cowork on 14 November 2026.
+
+- In Cowork, Claude reads the repo itself and changes code, styles and docs directly.
 - Claude changes text in the content files (.md or .mdx under `src/content/`) only after Tomás approves the text. It reads the file again, makes a targeted change and checks the result.
-- Build, git and deploy stay with Code or Tomás.
-- State docs in `docs/state/` and session docs in `docs/sessions/` stay with Code.
+- Claude runs the prose check and a build check, works on a branch, commits and pushes the branch so Cloudflare builds a preview.
+- Claude merges into `main`, which puts the site live, only after Tomás approves the preview in the chat.
+- Claude writes the state docs and session docs under the session close protocol below.
 - Without a linked folder the Code route applies.
 
 ## Session start, read before any edit
