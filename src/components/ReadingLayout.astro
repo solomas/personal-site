@@ -1,10 +1,10 @@
 ---
 // The reading frame shared by the detail pages and the about page: a column
-// in the centred page, holding a glass header strip and a solid reading
+// in the centred page, holding a colour band as header strip and a solid reading
 // sheet, 68 characters wide and left aligned. Detail pages drift the shapes
 // three times slower.
 //   slot "before"  above the strip (the back link on detail pages)
-//   slot "strip"   inside the glass header strip
+//   slot "strip"   inside the header strip
 //   default slot   inside the reading sheet
 import Layout from "./Layout.astro";
 
@@ -47,7 +47,6 @@ const { title, description } = Astro.props;
   .reading__strip {
     padding: var(--space-3) var(--reading-pad);
     margin-bottom: var(--space-4);
-    border-radius: var(--radius-lg);
     color: var(--color-muted);
   }
   .reading__sheet {

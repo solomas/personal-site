@@ -1,6 +1,6 @@
 # CSS state
 
-Last updated: 2026-09-26
+Last updated: 2026-11-14
 
 ## Status
 
@@ -25,6 +25,10 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 - Design token usage across component styles (no duplication, all values reference `src/styles/tokens.css`)
 
 ## Open items
+
+**Bands replace the glass** (built 2026-11-14a, branch `bands`, awaiting Tomás's review)
+Solid colour bands replace every glass element, following the I3 sketch Tomás chose on 2026-11-14: yellow in day, blue in night, with the ink grain and square corners. The home page puts the hero on the left and the three streams as notched bands on the right. Entry rows, the thesis panel, the contact panel and the reading strip are bands. The nav sits bare on the background, Menu and the theme button are solid blocks. The class names `.glass`, `.glass-panel` and `.glass-button` stayed and now draw bands. The notch lives in `global.css` as `.notched`. Merge to `main` only after approval.
+Open: the stream index pages still put the header above the list, where the I3 sketch puts the intro left and the bands right. `DeckPanel.astro` is unused and still names the removed glass tokens. Check the notch, hover and focus on a real phone and in Safari.
 
 **Phase 8, the print pass** (built 2026-09-26a to 2026-09-26c, merged into `main` 2026-09-26 at 7f1b5c3)
 The home page test from 2026-09-26a now covers the whole site with one set of rules: no blue in day, a yellow highlighter stroke under links in running text, ink shapes with a baked grain and ragged rims that multiply, a paper grain on the ground, a yellow favicon and a new social image. The plan and the CLAUDE.md token section describe it. Built in af67d5a to 1264bc5, the day paper lightened a step in 1264bc5. Merged with 7f1b5c3, which `git revert -m 1 7f1b5c3` undoes in one step. The branches `print-test` and `redesign` are kept.

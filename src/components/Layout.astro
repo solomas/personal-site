@@ -154,7 +154,7 @@ const navItems = [
   <body>
     <Shapes slow={slowShapes} single={singleShape} />
     <header class="site-header">
-      <div class="site-nav glass">
+      <div class="site-nav">
         <a href="/" class="site-nav__name"><span class="focus-context">Tomás van Gorp</span></a>
         <button type="button" class="site-nav__menu glass-button focus-context" aria-expanded="false" aria-controls="site-nav-drawer">
           <span class="site-nav__menu-icon" aria-hidden="true"></span>
@@ -208,11 +208,11 @@ const navItems = [
     </main>
 
     <style>
-      /* Floating glass navigation. It sits in the page flow at the top, not
-         fixed, so it only ever lies over the background and never over
-         text. */
+      /* The navigation sits bare on the background at the top of the page,
+         in the page flow and not fixed. Menu and the theme button are solid
+         blocks in the band colour. */
       .site-header {
-        padding: var(--space-4) var(--page-gutter) 0;
+        padding: var(--space-4) 0 0;
       }
       /* The bar: name on the left, then Menu and the theme button on the
          right. The drawer with the links sits in the DOM between Menu and the
@@ -225,8 +225,9 @@ const navItems = [
         flex-wrap: wrap;
         align-items: center;
         column-gap: var(--space-3);
-        padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
-        border-radius: var(--radius-lg);
+        /* The gutter sits inside the bar, as it does inside the page
+           content, so the name lines up with the content below. */
+        padding: var(--space-2) var(--page-gutter);
       }
       .site-nav a {
         color: var(--color-ink);
@@ -249,7 +250,7 @@ const navItems = [
         order: 3;
       }
 
-      /* Menu button: a glass pill with a two line icon that turns into a
+      /* Menu button: a solid block with a two line icon that turns into a
          cross while the menu is open. Only shown when JavaScript runs. */
       .site-nav__menu {
         display: none;
@@ -361,7 +362,6 @@ const navItems = [
       @media (max-width: 720px) {
         .site-nav {
           column-gap: var(--space-2);
-          padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
         }
         .site-nav__menu {
           padding: var(--space-2) var(--space-3);

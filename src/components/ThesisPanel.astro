@@ -1,16 +1,16 @@
 ---
-// The thesis as the header panel of the research page: a wide glass panel
+// The thesis as the header panel of the research page: a wide colour band
 // above the deck panel, larger than it and the first thing the page offers.
 // From top to bottom: a small label, the title with the part before the
 // colon large and the rest smaller below it, the summary and an action. The
 // whole panel is one link to the thesis page and carries no date. The title
 // and summary come from the featured research entry.
 //
-// Hover and keyboard focus answer as the home sheets do: the panel lifts a
-// little on a deeper shadow and the arrow moves, and the rest of the page
-// fades and blurs with the strong version of the focus effect, as on the
-// home page. As a .focus-item with the thesis page as its href, the panel
-// grows into that page's glass strip in the page transition.
+// Hover and keyboard focus turn the action button ink and move its arrow,
+// and the rest of the page fades and blurs with the strong version of the
+// focus effect, as on the home page. As a .focus-item with the thesis page
+// as its href, the panel grows into that page's header strip in the page
+// transition.
 import { getCollection } from "astro:content";
 
 const [entry] = await getCollection("research", ({ data }) => data.featured && data.status !== "archived");
@@ -46,10 +46,7 @@ const rest = cut === -1 ? "" : title.slice(cut + 1).trim();
     padding: var(--space-16) var(--space-12);
     color: var(--color-ink);
     text-decoration: none;
-    transition:
-      var(--focus-transition),
-      transform 220ms var(--ease-out),
-      box-shadow 220ms var(--ease-out);
+    transition: var(--focus-transition);
   }
   .thesis__title {
     display: flex;
@@ -84,37 +81,22 @@ const rest = cut === -1 ? "" : title.slice(cut + 1).trim();
     transition: transform 220ms var(--ease-out);
   }
 
-  /* Hover and keyboard focus, as the home sheets: the panel lifts a little
-     on a deeper shadow and the arrow moves. Hover only on devices that can
-     hover. The focused panel keeps the ground ring of the site focus style
-     around its outline. */
-  .thesis:focus-visible {
-    transform: translateY(-4px);
-    box-shadow:
-      0 0 0 calc(2 * var(--border-medium)) var(--color-ground),
-      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-      var(--shadow-lift);
+  /* Hover and keyboard focus: the action button turns ink and its arrow
+     moves. Hover only on devices that can hover. */
+  .thesis:focus-visible .thesis__action {
+    background: var(--color-ink);
+    color: var(--color-ground);
   }
   .thesis:focus-visible .thesis__arrow {
     transform: translateX(4px);
   }
   @media (hover: hover) {
-    .thesis:hover {
-      transform: translateY(-4px);
-      box-shadow:
-        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-        var(--shadow-lift);
+    .thesis:hover .thesis__action {
+      background: var(--color-ink);
+      color: var(--color-ground);
     }
     .thesis:hover .thesis__arrow {
       transform: translateX(4px);
-    }
-    .thesis:hover .thesis__action {
-      box-shadow:
-        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-        0 0 0 var(--border-hairline) var(--color-ink);
     }
   }
 
@@ -144,14 +126,12 @@ const rest = cut === -1 ? "" : title.slice(cut + 1).trim();
     }
   }
 
-  /* The global rule stops the motion, this stops the hover movement and,
+  /* The global rule stops the motion, this stops the arrow movement and,
      as the global rule does, leaves the fade without blur. */
   @media (prefers-reduced-motion: reduce) {
     :global(:root:has(.thesis:is(:hover, :focus-visible))) {
       --focus-dim-blur: 0px;
     }
-    .thesis:hover,
-    .thesis:focus-visible,
     .thesis:hover .thesis__arrow,
     .thesis:focus-visible .thesis__arrow {
       transform: none;

@@ -1,13 +1,12 @@
 ---
-// The three streams on the home page as overlapping glass sheets, one line
-// each. Each sheet slides a step to the right and overlaps the one above it.
-// The overlap only covers the empty lower padding of the sheet beneath, so no
-// text ever sits under another sheet.
+// The three streams on the home page as solid colour bands, stacked beside
+// the hero. Each band carries a small number, the title and one line, and a
+// notch at its right end with the arrow (the .notched class in global.css).
+// Hover and keyboard focus fill the notch with ink.
 //
-// Motion: on the first visit the sheets settle into their stack, once, gated
-// by the "triptych-revealed" localStorage key. Otherwise a sheet only lifts a
-// little on hover. The focus on hover effect comes from global.css, in its
-// strong version (data-focus="strong").
+// Motion: on the first visit the bands settle into place, once, gated by the
+// "triptych-revealed" localStorage key. The focus on hover effect comes from
+// global.css, in its strong version (data-focus="strong").
 const sheets = [
   { href: "/research/", title: "Research", line: "My PhD on how governments turn planetary health plans into practice." },
   { href: "/work/", title: "Work", line: "Consulting, board support and programme design." },
@@ -16,98 +15,69 @@ const sheets = [
 ---
 <nav class="stack focus-panel" data-focus="strong" aria-label="Three streams of work">
   {sheets.map((sheet, i) => (
-    <a href={sheet.href} class="stack__sheet glass-panel focus-item" style={`--i: ${i}`}>
-      <span class="stack__title">{sheet.title}</span>
-      <span class="stack__line">{sheet.line}</span>
-      <span class="stack__arrow" aria-hidden="true">&#8594;</span>
+    <a href={sheet.href} class="home-band glass notched focus-item" style={`--i: ${i}`}>
+      <span class="home-band__number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+      <span class="home-band__text">
+        <span class="home-band__title">{sheet.title}</span>
+        <span class="home-band__line">{sheet.line}</span>
+      </span>
     </a>
   ))}
 </nav>
 
 <style>
   .stack {
-    /* Step and overlap chosen by eye. */
-    --stack-step: 9%;
-    --stack-overlap: var(--space-6);
     display: flex;
     flex-direction: column;
+    gap: var(--space-3);
   }
 
-  .stack__sheet {
-    position: relative;
-    z-index: calc(var(--i) + 1);
-    width: calc(100% - 2 * var(--stack-step));
-    margin-left: calc(var(--i) * var(--stack-step));
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    column-gap: var(--space-6);
-    row-gap: var(--space-1);
-    /* The bottom padding holds the overlap of the next sheet plus the normal
-       padding, so the text stays clear of it. */
-    padding: var(--space-6) var(--space-8) calc(var(--space-6) + var(--stack-overlap));
-    color: var(--color-ink);
+  .home-band {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    align-items: center;
+    min-height: 6rem;
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    padding-left: var(--space-6);
     text-decoration: none;
-    transition:
-      var(--focus-transition),
-      transform 220ms var(--ease-out),
-      box-shadow 220ms var(--ease-out);
+    transition: var(--focus-transition);
   }
-  .stack__sheet + .stack__sheet {
-    margin-top: calc(-1 * var(--stack-overlap));
-  }
-
-  .stack__title {
-    font-size: var(--text-3xl);
-    font-weight: 900;
-    letter-spacing: var(--tracking-heading);
-    line-height: var(--leading-tight);
-  }
-  .stack__line {
-    flex: 1 1 16rem;
-    font-size: var(--text-lg);
+  .home-band__number {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
     color: var(--color-muted);
   }
-  .stack__arrow {
+  .home-band__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .home-band__title {
     font-size: var(--text-xl);
-    transition: transform 220ms var(--ease-out);
+    font-weight: 700;
+    letter-spacing: var(--tracking-title);
+    line-height: var(--leading-tight);
+  }
+  .home-band__line {
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    color: var(--color-muted);
   }
 
-  /* Hover and keyboard focus: the sheet lifts a little on a deeper shadow.
-     Hover only on devices that can hover. The focused sheet keeps the ground
-     ring of the site focus style around its ink outline. */
-  .stack__sheet:focus-visible {
-    transform: translateY(-4px);
-    box-shadow:
-      0 0 0 calc(2 * var(--border-medium)) var(--color-ground),
-      inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-      inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-      var(--shadow-lift);
-  }
-  @media (hover: hover) {
-    .stack__sheet:hover {
-      transform: translateY(-4px);
-      box-shadow:
-        inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-        inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-        var(--shadow-lift);
-    }
-    .stack__sheet:hover .stack__arrow {
-      transform: translateX(4px);
-    }
-  }
-
-  /* First visit only: the sheets settle into the stack from a looser spread.
-     The markup ships in the rest position, so no JS, return visits and
-     reduced motion all show the stack at rest. */
-  .stack[data-reveal] .stack__sheet {
-    animation: stack-settle 700ms var(--ease-out) backwards;
+  /* First visit only: the bands slide in from the right, one after the
+     other. The markup ships in the rest position, so no JS, return visits
+     and reduced motion all show the bands at rest. */
+  .stack[data-reveal] .home-band {
+    animation: band-settle 700ms var(--ease-out) backwards;
     animation-delay: calc(var(--i) * 110ms);
   }
-  @keyframes stack-settle {
+  @keyframes band-settle {
     from {
       opacity: 0;
-      transform: translateY(calc(var(--space-6) + var(--i) * var(--space-4)));
+      transform: translateX(var(--space-8));
     }
     to {
       opacity: 1;
@@ -116,26 +86,12 @@ const sheets = [
   }
 
   @media (max-width: 720px) {
-    .stack {
-      --stack-step: 4%;
+    .home-band {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      padding-left: var(--space-4);
     }
-    .stack__sheet {
-      padding: var(--space-4) var(--space-6) calc(var(--space-4) + var(--stack-overlap));
-    }
-    .stack__title {
-      font-size: var(--text-2xl);
-    }
-    .stack__arrow {
-      display: none;
-    }
-  }
-
-  /* The global rule stops the motion, this stops the hover movement. */
-  @media (prefers-reduced-motion: reduce) {
-    .stack__sheet:hover,
-    .stack__sheet:focus-visible,
-    .stack__sheet:hover .stack__arrow {
-      transform: none;
+    .home-band__title {
+      font-size: var(--text-lg);
     }
   }
 </style>
@@ -149,7 +105,7 @@ const sheets = [
     try { revealed = localStorage.getItem("triptych-revealed") === "1"; } catch (e) {}
     if (reduceMotion || revealed) return;
     stack.setAttribute("data-reveal", "");
-    // The last sheet lands at about 920ms. Set the key after that.
+    // The last band lands at about 920ms. Set the key after that.
     window.setTimeout(function () {
       try { localStorage.setItem("triptych-revealed", "1"); } catch (e) {}
     }, 1200);
