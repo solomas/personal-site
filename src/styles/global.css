@@ -177,28 +177,17 @@ button, input, textarea, select {
   color: var(--color-ground);
 }
 
-/* The notch: a half circle in the ground colour cut out of the right end of
-   a band, with the arrow inside it. Hover and keyboard focus fill the notch
-   with ink and turn the arrow the band colour. Add .notched to a band that
-   links somewhere. The band keeps room on the right so text never runs
-   under the notch. Both parts are drawn in CSS, so the markup needs nothing
-   extra, and the arrow carries empty alternative text for screen readers. */
+/* The notch: a half circle bitten out of the right end of a band, open to
+   whatever lies behind it (the paper, a shape), with the arrow inside it.
+   The bite is drawn in the band's own background, so the arrow and the text
+   stay visible. Hover and keyboard focus move the arrow a little. Add
+   .notched to a band that links somewhere. The band keeps room on the right
+   so text never runs into the bite. The arrow carries empty alternative
+   text for screen readers. */
 .notched {
   position: relative;
-  overflow: hidden;
   padding-right: calc(var(--notch) / 2 + var(--space-6));
-}
-.notched::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: calc(var(--notch) / -2);
-  width: var(--notch);
-  height: var(--notch);
-  border-radius: 50%;
-  transform: translateY(-50%);
-  background: var(--paper-texture) repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
-  transition: background-color var(--transition);
+  background: radial-gradient(circle at 100% 50%, transparent calc(var(--notch) / 2), var(--band) calc(var(--notch) / 2 + 0.5px));
 }
 .notched::after {
   content: "\2192";
@@ -211,20 +200,20 @@ button, input, textarea, select {
   font-weight: 600;
   line-height: 1;
   color: var(--color-ink);
-  transition: color var(--transition), transform 180ms var(--ease-out);
-}
-.notched:focus-visible::before {
-  background: var(--color-ink);
+  transition: transform 180ms var(--ease-out);
 }
 .notched:focus-visible::after {
-  color: var(--band);
+  transform: translate(3px, -50%);
 }
 @media (hover: hover) {
-  .notched:hover::before {
-    background: var(--color-ink);
-  }
   .notched:hover::after {
-    color: var(--band);
+    transform: translate(3px, -50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notched:hover::after,
+  .notched:focus-visible::after {
+    transform: translateY(-50%);
   }
 }
 

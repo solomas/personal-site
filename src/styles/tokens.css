@@ -54,11 +54,9 @@
   /* Links in running text on a yellow band take a white highlighter
      stroke, since a yellow one would vanish. */
   --band-marker: var(--color-ground);
-  /* The notch: a half circle in the ground colour cut out of the right end
-     of a band, holding the arrow. --paper-texture lets it carry the paper
-     grain of the ground. Size chosen by eye. */
+  /* The notch: a half circle bitten out of the right end of a band, open to
+     the background, holding the arrow. Size chosen by eye. */
   --notch: 3.25rem;
-  --paper-texture: url("/textures/paper-day.png");
 
   /* Reading sheet, solid. */
   --sheet: #ffffff;
@@ -153,7 +151,6 @@
   --on-band-muted: rgba(255, 255, 255, 0.8);
   --band-hairline: rgba(255, 255, 255, 0.3);
   --band-marker: var(--yellow);
-  --paper-texture: url("/textures/paper-night.png");
 
   --sheet: #141414;
 }
