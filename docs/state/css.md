@@ -26,8 +26,8 @@ The homepage intro is a modern editorial triptych, rebuilt 2026-06-16 (`src/comp
 
 ## Open items
 
-**Bands replace the glass** (built 2026-11-14a, branch `bands`, awaiting Tomás's review)
-Solid colour bands replace every glass element, following the I3 sketch Tomás chose on 2026-11-14: yellow in day, blue in night, with the ink grain and square corners. The home page puts the hero on the left and the three streams as notched bands on the right. Entry rows, the thesis panel, the contact panel and the reading strip are bands. The nav sits bare on the background, Menu and the theme button are solid blocks. The class names `.glass`, `.glass-panel` and `.glass-button` stayed and now draw bands. The notch lives in `global.css` as `.notched`. Merge to `main` only after approval.
+**Bands replace the glass** (built 2026-11-14a in 06cf5e3, merged into `main` 2026-11-14 at d9b4dab, live)
+Solid colour bands replace every glass element, following the I3 sketch Tomás chose on 2026-11-14: yellow in day, blue in night, with the ink grain and square corners. The home page puts the hero on the left and the three streams as notched bands on the right. Entry rows, the thesis panel, the contact panel and the reading strip are bands. The nav sits bare on the background, Menu and the theme button are solid blocks. The class names `.glass`, `.glass-panel` and `.glass-button` stayed and now draw bands. The notch lives in `global.css` as `.notched`. Tomás approved the preview at https://bands.tomasvangorp.pages.dev. `git revert -m 1 d9b4dab` undoes the merge in one step. The branch `bands` is kept.
 Open: the stream index pages still put the header above the list, where the I3 sketch puts the intro left and the bands right. `DeckPanel.astro` is unused and still names the removed glass tokens. Check the notch, hover and focus on a real phone and in Safari.
 
 **Phase 8, the print pass** (built 2026-09-26a to 2026-09-26c, merged into `main` 2026-09-26 at 7f1b5c3)
