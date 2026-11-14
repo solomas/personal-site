@@ -16,9 +16,14 @@ interface Props {
   /* Structured data for search engines, written into the head as JSON-LD.
      Used on the homepage only. */
   jsonLd?: object;
+  /* Language of the page, "en" unless the page says otherwise. */
+  lang?: string;
+  /* The same page in other languages, written into the head as
+     hreflang links. Each entry needs this page's own language too. */
+  alternates?: { lang: string; href: string }[];
 }
 
-const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false, jsonLd } = Astro.props;
+const { title, description = "Tomás van Gorp researches what happens after a plan is signed, and helps organisations make it work.", slowShapes = false, singleShape = false, noindex = false, jsonLd, lang = "en", alternates = [] } = Astro.props;
 // Every page title ends in the name, so search results show who the page
 // belongs to. A title that already starts with the name, such as the
 // homepage, stays as it is.
@@ -37,7 +42,7 @@ const navItems = [
 ];
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -58,6 +63,7 @@ const navItems = [
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    {alternates.map(alt => <link rel="alternate" hreflang={alt.lang} href={new URL(alt.href, Astro.site).href} />)}
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
       // Theme before first paint, so there is no flash. A stored "flip" means

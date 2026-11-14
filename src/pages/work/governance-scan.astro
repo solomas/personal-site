@@ -2,10 +2,15 @@
 import ReadingLayout from "../../components/ReadingLayout.astro";
 // The Governance Scan, an offer for the boards of care organisations. A
 // static page under /work/, so it wins over the [...slug] route of the work
-// collection. No price on the page.
+// collection. No price on the page. The Dutch version lives at
+// /nl/governance-scan/.
+const alternates = [
+  { lang: "en", href: "/work/governance-scan/" },
+  { lang: "nl", href: "/nl/governance-scan/" },
+];
 ---
-<ReadingLayout title="Governance Scan" description="A six week scan for cooperative and mission driven care organisations: does your governance framework work in practice?">
-  <p slot="before" class="scan__back"><a href="/work/">Back to work</a></p>
+<ReadingLayout title="Governance Scan" description="A six week scan for cooperative and mission driven care organisations: does your governance framework work in practice?" alternates={alternates}>
+  <p slot="before" class="scan__back"><a href="/work/">Back to work</a><span aria-hidden="true">&nbsp;·&nbsp;</span><a href="/nl/governance-scan/" hreflang="nl" lang="nl">Nederlands</a></p>
   <h1 slot="strip" class="scan__title">Governance Scan</h1>
 
   <div class="prose">
@@ -56,5 +61,10 @@ import ReadingLayout from "../../components/ReadingLayout.astro";
   .scan__lede {
     font-size: var(--text-xl);
     line-height: var(--leading-snug);
+  }
+  @media (max-width: 720px) {
+    .scan__lede {
+      font-size: var(--text-lg);
+    }
   }
 </style>

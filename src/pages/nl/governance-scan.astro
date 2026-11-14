@@ -1,0 +1,68 @@
+---
+import ReadingLayout from "../../components/ReadingLayout.astro";
+// The Dutch version of the Governance Scan page, for Dutch boards. Same
+// content as /work/governance-scan/, no price on the page.
+const alternates = [
+  { lang: "en", href: "/work/governance-scan/" },
+  { lang: "nl", href: "/nl/governance-scan/" },
+];
+---
+<ReadingLayout title="Governance Scan" description="Een scan van zes weken voor coöperatieve en missiegedreven zorgorganisaties: werkt je governancekader in de praktijk?" lang="nl" alternates={alternates}>
+  <p slot="before" class="scan__back"><a href="/work/">Terug naar werk</a><span aria-hidden="true">&nbsp;·&nbsp;</span><a href="/work/governance-scan/" hreflang="en" lang="en">English</a></p>
+  <h1 slot="strip" class="scan__title">Governance Scan</h1>
+
+  <div class="prose">
+    <p class="scan__lede">Veel zorgorganisaties hebben hun governance op papier goed geregeld: statuten, een bestuursreglement, een code waaraan ze zich hebben verbonden. De lastigere vraag is of dat kader ook bepaalt hoe besluiten worden genomen. De Governance Scan brengt het verschil in beeld tussen het kader dat je hebt vastgesteld en de manier waarop je organisatie werkt.</p>
+
+    <h2>Voor wie</h2>
+    <p>Besturen van coöperatieve en missiegedreven zorgorganisaties in Nederland. De scan past bij een bestuur dat een blik van buiten wil voor een ledenvergadering, na een wisseling aan de top of wanneer regels en dagelijkse praktijk uit elkaar zijn gaan lopen.</p>
+
+    <h2>Waar ik naar kijk</h2>
+    <p>De scan gebruikt vijf dimensies uit mijn onderzoek naar hoe afspraken in de praktijk terechtkomen.</p>
+    <ul>
+      <li><strong>Formele regels:</strong> wat statuten, reglementen en mandaten zeggen.</li>
+      <li><strong>Middelen:</strong> of de tijd, het geld en de mensen er zijn om te doen wat de regels vragen.</li>
+      <li><strong>Toezicht en handhaving:</strong> wie controleert of het gebeurt, en wat er volgt als het niet gebeurt.</li>
+      <li><strong>Verantwoording:</strong> wie aan wie verantwoording aflegt, en of leden en toezichthouders dat kunnen zien.</li>
+      <li><strong>Samenwerking tussen onderdelen:</strong> hoe bestuur, management, leden en partners op elkaar aansluiten, of dat elk onderdeel zijn eigen deel doet terwijl de verbindingen los blijven.</li>
+    </ul>
+
+    <h2>Hoe het werkt</h2>
+    <p>De scan duurt zes weken van start tot rapport. Ik lees je documenten: statuten, reglementen, notulen en jaarverslagen. Ik spreek vier tot zes mensen uit het bestuur, het management en, waar het past, de raad van toezicht of de leden. Je krijgt een kort rapport dat elke dimensie beoordeelt, laat zien waar kader en praktijk uiteenlopen en benoemt wat je als eerste aanpakt. Dat bespreken we samen met het bestuur.</p>
+    <p>Het is een afgebakende opdracht met een vaste prijs die we vooraf afspreken. Je betaalt niet per uur en de opdracht heeft een duidelijk einde.</p>
+
+    <h2>Het onderzoek erachter</h2>
+    <p>De methode komt uit mijn promotieonderzoek aan de Universiteit van Lissabon. Daarin onderzoek ik waarom overheden die kaders voor planetary health aannemen zo vaak blijven steken voordat er iets verandert. Planetary health gaat over de gezondheid van mensen in samenhang met de gezondheid van de aarde. Hetzelfde patroon zie je binnen organisaties. De scan past de methode toe. Werk voor klanten wordt nooit een casus in mijn proefschrift.</p>
+
+    <h2>Contact</h2>
+    <p>Mail me op <a href="mailto:hello@tomasvangorp.com">hello@tomasvangorp.com</a> met een paar regels over je organisatie en de aanleiding voor je vraag. Naast mijn promotieonderzoek neem ik elk jaar een klein aantal scans aan.</p>
+  </div>
+</ReadingLayout>
+
+<style>
+  .scan__back {
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .scan__back a {
+    color: var(--color-ink);
+  }
+  /* The title sits in the header strip, in ink. */
+  .scan__title {
+    padding: var(--space-3) 0;
+    font-size: var(--text-entry-title);
+    font-weight: 700;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.05;
+    color: var(--color-ink);
+  }
+  .scan__lede {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+  @media (max-width: 720px) {
+    .scan__lede {
+      font-size: var(--text-lg);
+    }
+  }
+</style>
