@@ -13,8 +13,8 @@
   /* Colour, day theme (default, stored as "mist") */
   --color-ground: #ffffff;
   --color-ink: #000000;
-  /* Muted passes AA on glass and sheets. It never sits directly on the
-     background. */
+  /* Muted passes AA on sheets. It never sits directly on the background.
+     On a band it is replaced by --on-band-muted. */
   --color-muted: #595959;
   --color-hairline: rgba(0, 0, 0, 0.12);
   /* The highlight carries links, the active nav link and the focus ring.
@@ -43,25 +43,26 @@
   /* One paper grain tile on the ground, two tile pixels per CSS pixel. */
   --paper-size: 128px;
 
-  /* Glass: white at 55 percent, light top edge, darker bottom edge.
-     --glass-solid is the same glass laid over the ground, used where
-     backdrop-filter is missing or transparency is reduced. */
-  --glass-fill: rgba(255, 255, 255, 0.55);
-  --glass-edge-top: rgba(255, 255, 255, 0.8);
-  --glass-edge-bottom: rgba(0, 0, 0, 0.1);
-  --glass-solid: #ffffff;
-  /* Hover state of a row inside a glass panel. Chosen, not from the plan. */
-  --glass-hover: rgba(0, 0, 0, 0.035);
+  /* Bands: the solid colour blocks that replaced the glass in November
+     2026. Yellow in day and blue in night, at full strength, with the ink
+     grain of the shapes. Text on a band is black in day and white in night.
+     Muted text on a band passes AA in both themes (7.5:1 and 7.9:1). */
+  --band: var(--yellow);
+  --band-grain: url("/textures/ink-grain-day.png");
+  --on-band: #000000;
+  --on-band-muted: rgba(0, 0, 0, 0.72);
+  --band-hairline: rgba(0, 0, 0, 0.2);
+  /* Links in running text on a yellow band take a white highlighter
+     stroke, since a yellow one would vanish. */
+  --band-marker: var(--color-ground);
+  /* The notch: a half circle in the ground colour cut out of the right end
+     of a band, holding the arrow. --paper-texture lets it carry the paper
+     grain of the ground. Size chosen by eye. */
+  --notch: 3.25rem;
+  --paper-texture: url("/textures/paper-day.png");
 
   /* Reading sheet, solid. */
   --sheet: #ffffff;
-
-  /* Sheet shadow. Offsets and alpha chosen by eye. */
-  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.06), 0 18px 40px -18px rgba(0, 0, 0, 0.25);
-  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.08), 0 26px 48px -20px rgba(0, 0, 0, 0.32);
-
-  /* Blur radius of the glass. Chosen by eye. */
-  --glass-blur: 18px;
 
   /* Type: one family, Geist, self-hosted in public/fonts */
   --font-sans: "Geist", system-ui, sans-serif;
@@ -110,7 +111,8 @@
   --entry-date-width: 10rem;
 
   /* Radius and borders */
-  /* Large, soft corners for sheets, panels and the nav. Chosen by eye. */
+  /* Corners. Bands, panels and buttons are square since November 2026.
+     These remain for the sheet hairline and the pill controls. */
   --radius-md: 14px;
   --radius-lg: 32px;
   --radius-pill: 999px;
@@ -144,22 +146,17 @@
   /* Yellow is the highlight in night. */
   --color-highlight: var(--yellow);
   --color-on-highlight: #000000;
-  /* Blue only for large shapes. */
+  /* Blue for the large shapes and the bands. */
   --color-shape: var(--blue);
 
-  /* Glass: reads as white at 8 percent over black (#141414), with a brighter
-     top edge. Plain white at 8 percent would leave muted text at 3.59:1 over
-     the blue shape, so the fill is a more opaque dark grey: over black it
-     gives the same #141414, over blue it darkens the shape enough for muted
-     text to reach 5.34:1. */
-  --glass-fill: rgba(41, 41, 41, 0.494);
-  --glass-edge-top: rgba(255, 255, 255, 0.22);
-  --glass-edge-bottom: rgba(0, 0, 0, 0.6);
-  --glass-solid: #141414;
-  --glass-hover: rgba(255, 255, 255, 0.06);
+  /* Bands in night: blue with white text. */
+  --band: var(--blue);
+  --band-grain: url("/textures/ink-grain-night.png");
+  --on-band: #ffffff;
+  --on-band-muted: rgba(255, 255, 255, 0.8);
+  --band-hairline: rgba(255, 255, 255, 0.3);
+  --band-marker: var(--yellow);
+  --paper-texture: url("/textures/paper-night.png");
 
   --sheet: #141414;
-
-  --shadow-sheet: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 40px -18px rgba(0, 0, 0, 0.8);
-  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.55), 0 26px 48px -20px rgba(0, 0, 0, 0.9);
 }

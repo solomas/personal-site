@@ -81,7 +81,7 @@ a:hover {
    name in the nav. :where() keeps this as weak as the plain a rule, so a
    component can still set its own link colour. Night keeps the yellow
    underline. */
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)) {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)) {
   text-decoration: none;
   background-image: linear-gradient(var(--marker), var(--marker));
   background-repeat: no-repeat;
@@ -91,11 +91,11 @@ a:hover {
   box-decoration-break: clone;
   transition: background-size var(--transition);
 }
-:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .stack__sheet, .deck, .glass-button, .site-nav__name)):hover {
+:where(:root:not([data-theme="flip"])) a:where(:not(.entry-row, .home-band, .thesis, .deck, .glass-button, .site-nav__name)):hover {
   background-size: 100% var(--marker-size-hover);
 }
 
-/* Small secondary text. Muted only passes AA on glass and sheets, so use it
+/* Small secondary text. Muted only passes AA on bands and sheets, so use it
    there and not bare on the background. */
 .meta {
   font-size: var(--text-sm);
@@ -126,79 +126,105 @@ button, input, textarea, select {
   white-space: nowrap;
 }
 
-/* Glass building blocks.
-   .glass        translucent sheet for navigation, panels and buttons
-   .glass-panel  a glass sheet with the panel radius and padding
-   .sheet        the near solid reading sheet for long text
-   Depth comes from a light top edge and a darker bottom edge, drawn as inset
-   shadows, plus a soft outer shadow. */
+/* Bands, the solid colour blocks of the site since November 2026. They
+   replaced the glass, and the class names stayed so the markup did not have
+   to change.
+   .glass        a band, used for strips and rows
+   .glass-panel  a band with panel padding
+   .glass-button a small solid button
+   .sheet        the solid reading sheet for long text
+   Inside a band muted text, hairlines and the highlighter stroke switch to
+   values that read on the band colour. */
 .glass,
 .glass-panel {
-  background: var(--glass-fill);
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  backdrop-filter: blur(var(--glass-blur));
-  box-shadow:
-    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-    var(--shadow-sheet);
+  --color-muted: var(--on-band-muted);
+  --color-hairline: var(--band-hairline);
+  --marker: var(--band-marker);
+  background: var(--band-grain) repeat 0 0 / var(--ink-grain-size) var(--ink-grain-size), var(--band);
+  color: var(--on-band);
 }
 
 .glass-panel {
-  border-radius: var(--radius-lg);
   padding: var(--space-8);
 }
 
 .sheet {
   background: var(--sheet);
-  border-radius: var(--radius-lg);
-  box-shadow:
-    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-    var(--shadow-sheet);
+  box-shadow: 0 0 0 var(--border-hairline) var(--color-hairline);
 }
 
-/* Small glass button, a pill with the glass edges and a hairline ring. On
-   hover the ring turns ink. */
+/* Small button: a square block in the band colour. On hover it turns ink.
+   On a band it takes the ground colour, so it stays visible. */
 .glass-button {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-6);
   border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--glass-fill);
-  box-shadow:
-    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-    0 0 0 var(--border-hairline) var(--color-hairline);
-  color: var(--color-ink);
+  background: var(--band);
+  color: var(--on-band);
   text-decoration: none;
   cursor: pointer;
-  transition: box-shadow var(--transition), transform 180ms var(--ease-out);
+  transition: background-color var(--transition), color var(--transition), transform 180ms var(--ease-out);
 }
-.glass-button:hover {
-  box-shadow:
-    inset 0 var(--border-hairline) 0 var(--glass-edge-top),
-    inset 0 calc(-1 * var(--border-hairline)) 0 var(--glass-edge-bottom),
-    0 0 0 var(--border-hairline) var(--color-ink);
+:is(.glass, .glass-panel) .glass-button {
+  background: var(--color-ground);
+  color: var(--color-ink);
+}
+.glass-button:hover,
+:is(.glass, .glass-panel) .glass-button:hover {
+  background: var(--color-ink);
+  color: var(--color-ground);
 }
 
-/* Solid sheets where backdrop-filter is missing. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass,
-  .glass-panel {
-    background: var(--glass-solid);
+/* The notch: a half circle in the ground colour cut out of the right end of
+   a band, with the arrow inside it. Hover and keyboard focus fill the notch
+   with ink and turn the arrow the band colour. Add .notched to a band that
+   links somewhere. The band keeps room on the right so text never runs
+   under the notch. Both parts are drawn in CSS, so the markup needs nothing
+   extra, and the arrow carries empty alternative text for screen readers. */
+.notched {
+  position: relative;
+  overflow: hidden;
+  padding-right: calc(var(--notch) / 2 + var(--space-6));
+}
+.notched::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--notch) / -2);
+  width: var(--notch);
+  height: var(--notch);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: var(--paper-texture) repeat 0 0 / var(--paper-size) var(--paper-size), var(--color-ground);
+  transition: background-color var(--transition);
+}
+.notched::after {
+  content: "\2192";
+  content: "\2192" / "";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--notch) / 2 - 1.15em);
+  transform: translateY(-50%);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-ink);
+  transition: color var(--transition), transform 180ms var(--ease-out);
+}
+.notched:focus-visible::before {
+  background: var(--color-ink);
+}
+.notched:focus-visible::after {
+  color: var(--band);
+}
+@media (hover: hover) {
+  .notched:hover::before {
+    background: var(--color-ink);
   }
-}
-
-/* Solid sheets when the visitor asks for reduced transparency. */
-@media (prefers-reduced-transparency: reduce) {
-  .glass,
-  .glass-panel,
-  .glass-button {
-    background: var(--glass-solid);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+  .notched:hover::after {
+    color: var(--band);
   }
 }
 
@@ -234,7 +260,7 @@ button, input, textarea, select {
 /* Focus on hover, shared by the home page and the index pages.
    Mark up a page with:
      .focus-item     a highlight (a home sheet, a row, the deck panel)
-     .focus-panel    a container of highlights (the home stack, a glass panel)
+     .focus-panel    a container of highlights (the home stack, an entry list)
      .focus-context  page text that should step back (the hero, a page title)
    While one .focus-item is hovered or has keyboard focus, everything else
    fades and blurs: the context, the other items in the same
@@ -278,8 +304,8 @@ button, input, textarea, select {
 
 /* Focus: a 2px ring in the highlight colour with a 2px ring in the ground colour
    around it, so it reads on light and dark surfaces alike. The outline stays for forced
-   colours modes. This rule sits after the glass classes so their
-   box-shadow does not replace the ring. */
+   colours modes. This rule sits after the band classes so the sheet
+   hairline does not replace the ring. */
 :focus-visible {
   outline: var(--border-medium) solid var(--color-highlight);
   outline-offset: 0;
@@ -304,9 +330,9 @@ button, input, textarea, select {
 }
 .shapes { view-transition-name: shapes; }
 /* The header and main layers carry their names only while a
-   transition runs. A named element becomes a backdrop root, so the glass
-   inside it would blur nothing and show the paper and the shapes sharp
-   through its fill. The script in Layout.astro sets "vt-active" in pageswap
+   transition runs. A named element becomes a backdrop root, which mattered
+   for the glass and does no harm to the bands. The script in Layout.astro
+   sets "vt-active" in pageswap
    and pagereveal and removes it when the transition finishes. */
 :root:is(.vt-active, :active-view-transition) .site-header { view-transition-name: site-header; }
 :root:is(.vt-active, :active-view-transition) .site-main { view-transition-name: site-main; }
